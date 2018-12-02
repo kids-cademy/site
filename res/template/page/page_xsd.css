@@ -1,0 +1,7 @@
+body>header .logo, body>footer .logo {
+	margin: 0 4px 0 0;
+}
+
+body>header .logo-type, body>footer .logo-type {
+	margin: 0;
+}

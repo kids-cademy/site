@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context reloadable="true">
+        <Resource
+                name="jdbc/kids-cademy"
+                type="com.mchange.v2.c3p0.ComboPooledDataSource"
+                factory="org.apache.naming.factory.BeanFactory"
+                driverClass="com.mysql.jdbc.Driver"
+                jdbcUrl="jdbc:mysql://localhost:3306/kids_cademy"
+                auth="Container"
+                user="kids_cademy"
+                password="kids_cademy"
+        />
+</Context>

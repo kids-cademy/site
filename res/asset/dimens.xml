@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dimen>
+	<page-header-height>80px</page-header-height>
+	<sys-message-height>60px</sys-message-height>
+	
+	<container-width>1200px</container-width>
+	
+	<column-margin>30px</column-margin>
+	
+	<section-margin>70px</section-margin>
+	<section-padding>50px</section-padding>
+	<section-icon-size>100px</section-icon-size>
+	
+	<buttons-margin-top>20px</buttons-margin-top>
+	<button-space>40px</button-space>
+	
+	<hexagon-view-width>180px</hexagon-view-width>
+</dimen>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<string>
+	<title>Contact Us</title>
+	<app>Application</app>
+	<user-name>User Name</user-name>
+	<user-email>Email Address</user-email>
+	<subject>Subject</subject>
+	<message>Message</message>
+</string>

@@ -1,0 +1,87 @@
+a[href='apps.htm'] {
+	border-color: green;
+}
+
+.apps {
+}
+
+.apps .caption {
+	padding-top: @eval(add @dimen/page-header-height @dimen/section-padding);
+	border-bottom: solid 1px #D0D0D0;
+	background-color: #c9f1c6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #2d9a27);
+}
+
+.apps .caption h1 {
+	color: @color/secondary-header;
+}
+
+.apps h1.atlas {
+	background: radial-gradient(circle at 12% 50%, #FFFFFF, #0d29ba);
+}
+
+.apps h1.tecky {
+	background: radial-gradient(circle at 12% 50%, #FFFFFF, #41b5bd);
+}
+
+.apps h1.edutainment {
+	background: radial-gradient(circle at 12% 50%, #FFFFFF, #fd3e12);
+}
+
+.apps ul {
+	display: block;
+}
+
+.apps li {
+	display: inline-block;
+	width: 44.5%;
+	margin-top: 70px;
+	overflow: hidden;
+}
+
+.apps li:nth-child(even) {
+	margin-left: 5%;	
+}
+
+.apps li:nth-child(odd) {
+	margin-right: 5%;
+}
+
+.apps ul li .icon {
+	float: left;
+	width: 120px;
+	height: 120px;
+	margin: 0 20px 0 0;
+	padding: 1px;
+	cursor: pointer;
+	background: none;
+}
+
+.apps ul li h3 {
+	position: relative;
+	margin: 0px 0 10px;
+	padding-bottom: 10px;
+	border-bottom: solid 1px #E0E0E0;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.apps ul li h3 .google-play {
+	position: absolute;
+	width: 56px;
+	height: 56px;
+	vertical-align: middle;
+	text-align: right;
+	right: 0;
+	cursor: pointer;
+}
+
+.apps ul li hr {
+	clear: none;
+}
+
+.apps ul li p {
+	font-size: 14px;
+	color: #408080;
+	margin-bottom: 0;
+}

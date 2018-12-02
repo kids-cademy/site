@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<string>
+	<homo-sapiens>I am homo sapiens</homo-sapiens>
+	<please-click>please click on</please-click>
+	<prove-human>to prove you are human</prove-human>
+	<reload-tooltip>reload CAPTCHA</reload-tooltip>
+	<help-tooltip>help</help-tooltip>
+</string>

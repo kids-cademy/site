@@ -1,0 +1,128 @@
+a[href='blog.htm'] {
+	border-color: green;
+}
+
+.blog .top {
+	xwidth: 100%;
+	xheight: 200px;
+	padding: 20px 0;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+	border-bottom: solid 1px #C4E0E0;
+}
+
+.blog .top ul {
+	display: block;
+	width: 1400px;
+	margin: 0 auto;
+}
+
+.blog .top li {
+	display: inline-block;
+	margin: 20px;
+	padding: 1px;
+	border: solid 1px #C4E0E0;
+	box-shadow: 0 0 15px #FFF;
+	cursor: pointer;
+}	
+
+.blog .top li section {
+	position: relative;
+	width: 300px;
+	height: 240px;
+	background-image: url(@image/aware-at-spyware);
+	background-size: 400px 240px;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.blog .top section.kids-academy {
+	background-image: url(@image/kids-academy-opened);
+	background-size: 567px 238px;
+}
+
+.blog .top section.learning-cycle {
+	background-image: url(@image/learning-cycle);
+	background-size: 519px 238px;
+	background-position: left;
+}
+
+.blog .top li h3 {
+	padding: 10px;
+	background-color: rgba(255, 255, 255, 0.7);
+	background-color: rgba(0, 0, 0, 0.4);
+	font-size: 18px;
+	color: #E0E0E0;
+	xtext-shadow: 1px 1px 1px #FFFFFF;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.blog .top li .excerpt {
+	position: absolute;
+	width: 280px;
+	height: 48px;
+	top: 144px;
+	padding: 10px;
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.blog .top li .excerpt p {
+	color: white;
+}
+
+.rating {
+	position: absolute;
+	width: 280px;
+	bottom: 0;
+	right: 0;
+	direction: rtl;
+	unicode-bidi: bidi-override;
+	background-color: rgba(0, 0, 0, 0.4);
+	height: 28px;
+	line-height: 28px;
+	padding: 0 10px;
+}
+
+.rating>span {
+	display: inline-block;
+	position: relative;
+	width: 1.1em;
+	font-size: 24px;
+	color: yellow;
+}
+
+.rating>span:hover:before, .rating>span:hover ~ span:before {
+	content: "\2605";
+	position: absolute;
+}
+
+.blog .top li p {
+	display: block;
+	width: 280px;
+	height: 48px;
+	line-height: 16px;
+	overflow: hidden;
+	font-size: 13px;
+}
+
+.blog .top li img {
+	position: absolute;
+	width: 80px;
+	top: 200px;
+	left: 20px;
+	border-radius: 40px;
+	box-shadow: 0 0 15px #FFFFFF;
+}
+
+.blog .top li h4 {
+	position: absolute;
+	top: 242px;
+	right: 0px;
+	font-size: 11px;
+	color: #408080;
+}
+
+.blog .content p {
+	font-size: 16px;
+}

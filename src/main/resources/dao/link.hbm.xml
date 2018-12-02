@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-access="field">
+	<class name="com.kidscademy.atlas.Link" table="link">
+		<id name="id">
+			<generator class="native" />
+		</id>
+
+		<property name="url" />
+		<property name="name" />
+		<property name="description" />
+		<property name="iconPath" />
+		
+		<set name="objects" inverse="true" lazy="true" fetch="select" table="object_link">
+			<key column="linkId" />
+			<many-to-many class="com.kidscademy.atlas.AtlasObject" column="objectId" />
+		</set>
+	</class>
+</hibernate-mapping>

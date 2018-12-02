@@ -1,0 +1,46 @@
+.index .slogan.top .sounds {
+	display: none;
+}
+
+.index .slogan.bottom h3 {
+	font-size: 22px;
+	margin-left: 0;
+}
+
+.index .play-store h2 {
+	xtext-decoration: underline;
+}
+
+.index .play-store .link {
+	display: none;
+}
+
+.index .phone {
+	xwidth: 100%;
+	height: auto;
+	text-align: center;
+	top: 0;
+	margin-top: -70px;
+	margin-bottom: 10px;
+}
+
+.index .compo.phone-preview {
+	display: inline-block;
+}
+
+.index .no-ads h4 {
+	margin-left: 0;
+	font-size: 20px;
+}
+
+.index .apps-vision {
+	margin-top: @dimen/section-margin;	
+}
+
+.index .apps-vision h2 {
+	margin-left: 0;
+}
+
+.index .apps-vision p {
+	margin-left: 0;
+}

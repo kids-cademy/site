@@ -1,0 +1,24 @@
+.apps ul {
+	padding: 20px 10px;
+}
+
+.apps li {
+	width: 100%;
+	margin: 40px 0 0;
+}
+
+.apps li:nth-child(even) {
+	margin-left: 0;	
+}
+
+.apps ul li:nth-child(odd) {
+	margin-right: 0;
+}
+
+.apps li .icon {
+	margin-left: 0;
+}
+
+.apps ul li p {
+	max-width: 90%;
+}

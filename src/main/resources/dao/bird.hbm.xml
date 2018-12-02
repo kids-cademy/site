@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-access="field">
+	<joined-subclass name="com.kidscademy.atlas.Bird" extends="com.kidscademy.atlas.AtlasObject" table="bird">
+		<key column="id" />
+		<component name="wingspan">
+			<property name="minimum" column="wingspan_minimum" />
+			<property name="maximum" column="wingspan_maximum" />
+		</component>
+	</joined-subclass>
+</hibernate-mapping>

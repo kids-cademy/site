@@ -1,0 +1,9 @@
+body>header {
+	position: static;
+	background: rgb(255, 255, 255);
+	border-bottom: solid 1px #E0E0E0;
+}
+
+.body-container>.page-section:first-child {
+	padding-top: @dimen/section-padding;
+}

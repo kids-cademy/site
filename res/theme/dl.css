@@ -1,0 +1,39 @@
+dl {
+	xpadding-top: 20px;
+}
+
+dt,dd {
+	font-size: 11px;
+	font-weight: normal;
+}
+
+dl.inline dt {
+	display: inline-block;
+	width: 80px;
+}
+
+dl.inline dd {
+	display: inline;
+	vertical-align: top;
+	margin-left: 0px;
+	color: #006600;
+	margin-left: 0px;
+}
+
+dl.inline dd>* {
+	display: inline-block;
+}
+
+dl.inline dd * {
+	color: #006600;
+}
+
+dl.inline dd:BEFORE {
+	vertical-align: top;
+	content: "\003A\00A0";
+}
+
+dl.inline dd:AFTER {
+	content: "\A";
+	white-space: pre;
+}

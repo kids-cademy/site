@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="site" default="deploy-local">
+	<include file="d://lib//tasks.xml" />
+	<property file="build.properties" />
+
+	<target name="usage">
+		<echo message="${DISPLAY}" />
+		<echo message="Project: ${NAME}" />
+		<echo message=" " />
+		<echo message="Available targets :" />
+		<echo message="- build : Build workspace content on ${BUILD} directory." />
+		<echo message="- clean : Remove all build generated files." />
+		<echo message="- sync  : Synchronize local build on development server." />
+		<echo message="- deploy: Update production server from development content." />
+		<echo message=" " />
+		<echo message="- usage : This text." />
+	</target>
+
+	<target name="build-resources">
+		<js.BuildResources site="${SITE}" naming="XMLNS" verbose="yes" />
+		<copy todir="${SITE}/email">
+			<fileset dir="email" />
+		</copy>
+	</target>
+
+	<target name="build-local" depends="build-resources">
+		<js.BuildConfig variant="local" context="${NAME}" />
+		<jar destfile="${WAR}">
+			<zipfileset dir="${BIN}" prefix="WEB-INF/classes" />
+			<zipfileset dir="${BUILD}" includes="app.xml,web.xml" prefix="WEB-INF" />
+			<zipfileset dir="${SITE}" includes="**/*" />
+		</jar>
+	</target>
+
+	<target name="build-server" depends="build-resources">
+		<js.BuildConfig variant="server" context="${NAME}" />
+		<jar destfile="${WAR}">
+			<zipfileset dir="${BIN}" prefix="WEB-INF/classes" />
+			<zipfileset dir="${BUILD}" includes="app.xml,web.xml" prefix="WEB-INF" />
+		</jar>
+	</target>
+
+	<target name="deploy-local" depends="build-local">
+		<copy file="${WAR}" todir="${RUNTIME}" />
+	</target>
+
+	<target name="deploy-server" depends="clean-all,build-server">
+		<input message="Update production server (Yes / No) ?" addproperty="input.value" defaultvalue="No" />
+		<condition property="user.confirm">
+			<istrue value="${input.value}" />
+		</condition>
+		<fail unless="${user.confirm}">Task aborted by user.</fail>
+		<js.Deploy host="js-lib.com/" file="${WAR}" />
+		<js.Sync source="${SITE}" host="js-lib.com" target="kids-cademy.com" />
+	</target>
+
+	<target name="build-client">
+		<jar destfile="${CLIENT}">
+			<zipfileset dir="${BIN}" includes="**/client/*, **/model/*" />
+		</jar>
+	</target>
+
+	<target name="update-preview" depends="clean-all">
+		<js.BuildConfig variant="preview" context="${NAME}" />
+		<jar destfile="${WAR}">
+			<zipfileset dir="${BIN}" prefix="WEB-INF/classes" />
+			<zipfileset dir="${BUILD}" includes="app.xml,web.xml" prefix="WEB-INF" />
+		</jar>
+		<copy file="${WAR}" todir="${RUNTIME}" />
+	</target>
+
+	<target name="generate-api-doc">
+		<javadoc sourcepath="${SRC}" destdir="${API-DOC}" private="yes" windowtitle="kids (a)cademy" overview="overview.html">
+			<classpath>
+				<fileset dir="${LIB}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+			<arg value="-notimestamp" />
+			<link href="http://api.js-lib.com/jdk/" />
+			<link href="http://api.js-lib.com/sys/" />
+		</javadoc>
+	</target>
+
+	<target name="sync-api-doc" depends="generate-api-doc">
+		<js.Sync source="${API}" host="js-lib.com" target="api.js-lib.com/hal" />
+	</target>
+
+	<target name="clean-all">
+		<delete includeemptydirs="true" verbose="yes" failonerror="no">
+			<fileset dir="${BUILD}" includes="**/*" />
+		</delete>
+	</target>
+</project>

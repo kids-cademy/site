@@ -1,0 +1,115 @@
+a[href='atlas.htm'] {
+	border-color: green;
+}
+
+.atlas .vision {
+	background-color: #E8E8E8;
+	border-bottom: solid 1px #D0D0D0;
+	padding: 30px 0;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+}
+
+.atlas .vision h1 {
+	width: 500px;
+	margin: 0;
+}
+
+.sky {
+	height: 250px;
+  	background: #007fd5;
+  	position: relative;
+  	overflow: hidden;
+  	animation: sky_background 50s ease-out infinite;
+  	transform: translate3d(0, 0, 0);
+}
+
+.sky .content blockquote {
+	padding-top: 40px;	
+}
+
+.sky .content blockquote:before {
+	padding-top: 20px;	
+	color: white;
+	opacity: 0.6;
+}
+
+.sky .content span {
+	font-size: 36px;
+  	color: white;
+}
+
+.sky .content cite {
+  color: white;
+}
+
+.clouds_one {
+  background-image: url(@image/cloud-one);
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 300%;
+  animation: cloud_one 80s linear infinite;
+  transform: translate3d(0, 0, 0);
+}
+
+.clouds_two {
+  background-image: url(@image/cloud-two);
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 300%;
+  animation: cloud_two 100s linear infinite;
+  transform: translate3d(0, 0, 0);
+}
+
+.clouds_three {
+  background-image: url(@image/cloud-three);
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 300%;
+  animation: cloud_three 120s linear infinite;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes sky_background {
+  0% {
+    background: #007fd5;
+  }
+  50% {
+    background: #000000;
+  }
+  100% {
+    background: #007fd5;
+  }
+}
+
+@keyframes cloud_one {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -200%;
+  }
+}
+
+@keyframes cloud_two {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -200%;
+  }
+}
+
+@keyframes cloud_three {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -200%;
+  }
+}

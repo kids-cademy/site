@@ -1,0 +1,38 @@
+.object-form {
+	
+}
+
+.object-form .first-section {
+	padding-top: 80px;
+}
+
+.object-form fieldset {
+	padding: 20px 0;
+	margin-top: 60px;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #2d9a27);
+}
+
+.object-form label {
+	display: inline-block;
+	width: 200px;
+	font-size: 18px;
+}
+
+.object-form input {
+	display: inline-block;
+	width: 600px;
+	border:solid 1px #76be76;
+	padding: 10px;
+}
+
+.object-form input.mini {
+	width: 380px;
+	margin-right: 20px;
+}
+
+.object-form textarea {
+	width: 820px;
+	max-width: 1100px;
+	min-height: 200px;
+	border: solid 1px #76be76;
+}

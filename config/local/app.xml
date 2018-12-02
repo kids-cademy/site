@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app-descriptor>
+	<data-source>
+		<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+		<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/kids_cademy?useEncoding=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true" />
+		<property name="hibernate.default_schema" value="kids_cademy" />
+		<property name="hibernate.connection.password" value="kids_cademy" />
+		<property name="hibernate.connection.username" value="kids_cademy" />
+		<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+		<property name="hibernate.show_sql" value="true" />
+
+		<property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
+		<property name="hibernate.c3p0.min_size" value="5" />
+		<property name="hibernate.c3p0.max_size" value="140" />
+		<property name="hibernate.c3p0.max_statements" value="50" />
+		<property name="hibernate.c3p0.timeout" value="1800" />
+
+		<mappings package="com.kidscademy.dao" />
+	</data-source>
+	<views>
+		<repository path="${server.webapps.dir}/kids-cademy/" files-pattern="*.htm" />
+	</views>
+	<captcha>
+		<property name="captcha.repository.path" value="D://docs/workspaces/kids-cademy/www/kids-cademy/work/captcha" />
+		<property name="captcha.set.size" value="6" />
+	</captcha>
+	<emails>
+		<property name="js.dev.mode" value="true" />
+		<property name="js.repository.path" value="${server.webapps.dir}/kids-cademy/email/" />
+		<property name="js.files.pattern" value="*.htm" />
+		<property name="js.template.engine" value="js.template.xhtml.XhtmlTemplateEngine" />
+	</emails>
+</app-descriptor>

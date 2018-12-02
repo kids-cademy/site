@@ -1,0 +1,405 @@
+.index {
+}
+
+.index .vision {
+	padding-bottom: 120px;
+	background-color: #cdf3f6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+}
+
+.index .vision h1 {
+	max-width: 900px;
+	margin: 0;
+	color: @color/primary-header;
+}
+
+.index .vision p {
+	color: @color/primary-text;
+}
+
+.index .vision p.accent {
+	margin-top: 40px;
+	font-size: 28px;
+	color: @color/secondary-header;
+}
+
+.index .slogan {
+ 	xposition: relative; 
+ 	xheight: 490px; 
+}
+
+.index .slogan .hexagon-slide {
+	xdisplay: none;
+	xborder-radius: 100px;
+}
+
+.index .slogan.top {
+ 	margin-top: -80px;
+	xdisplay: none;
+}
+
+.index .slogan.top .hexagon-slide {
+	display: inline-block;
+}
+
+.index .slogan.top .sounds {
+	margin-left: 100px;
+}
+
+.index .slogan.bottom {
+	margin-top: -@eval(sub (mul @dimen/hexagon-view-width 0.28) 2);	
+	xwhite-space: nowrap;
+}
+
+.index .slogan.bottom .cars {
+	margin-left: @eval(add (mul @dimen/hexagon-view-width 0.5) 2);
+	margin-right: 30px;
+	float: left;
+}
+
+.index .slogan .text {
+	xclear: right;
+	padding-top: 30px;
+}
+
+.index .slogan h3 {
+	padding-top: 40px;
+	padding-left: 40px;
+	color: @color/secondary-header;
+}
+
+.index .slogan .birds .slide {
+	background-image: url(@image/birds);
+	animation-duration: 10s;
+}
+
+.index .slogan .animals .slide {
+	background-image: url(@image/animals);
+	animation-duration: 28s;
+}
+
+.index .slogan .instruments .slide {
+	background-image: url(@image/instruments);
+	animation-duration: 34s;
+}
+
+.index .slogan .sounds .slide {
+	background-image: url(@image/sounds);
+	animation-duration: 16s;
+}
+
+.index .slogan .cars .slide {
+	background-image: url(@image/cars);
+	animation-duration: 22s;
+}
+
+.index .compo.no-ads {
+	position: relative;
+	left: 80%;
+	top: -50px;
+}
+
+.index blockquote {
+	display: block;
+	margin: 80px 0 0;
+}
+
+.index .learning-cycle {
+	max-width: 1000px;
+	margin: 0 auto;	
+}
+
+.index .featured-apps {
+	height: 400px;
+	margin: 0 auto;	
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #81b5bd);
+}
+
+.index .featured-apps img {
+	display: inline-block;
+	margin: 0 auto;
+	padding-left: 450px;
+}
+
+.index .play-store {
+	margin-top: @dimen/section-margin;
+	height: 110px;
+	background-color: #c9f1c6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #2d9a27);
+}
+
+.index .play-store::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.index .play-store h2 {
+	text-transform: none;
+	float: left;
+	margin: 0;
+	vertical-align: middle;
+	color: @color/secondary-header;
+}
+
+.index .play-store h2 a {
+	color: inherit;
+	font-size: inherit;
+	text-transform: inherit;
+}
+
+.index .play-store .action {
+	width: 110px;
+	height: 110px;
+	vertical-align: middle;
+	xmargin-top: 120px;
+	margin-left: 120px;
+	xfloat: left;
+	cursor: pointer;
+}
+
+.index .play-store .qr {
+	display: none;
+}
+
+.index .apps-vision {
+	margin-top: @dimen/section-padding;
+	margin-bottom: 10px;
+}
+
+.index .apps-vision h2 {
+	margin-left: 300px;
+}
+
+.index .apps-vision p {
+	max-width: 700px;
+	margin-left: 300px;
+	xcolor: @color/secondary-text;
+}
+
+.index .message {
+	xbackground-color: rgba(255, 255, 255, 0.2);
+	padding: 30px 0;
+}
+
+.index .message h1 {
+	margin: 0;
+	padding: 0;
+}
+
+.index .message p {
+	color: white;
+	margin: 0;
+	padding: 0;
+}
+
+.index .message.no-ads {
+	background-color: #c9f1c6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #2d9a27);
+	padding: 20px 0;
+	margin: 0;	
+}
+
+.index .no-ads h4 {
+	margin: 0 0 0.2em 300px;
+	color: @color/secondary-header;
+}
+
+.index .apps {
+	xborder: dotted 1px #E8E8E8;
+	xmax-height: 190px;
+	margin-top: @dimen/section-margin;
+	margin-bottom: 100px;
+	xwhite-space: nowrap;
+	xmargin-left: 300px;
+	text-align: justify;
+}
+
+.index .apps:after {
+	display: inline-block;
+	width: 100%;
+	content: '';
+}
+
+.index .phone {
+	position: relative;
+	height: 0;
+	top: -70px;	
+}
+
+.index .phone-preview .slide {
+	background-image: url(@image/apps-panorama);
+}
+
+.index .apps h2 {
+	xdisplay: inline-block;
+	xvertical-align: top;
+}
+
+.index .apps h5 {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.index .apps .app {
+	display: inline-block;
+	vertical-align: top;
+	text-align: center;
+	xmargin: 100px 0 0 0;
+	padding: 0 10px 10px 10px;
+	border-bottom: solid 4px #d1e7d0;
+}
+
+.index .apps .app:hover {
+	border-bottom-color: #018463;
+}
+ 
+.index .apps .app img {
+	width: 110px;
+	height: 110px;
+	cursor: pointer;
+}
+
+.index .apps .app h6 {
+	width: 110px;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	xcolor: @color/black;
+	color: green;
+	xfont-weight: bold;
+	margin: 0;
+	text-transform: uppercase;
+	font-size: 11px;
+}
+
+.index .apps .app:hover h6 {
+	color: green;
+}
+
+.index .vision {
+	
+}
+
+.index .fables-online {
+}
+
+.index .fables-online .page-section {
+	margin: @dimen/section-margin 0 0 0;
+	padding-bottom: 90px;
+	background-image: url(@image/fables-section-bg);
+	background-attachment: fixed;
+	background-size: cover;
+}
+
+.index .fables-online .page-section p {
+	max-width: 100%;
+	font-size: 18px;
+}
+
+.index .fables-online .icon {
+	float: left;
+	margin-right: 40px;
+	background-color: #9e5f26;	
+}
+
+.index .fables-online h2 {
+	margin: 0;
+	padding: 0;
+	color: @color/accent-header;
+}
+
+.index .fables-online p {
+	max-width: 400px;
+	margin: 20px 0 0 0;
+	padding: 0;
+	color: @color/accent-text;
+	font-size: 1.4rem;
+}
+
+.index .display {
+	display: inline-block;
+	float: none;
+	width: 700px;
+	height: 600px;
+	box-sizing: border-box;
+	padding: 118px 34px 40px 33px;
+	background-image: url(@image/display-wire-frame);
+	margin-left: 40px;
+	margin-top: -70px;
+	xposition: relative;
+}
+
+.index .display .screen {
+	width: 100%;
+	height: 100%;
+	xborder: solid 1px;
+	xborder-color: @color/border-dark @color/border-light @color/border-light @color/border-dark;
+	overflow: hidden;
+}
+
+.index .display .screen img {
+	xdisplay: none;
+	animation: phone 20s linear infinite alternate;
+	animation: panorma-play 16s linear 2s infinite alternate;
+}
+
+.index .fables-online .container section {
+	margin: 60px 0 40px 0;	
+}
+
+.index .fables-online .container section h3 {
+	margin: 0 0 10px 0;
+	color: @color/secondary-header;
+}
+
+.index .fables-online .container section p {
+	color: @color/secondary-text;
+}
+
+.index .fables-online .container section .logo {
+	float: left;
+	width: 100px;
+	margin: 0 30px 0 0;	
+}
+
+.index .fables-online hr {
+	position: relative;
+	top: -100px;
+	z-index: -100;	
+}
+.index .fables-online .goto-site {
+	display: none;	
+}
+
+.index .panorma-play {
+	cursor: pointer;
+	animation: panorma-play 16s linear 2s infinite alternate;
+}
+
+@keyframes panorma-play {
+	0% {
+		transform: translateX(0);
+	}
+	10% {
+		transform: translateX(0);
+	}
+	45% {
+		transform: translateX(-1000px);
+	}
+	55% {
+		transform: translateX(-1000px);
+	}
+	90% {
+		transform: translateX(-2000px);
+	}
+	100% {
+		transform: translateX(-2000px);
+	}
+}
+
+@keyframes typing {
+    0% { width: 100%; }
+    100% { width: 0; }
+}

@@ -1,0 +1,174 @@
+.app {
+	
+}
+
+/* caption */   
+
+.app .caption {
+	border-bottom: solid 1px #D0D0D0;
+	background-color: #cdf3f6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+}
+
+.appx .caption::after {
+	display: block;
+	content: "";
+	clear: both;
+}
+
+.app .caption .container {
+	position: relative;
+}
+
+.app .caption .image {
+	position: absolute;
+	display: inline-block;
+	vertical-align: top;
+	margin-right: 40px;
+}
+
+.app .caption .text {
+	display: inline-block;
+	margin: 0 0 0 220px;
+}
+
+.app .caption img {
+	width: 180px;
+	height: 180px;
+}
+
+.app .caption h1 {
+	xmargin: 0 0 0 220px;
+	color: @color/primary-header;
+}
+
+.app .caption p {
+	max-width: 80%;
+	xmargin: 20px 0 30px 220px;
+	color: @color/primary-text;
+}
+
+/* play-store */
+
+.app .play-store {
+	min-height: 110px;
+	padding: 30px 0;
+	background-color: #c9f1c6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #2d9a27);
+}
+
+.app .play-store .container {
+	clear: both;
+}
+
+.app .play-store h2 {
+	float: left;
+	color: @color/secondary-header;
+}
+
+.app .play-store h2 a {
+	color: inherit;
+	font-size: inherit;
+	text-transform: inherit;
+}
+
+.app .play-store .action {
+	width: 110px;
+	height: 110px;
+	vertical-align: middle;
+	margin-left: 120px;
+	cursor: pointer;
+}
+
+/* phone-preview */
+
+.app .phone {
+	position: relative;
+	height: 0;
+	top: -70px;	
+}
+
+.app .phone .slide {
+	background-image: url(@image/phone-preview-slide);
+}
+
+/* info */
+
+.app .info {
+	padding: 10px 0 40px;
+}
+
+.app .info dl {
+	margin: 20px 0 0 300px;
+}
+
+.app .info dl dt {
+	width: 10em;
+	font-size: 18px;
+}
+
+.app .info dl dd {
+	font-size: 18px;
+}
+
+/* description */
+
+.app .description {
+	border-bottom: solid 1px #D0D0D0;
+	padding: 30px 0;
+	background-color: #cdf3f6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+}
+
+.app .description p {
+	max-width: 60%;
+	margin: 20px 0 20px 300px;
+	color: @color/secondary-header;
+}
+
+/* support */
+
+.app .support {
+	padding-top: @dimen/section-margin;	
+}
+
+.app .support p {
+	color: black;
+}
+
+/* feedback */
+
+.app .feedback {
+	background-color: #cdf3f6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+}
+
+/* system-permissions */
+.app .system-permissions {
+	background-color: #c9f1c6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #2d9a27);
+}
+
+.app .system-permissions h2 {
+	margin-bottom: 0;
+}
+
+.app .system-permissions h2 img {
+	height: 32px;
+	vertical-align: middle;
+	margin-left: 40px;
+	cursor: pointer;
+}
+
+.app .system-permissions dt {
+	margin-top: 30px;
+	margin-bottom: 10px;
+	font-size: 22px;
+	color: #278422;
+}
+
+.app .system-permissions dd {
+	max-width: 900px;
+	font-size: 18px;
+	color: #606060;
+}

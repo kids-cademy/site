@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-access="field">
+	<class name="com.kidscademy.model.Suggestion" table="developer_message">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<many-to-one name="app" column="appId" class="com.kidscademy.model.App" lazy="false" /> 
+		<property name="timestamp" />
+		<property name="ip" />
+		<property name="text" />
+		<property name="developerName" />
+		<property name="senderEmail" />
+	</class>
+</hibernate-mapping>

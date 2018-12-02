@@ -1,0 +1,41 @@
+.index .slogan.top .sounds {
+	float: none;
+	margin-left: 100px;
+}
+
+.index .slogan.top .instruments {
+	display: none;
+}
+
+.index .slogan.bottom {
+	
+}
+
+.index .slogan.bottom .cars {
+	float: none;
+}
+
+.index .slogan.bottom .text {
+	xdisplay: block;
+	xfloat: none;
+	xwidth: 100%;
+	padding-left: 0;
+	margin-bottom: 60px;
+}
+
+.index .slogan.bottom h3 {
+	font-size: 24px;
+	padding-left: 0;
+}
+
+.index .play-store .link {
+	margin-left: 270px;
+}
+
+.index .apps {
+	display: none;
+}
+
+.compo.no-ads {
+	display: none;
+}

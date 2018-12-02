@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<string>
+	<apps>apps</apps>
+	<play>play</play>
+	<tecky>tecky</tecky>
+	<about>about</about>
+	<support>support</support>
+	<feedback>feedback</feedback>
+	<community>community</community>
+	<account>account</account>
+	<blog>blog</blog>
+	<fables>fables</fables>
+	<no-ads>no ads manifest</no-ads>
+	
+	<heading>become member of @string/logo-type community</heading>
+	<p1>Be a pro-active part of community driven development process.</p1>
+	<p2>Gain access to all Community Edition ( CE ) apps.</p2>
+	<learn-more>learn more about ( CE ) apps</learn-more>
+
+	<free-apps-caption>free apps are completely free</free-apps-caption>
+	<free-apps-text>What is free, is free for good. Free from annoying ads, free from misleading in-app payment and free from spy ware. You can count on that.</free-apps-text>
+</string>

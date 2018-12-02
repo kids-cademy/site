@@ -1,0 +1,8 @@
+package com.kidscademy.atlas;
+
+public class Fact
+{
+  private int id;
+  private String name;
+  private String description;
+}

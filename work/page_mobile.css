@@ -1,0 +1,11 @@
+body>header {
+	position: static;
+}
+
+.top-menu-placeholder {
+	display: none;
+}
+
+.no-mobile {
+	display: none !important;
+}

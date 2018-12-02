@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<string>
+	<vision>kids (a)cademy offers apps for self-education and quizzes for evaluation.</vision>
+
+	<vision-edutainment>Edutainment at its best. Leaning is a serious matter that should not be taken too seriously. Brain is adapted to memorize facts that produce emotions and having fun is for sure one.</vision-edutainment>
+	<vision-interest>@string/logo-type is not meant to replace formal education but to satisfy intrinsic interests and curiosity and keep the mind in shape. @string/logo-type aim is to inform, enrich and entertain.</vision-interest>
+		
+	<vision-heading>apps for self-education and quizzes for self-evaluation</vision-heading>
+	<vision-text>In the end learning is a personal experience. It is an ongoing process lasting for entire life and this is what makes us homo sapiens. But do not forget the fun part.</vision-text>
+	
+	<reg><![CDATA[&reg;]]></reg>
+	<no-ads>advertisement</no-ads>
+	<no-in-app-payment>in-app payment</no-in-app-payment>
+	<no-spyware>spyware</no-spyware>
+
+	<free-apps>free educational apps on google play</free-apps>
+	<apps-details>Play free @string/site-name apps from Google Play Store. Click app icon for details.</apps-details>
+
+	<learning-cycle-quote><![CDATA[Latin well knew <q>repetitio est mater studiorum</q>. What they did not know is that the optimal moment to repeat is just before forgetting.]]></learning-cycle-quote>
+	<latin-quotes>Latin Quotes</latin-quotes>
+
+	<no-ads>no annoying ads</no-ads>
+	<no-in-app-payment>no misleading in-app payment</no-in-app-payment>
+	<no-spy-ware>no spy ware</no-spy-ware>
+	
+	<message-title>online fables for computers, in panoramic view</message-title>
+	<panoramic-view>Innovative way to read horizontally on wide displays. Pages content and fables are displayed in columns.</panoramic-view>
+	<goto-site>Point a browser from a computer to http://fables.kids-cademy.com and enjoy the same content as Android app.</goto-site>
+	<same-content>Enjoy the same content. Online content is the same as Android Fables from store.</same-content>
+	<start-play>Start reading fables in a panoramic view. Drag horizontally to move on.</start-play>
+
+</string>

@@ -1,0 +1,64 @@
+<body id="body" class="page no-select" xmlns:w="js-lib.com/wood">
+	<header data-class="com.kidscademy.PageHeader">
+		<a href="index.htm"><img src="@image/logo-red" class="logo" /><span class="logo-type">@string/site-name</span></a>
+		<div class="top-menu-button">
+			<span></span><span></span><span></span><span></span>
+		</div>
+		<nav class="top-menu">
+			<ul>
+				<li class="apps-action"><a href="apps.htm">@string/apps</a></li>
+				<!--<li class="tecky-action"><a href="tecky.htm">@string/tecky</a></li>-->
+				<li class="fables-action"><a href="http://fables.kids-cademy.com/play.htm">@string/fables</a></li>
+				<li class="feedback-action"><a href="feedback.htm">@string/feedback</a></li>
+				<!--<li class="blog-action"><a href="blog.htm">@string/blog</a></li>-->
+				<li class="about-action"><a href="about.htm">@string/about</a></li>
+				<li class="no-ads-action"><a href="no-ads-manifest.htm">@string/no-ads</a></li>
+				<li></li>
+			</ul>
+		</nav>
+	</header>
+
+	<!--<div w:widget="compo/sys-message"></div>-->
+
+	<section class="body">
+		<div w:editable="body" class="body-container"></div>
+	</section>
+
+	<!-- community logic is disabled for current implementation -->
+	<!--
+	<section class="page-section join">
+		<div class="section-icon">
+			<img src="@image/kids-cademy-logo" />
+		</div>
+		<div class="container">
+			<h2>@string/heading</h2>
+			<h4>@string/p1</h4>
+			<h4>@string/p2</h4>
+			<div class="buttons-bar">
+				<a href="community.htm"><button>@string/join</button></a>
+				<button class="learn-more inverse">@string/learn-more</button>
+			</div>
+		</div>
+	</section>
+	-->
+
+	<section class="page-section free-apps">
+		<div class="section-icon">
+			<img src="@image/kids-cademy-logo" />
+		</div>
+		<div class="container">
+			<h2>@string/free-apps-caption</h2>
+			<p class="narrow lead secondary">@string/free-apps-text</p>
+		</div>
+	</section>
+
+	<div class="container" w:widget="compo/sharing"></div>
+
+	<footer>
+		<div w:widget="compo/references"></div>
+		<img src="@image/logo-green" class="logo" /><a href="index.htm" class="logo-type">@string/site-link</a>
+	</footer>
+	<div class="components">
+		<div w:widget="lib/js-sys-dialog"></div>
+	</div>
+</body>

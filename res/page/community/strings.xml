@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<string>
+	<private-space>@string/logo-type community private space</private-space>
+	<login>login</login>
+	<join>join community</join>
+	<user-name>user name</user-name>
+	<email-address>email address</email-address>
+	<password>password</password>
+	<confirm-password>confirm password</confirm-password>
+	<forgot-password>forgot password</forgot-password>
+</string>

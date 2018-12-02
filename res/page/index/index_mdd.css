@@ -1,0 +1,24 @@
+.index .slogan.top .animals {
+	display: none;
+}
+
+.index .play-store .link img {
+	margin-left: 20px;
+}
+
+.index .apps .app img {
+	width: 80px;
+	height: 80px;
+}
+
+.index .apps .app h6 {
+	width: 80px;
+}
+
+.index .fables-online > .container {
+	display: none;
+}
+
+.index .fables-online .goto-site {
+	display: block;
+}

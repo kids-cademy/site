@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app-descriptor>
+	<managed-classes>
+		<service-controller interface="com.kidscademy.ServiceController" class="com.kidscademy.impl.ServiceControllerImpl" />
+		<site-controller interface="com.kidscademy.SiteController" class="com.kidscademy.impl.SiteControllerImpl" />
+		<build-manager interface="com.kidscademy.BuildManager" class="com.kidscademy.impl.BuildManagerImpl" />
+
+		<entity-manager interface="javax.persistence.EntityManager" class="js.transaction.eclipselink.EntityManagerImpl" />
+		<dao interface="com.kidscademy.dao.Dao" class="com.kidscademy.dao.DaoImpl" type="PROXY" />
+	</managed-classes>
+	<captcha>
+		<property name="captcha.repository.path" value="D://docs/workspaces/kids-cademy/www/kids-cademy/work/captcha" />
+		<property name="captcha.set.size" value="6" />
+	</captcha>
+</app-descriptor>

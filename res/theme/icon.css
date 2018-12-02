@@ -1,0 +1,100 @@
+.icon {
+	display: inline-block;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	background-color: rgba(40, 100, 40, 0.8);
+	background-size: 32px 32px;
+	background-position: center;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.icon.hidden {
+	display: none !important;
+}
+
+.icon.menu {
+	background-image: url(@image/menu-icon);
+}
+
+.icon.close {
+	background-image: url(@image/close-icon);
+}
+
+.icon.play {
+	background-image: url(@image/play-icon);
+}
+
+.icon.pause {
+	background-image: url(@image/pause-icon);
+}
+
+.icon.stop {
+	background-image: url(@image/stop-icon);
+}
+
+.icon.collapse {
+	background-image: url(@image/collapse-icon);
+}
+
+.icon.expand {
+	background-image: url(@image/expand-icon);
+}
+
+.icon.plus {
+	background-image: url(@image/plus-icon);
+}
+
+.icon.minus {
+	background-image: url(@image/minus-icon);
+}
+
+.icon.share {
+	background-image: url(@image/share-icon);
+	background-size: 38px 38px;
+}
+
+.icon.facebook {
+	background-color: rgba(53, 88, 158, 0.8);
+	background-image: url(@image/facebook-icon);
+}
+
+.icon.twitter {
+	background-color: rgba(00, 171, 241, 0.8);
+	background-image: url(@image/twitter-icon);
+}
+
+.icon.email {
+	background-image: url(@image/email-icon);
+	background-size: 38px 38px;
+}
+
+.icon.tiles {
+	background-image: url(@image/tiles-icon);
+}
+
+.icon.list {
+	background-image: url(@image/list-icon);
+}
+
+.icon.grid {
+	background-image: url(@image/grid-icon);
+}
+
+.icon.large-grid {
+	background-image: url(@image/large-grid-icon);
+}
+
+.icon.search {
+	background-image: url(@image/search-icon);
+}
+
+.icon.place {
+	background-image: url(@image/place-icon);
+	background-size: 38px 38px;
+}
+
+.icon.link {
+	background-image: url(@image/link-icon);
+}

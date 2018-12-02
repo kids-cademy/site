@@ -1,0 +1,61 @@
+<div w:template="template/page#body" class="app" data-class="com.kidscademy.page.AppDescriptionPage" xmlns:w="js-lib.com/wood">
+	<section class="page-section caption">
+		<div class="container" w:editable="caption"></div>
+	</section>
+
+	<section class="play-store">
+		<div class="container" w:editable="play-store"></div>
+	</section>
+
+	<div class="container phone">
+		<div w:widget="compo/phone-preview"></div>
+	</div>
+
+	<section class="container info">
+		<dl class="inline" w:editable="info"></dl>
+	</section>
+
+	<section class="description">
+		<div class="container" w:editable="description"></div>
+	</section>
+
+	<section class="container support">
+		<p class="narrow">We invest substantial effort to ensure content quality but still there may be mistakes. If found something not reasonable please let us know. Suggestions for improvement are also welcomed.</p>
+		<p class="narrow">This application is completely free. Development effort is donated. It is a humble way to show gratitude to Internet community that gives us all so much.</p>
+		<p class="narrow">Please help improving and spread the word. Do not forget to rate on Google Play! Is is important for store rank so that much users to have access to this application.</p>
+	</section>
+
+	<section class="page-section feedback" data-class="com.kidscademy.AppFeedback">
+		<div class="section-icon">
+			<img src="@image/message-icon" />
+		</div>
+		<div class="container">
+			<form>
+				<textarea name="text" placeholder="@string/suggestion" rows="10" data-class="com.kidscademy.TextArea"></textarea>
+				<input name="senderEmail" type="email" placeholder="@string/email" class="optional" />
+				<div w:widget="compo/captcha"></div>
+			</form>
+			<div class="buttons-bar">
+				<button class="submit">@string/submit</button>
+				<button class="cancel inverse">@string/cancel</button>
+			</div>
+		</div>
+	</section>
+
+	<section class="page-section system-permissions" data-class="com.kidscademy.CollapsibleSection">
+		<div class="section-icon" w:widget="compo/warning"></div>
+		<div class="container">
+			<h2 class="head">
+				<span>android system permissions</span><img src="@image/expand-icon" />
+			</h2>
+			<dl class="body">
+				<dt>Full Network Access</dt>
+				<dd>Application needs to download atlas content from @string/site-name servers. Also needs to keep your device in sync.</dd>
+				<dt>View Network Connections</dt>
+				<dd>Perform download an sync only when connected on Wi-Fi, in order to avoid mobile data connections that can be charged.</dd>
+				<dt>Storage and Photos/Media/Files</dt>
+				<dd>Application needs to write content on device storage. Application content is stored into application private space.</dd>
+			</dl>
+		</div>
+	</section>
+</div>

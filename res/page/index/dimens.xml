@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dimen>
+	<phone-width>247px</phone-width>
+	<phone-height>500px</phone-height>
+	<phone-padding-top>44px</phone-padding-top>
+	<phone-padding-bottom>58px</phone-padding-bottom>
+	<phone-padding-left>14px</phone-padding-left>
+	<phone-padding-right>14px</phone-padding-right>
+	<phone-screen-widthx>@eval(sub @dimen/phone-width (add @dimen/phone-padding-left @dimen/phone-padding-right))</phone-screen-widthx>
+	<phone-screen-width>226.75px</phone-screen-width>
+	<app-icon-size>120px</app-icon-size>
+</dimen>

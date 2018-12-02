@@ -1,0 +1,271 @@
+body {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	min-width: 300px;
+	margin-bottom: 20px;
+}
+
+/* page specific text styles */
+
+.page h1 {
+	margin: 0;
+	color: @color/primary-header;
+}
+
+.page h2 {
+	margin: 0;
+	color: @color/primary-header;
+}
+
+.page h3 {
+	margin: 0;
+	color: @color/primary-header;
+}
+
+.page h4 {
+	margin: 0;
+	color: @color/primary-header;
+}
+
+.page h5 {
+	margin: 0;
+	color: @color/primary-header;
+}
+
+.page h6 {
+	margin: 0;
+	color: @color/primary-header;
+}
+
+.page p {
+}
+
+.page .primary {
+	color: @color/primary-text;
+}
+
+.page .secondary {
+	color: @color/secondary-text;
+}	
+
+.page .accent {
+	color: @color/accent-text;
+}
+
+.sys-message {
+	margin-top: @dimen/page-header-height;
+}
+
+.page-section {
+	box-sizing: border-box;
+	width: 100%;
+	padding:  @dimen/section-padding 0 @dimen/section-padding 0;
+	margin: @dimen/section-margin 0 0 0;
+}
+
+.body-container>.page-section:first-child {
+	margin: 0 0 0 0;
+	padding-top:  @eval(add @dimen/page-header-height @dimen/section-padding);
+}
+
+.section-icon {
+	position: relative;
+	width: 0;
+	height: 0;
+	left: 80%;
+	top: -@eval(add (mul @dimen/section-icon-size 0.5) @dimen/section-padding);
+}
+
+.section-icon.bottom {
+	top: 0;
+	bottom: @eval(add (mul @dimen/section-icon-size 0.5) @dimen/section-padding);
+}
+
+.section-icon img {
+	width: @dimen/section-icon-size;
+	height: @dimen/section-icon-size;
+	background-color: white;
+	border-radius: 100px;
+	box-shadow: 0 0 15px #408080;
+}
+
+.container {
+	box-sizing: border-box;
+	max-width: @dimen/container-width;
+	padding: 0 10px;
+	margin: 0 auto;
+}
+
+.container::after {
+	content: "";
+	display: block;
+	clear: both;	
+}
+
+.page .captcha {
+	margin-top: 20px;
+}
+
+/* header */
+body>header {
+	position: fixed;
+	z-index: @dimen/max-z-index;
+	width: 100%;
+	height: @dimen/page-header-height;
+	background: rgba(0, 0, 0, 0);
+	border-bottom: solid 1px white;
+}
+
+body.scroll>header {
+	background: rgba(255, 255, 255, 0.9);
+	border-bottom: solid 1px #E0E0E0;
+  	-webkit-box-shadow: 0 2px 16px -6px #222;
+  	-moz-box-shadow: 0 2px 16px -6px #222;
+  	box-shadow: 0 2px 16px -6px #222;
+}
+
+body>header .logo {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 20px;
+	cursor: pointer;
+}
+
+body header .content {
+	white-space: nowrap;
+}
+
+body>header .top-menu-button {
+	display: none;
+	float: right;
+	padding: 10px;
+	margin: 8px 15px 8px 0;
+	cursor: pointer;
+}
+
+body>header .top-menu-button span {
+	display: block;
+	width: 40px;
+	height: 2px;
+	background-color: green;
+	margin-top: 8px;
+	cursor: pointer;
+}
+
+body>header .top-menu {
+	display: inline-block;
+	float: right;
+}
+
+body>header .top-menu ul {
+	display: inline-block;
+	white-space: nowrap;
+}
+
+body>header .top-menu ul li {
+	display: inline-block;
+	xborder-bottom: solid 4px transparent;
+}
+
+body>header .top-menu a {
+	display: inline-block;
+	xwidth: 100%;
+	font-size: 22px;
+	line-height: @dimen/page-header-height;
+	margin: 0 20px;
+	padding: 0;
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+	color: @color/page-header-link;
+}
+
+body>header .top-menu .apps-action a {
+	color: rgb(248, 69, 69);
+}
+
+body>header .top-menu .tecky-action a {
+	color: rgb(0, 163, 222);
+}
+
+body>header .top-menu .fables-action a {
+	color: #c38936;
+}
+
+body>header .top-menu .feedback-action a {
+	color: #3ca054;
+}
+
+body>header .top-menu .blog-action a {
+	color: red;
+}
+
+body>header .top-menu .about-action a {
+	color: #007ccc;
+}
+
+body>header .top-menu .no-ads-action a {
+	color: #9930a6;
+}
+
+body>header .top-menu a:hover {
+	color: @color/page-header-link-hover;
+}
+
+body>header .top-menu .no-ads-action {
+	display: none;
+}
+
+/* footer */
+body>footer {
+}
+
+body>footer .logo {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 20px;
+}
+
+body>footer .references {
+	background-color: #F0F0F0;
+}
+
+body>header .logo-type, body>footer .logo-type {
+	font-size: 2.8em;
+	height: @dimen/page-header-height;
+	line-height: @dimen/page-header-height;
+	margin: 0 80px 0 0;
+	padding: 0;
+	text-transform: lowercase;
+	color: green;
+}
+
+body>footer .logo-type {
+	color: #000000;
+}
+
+body>footer hr {
+	margin: 0 0 10px;
+}
+
+/* body section */
+body>.body {
+	min-height: 600px;	
+}
+
+/* join section */
+.page-section.join {
+	background-color: #c3e6eb;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #81b5bd);
+}
+
+/* free apps section */
+.page-section.free-apps {
+	background-color: #c3e6eb;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #81b5bd);
+}
+
+/* sharing section */
+body>.sharing {
+	margin: 30px auto;
+}

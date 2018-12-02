@@ -1,0 +1,84 @@
+body>header {
+	position: static;
+	background: rgb(255, 255, 255);
+	border-bottom: solid 1px #E0E0E0;
+}
+
+.body-container>.page-section:first-child {
+	background: none;
+	padding-top: 0;	
+}
+
+.app .caption .container {
+	padding: 0;
+}
+
+.app .caption .image {
+	position: static;
+	display: block;
+	text-align: center;	
+	margin: 0;
+	padding: 20px 0;
+	background-color: #cdf3f6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+}
+
+.app .caption .text {
+	display: block;
+	margin: 4px 0 40px;
+	padding: 20px 10px;
+	background-color: #cdf3f6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+}
+
+.app .caption .text p {
+	max-width: 100%;
+}
+
+.app .play-store h2 {
+	width: 100%;
+	text-align: center;
+}
+
+.app .play-store .link  {
+	display: none;
+}
+
+.app .phone {
+	width: 100%;
+	height: auto;
+	text-align: center;
+	top: 0;
+	margin-top: -70px;
+}
+
+.app .phone .phone-preview {
+	display: inline-block;
+}
+
+.app .info {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.app .info dl {
+	margin: 20px 0 0 0;
+}
+
+.app .info dl dt {
+	width: 9em;
+	font-size: 16px;
+}
+
+.app .info dl dd {
+	font-size: 16px;
+}
+
+.app .description p {
+	max-width: 100%;
+	margin: 20px 0 20px 0;
+}
+
+.app .system-permissions .expand {
+	display: none;
+}

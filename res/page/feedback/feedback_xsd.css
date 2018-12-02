@@ -1,0 +1,31 @@
+.feedback .counters-container {
+	margin: 0 0 @dimen/section-margin 0;
+	padding: 10px 0 20px;
+}
+
+.feedback .counters .label {
+	display: none;
+}
+
+.feedback .counters .like, .feedback .counters .not-like {
+	width: 49%;
+}
+
+.feedback .counters .value {
+	display: inline-block;
+	margin-top: 70px;
+	font-size: 48px;
+	overflow: hidden;
+}
+
+.feedback .counters .percent {
+	display: none;
+}
+
+.feedback .percent-graph {
+	display: none;
+}
+
+.feedback form>.checkbox span {
+	font-size: 14px;
+}

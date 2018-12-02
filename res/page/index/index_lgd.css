@@ -1,0 +1,57 @@
+.index .slogan.top .sounds {
+	float: right;
+	margin-left: 0;
+}
+
+.index .slogan .text {
+	xpadding-top: 20px;
+}
+
+.index .play-store .qr {
+	display: inline;
+}
+
+.index .apps .app img {
+	width: 140px;
+	height: 140px;
+}
+
+.index .apps .app h6 {
+	width: 140px;
+	font-size: 16px;
+}
+
+.index .no-ads h4 {
+	font-size: 22px;
+}
+
+.index .display {
+	display: inline-block;
+	float: right;
+	width: 700px;
+	height: 600px;
+	box-sizing: border-box;
+	padding: 118px 34px 40px 33px;
+	background-image: url(@image/display-wire-frame);
+	margin-left: 40px;
+	margin-top: -180px;
+	position: relative;
+}
+
+.index .display .screen {
+	width: 100%;
+	height: 100%;
+	xborder: solid 1px;
+	xborder-color: @color/border-dark @color/border-light @color/border-light @color/border-dark;
+	overflow: hidden;
+}
+
+.index .display .screen img {
+	xdisplay: none;
+	animation: phone 20s linear infinite alternate;
+	animation: panorma-play 16s linear 2s infinite alternate;
+}
+
+.index .fables-online .page-section p {
+	max-width: 400px;
+}

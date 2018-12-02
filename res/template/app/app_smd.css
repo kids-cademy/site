@@ -1,0 +1,25 @@
+.app .caption p {
+	max-width: 100%;
+}
+
+.app .play-store .link img {
+	width: 64px;
+	height: 64px;
+	margin-left: 20px;
+}
+
+.app .info dl {
+	margin-left: 280px;
+}
+
+.app .info dl dt {
+	width: 9em;
+	font-size: 16px;
+}
+
+.app .info dl dd {
+	font-size: 16px;
+}
+.app .description p {
+	margin-left: 280px;
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app-descriptor>
+	<managed-classes>
+		<service-controller interface="com.kidscademy.ServiceController" class="com.kidscademy.impl.ServiceControllerImpl" />
+		<site-controller interface="com.kidscademy.SiteController" class="com.kidscademy.impl.SiteControllerImpl" />
+		<atlas-controller interface="com.kidscademy.AtlasController" class="com.kidscademy.impl.AtlasControllerImpl" />
+		<build-manager interface="com.kidscademy.BuildManager" class="com.kidscademy.impl.BuildManagerImpl" />
+
+		<entity-manager interface="javax.persistence.EntityManager" class="js.transaction.eclipselink.EntityManagerImpl" />
+		<dao interface="com.kidscademy.dao.Dao" class="com.kidscademy.dao.DaoImpl" type="PROXY" />
+		<atlas-dao interface="com.kidscademy.dao.AtlasDao" class="com.kidscademy.dao.AtlasDaoImpl" type="PROXY" />
+	</managed-classes>
+	<observer period="60000" />
+	<views>
+		<repository path="${catalina.base}/webapps/kids-cademy/" files-pattern="*.htm" />
+	</views>
+	<captcha>
+		<property name="captcha.repository.path" value="D://docs/workspaces/kids-cademy/www/kids-cademy/work/captcha" />
+		<property name="captcha.set.size" value="6" />
+	</captcha>
+	<emails>
+		<property name="js.dev.mode" value="true" />
+		<property name="js.repository.path" value="${catalina.base}/webapps/kids-cademy/email/" />
+		<property name="js.files.pattern" value="*.htm" />
+		<property name="js.template.engine" value="js.template.xhtml.XhtmlTemplateEngine" />
+	</emails>
+</app-descriptor>

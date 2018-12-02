@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<string>
+	<learn-by-playing>learn by playing</learn-by-playing>
+	<learn-by-playing-summary1>Leaning is a serious matter that should not be taken too seriously.</learn-by-playing-summary1>
+	<learn-by-playing-summary2>Brain is adapted to memorize facts that produce emotions.</learn-by-playing-summary2>
+	<learn-by-playing-section>have fun and learn by playing</learn-by-playing-section>
+
+	<three-no>3no</three-no>
+	<no-ads>no annoying ads</no-ads>
+	<no-in-app-payment>no misleading in-app payment</no-in-app-payment>
+	<no-spyware>no spyware</no-spyware>
+
+	<three-no-description>all kids (a)cademy apps are 3NO compliant</three-no-description>
+	<three-no-annex>3NO is annex to usage terms license.</three-no-annex>
+	<no-ads-description>Apps are free of annoying ads. Please read and sign </no-ads-description>
+	<no-in-app-payment-description>No misleading in-app payment. What should be paid is paid only once. What is free is free for good.</no-in-app-payment-description>
+	<no-spyware-description>There is no attempt to steal your private data. Privacy should be taken seriously. All @string/site-name apps should explicitly declare rights usage.</no-spyware-description>
+
+	<ads-free-summary>Ads harm learning experience and is also pointless since is a known fact that users have low interest in advertisement.</ads-free-summary>
+
+	<road-map-title>ROAD MAP</road-map-title>
+	<road-map-summary1>kids (a)cademy is here to stay. Be prepare for a long run relationship.</road-map-summary1>
+	<road-map-summary2>See our road map. Check it regularly since we update frequently.</road-map-summary2>
+
+	<quality-title>SERVICE QUALITY</quality-title>
+	<quality-summary1>Every bug ticket is solved in maximum 5 working days.</quality-summary1>
+	<quality-summary2>New requested feature is implemented if backed by community.</quality-summary2>
+</string>
