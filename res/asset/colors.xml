@@ -19,6 +19,8 @@
 	<secondary-text>#2E7D32</secondary-text>
 	<accent-header>yellow</accent-header>
 	<accent-text>yellow</accent-text>
-	<border-dark>@color/grey-700</border-dark>
-	<border-light>@color/grey-500</border-light>
+	
+	<border>@color/grey-700</border>
+	<border-accent>@color/blue-100</border-accent>
+	<border-muted>@color/grey-300</border-muted>
 </color>

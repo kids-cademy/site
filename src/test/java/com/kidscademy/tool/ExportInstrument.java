@@ -7,8 +7,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import com.kidscademy.atlas.Instrument;
-import com.kidscademy.dao.AtlasDao;
-import com.kidscademy.dao.AtlasDaoImpl;
+import com.kidscademy.dao.AdminDao;
+import com.kidscademy.dao.AdminDaoImpl;
 
 import js.json.Json;
 import js.lang.ConfigException;
@@ -24,7 +24,7 @@ public class ExportInstrument
     Json json = Classes.loadService(Json.class);
 
     TransactionFactory factory = new TransactionFactoryImpl();
-    AtlasDao dao = factory.newInstance(AtlasDaoImpl.class);
+    AdminDao dao = factory.newInstance(AdminDaoImpl.class);
 
     ZipOutputStream zip = new ZipOutputStream(new FileOutputStream("d://tmp/instruments.zip"));
 

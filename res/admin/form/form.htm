@@ -1,0 +1,184 @@
+<div w:template="template/admin#body" w:script="com.kidscademy.admin.FormPage" class="object-form" xmlns:w="js-lib.com/wood">
+	<form>
+		<fieldset>
+			<div class="header container">
+				<h2>Identity</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<div class="container">
+					<div>
+						<label>rank</label> <input name="rank" class="optional" />
+					</div>
+					<div>
+						<label>name</label> <input name="name" class="optional" />
+					</div>
+					<div>
+						<label>display</label> <input name="display" class="optional" />
+					</div>
+					<div>
+						<label>aliases</label> <input name="aliases" data-class="com.kidscademy.admin.AliasesControl" />
+					</div>
+					<div>
+						<label>category</label> <select name="category">
+							<option>KEYBOARD</option>
+							<option>PERCUSSION</option>
+							<option>WIND</option>
+							<option>STRINGS</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset>
+			<div class="header container">
+				<h2>Description</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<div class="container">
+					<div>
+						<textarea name="description" data-class="com.kidscademy.admin.TextControl"></textarea>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset>
+			<div class="header container">
+				<h2>Graphic Assets</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<div class="container">
+					<img name="iconPath" class="graphic-asset" data-class="com.kidscademy.admin.ImageControl" /> <img name="thumbnailPath" class="graphic-asset" data-class="com.kidscademy.admin.ImageControl" /> <img name="picturePath" class="graphic-asset" data-class="com.kidscademy.admin.ImageControl" />
+					<div class="actions dev">
+						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="browse" src="@image/action/browse" title="@string/sample-tooltip" /> <img name="undo" src="@image/action/undo" title="@string/sample-tooltip" /> <img name="save" src="@image/action/save" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset>
+			<div class="header container">
+				<h2>Audio Assets</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<div class="container">
+					<div>
+						<label>sample title</label> <input name="sampleTitle" class="optional" />
+					</div>
+					<div>
+						<label>sample</label> <input name="samplePath" class="optional" />
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset name="facts" data-class="com.kidscademy.admin.FactsControl">
+			<div class="header container">
+				<h2>Facts</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<dl class="container facts-view" data-map=".">
+					<dt></dt>
+					<dd></dd>
+				</dl>
+				<div class="container actions">
+					<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="import" src="@image/action/import" title="@string/sample-tooltip" /> <img name="save" src="@image/action/save" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+				</div>
+				<div class="container editor hidden">
+					<div>
+						<div>
+							<input name="term" />
+						</div>
+						<div>
+							<textarea name="definition" class="mini"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset name="spreading" data-class="com.kidscademy.admin.SpreadingControl">
+			<div class="header container">
+				<h2>Spreading</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<ul class="container regions-view" data-list=".">
+					<li><span data-text="area"></span> <span data-text="name"></span></li>
+				</ul>
+				<div class="container actions">
+					<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="import" src="@image/action/import" title="@string/sample-tooltip" /> <img name="save" src="@image/action/save" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+				</div>
+				<div class="container editor hidden">
+					<div>
+						<div>
+							<label>Region</label><input name="region-name" class="mini" />
+						</div>
+						<div>
+							<label>Area</label><select name="area" w:widget="compo/region-select"></select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset name="related" data-class="com.kidscademy.admin.RelatedControl">
+			<div class="header container">
+				<h2>Related</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<div class="container">
+					<ul class="list-view" data-list=".">
+						<li><img data-src="src" />
+							<h4 data-text="display"></h4></li>
+					</ul>
+					<div class="actions">
+						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="edit" src="@image/action/edit" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" />
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset name="links" data-class="com.kidscademy.admin.LinksControl">
+			<div class="header container">
+				<h2>Links</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<div class="container">
+					<ul class="list-view" data-list=".">
+						<li><img data-src="src" data-title="description" />
+							<h4 data-text="name"></h4></li>
+					</ul>
+					<div class="actions">
+						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="browse" src="@image/action/browse" title="@string/sample-tooltip" /> <img name="save" src="@image/action/save" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+					</div>
+					<div class="editor">
+						<div>
+							<div>
+								<label>URL</label> <input name="url" data-value="url" />
+							</div>
+							<div>
+								<label>Name</label> <input name="name" data-value="name" />
+							</div>
+							<div>
+								<label>Description</label> <input name="description" data-value="description" class="large" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+	<div class="container buttons-bar">
+		<button name="submit">@string/submit</button>
+		<button name="cancel" class="inverse">@string/cancel</button>
+	</div>
+</div>

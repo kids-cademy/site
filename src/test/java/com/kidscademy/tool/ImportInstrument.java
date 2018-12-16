@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +15,8 @@ import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Instrument.Category;
 import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.Region;
-import com.kidscademy.dao.AtlasDao;
-import com.kidscademy.dao.AtlasDaoImpl;
+import com.kidscademy.dao.AdminDao;
+import com.kidscademy.dao.AdminDaoImpl;
 
 import js.json.Json;
 import js.transaction.TransactionFactory;
@@ -30,25 +31,33 @@ public class ImportInstrument
   {
     Json json = Classes.loadService(Json.class);
 
-    TransactionFactory factory = new TransactionFactoryImpl();
-    AtlasDao dao = factory.newInstance(AtlasDaoImpl.class);
+    TransactionFactory factory = new TransactionFactoryImpl("import");
+    AdminDao dao = factory.newInstance(AdminDaoImpl.class);
+
+    List<InstrumentObject> objects = new ArrayList<>();
 
     for(File objectDir : SOURCE_DIR.listFiles()) {
       File objectFile = new File(objectDir, "instrument_en.json");
       System.out.println(objectFile);
 
       InstrumentObject object = json.parse(new FileReader(objectFile), InstrumentObject.class);
+      objects.add(object);
 
+    }
+
+    Map<InstrumentObject, Instrument> instruments = new HashMap<>();
+
+    for(InstrumentObject object : objects) {
       Instrument instrument = new Instrument();
+      instruments.put(object, instrument);
 
-      instrument.setRepositoryIndex(object.id);
       instrument.setRank(object.rank);
       instrument.setName(object.name);
       instrument.setDisplay(object.title);
       instrument.setDescription(object.description);
-      instrument.setIconPath(object.iconPath);
-      instrument.setThumbnailPath(object.thumbnailPath);
-      instrument.setPicturePath(object.picturePath);
+      instrument.setIconPath(object.iconPath.replace("collection", "instruments"));
+      instrument.setThumbnailPath(object.thumbnailPath.replace("collection", "instruments"));
+      instrument.setPicturePath(object.picturePath.replace("collection", "instruments"));
 
       instrument.setCategory(object.category);
       instrument.setSampleTitle(object.sampleTitle);
@@ -65,17 +74,23 @@ public class ImportInstrument
 
       List<Link> links = new ArrayList<>();
       for(ExternalSource source : object.sources) {
-        links.add(new Link(source.url, source.name, "Link description", source.icon.getName()));
+        links.add(new Link(instrument.getId(), source.url, source.name, "Link description", "links/" + source.icon.getName()));
       }
       instrument.setLinks(links);
 
-      List<Integer> related = new ArrayList<>();
+      instrument.setFacts(object.facts);
+
+      dao.saveInstrument(instrument);
+    }
+
+    for(InstrumentObject object : instruments.keySet()) {
+      Instrument instrument = instruments.get(object);
+
+      List<String> related = new ArrayList<>();
       for(int relatedIndex : object.related) {
-        related.add(relatedIndex);
+        related.add(objects.get(relatedIndex).name);
       }
       instrument.setRelated(related);
-
-      instrument.setFacts(object.facts);
 
       dao.saveInstrument(instrument);
     }

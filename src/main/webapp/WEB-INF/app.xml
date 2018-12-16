@@ -3,19 +3,19 @@
 	<managed-classes>
 		<service-controller interface="com.kidscademy.ServiceController" class="com.kidscademy.impl.ServiceControllerImpl" />
 		<site-controller interface="com.kidscademy.SiteController" class="com.kidscademy.impl.SiteControllerImpl" />
-		<atlas-controller interface="com.kidscademy.AtlasController" class="com.kidscademy.impl.AtlasControllerImpl" />
+		<admin-service interface="com.kidscademy.AdminService" class="com.kidscademy.impl.AdminServiceImpl" />
 		<build-manager interface="com.kidscademy.BuildManager" class="com.kidscademy.impl.BuildManagerImpl" />
 
 		<entity-manager interface="javax.persistence.EntityManager" class="js.transaction.eclipselink.EntityManagerImpl" />
 		<dao interface="com.kidscademy.dao.Dao" class="com.kidscademy.dao.DaoImpl" type="PROXY" />
-		<atlas-dao interface="com.kidscademy.dao.AtlasDao" class="com.kidscademy.dao.AtlasDaoImpl" type="PROXY" />
+		<admin-dao interface="com.kidscademy.dao.AdminDao" class="com.kidscademy.dao.AdminDaoImpl" type="PROXY" />
 	</managed-classes>
 	<observer period="60000" />
 	<views>
 		<repository path="${catalina.base}/webapps/kids-cademy/" files-pattern="*.htm" />
 	</views>
 	<captcha>
-		<property name="captcha.repository.path" value="D://docs/workspaces/kids-cademy/www/kids-cademy/work/captcha" />
+		<property name="captcha.repository.path" value="${captcha.repository.path}" />
 		<property name="captcha.set.size" value="6" />
 	</captcha>
 	<emails>

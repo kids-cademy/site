@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data-set>
+	<atlasobject>
+		<id>1</id>
+		<dtype>Instrument</dtype>
+		<rank>1234</rank>
+		<name>accordion</name>
+		<display>Accordion</display>
+		<description>Accordion description.</description>
+		<iconPath>icon.jpg</iconPath>
+		<thumbnailPath>thumbnail.png</thumbnailPath>
+		<picturePath>picture.jpg</picturePath>
+	</atlasobject>
+	<atlasobject>
+		<id>2</id>
+		<dtype>Bird</dtype>
+		<rank>4321</rank>
+		<name>eagle</name>
+		<display>Eagle</display>
+		<description>Eagle description.</description>
+		<iconPath>icon.jpg</iconPath>
+		<thumbnailPath>thumbnail.png</thumbnailPath>
+		<picturePath>picture.jpg</picturePath>
+	</atlasobject>
+	<atlasobject>
+		<id>3</id>
+		<dtype>Instrument</dtype>
+		<rank>1235</rank>
+		<name>bandoneon</name>
+		<display>Bandoneon</display>
+		<description>Bandonenon description.</description>
+		<iconPath>icon.jpg</iconPath>
+		<thumbnailPath>thumbnail.png</thumbnailPath>
+		<picturePath>picture.jpg</picturePath>
+	</atlasobject>
+	<atlasobject>
+		<id>4</id>
+		<dtype>Instrument</dtype>
+		<rank>1236</rank>
+		<name>cimbalom</name>
+		<display>Cimbalom</display>
+		<description>Cimbalom description.</description>
+		<iconPath>icon.jpg</iconPath>
+		<thumbnailPath>thumbnail.png</thumbnailPath>
+		<picturePath>picture.jpg</picturePath>
+	</atlasobject>
+
+	<atlasobject_aliases>
+		<id>1</id>
+		<atlasobject_id>1</atlasobject_id>
+		<aliases>Squeezebox</aliases>
+	</atlasobject_aliases>
+
+	<atlasobject_facts>
+		<id>1</id>
+		<atlasobject_id>1</atlasobject_id>
+		<facts_key>Fact #1</facts_key>
+		<facts>Fact #1 description.</facts>
+	</atlasobject_facts>
+
+	<link>
+		<id>1</id>
+		<objectId>1</objectId>
+		<url>https://en.wikipedia.org/wiki/Accordion</url>
+		<name>Wikipedia</name>
+		<description>Wikipedia link.</description>
+		<iconPath>icon.png</iconPath>
+	</link>
+
+	<region>
+		<id>1</id>
+		<objectId>1</objectId>
+		<name>RO</name>
+		<area>1</area>
+	</region>
+
+	<atlasobject_related>
+		<atlasobject_id>1</atlasobject_id>
+		<atlasobject_name>bandoneon</atlasobject_name>
+	</atlasobject_related>
+	<atlasobject_related>
+		<atlasobject_id>1</atlasobject_id>
+		<atlasobject_name>cimbalom</atlasobject_name>
+	</atlasobject_related>
+
+	<instrument>
+		<id>1</id>
+		<category>3</category>
+		<sampleTitle>Sample</sampleTitle>
+		<samplePath>sample.mp3</samplePath>
+		<date_value>1234567890</date_value>
+		<date_mask>0</date_mask>
+	</instrument>
+
+	<bird>
+		<id>2</id>
+		<wingspan_minimum>400</wingspan_minimum>
+		<wingspan_maximum>1200</wingspan_maximum>
+	</bird>
+</data-set>

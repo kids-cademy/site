@@ -12,7 +12,6 @@ public class Region
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
-  @SuppressWarnings("unused")
   private Integer objectId;
 
   private String name;
@@ -20,7 +19,7 @@ public class Region
 
   public Region()
   {
-    area = Area.WHOLE;
+    area = Area.ALL;
   }
 
   public Region(String name)
@@ -40,6 +39,16 @@ public class Region
     return id;
   }
 
+  public void setObjectId(int objectId)
+  {
+    this.objectId = objectId;
+  }
+
+  public int getObjectId()
+  {
+    return objectId;
+  }
+
   public String getName()
   {
     return name;
@@ -52,6 +61,6 @@ public class Region
 
   public enum Area
   {
-    WHOLE, CENTRAL, N, NNE, NE, ENE, E, ESE, SE, SSE, S, SSW, SW, WSW, W, WNW, NW, NNW
+    ALL, CENTRAL, NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST
   }
 }

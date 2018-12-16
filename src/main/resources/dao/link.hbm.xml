@@ -5,7 +5,8 @@
 		<id name="id">
 			<generator class="native" />
 		</id>
-
+		<property name="objectId" />
+		
 		<property name="url" />
 		<property name="name" />
 		<property name="description" />

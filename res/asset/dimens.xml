@@ -15,4 +15,11 @@
 	<button-space>40px</button-space>
 	
 	<hexagon-view-width>180px</hexagon-view-width>
+	
+	<!-- vertical space between paragraphs -->
+	<p-space>20px</p-space>
+	
+	<!-- DL dimensions -->
+	<!-- space between dt and dd when displayed vertically -->
+	<dt-head-space>4px</dt-head-space>
 </dimen>

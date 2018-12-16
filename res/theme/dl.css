@@ -1,15 +1,36 @@
 dl {
-	xpadding-top: 20px;
 }
 
 dt,dd {
-	font-size: 11px;
+	font-size: 1.8rem;
 	font-weight: normal;
 }
 
+/** block list */
+/** display definition below term */
+
+dl:not(.inline) dt {
+	margin-top: @dimen/p-space;
+	margin-bottom: @dimen/dt-head-space;	
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;	
+}
+
+dl:not(.inline) dt:first-child {
+	margin-top: 0;	
+}
+
+dl:not(.inline) dd {
+	font-size: 1.6rem;
+	color: #006600;
+}
+
+/** inline list */
+/** display term and definition in the same line */
+
 dl.inline dt {
 	display: inline-block;
-	width: 80px;
 }
 
 dl.inline dd {
@@ -25,7 +46,6 @@ dl.inline dd>* {
 }
 
 dl.inline dd * {
-	color: #006600;
 }
 
 dl.inline dd:BEFORE {

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,9 +21,10 @@ public class AtlasObject
 {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  protected int id;
+  protected Integer id;
+  @SuppressWarnings("unused")
+  private String dtype;
 
-  protected int repositoryIndex;
   protected int rank;
   protected String name;
   protected String display;
@@ -31,37 +33,38 @@ public class AtlasObject
   protected String thumbnailPath;
   protected String picturePath;
 
-  @ElementCollection
+  @ElementCollection()
   protected List<String> aliases;
 
   /** Optional object spreading, empty list if not applicable. */
-  @OneToMany(cascade = CascadeType.PERSIST)
+  @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "objectId")
   protected List<Region> spreading;
 
   @ElementCollection
   protected Map<String, String> facts;
 
-  @OneToMany(cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "objectId")
+  @OneToMany(cascade = CascadeType.REFRESH)
+  @JoinColumn(name = "objectId", updatable = false, insertable = false)
   protected List<Link> links;
 
   @ElementCollection
-  private List<Integer> related;
+  @Column(name = "atlasobject_name")
+  private List<String> related;
 
-  public int getId()
+  /**
+   * For testing
+   * 
+   * @param id
+   */
+  public void setId(Integer id)
+  {
+    this.id = id;
+  }
+
+  public Integer getId()
   {
     return id;
-  }
-
-  public int getRepositoryIndex()
-  {
-    return repositoryIndex;
-  }
-
-  public void setRepositoryIndex(int index)
-  {
-    this.repositoryIndex = index;
   }
 
   public int getRank()
@@ -174,12 +177,12 @@ public class AtlasObject
     this.links = links;
   }
 
-  public List<Integer> getRelated()
+  public List<String> getRelated()
   {
     return related;
   }
 
-  public void setRelated(List<Integer> related)
+  public void setRelated(List<String> related)
   {
     this.related = related;
   }

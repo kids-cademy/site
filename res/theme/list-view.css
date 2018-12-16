@@ -1,0 +1,32 @@
+.list-view {
+	
+}
+
+ul.list-view {
+	list-style: none;
+}
+
+ul.list-view li {
+	list-style: none;
+	display: inline-block;
+	width: 96px;
+	margin-right: 26px;
+	text-align: center;
+}
+
+ul.list-view li img {
+	padding: 1px;
+	border: solid 1px #E6E6E6;
+	cursor: pointer;
+}
+
+ul.list-view li h3, ul.list-view li h4 {
+	width: 100%;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-family: "Roboto";
+	font-size: 1.3rem;
+	color: black;
+}

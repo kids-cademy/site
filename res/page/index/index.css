@@ -335,7 +335,7 @@
 	width: 100%;
 	height: 100%;
 	xborder: solid 1px;
-	xborder-color: @color/border-dark @color/border-light @color/border-light @color/border-dark;
+	xborder-color: @color/border @color/border-muted @color/border-muted @color/border;
 	overflow: hidden;
 }
 
