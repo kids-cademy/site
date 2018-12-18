@@ -20,11 +20,26 @@
 						<label>aliases</label> <input name="aliases" data-class="com.kidscademy.admin.AliasesControl" />
 					</div>
 					<div>
-						<label>category</label> <select name="category">
-							<option>KEYBOARD</option>
-							<option>PERCUSSION</option>
-							<option>WIND</option>
-							<option>STRINGS</option>
+						<label>category</label> <select name="category" w:widget="compo/instrument-category-select"></select>
+					</div>
+					<div data-name="date" data-class="com.kidscademy.admin.HDateControl">
+						<label>date</label><input name="value" class="mini" /><select name="format">
+							<option value="0">DATE</option>
+							<option value="1">YEAR</option>
+							<option value="2">DECADE</option>
+							<option value="3">CENTURY</option>
+							<option value="4">MILLENNIA</option>
+							<option value="5">KYA</option>
+							<option value="6">MYA</option>
+							<option value="7">BYA</option>
+						</select> <select name="period">
+							<option value="0">FULL</option>
+							<option value="256">BEGINNING</option>
+							<option value="512">MIDDLE</option>
+							<option value="768">END</option>
+						</select> <select name="era">
+							<option value="0">CE</option>
+							<option value="65536">BCE</option>
 						</select>
 					</div>
 				</div>
@@ -118,7 +133,7 @@
 				<div class="container editor hidden">
 					<div>
 						<div>
-							<label>Region</label><input name="region-name" class="mini" />
+							<label>Region</label><input name="region-name" class="medium" />
 						</div>
 						<div>
 							<label>Area</label><select name="area" w:widget="compo/region-select"></select>
@@ -134,15 +149,17 @@
 				<p>@string/sample-text</p>
 			</div>
 			<div class="content">
-				<div class="container">
-					<ul class="list-view" data-list=".">
-						<li><img data-src="src" />
-							<h4 data-text="display"></h4></li>
-					</ul>
-					<div class="actions">
-						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="edit" src="@image/action/edit" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" />
-					</div>
+				<ul class="container list-view related" data-list=".">
+					<li data-id="id"><img data-src="src" />
+						<h4 data-text="display"></h4></li>
+				</ul>
+				<div class="container actions">
+					<img name="edit" src="@image/action/edit" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
 				</div>
+				<ul class="container list-view collection hidden" data-list=".">
+					<li data-id="id"><img data-src="src" />
+						<h4 data-text="display"></h4></li>
+				</ul>
 			</div>
 		</fieldset>
 
@@ -152,25 +169,23 @@
 				<p>@string/sample-text</p>
 			</div>
 			<div class="content">
-				<div class="container">
-					<ul class="list-view" data-list=".">
-						<li><img data-src="src" data-title="description" />
-							<h4 data-text="name"></h4></li>
-					</ul>
-					<div class="actions">
-						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="browse" src="@image/action/browse" title="@string/sample-tooltip" /> <img name="save" src="@image/action/save" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
-					</div>
-					<div class="editor">
+				<ul class="container list-view" data-list=".">
+					<li><img data-src="src" data-title="description" />
+						<h4 data-text="name"></h4></li>
+				</ul>
+				<div class="container actions">
+					<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="browse" src="@image/action/browse" title="@string/sample-tooltip" /> <img name="save" src="@image/action/save" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+				</div>
+				<div class="container editor hidden">
+					<div>
 						<div>
-							<div>
-								<label>URL</label> <input name="url" data-value="url" />
-							</div>
-							<div>
-								<label>Name</label> <input name="name" data-value="name" />
-							</div>
-							<div>
-								<label>Description</label> <input name="description" data-value="description" class="large" />
-							</div>
+							<label>URL</label> <input name="url" data-value="url" />
+						</div>
+						<div>
+							<label>Name</label> <input name="name" data-value="name" />
+						</div>
+						<div>
+							<label>Description</label> <input name="description" data-value="description" class="large" />
 						</div>
 					</div>
 				</div>

@@ -2,10 +2,9 @@ package com.kidscademy.dao;
 
 import java.util.List;
 
-import com.kidscademy.atlas.AtlasObject;
 import com.kidscademy.atlas.Bird;
+import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
-import com.kidscademy.atlas.Link;
 
 public interface AdminDao
 {
@@ -19,13 +18,11 @@ public interface AdminDao
 
   Bird getBird(int birdId);
 
-  void saveLink(Link link);
-
-  List<AtlasObject> findObjectsByName(Class<?> type, List<String> names);
-
-  List<Link> findLinksByObject(int objectId);
+  List<Instrument> getInstruments();
 
   void removeObject(Object object);
 
-  List<Instrument> getInstruments();
+  List<GraphicObject> findObjectsByName(Class<?> type, List<String> names);
+
+  List<GraphicObject> getInstrumentsByCategory(Instrument.Category category);
 }

@@ -1,0 +1,294 @@
+.app {
+	
+}
+
+/* caption */   
+
+.app .caption {
+	border-bottom: solid 1px #D0D0D0;
+	background-color: #cdf3f6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+}
+
+.appx .caption::after {
+	display: block;
+	content: "";
+	clear: both;
+}
+
+.app .caption .container {
+	position: relative;
+}
+
+.app .caption .image {
+	position: absolute;
+	display: inline-block;
+	vertical-align: top;
+	margin-right: 40px;
+}
+
+.app .caption .text {
+	display: inline-block;
+	margin: 0 0 0 220px;
+}
+
+.app .caption img {
+	width: 180px;
+	height: 180px;
+}
+
+.app .caption h1 {
+	xmargin: 0 0 0 220px;
+	color: #18527C;
+}
+
+.app .caption p {
+	max-width: 80%;
+	xmargin: 20px 0 30px 220px;
+	color: #18527C;
+}
+
+/* play-store */
+
+.app .play-store {
+	min-height: 110px;
+	padding: 30px 0;
+	background-color: #c9f1c6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #2d9a27);
+}
+
+.app .play-store .container {
+	clear: both;
+}
+
+.app .play-store h2 {
+	float: left;
+	color: #2E7D32;
+}
+
+.app .play-store h2 a {
+	color: inherit;
+	font-size: inherit;
+	text-transform: inherit;
+}
+
+.app .play-store .action {
+	width: 110px;
+	height: 110px;
+	vertical-align: middle;
+	margin-left: 120px;
+	cursor: pointer;
+}
+
+/* phone-preview */
+
+.app .phone {
+	position: relative;
+	height: 0;
+	top: -70px;	
+}
+
+.app .phone .slide {
+	background-image: url(../media/template-app_phone-preview-slide.jpg);
+}
+
+/* info */
+
+.app .info {
+	padding: 10px 0 40px;
+}
+
+.app .info dl {
+	margin: 20px 0 0 300px;
+}
+
+.app .info dl dt {
+	width: 10em;
+}
+
+/* description */
+
+.app .description {
+	border-bottom: solid 1px #D0D0D0;
+	padding: 30px 0;
+	background-color: #cdf3f6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+}
+
+.app .description p {
+	max-width: 60%;
+	margin: 20px 0 20px 300px;
+	color: #2E7D32;
+}
+
+/* support */
+
+.app .support {
+	padding-top: 70px;	
+}
+
+.app .support p {
+	color: black;
+}
+
+/* feedback */
+
+.app .feedback {
+	background-color: #cdf3f6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+}
+
+/* system-permissions */
+.app .system-permissions {
+	background-color: #c9f1c6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #2d9a27);
+}
+
+.app .system-permissions h2 {
+	margin-bottom: 0;
+}
+
+.app .system-permissions h2 img {
+	height: 32px;
+	vertical-align: middle;
+	margin-left: 40px;
+	cursor: pointer;
+}
+
+.app .system-permissions dt {
+	margin-top: 30px;
+	margin-bottom: 10px;
+	font-size: 22px;
+	color: #278422;
+}
+
+.app .system-permissions dd {
+	max-width: 900px;
+	font-size: 18px;
+	color: #606060;
+}
+
+@media screen and (max-width : 992px) {
+
+.app .play-store .qr {
+	display: none;
+}
+}
+
+@media screen and (max-width : 768px) {
+
+.app .caption p {
+	max-width: 100%;
+}
+
+.app .play-store .link img {
+	width: 64px;
+	height: 64px;
+	margin-left: 20px;
+}
+
+.app .info dl {
+	margin-left: 280px;
+}
+
+.app .info dl dt {
+	width: 9em;
+	font-size: 16px;
+}
+
+.app .info dl dd {
+	font-size: 16px;
+}
+.app .description p {
+	margin-left: 280px;
+}
+
+}
+
+@media screen and (max-width : 560px) {
+
+body>header {
+	position: static;
+	background: rgb(255, 255, 255);
+	border-bottom: solid 1px #E0E0E0;
+}
+
+.body-container>.page-section:first-child {
+	background: none;
+	padding-top: 0;	
+}
+
+.app .caption .container {
+	padding: 0;
+}
+
+.app .caption .image {
+	position: static;
+	display: block;
+	text-align: center;	
+	margin: 0;
+	padding: 20px 0;
+	background-color: #cdf3f6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+}
+
+.app .caption .text {
+	display: block;
+	margin: 4px 0 40px;
+	padding: 20px 10px;
+	background-color: #cdf3f6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+}
+
+.app .caption .text p {
+	max-width: 100%;
+}
+
+.app .play-store h2 {
+	width: 100%;
+	text-align: center;
+}
+
+.app .play-store .link  {
+	display: none;
+}
+
+.app .phone {
+	width: 100%;
+	height: auto;
+	text-align: center;
+	top: 0;
+	margin-top: -70px;
+}
+
+.app .phone .phone-preview {
+	display: inline-block;
+}
+
+.app .info {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.app .info dl {
+	margin: 20px 0 0 0;
+}
+
+.app .info dl dt {
+	width: 9em;
+	font-size: 16px;
+}
+
+.app .info dl dd {
+	font-size: 16px;
+}
+
+.app .description p {
+	max-width: 100%;
+	margin: 20px 0 20px 0;
+}
+
+.app .system-permissions .expand {
+	display: none;
+}
+}

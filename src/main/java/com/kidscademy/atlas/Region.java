@@ -1,19 +1,11 @@
 package com.kidscademy.atlas;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 
-@Entity
+@Embeddable
 public class Region
 {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-
-  private Integer objectId;
-
   private String name;
   private Area area;
 
@@ -37,16 +29,6 @@ public class Region
   public int getId()
   {
     return id;
-  }
-
-  public void setObjectId(int objectId)
-  {
-    this.objectId = objectId;
-  }
-
-  public int getObjectId()
-  {
-    return objectId;
   }
 
   public String getName()

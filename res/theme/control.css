@@ -29,23 +29,28 @@ input[data-type="time"] {
 }
 
 select {
-	width: 500px;
+	xwidth: 500px;
 	font-size: 18px;
 	padding: 2px 2px 2px 8px;
-	margin-bottom: 6px;
+	xmargin-bottom: 6px;
+	margin-top: 20px;
 	height: 34px;
 	border-radius: 3px;
+	background: 0;
+	border: solid 1px #76be76;
 }
 
 .gecko select {
-	position: relative;
-	top: -3px;
+	xposition: relative;
+	xtop: -3px;
 }
 
 select option {
 	xheight: 28px;
 	xline-height: 22px;
 	padding: 2px 2px 2px 8px;
+	border: 0;
+	background-color: #F0F0F0;
 }
 
 textarea {
@@ -61,7 +66,7 @@ textarea {
 
 input, textarea, select {
 	xborder: solid 1px @color/control-border;
-	background: @color/control-background;
+	xbackground: @color/control-background;
 	margin-right: 6px;
 }
 

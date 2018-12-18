@@ -1,0 +1,282 @@
+a[href='feedback.htm'] {
+	border-color: green;
+}
+
+.feedback {
+	xbackground-color: lightblue;
+}
+
+.feedback .message h2 {
+	color: #2E7D32;
+}
+
+.feedback .message p {
+	color: black;
+}
+
+.feedback .counters-container {
+	background-color: #cdf3f6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+}
+
+.feedback .counters {
+	margin-top: 60px;
+	margin-bottom: 20px;
+}
+
+.feedback .counters .like, .feedback .counters .not-like, .feedback .counters .percent {
+	display: inline-block;
+	position: relative;
+	box-sizing: border-box;
+	height: 160px;
+	text-align: center;
+}
+
+.feedback .counters .like, .feedback .counters .not-like {
+	width: 35%;
+	border: solid 1px;
+	border-color: #ccc #888;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
+}
+
+.feedback .counters .percent {
+	width: 27%;
+	margin: 0 1%;
+	border-top: solid 1px #ccc;
+	font-size: 36px;
+	xcolor: darkcyan;
+}
+
+.feedback .counters .percent .integer-part {
+	font-size: 70px;
+}
+
+.feedback .counters .not-like {
+	float: left;
+}
+
+.feedback .counters .like {
+	float: right;
+}
+
+.feedback .counter span {
+	display: block;
+	margin: 0;
+}
+
+.feedback form>.checkbox {
+	width: 100%;
+	overflow: hidden;
+	margin-top: 10px;
+}
+
+.feedback form>.checkbox span {
+	color: #18527C;
+}
+
+.feedback .counters .label {
+	display: block;
+	height: 26px;
+	padding: 10px;
+	font-size: 18px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	background-color: rgba(255, 255, 255, 0.1);
+	color: black;
+}
+
+.feedback .counters .percent .value {
+	color: red;
+}
+
+.feedback .counters .not-like .label {
+	text-align: right;
+	color: red;
+}
+
+.feedback .counters .like .label {
+	text-align: left;
+	color: green;
+}
+
+.feedback .counters .value {
+	width: 100%;
+	height: 100%;
+	line-height: 100%;
+	text-align: center;
+	vertical-align: middle;
+	margin: 0;
+	padding: 0;
+	font-size: 70px;
+	font-weight: normal;
+	letter-spacing: 0.1em;
+}
+
+.feedback .counters .not-like .value {
+	color: red;
+}
+
+.feedback .counters .like .value {
+	color: rgba(40, 100, 40, 0.8);
+}
+
+.feedback .counters .icon {
+	position: absolute;
+	right: 20px;
+	top: -40px;
+	margin: 0;
+}
+
+.feedback .counters .not-like .icon {
+	left: 20px;
+	background-color: red;
+}
+
+.feedback .percent-graph {
+	position: relative;
+	clear: both;
+	width: 100%;
+	height: 48px;
+	margin-top: 30px;
+	background: linear-gradient(to right, #FF0000, #FFFF00, #008000);
+}
+
+.feedback .percent-graph .pointer {
+	position: absolute;
+	width: 0;
+	height: 48px;
+	top: 0;
+	left: 0;
+	border-left: dotted 1px;
+}
+
+.feedback .percent-graph .pointer img {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: -10px;
+}
+
+.feedback .percent-graph .pointer img.top {
+	top: -18px;
+}
+
+.feedback .percent-graph .pointer img.bottom {
+	bottom: -18px;
+}
+
+.feedback .percent-graph .labels {
+	position: absolute;
+	width: 100%;
+	top: 58px;
+	font-size: 18px;
+	color: #18527C;
+}
+
+.feedback .percent-graph .labels span {
+	position: absolute;
+	display: inline-block;
+	width: 20%;
+	margin-left: -10%;
+	white-space: nowrap;
+	text-align: center;
+	@
+	style
+	/ellipsis
+}
+
+.feedback .percent-graph .labels span:nth-child(1) {
+	left: 0;
+	margin-left: 0;
+	text-align: left;
+}
+
+.feedback .percent-graph .labels span:nth-child(2) {
+	left: 25%;
+}
+
+.feedback .percent-graph .labels span:nth-child(3) {
+	left: 50%;
+}
+
+.feedback .percent-graph .labels span:nth-child(4) {
+	left: 75%;
+}
+
+.feedback .percent-graph .labels span:nth-child(5) {
+	right: 0;
+	margin-left: 0;
+	text-align: right;
+}
+
+.feedback .reasons {
+	background-color: rgba(255, 255, 255, 0.2);
+	padding: 40px 0;
+}
+
+.feedback .captcha {
+	margin-top: 20px;
+}
+
+.feedback .improve {
+	margin-top: 70px;	
+}
+
+.feedback .suggestion {
+	background-color: #c9f1c6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #2d9a27);
+}
+
+.feedback .suggestions-list {
+	xpadding: 30px 0;
+	xmargin-top: 60px;
+	xbackground: radial-gradient(circle at 30% 50%, #FFFFFF, #D0D0D0);
+}
+
+.feedback .suggestions-list h3 {
+	margin: 60px 0 10px 0;
+	border-bottom: solid 1px #E8E8E8;
+}
+
+.feedback .suggestions-list .item:first-child h3 {
+	margin-top: 40px;
+}
+
+.feedback .suggestions-list p {
+	color: #2E7D32;
+}
+@media screen and (max-width : 560px) {
+
+.feedback .counters-container {
+	margin: 0 0 70px 0;
+	padding: 10px 0 20px;
+}
+
+.feedback .counters .label {
+	display: none;
+}
+
+.feedback .counters .like, .feedback .counters .not-like {
+	width: 49%;
+}
+
+.feedback .counters .value {
+	display: inline-block;
+	margin-top: 70px;
+	font-size: 48px;
+	overflow: hidden;
+}
+
+.feedback .counters .percent {
+	display: none;
+}
+
+.feedback .percent-graph {
+	display: none;
+}
+
+.feedback form>.checkbox span {
+	font-size: 14px;
+}
+
+}

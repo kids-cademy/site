@@ -2,9 +2,8 @@ package com.kidscademy;
 
 import java.util.List;
 
-import com.kidscademy.atlas.AtlasObject;
+import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
-import com.kidscademy.atlas.Link;
 
 import js.annotation.Public;
 import js.annotation.Service;
@@ -19,13 +18,9 @@ public interface AdminService
 
   Instrument getInstrumentByName(String name);
 
-  List<AtlasObject> getRelatedInstruments(List<String> names);
-
   void saveInstrument(Instrument instrument);
 
-  List<Link> createLink(int objectId, Link link);
+  List<GraphicObject> getRelatedInstruments(List<String> names);
 
-  List<Link> updateLink(Link link);
-
-  List<Link> removeLink(Link link);
+  List<GraphicObject> getAvailableInstruments(Instrument.Category category, List<GraphicObject> related);
 }

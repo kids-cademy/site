@@ -1,0 +1,78 @@
+.compo.phone-preview {
+	display: block;
+	width: 250px;
+	height: 474px;
+	box-sizing: border-box;
+	padding: 38px 14px 34px 12px;
+	background-image: url(../media/compo-phone-preview_phone-wire-frame.png);
+}
+
+.compo.phone-preview .screen {
+	width: 100%;
+	height: 100%;
+	border: solid 1px;
+	border-color: #616161 #E0E0E0 #E0E0E0 #616161;
+	overflow: hidden;
+}
+
+.compo.phone-preview .screen .slide {
+	display: inline-block;
+	width: 1814px;
+	height: 403px;
+	xbackground-image: url(../media/compo-phone-preview_apps-panorama.png);
+	animation: phone-preview-slide 20s linear infinite alternate;
+}
+
+@keyframes phone-preview-slide {
+	0% {
+		transform: translateX(0);
+	}
+	9% {
+		transform: translateX(0);
+	}
+	10% {
+		transform: translateX(-226.75px);
+	}
+	19% {
+		transform: translateX(-226.75px);
+	}
+	20% {
+		transform: translateX(-453.5px);
+	}
+	29% {
+		transform: translateX(-453.5px);
+	}
+	30% {
+		transform: translateX(-680.25px);
+	}
+	39% {
+		transform: translateX(-680.25px);
+	}
+	40% {
+		transform: translateX(-907px);
+	}
+	49% {
+		transform: translateX(-907px);
+	}
+	50% {
+		transform: translateX(-1133.75px);
+	}
+	59% {
+		transform: translateX(-1133.75px);
+	}
+	60% {
+		transform: translateX(-1360.5px);
+	}
+	69% {
+		transform: translateX(-1360.5px);
+	}
+	70% {
+		transform: translateX(-1587.25px);
+	}
+	79% {
+		transform: translateX(-1587.25px);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}

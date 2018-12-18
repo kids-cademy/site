@@ -5,7 +5,12 @@
 		<non-jta-data-source>java:comp/env/jdbc/kids-cademy</non-jta-data-source>
 
 		<class>com.kidscademy.dao.UrlConverter</class>
+		
+		<!-- embeddables -->
+		<class>com.kidscademy.atlas.Bird</class>
+		<class>com.kidscademy.atlas.Link</class>
 
+		<!-- entities -->
 		<class>com.kidscademy.model.App</class>
 		<class>com.kidscademy.model.Model</class>
 		<class>com.kidscademy.model.Device</class>
@@ -14,16 +19,14 @@
 		<class>com.kidscademy.model.CrashReport</class>
 		<class>com.kidscademy.model.Suggestion</class>
 
-		<class>com.kidscademy.atlas.Link</class>
 		<class>com.kidscademy.atlas.AtlasObject</class>
 		<class>com.kidscademy.atlas.Instrument</class>
-		<class>com.kidscademy.atlas.Bird</class>
 		<class>com.kidscademy.atlas.Region</class>
 		<class>com.kidscademy.atlas.HDate</class>
 
 		<properties>
 			<property name="eclipselink.logging.level.sql" value="FINE" />
-			<property name="eclipselink.cache.shared.default" value= "false" />
+			<property name="eclipselink.cache.shared.default" value= "true" />
 		</properties>
 	</persistence-unit>
 

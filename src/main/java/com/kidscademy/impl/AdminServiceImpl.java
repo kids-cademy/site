@@ -4,10 +4,9 @@ import java.util.List;
 
 import com.kidscademy.AdminService;
 import com.kidscademy.atlas.AtlasObject;
+import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
-import com.kidscademy.atlas.Link;
 import com.kidscademy.dao.AdminDao;
-import com.kidscademy.util.Icons;
 
 import js.log.Log;
 import js.log.LogFactory;
@@ -43,36 +42,22 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
-  public List<AtlasObject> getRelatedInstruments(List<String> names)
-  {
-    return dao.findObjectsByName(Instrument.class, names);
-  }
-
-  @Override
   public void saveInstrument(Instrument instrument)
   {
     dao.saveInstrument(instrument);
   }
 
   @Override
-  public List<Link> createLink(int objectId, Link link)
+  public List<GraphicObject> getRelatedInstruments(List<String> names)
   {
-    link.setObjectId(objectId);
-    return updateLink(link);
+    return dao.findObjectsByName(Instrument.class, names);
   }
 
   @Override
-  public List<Link> updateLink(Link link)
+  public List<GraphicObject> getAvailableInstruments(Instrument.Category category, List<GraphicObject> related)
   {
-    link.setIconPath(Icons.getIconPath(link));
-    dao.saveLink(link);
-    return dao.findLinksByObject(link.getObjectId());
-  }
-
-  @Override
-  public List<Link> removeLink(Link link)
-  {
-    dao.removeObject(link);
-    return dao.findLinksByObject(link.getObjectId());
+    List<GraphicObject> instruments = dao.getInstrumentsByCategory(category);
+    instruments.removeAll(related);
+    return instruments;
   }
 }

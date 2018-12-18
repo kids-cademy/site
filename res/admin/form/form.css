@@ -32,8 +32,13 @@
 	padding: 10px;
 }
 
-.object-form input.mini {
+.object-form input.medium {
 	width: 380px;
+	margin-right: 20px;
+}
+
+.object-form input.mini {
+	width: 180px;
 	margin-right: 20px;
 }
 
@@ -78,27 +83,8 @@
 	opacity: 0.6;
 }
 
-.object-form  .actions img {
-	xdisplay: none;
-}
-
-.object-form .opened .actions img {
-	xdisplay: inline-block;
-}
-
-.object-form  .opened .actions img[name='add'] {
-	xdisplay: none;
-}
-
 .object-form  .actions img[name='add'] {
 	display: inline-block;
-}
-
-.object-form .editor {
-	xdisplay: none;
-}
-.object-form .opened .editor {
-	display: block;
 }
 
 .object-form .graphic-asset {

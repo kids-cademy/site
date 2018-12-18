@@ -1,0 +1,117 @@
+.icon {
+	display: inline-block;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	background-color: rgba(40, 100, 40, 0.8);
+	background-size: 32px 32px;
+	background-position: center;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.icon.hidden {
+	display: none !important;
+}
+
+.icon.menu {
+	background-image: url(../media/theme_menu-icon.png);
+}
+
+.icon.close {
+	background-image: url(../media/theme_close-icon.png);
+}
+
+.icon.play {
+	background-image: url(../media/theme_play-icon.png);
+}
+
+.icon.pause {
+	background-image: url(../media/theme_pause-icon.png);
+}
+
+.icon.stop {
+	background-image: url(../media/theme_stop-icon.png);
+}
+
+.icon.collapse {
+	background-image: url(../media/theme_collapse-icon.png);
+}
+
+.icon.expand {
+	background-image: url(../media/theme_expand-icon.png);
+}
+
+.icon.plus {
+	background-image: url(../media/theme_plus-icon.png);
+}
+
+.icon.minus {
+	background-image: url(../media/theme_minus-icon.png);
+}
+
+.icon.share {
+	background-image: url(../media/theme_share-icon.png);
+	background-size: 38px 38px;
+}
+
+.icon.facebook {
+	background-color: rgba(53, 88, 158, 0.8);
+	background-image: url(../media/theme_facebook-icon.png);
+}
+
+.icon.twitter {
+	background-color: rgba(00, 171, 241, 0.8);
+	background-image: url(../media/theme_twitter-icon.png);
+}
+
+.icon.email {
+	background-image: url(../media/theme_email-icon.png);
+	background-size: 38px 38px;
+}
+
+.icon.tiles {
+	background-image: url(../media/theme_tiles-icon.png);
+}
+
+.icon.list {
+	background-image: url(../media/theme_list-icon.png);
+}
+
+.icon.grid {
+	background-image: url(../media/theme_grid-icon.png);
+}
+
+.icon.large-grid {
+	background-image: url(../media/theme_large-grid-icon.png);
+}
+
+.icon.search {
+	background-image: url(../media/theme_search-icon.png);
+}
+
+.icon.place {
+	background-image: url(../media/theme_place-icon.png);
+	background-size: 38px 38px;
+}
+
+.icon.link {
+	background-image: url(../media/theme_link-icon.png);
+}
+
+@media screen and (max-width : 560px) {
+
+.icon {
+	width: 60px;
+	height: 60px;
+}
+
+.icon.share {
+	background-size: 32px 32px;
+}
+
+.icon.email {
+	background-size: 32px 32px;
+}
+
+}

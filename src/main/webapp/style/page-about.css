@@ -1,0 +1,120 @@
+.about {
+	
+}
+
+a[href='about.htm'] {
+	border-color: green;
+}
+
+.about .caption {
+	background-color: #cdf3f6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
+	border-bottom: solid 1px #C4E0E0;
+}
+
+.about .summary {
+	padding-top: 80px;
+}
+
+.about .summary>div {
+	box-sizing: border-box;
+	padding: 0 40px;
+}
+
+.about .summary>div:first-child {
+	padding-left: 0;
+}
+
+.about .summary>div:last-child {
+	padding-right: 0;
+}
+
+.about .summary img {
+	float: left;
+}
+
+.about .summary h4 {
+	border-bottom: solid 1px #C4E0E0;
+	text-transform: uppercase;
+}
+
+.about .summary div p:first-child, .about .summary ul {
+	margin-top: 10px;	
+}
+
+.about .summary li {
+	margin-bottom: 6px;
+	font-size: 16px;
+	text-transform: uppercase;
+	color: #92A9DC;
+}
+
+.about .learn-by-playing {
+	background-color: #c9f1c6;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #2d9a27);
+}
+
+.about .learn-by-playing h2.secundary {
+	margin-top: 50px;
+	color: #2E7D32;
+}
+
+#three-no {
+	display: block;
+	margin-bottom: 90px;	
+}
+
+.about section.three-no {
+	background-color: #e8ecfe;
+	background: radial-gradient(circle at 30% 50%, #FFFFFF, #a9b8f7);
+}
+
+.about .compo.three-no {
+}
+
+.about section.three-no h2 {
+	margin: 0 0 20px 0;
+}
+
+.about section.three-no h3 {
+	margin: 40px 0 10px 0;
+}
+
+.about section.three-no p {
+	margin-top: 0;
+}
+
+.about .ads-free {
+	background-color: #F8F8F8;
+}
+
+.about .quality {
+	background-color: #F8F8F8;
+}
+
+.about .road-map {
+	background-color: #EEEDEE;
+	xborder-top: solid 1px #c4e0e0;
+}
+
+.about .all-ages {
+	margin: 60px auto 30px;
+}
+
+.about .all-ages blockquote {
+	margin-top: 70px;
+}
+@media screen and (max-width : 768px) {
+
+.about .summary {
+	padding-top: 40px;
+}
+
+.about .summary>div {
+	display: block;
+	width: 100%;
+	padding: 0;
+	margin: 40px 0 0 0;
+}
+	
+}

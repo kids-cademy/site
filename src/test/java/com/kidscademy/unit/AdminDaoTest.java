@@ -170,9 +170,9 @@ public class AdminDaoTest
     instrument.setSpreading(spreading);
 
     List<Link> links = new ArrayList<>();
-    links.add(new Link(1, new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", "Accordion article on wikipedia.", "wikipedia.png"));
-    links.add(new Link(1, new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", "Accordion article on wikipedia.", "wikipedia.png"));
-    //instrument.setLinks(links);
+    links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", "Accordion article on wikipedia.", "wikipedia.png"));
+    links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", "Accordion article on wikipedia.", "wikipedia.png"));
+    // instrument.setLinks(links);
 
     Map<String, String> facts = new HashMap<>();
     facts.put("Banjo Fact #1", "Banjo fact #1 description.");
@@ -182,53 +182,6 @@ public class AdminDaoTest
     assertThat(instrument.getId(), not(equalTo(0)));
     dao.saveInstrument(instrument);
     assertThat(instrument.getId(), not(equalTo(0)));
-  }
-
-  public void saveInstrument_XP() throws MalformedURLException
-  {
-    Instrument instrument = new Instrument();
-    List<Link> links = new ArrayList<>();
-
-    System.out.println("===========================================================");
-
-    // Instrument saved = dao.getInstrument(instrument.getId());
-    // assertThat(saved.getIndex(), equalTo(instrument.getIndex()));
-    // assertThat(saved.getRank(), equalTo(instrument.getRank()));
-    // assertThat(saved.getCategory(), equalTo(instrument.getCategory()));
-    // assertThat(saved.getName(), equalTo(instrument.getName()));
-    // assertThat(saved.getDisplay(), equalTo(instrument.getDisplay()));
-    // assertThat(saved.getDescription(), equalTo(instrument.getDescription()));
-    // assertThat(saved.getIconPath(), equalTo(instrument.getIconPath()));
-    // assertThat(saved.getThumbnailPath(), equalTo(instrument.getThumbnailPath()));
-    // assertThat(saved.getPicturePath(), equalTo(instrument.getPicturePath()));
-    // assertThat(saved.getSampleTitle(), equalTo(instrument.getSampleTitle()));
-    // assertThat(saved.getSamplePath(), equalTo(instrument.getSamplePath()));
-
-    Link link = new Link(1, new URL("https://en.wikipedia.org/wiki/Accordion"), "Wikipedia-1", "Accordion article on wikipedia.", "wikipedia.png");
-    dao.saveLink(link);
-    assertThat(link.getId(), not(equalTo(0)));
-
-    links = new ArrayList<>();
-    links.add(link);
-    instrument.setLinks(links);
-
-    dao.saveInstrument(instrument);
-
-    System.out.println("===========================================================");
-
-    instrument.setLinks(new ArrayList<Link>(0));
-    dao.saveInstrument(instrument);
-
-    // dao.saveLink(new Link(instrument, "Wikipedia-2", "Accordion article on wikipedia.", "wikipedia.png", new
-    // URL("https://en.wikipedia.org/wiki/Accordion")));
-    // dao.saveLink(new Link(instrument, "Wikipedia-3", "Accordion article on wikipedia.", "wikipedia.png", new
-    // URL("https://en.wikipedia.org/wiki/Accordion")));
-    // dao.saveLink(new Link(instrument, "Wikipedia-4", "Accordion article on wikipedia.", "wikipedia.png", new
-    // URL("https://en.wikipedia.org/wiki/Accordion")));
-    // dao.saveLink(new Link(instrument, "Wikipedia-5", "Accordion article on wikipedia.", "wikipedia.png", new
-    // URL("https://en.wikipedia.org/wiki/Accordion")));
-    // dao.saveLink(new Link(instrument, "Wikipedia-6", "Accordion article on wikipedia.", "wikipedia.png", new
-    // URL("https://en.wikipedia.org/wiki/Accordion")));
   }
 
   @Test
@@ -249,13 +202,5 @@ public class AdminDaoTest
     assertThat(bird.getFacts(), notNullValue());
     assertThat(bird.getFacts().keySet(), empty());
     assertThat(bird.getFacts().keySet(), hasSize(0));
-  }
-
-  @Test
-  public void saveLink() throws MalformedURLException
-  {
-    Link link = new Link(1, new URL("https://en.wikipedia.org/wiki/Piano"), "Wikipedia", "Piano article on wikipedia.", "wikipedia.png");
-    dao.saveLink(link);
-    assertThat(link.getId(), not(equalTo(0)));
   }
 }
