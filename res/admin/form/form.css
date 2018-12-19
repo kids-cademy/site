@@ -101,3 +101,7 @@
 .header p {
 	display: none;
 }
+
+.object-form .list-view.related {
+	min-height: 120px;
+}

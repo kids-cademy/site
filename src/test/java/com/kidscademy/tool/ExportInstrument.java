@@ -23,7 +23,7 @@ public class ExportInstrument
   {
     Json json = Classes.loadService(Json.class);
 
-    TransactionFactory factory = new TransactionFactoryImpl();
+    TransactionFactory factory = new TransactionFactoryImpl("import");
     AdminDao dao = factory.newInstance(AdminDaoImpl.class);
 
     ZipOutputStream zip = new ZipOutputStream(new FileOutputStream("d://tmp/instruments.zip"));

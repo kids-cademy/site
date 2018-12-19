@@ -37,15 +37,13 @@ import js.util.Classes;
 
 public class AdminDaoTest
 {
-  private static final String HIBERNATE_CFG = "hibernate.test.cfg.xml";
-
   private static Database database;
   private static TransactionFactory factory;
 
   @BeforeClass
   public static void beforeClass() throws IOException
   {
-    database = new Database(HIBERNATE_CFG);
+    database = new Database("kids_cademy_test", "kids_cademy", "kids_cademy");
     factory = new TransactionFactoryImpl();
   }
 

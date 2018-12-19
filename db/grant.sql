@@ -1,1 +1,0 @@
-GRANT ALL PRIVILEGES ON kids_cademy.* TO kids_cademy@localhost IDENTIFIED BY 'kids_cademy';

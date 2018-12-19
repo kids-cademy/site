@@ -22,15 +22,13 @@
 	"spreading": [
 		{
 			"id": 0,
-			"objectId": null,
 			"name": "Europe",
-			"area": "S"
+			"area": "SOUTH"
 		},
 		{
 			"id": 0,
-			"objectId": null,
 			"name": "Africa",
-			"area": "N"
+			"area": "NORTH"
 		}
 	],
 	"facts": {
@@ -40,7 +38,6 @@
 	"links": [
 		{
 			"id": 0,
-			"objectId": 1,
 			"url": "https://en.wikipedia.org/wiki/AccordionXXX",
 			"name": "Wikipedia-xxx",
 			"description": "Accordion article on wikipedia.",
@@ -48,7 +45,6 @@
 		},
 		{
 			"id": 0,
-			"objectId": 1,
 			"url": "http://en.wikipedia.org:443/wiki/Accordion",
 			"name": "Wikipedia-www",
 			"description": "Accordion article on wikipedia.",

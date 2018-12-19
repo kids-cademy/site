@@ -22,7 +22,7 @@ com.kidscademy.admin.FormPage = function() {
 		AdminService.getInstrument(id, this._onInstrumentLoaded, this);
 	}
 	else {
-		AdminService.getInstrumentByName("bansuri", this._onInstrumentLoaded, this);
+		AdminService.getInstrumentByName("castanets", this._onInstrumentLoaded, this);
 	}
 
 	var buttonsBar = this.getByCssClass("buttons-bar");

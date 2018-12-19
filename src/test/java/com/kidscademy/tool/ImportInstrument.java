@@ -31,7 +31,7 @@ public class ImportInstrument
   {
     Json json = Classes.loadService(Json.class);
 
-    TransactionFactory factory = new TransactionFactoryImpl("import");
+    TransactionFactory factory = new TransactionFactoryImpl();
     AdminDao dao = factory.newInstance(AdminDaoImpl.class);
 
     List<InstrumentObject> objects = new ArrayList<>();

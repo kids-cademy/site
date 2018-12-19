@@ -58,21 +58,21 @@
 		<facts>Fact #1 description.</facts>
 	</atlasobject_facts>
 
-	<link>
+	<atlasobject_links>
 		<id>1</id>
-		<objectId>1</objectId>
+		<atlasobject_id>1</atlasobject_id>
 		<url>https://en.wikipedia.org/wiki/Accordion</url>
 		<name>Wikipedia</name>
 		<description>Wikipedia link.</description>
 		<iconPath>icon.png</iconPath>
-	</link>
+	</atlasobject_links>
 
-	<region>
+	<atlasobject_spreading>
 		<id>1</id>
-		<objectId>1</objectId>
+		<atlasobject_id>1</atlasobject_id>
 		<name>RO</name>
 		<area>1</area>
-	</region>
+	</atlasobject_spreading>
 
 	<atlasobject_related>
 		<atlasobject_id>1</atlasobject_id>
