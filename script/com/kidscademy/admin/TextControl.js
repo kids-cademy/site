@@ -6,12 +6,15 @@ com.kidscademy.admin.TextControl = function(ownerDoc, node) {
 
 com.kidscademy.admin.TextControl.prototype = {
 	setValue : function(text) {
-		this.$super("setValue", text.replace(/<p>/g, "").replace(/<\/p>/g, "\n\n"));
+		this._setValue(text.replace(/<p>/g, "").replace(/<\/p>/g, "\n\n"));
 	},
 
 	getValue : function() {
-		var text = this.$super("getValue").trim();
-		return "<p>" + text.replace(/\n\n/g, "</p><p>") + "</p>";
+		var text = this._getValue();
+		if (!text) {
+			return null;
+		}
+		return "<p>" + text.trim().replace(/\n\n/g, "</p><p>") + "</p>";
 	},
 
 	/**

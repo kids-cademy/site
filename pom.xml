@@ -102,7 +102,7 @@
 						<!-- do not process wood resources on preview profile -->
 						<groupId>com.js-lib</groupId>
 						<artifactId>wood-maven-plugin</artifactId>
-						<version>0.0.1</version>
+						<version>1.0.0</version>
 						<executions>
 							<execution>
 								<phase>none</phase>
@@ -133,6 +133,12 @@
 			<groupId>com.js-lib</groupId>
 			<artifactId>js-javamail</artifactId>
 			<version>1.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.bramp.ffmpeg</groupId>
+			<artifactId>ffmpeg</artifactId>
+			<version>0.6.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -175,7 +181,7 @@
 			<groupId>org.im4java</groupId>
 			<artifactId>im4java</artifactId>
 			<version>1.4.0</version>
-			<scope>test</scope>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

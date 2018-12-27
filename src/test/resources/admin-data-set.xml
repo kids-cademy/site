@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data-set>
+	<user>
+		<id>1</id>
+		<emailAddress>john.doe@email.com</emailAddress>
+		<password>secret</password>
+	</user>
+	
 	<atlasobject>
 		<id>1</id>
 		<dtype>Instrument</dtype>
+		<user_id>1</user_id>
+		<published>1</published>
 		<rank>1234</rank>
 		<name>accordion</name>
 		<display>Accordion</display>
@@ -14,6 +22,8 @@
 	<atlasobject>
 		<id>2</id>
 		<dtype>Bird</dtype>
+		<user_id>1</user_id>
+		<published>1</published>
 		<rank>4321</rank>
 		<name>eagle</name>
 		<display>Eagle</display>
@@ -25,6 +35,8 @@
 	<atlasobject>
 		<id>3</id>
 		<dtype>Instrument</dtype>
+		<user_id>1</user_id>
+		<published>1</published>
 		<rank>1235</rank>
 		<name>bandoneon</name>
 		<display>Bandoneon</display>
@@ -36,6 +48,8 @@
 	<atlasobject>
 		<id>4</id>
 		<dtype>Instrument</dtype>
+		<user_id>1</user_id>
+		<published>1</published>
 		<rank>1236</rank>
 		<name>cimbalom</name>
 		<display>Cimbalom</display>

@@ -1,5 +1,7 @@
 $package("com.kidscademy.page");
 
+$include("com.kidscademy.AdminService");
+
 /**
  * CommunityPage class.
  * 
@@ -24,7 +26,16 @@ com.kidscademy.page.CommunityPage = function() {
 
 com.kidscademy.page.CommunityPage.prototype = {
 	_onLogin : function(ev) {
-		alert('login')
+		if (this._loginForm.isValid()) {
+			AdminService.login(this._loginForm.getObject(), function(login) {
+				if (login) {
+					WinMain.assign("search.htm");
+				}
+				else {
+					this._loginForm.reset();
+				}
+			}, this);
+		}
 	},
 
 	_onJoin : function(ev) {

@@ -74,7 +74,7 @@ input:hover, textarea:hover, select:hover {
 	border-color: @color/control-hover-border;
 }
 
-input.invalid, textarea.invalid, select.invalid {
+input.invalid, textarea.invalid, select.invalid, img.invalid {
 	border-color: @color/control-invalid-border;
 }
 

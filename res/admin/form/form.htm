@@ -8,22 +8,23 @@
 			<div class="content">
 				<div class="container">
 					<div>
-						<label>rank</label> <input name="rank" class="optional" />
+						<label>rank</label> <input name="rank" />
 					</div>
 					<div>
-						<label>name</label> <input name="name" class="optional" />
+						<label>name</label> <input name="name" />
 					</div>
 					<div>
-						<label>display</label> <input name="display" class="optional" />
+						<label>display</label> <input name="display" />
 					</div>
 					<div>
-						<label>aliases</label> <input name="aliases" data-class="com.kidscademy.admin.AliasesControl" />
+						<label>aliases</label> <input name="aliases" class="optional" data-class="com.kidscademy.admin.AliasesControl" />
 					</div>
 					<div>
 						<label>category</label> <select name="category" w:widget="compo/instrument-category-select"></select>
 					</div>
 					<div data-name="date" data-class="com.kidscademy.admin.HDateControl">
 						<label>date</label><input name="value" class="mini" /><select name="format">
+							<option selected="selected"></option>
 							<option value="0">DATE</option>
 							<option value="1">YEAR</option>
 							<option value="2">DECADE</option>
@@ -33,11 +34,13 @@
 							<option value="6">MYA</option>
 							<option value="7">BYA</option>
 						</select> <select name="period">
+							<option selected="selected"></option>
 							<option value="0">FULL</option>
 							<option value="256">BEGINNING</option>
 							<option value="512">MIDDLE</option>
 							<option value="768">END</option>
 						</select> <select name="era">
+							<option selected="selected"></option>
 							<option value="0">CE</option>
 							<option value="65536">BCE</option>
 						</select>
@@ -60,22 +63,34 @@
 			</div>
 		</fieldset>
 
-		<fieldset>
+		<fieldset data-class="com.kidscademy.admin.GraphicAssets">
+			<input name="picture-path" type="hidden" data-class="com.kidscademy.admin.HiddenControl" data-cfg="for:picture-path" /><input name="icon-path" type="hidden" data-class="com.kidscademy.admin.HiddenControl" data-cfg="for:icon-path" /><input name="thumbnail-path" type="hidden" data-class="com.kidscademy.admin.HiddenControl" data-cfg="for:thumbnail-path" />
 			<div class="header container">
 				<h2>Graphic Assets</h2>
 				<p>@string/sample-text</p>
 			</div>
 			<div class="content">
 				<div class="container">
-					<img name="iconPath" class="graphic-asset" data-class="com.kidscademy.admin.ImageControl" /> <img name="thumbnailPath" class="graphic-asset" data-class="com.kidscademy.admin.ImageControl" /> <img name="picturePath" class="graphic-asset" data-class="com.kidscademy.admin.ImageControl" />
-					<div class="actions dev">
-						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="browse" src="@image/action/browse" title="@string/sample-tooltip" /> <img name="undo" src="@image/action/undo" title="@string/sample-tooltip" /> <img name="save" src="@image/action/save" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+					<div class="graphic-assets">
+						<div class="upload">
+							<img id="picture-path" /><input class="picture-file" type="file" title="@string/picture-upload-tip" accept="image/*" />
+						</div>
+						<div class="upload">
+							<img id="icon-path" /><input class="icon-file" type="file" title="@string/icon-upload-tip" accept="image/*" />
+						</div>
+						<div class="upload">
+							<img id="thumbnail-path" /><input class="thumbnail-file" type="file" title="@string/thumbnail-upload-tip" accept="image/*" />
+						</div>
+					</div>
+					<div class="container actions">
+						<img name="create-icon" src="@image/action/create-icon" title="@string/create-icon-tip" />
 					</div>
 				</div>
 			</div>
 		</fieldset>
 
-		<fieldset>
+		<fieldset class="audio-assets" data-class="com.kidscademy.admin.AudioAssets">
+			<input name="sample-path" type="hidden" data-class="com.kidscademy.admin.HiddenControl" data-cfg="for:sample-path" /><input name="waveform-path" type="hidden" />
 			<div class="header container">
 				<h2>Audio Assets</h2>
 				<p>@string/sample-text</p>
@@ -83,10 +98,18 @@
 			<div class="content">
 				<div class="container">
 					<div>
-						<label>sample title</label> <input name="sampleTitle" class="optional" />
+						<label>sample title</label> <input name="sample-title" />
 					</div>
-					<div>
-						<label>sample</label> <input name="samplePath" class="optional" />
+					<div id="sample-path" class="waveform">
+						<img />
+						<div class="progress"></div>
+					</div>
+					<audio></audio>
+					<div class="actions">
+						<div class="upload icon">
+							<img src="@image/action/upload" /><input class="sample-file" type="file" title="@string/audio-upload-tip" accept="audio/*" />
+						</div>
+						<img name="fade-in" src="@image/action/fade-in" title="@string/fade-in-tip" /> <img name="fade-out" src="@image/action/fade-out" title="@string/fade-out-tip" /> <img name="play" src="@image/action/play" title="@string/audio-play-tip" /> <img name="remove" src="@image/action/remove" title="@string/remove-audio-tip" />
 					</div>
 				</div>
 			</div>

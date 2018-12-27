@@ -49,6 +49,10 @@ com.kidscademy.admin.FactsControl.prototype = {
 		return this._facts;
 	},
 
+	isValid : function() {
+		return true;
+	},
+
 	_onAdd : function(ev) {
 		this._showEditor(true);
 		this._termInput.reset();

@@ -208,6 +208,10 @@ body>header .top-menu .no-ads-action a {
 	color: #9930a6;
 }
 
+body>header .top-menu .community-action a {
+	color: #ffff00;
+}
+
 body>header .top-menu a:hover {
 	color: @color/page-header-link-hover;
 }

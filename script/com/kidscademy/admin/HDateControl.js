@@ -28,6 +28,21 @@ com.kidscademy.admin.HDateControl.prototype = {
 		};
 	},
 
+	isValid : function() {
+		var valid = this._valueInput.isValid();
+		valid = this._formatSelect.isValid() && valid;
+		valid = this._periodSelect.isValid() && valid;
+		valid = this._eraSelect.isValid() && valid;
+		return valid;
+	},
+
+	reset : function() {
+		this._valueInput.reset();
+		this._formatSelect.reset();
+		this._periodSelect.reset();
+		this._eraSelect.reset();
+	},
+
 	/**
 	 * Class string representation.
 	 * 

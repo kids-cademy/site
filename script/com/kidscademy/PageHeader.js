@@ -1,5 +1,7 @@
 $package("com.kidscademy");
 
+$include("com.kidscademy.AdminService");
+
 /**
  * PageHeader class.
  * 
@@ -19,6 +21,11 @@ com.kidscademy.PageHeader = function(ownerDoc, node) {
 	this._topMenuButton = this.getByCssClass("top-menu-button");
 	this._topMenuButton.on("click", this._onTopMenuButton, this);
 
+	var communityAction = this.getByCss(".community-action a");
+	if (communityAction) {
+		communityAction.on("click", this._onCommunityAction, this);
+	}
+
 	this._collapsed = true;
 };
 
@@ -32,6 +39,12 @@ com.kidscademy.PageHeader.prototype = {
 		else {
 			this._topMenu.style.set("height", "0");
 		}
+	},
+
+	_onCommunityAction : function(ev) {
+		AdminService.isAuthenticated(function(authenticated) {
+			WinMain.assign(authenticated ? "search.htm" : "community.htm");
+		});
 	},
 
 	/**

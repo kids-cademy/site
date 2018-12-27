@@ -71,6 +71,8 @@ DROP TABLE IF EXISTS `atlasobject`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `atlasobject` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT '1',
   `dtype` varchar(45) NOT NULL,
   `rank` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -80,8 +82,10 @@ CREATE TABLE `atlasobject` (
   `thumbnailPath` varchar(45) NOT NULL,
   `picturePath` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uq_atlasobject_name` (`name`,`dtype`)
-) ENGINE=InnoDB AUTO_INCREMENT=321 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `uq_atlasobject_name` (`name`,`dtype`),
+  KEY `fk_atlasobject_user1_idx` (`user_id`),
+  CONSTRAINT `fk_atlasobject_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=401 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +102,7 @@ CREATE TABLE `atlasobject_aliases` (
   PRIMARY KEY (`id`),
   KEY `fk_alias_atlas_object1_idx` (`atlasobject_id`),
   CONSTRAINT `fk_alias_objec_id` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=351 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=442 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,7 +121,7 @@ CREATE TABLE `atlasobject_facts` (
   UNIQUE KEY `uq_atlasobject_facts_key` (`atlasobject_id`,`facts_key`),
   KEY `id_atlasobject_facts_object_id` (`atlasobject_id`),
   CONSTRAINT `fk_fact_object1` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=304 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +134,7 @@ DROP TABLE IF EXISTS `atlasobject_links`;
 CREATE TABLE `atlasobject_links` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `atlasobject_id` int(11) NOT NULL,
-  `url` varchar(80) NOT NULL,
+  `url` varchar(128) NOT NULL,
   `name` varchar(45) NOT NULL,
   `description` tinytext NOT NULL,
   `iconPath` varchar(45) NOT NULL,
@@ -138,7 +142,7 @@ CREATE TABLE `atlasobject_links` (
   UNIQUE KEY `uq_link_url` (`url`,`atlasobject_id`),
   KEY `idx_link_atlasobject_id` (`atlasobject_id`),
   CONSTRAINT `fk_link_atlasobject_id` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=643 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=814 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,7 +179,7 @@ CREATE TABLE `atlasobject_spreading` (
   UNIQUE KEY `uq_region_area` (`atlasobject_id`,`name`,`area`),
   KEY `idx_region_atlasobject_id` (`atlasobject_id`),
   CONSTRAINT `fk_region_atlasobject_id` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -356,6 +360,7 @@ CREATE TABLE `instrument` (
   `category` tinyint(4) NOT NULL,
   `sampleTitle` varchar(80) NOT NULL,
   `samplePath` varchar(45) NOT NULL,
+  `waveformPath` varchar(45) NOT NULL,
   `date_value` bigint(20) NOT NULL,
   `date_mask` int(11) NOT NULL,
   PRIMARY KEY (`id`),
@@ -447,6 +452,22 @@ CREATE TABLE `search_index` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `emailAddress` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `emailAddress_UNIQUE` (`emailAddress`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Final view structure for view `app_load`
 --
 
@@ -474,4 +495,4 @@ CREATE TABLE `search_index` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-18  4:46:59
+-- Dump completed on 2018-12-25 23:46:52

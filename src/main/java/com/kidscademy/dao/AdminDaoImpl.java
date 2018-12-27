@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.eclipse.persistence.config.CacheUsage;
 import org.eclipse.persistence.config.QueryHints;
@@ -11,6 +12,8 @@ import org.eclipse.persistence.config.QueryHints;
 import com.kidscademy.atlas.Bird;
 import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
+import com.kidscademy.atlas.Login;
+import com.kidscademy.atlas.User;
 
 import js.transaction.Immutable;
 import js.transaction.Transactional;
@@ -23,6 +26,18 @@ public class AdminDaoImpl implements AdminDao
   public AdminDaoImpl(EntityManager em)
   {
     this.em = em;
+  }
+
+  @Override
+  public User getUser(Login login)
+  {
+    String jpql = "select u from User u where u.emailAddress=?1 and u.password=?2";
+    try {
+      return em.createQuery(jpql, User.class).setParameter(1, login.getEmailAddress()).setParameter(2, login.getPassword()).getSingleResult();
+    }
+    catch(NoResultException unused) {
+      return null;
+    }
   }
 
   @Override
@@ -93,5 +108,12 @@ public class AdminDaoImpl implements AdminDao
   {
     String jpql = "select new com.kidscademy.atlas.GraphicObject(i.id,i.name,i.display,i.iconPath) from Instrument i where i.category=:category";
     return em.createQuery(jpql, GraphicObject.class).setParameter("category", category).getResultList();
+  }
+
+  @Override
+  public void updateWaveformPath(String objectName, String waveformPath)
+  {
+    String jpql = "update Instrument i set i.waveformPath=:waveformPath where i.name=:objectName";
+    em.createQuery(jpql).setParameter("waveformPath", waveformPath).setParameter("objectName", objectName).executeUpdate();
   }
 }

@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -18,10 +19,13 @@ public class AtlasObject
 {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  protected Integer id;
-  @SuppressWarnings("unused")
-  private String dtype;
+  protected int id;
+  protected String dtype;
 
+  @ManyToOne
+  protected User user;
+
+  protected boolean published;
   protected int rank;
   protected String name;
   protected String display;
@@ -62,6 +66,16 @@ public class AtlasObject
     return id;
   }
 
+  public boolean isPublished()
+  {
+    return published;
+  }
+
+  public void setPublished(boolean published)
+  {
+    this.published = published;
+  }
+
   public int getRank()
   {
     return rank;
@@ -70,6 +84,16 @@ public class AtlasObject
   public void setRank(int relevanceRank)
   {
     this.rank = relevanceRank;
+  }
+
+  public User getUser()
+  {
+    return user;
+  }
+
+  public void setUser(User user)
+  {
+    this.user = user;
   }
 
   public String getName()
@@ -187,7 +211,7 @@ public class AtlasObject
   {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + id;
     return result;
   }
 
@@ -198,10 +222,7 @@ public class AtlasObject
     if(obj == null) return false;
     if(getClass() != obj.getClass()) return false;
     AtlasObject other = (AtlasObject)obj;
-    if(id == null) {
-      if(other.id != null) return false;
-    }
-    else if(!id.equals(other.id)) return false;
+    if(id != other.id) return false;
     return true;
   }
 

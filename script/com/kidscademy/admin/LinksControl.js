@@ -10,7 +10,7 @@ com.kidscademy.admin.LinksControl = function(ownerDoc, node) {
 
 	this._editor = this.getByCssClass("editor");
 	this._editIndex = -1;
-	
+
 	this._editor.getObject = function(link) {
 		link.url = this.getByName("url").getValue();
 		link.name = this.getByName("name").getValue();
@@ -35,6 +35,12 @@ com.kidscademy.admin.LinksControl = function(ownerDoc, node) {
 };
 
 com.kidscademy.admin.LinksControl.prototype = {
+	bindEvents : function(events) {
+		events.addListener("object-update", function(object) {
+			this._parentObjectId = object.id;
+		}, this);
+	},
+
 	setValue : function(links) {
 		this._links = links;
 		this._updateView();
@@ -43,17 +49,17 @@ com.kidscademy.admin.LinksControl.prototype = {
 	},
 
 	getValue : function() {
-		return this._links;
+		return typeof this._links === "undefined" ? [] : this._links;
 	},
 
-	setParentObject : function(parentObjectId) {
-		this._parentObjectId = parentObjectId;
+	isValid : function() {
+		return true;
 	},
 
 	_onAdd : function() {
 		this._editIndex = -1;
 		this._showEditor(true);
-		
+
 		this._selectedLink = {
 			url : null,
 			name : null,
@@ -81,11 +87,11 @@ com.kidscademy.admin.LinksControl.prototype = {
 			var matches = /http[s]?\:\/\/(?:[^.]+\.)*([^.]+)\.[^/]+.*/g.exec(url);
 			return matches[1];
 		}
-		
+
 		var link = this._editor.getObject(this._selectedLink);
 		link.iconPath = "links/" + basedomain(link.url) + ".png";
-		
-		if(this._editIndex === -1) {
+
+		if (this._editIndex === -1) {
 			// edit index is not set therefore we are in append mode
 			link.id = 0;
 			link.objectId = this._parentObjectId;

@@ -25,7 +25,9 @@ import com.kidscademy.atlas.HDate;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Instrument.Category;
 import com.kidscademy.atlas.Link;
+import com.kidscademy.atlas.Login;
 import com.kidscademy.atlas.Region;
+import com.kidscademy.atlas.User;
 import com.kidscademy.dao.AdminDao;
 import com.kidscademy.dao.AdminDaoImpl;
 
@@ -57,6 +59,19 @@ public class AdminDaoTest
   }
 
   @Test
+  public void getUser()
+  {
+    Login login = new Login("john.doe@email.com", "secret");
+    User user = dao.getUser(login);
+
+    assertThat(user, notNullValue());
+    assertThat(user.getId(), not(equalTo(0)));
+    assertThat(user.getEmailAddress(), equalTo(login.getEmailAddress()));
+    assertThat(user.getName(), equalTo(login.getEmailAddress()));
+    assertThat(user.getPassword(), equalTo(login.getPassword()));
+  }
+
+  @Test
   public void getInstrument() throws MalformedURLException
   {
     Instrument instrument = dao.getInstrument(1);
@@ -79,6 +94,10 @@ public class AdminDaoTest
   {
     assertThat(instrument, notNullValue());
     assertThat(instrument.getId(), equalTo(1));
+    assertThat(instrument.getUser(), notNullValue());
+    assertThat(instrument.getUser().getId(), equalTo(1));
+    assertThat(instrument.getUser().getEmailAddress(), equalTo("john.doe@email.com"));
+    assertThat(instrument.getUser().getPassword(), equalTo("secret"));
     assertThat(instrument.getRank(), equalTo(1234));
     assertThat(instrument.getName(), equalTo("accordion"));
     assertThat(instrument.getName(), equalTo("accordion"));
@@ -145,6 +164,7 @@ public class AdminDaoTest
   public void saveInstrument() throws MalformedURLException
   {
     Instrument instrument = new Instrument();
+    instrument.setUser(new User(1));
     instrument.setRank(9999);
     instrument.setCategory(Instrument.Category.STRINGS);
     instrument.setName("banjo");

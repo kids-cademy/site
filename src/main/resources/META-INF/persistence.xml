@@ -19,6 +19,7 @@
 		<class>com.kidscademy.model.CrashReport</class>
 		<class>com.kidscademy.model.Suggestion</class>
 
+		<class>com.kidscademy.atlas.User</class>
 		<class>com.kidscademy.atlas.AtlasObject</class>
 		<class>com.kidscademy.atlas.Instrument</class>
 		<class>com.kidscademy.atlas.Region</class>
@@ -41,6 +42,7 @@
 		<class>com.kidscademy.model.CrashReport</class>
 		<class>com.kidscademy.model.Suggestion</class>
 
+		<class>com.kidscademy.atlas.User</class>
 		<class>com.kidscademy.atlas.Link</class>
 		<class>com.kidscademy.atlas.AtlasObject</class>
 		<class>com.kidscademy.atlas.Instrument</class>
@@ -69,6 +71,7 @@
 		<class>com.kidscademy.model.CrashReport</class>
 		<class>com.kidscademy.model.Suggestion</class>
 
+		<class>com.kidscademy.atlas.User</class>
 		<class>com.kidscademy.atlas.Link</class>
 		<class>com.kidscademy.atlas.AtlasObject</class>
 		<class>com.kidscademy.atlas.Instrument</class>

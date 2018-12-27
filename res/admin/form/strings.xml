@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <string>
-	<improve-title>help improving @string/site-name</improve-title>
-	<improve-text1>We are committed to deliver high quality apps while being aware of the challenge. We know that without your feedback our goal remains a dream.</improve-text1>
-	<improve-text2>We really need and appreciate your opinion and take seriously every single one. Tell us what is wrong and help keeping green counter high.</improve-text2>
-
-	<not-like>do not like</not-like>
-	<like>do like</like>
-	<level1>disaster</level1>
-	<level2>could be better</level2>
-	<level3>good enough</level3>
-	<level4>almost there</level4>
-	<level5>perfect</level5>
-
-	<reason1>Panoramic fables view is not intuitive and is hard to use.</reason1>
-	<reason2>Overall site design should be improved.</reason2>
-	<reason3>Content should be revised, images or sound quality is poor.</reason3>
-	<reason4>Loading time is too long.</reason4>
-	<other-reason>Other unsatisfactory conditions.</other-reason>
-
-	<suggestion>suggestions to improve @string/site-name</suggestion>
-	<email>optional email address, if want reply</email>
+	<picture-upload-tip>upload object picture</picture-upload-tip>
+	<icon-upload-tip>upload object icon</icon-upload-tip>
+	<thumbnail-upload-tip>upload object thumbnail</thumbnail-upload-tip>
+	<create-icon-tip>create object icon from picture</create-icon-tip>
+	<audio-upload-tip>upload audio sample</audio-upload-tip>
+	<waveform-tip>generate wave form</waveform-tip>
+	<fade-in-tip>fade in</fade-in-tip>
+	<fade-out-tip>fade out</fade-out-tip>
+	<audio-play-tip>play audio sample</audio-play-tip>
+	<remove-audio-tip>remove audio sample</remove-audio-tip>
 </string>

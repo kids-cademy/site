@@ -10,7 +10,8 @@
 	<account>account</account>
 	<blog>blog</blog>
 	<fables>fables</fables>
-	<no-ads>no ads manifest</no-ads>
+	<no-ads>no ads</no-ads>
+	<community>community</community>
 	
 	<heading>become member of @string/logo-type community</heading>
 	<p1>Be a pro-active part of community driven development process.</p1>

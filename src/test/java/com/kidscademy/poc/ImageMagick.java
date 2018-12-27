@@ -34,6 +34,20 @@ public class ImageMagick
   }
 
   @Test
+  public void resizeBestFit() throws Exception
+  {
+    IMOperation op = new IMOperation();
+    op.addImage(new File("fixture/picture_hq.jpg").getAbsolutePath());
+    op.crop(560, 560, 180, 0);
+    op.resize(96, 96);
+    op.quality(80.0);
+    op.addImage(new File("fixture/icon.jpg").getAbsolutePath());
+
+    ConvertCmd cmd = new ConvertCmd();
+    cmd.run(op);
+  }
+
+  @Test
   public void convertToPng8Alpha() throws Exception
   {
     ConvertCmd cmd = new ConvertCmd();

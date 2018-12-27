@@ -25,8 +25,10 @@ com.kidscademy.admin.RelatedControl = function(ownerDoc, node) {
 };
 
 com.kidscademy.admin.RelatedControl.prototype = {
-	setInstrument : function(instrument) {
-		this._instrument = instrument;
+	bindEvents : function(events) {
+		events.addListener("object-update", function(object) {
+			this._instrument = object;
+		}, this);
 	},
 
 	setValue : function(names) {
@@ -41,9 +43,16 @@ com.kidscademy.admin.RelatedControl.prototype = {
 	getValue : function() {
 		var names = [];
 		this._relatedView.getChildren().forEach(function(instrumentView) {
-			names.push(instrumentView.getUserData("value").name);
+			// template item has no id attribute
+			if (instrumentView.getAttr("id") !== null) {
+				names.push(instrumentView.getUserData("value").name);
+			}
 		}, this);
 		return names;
+	},
+
+	isValid : function() {
+		return true;
 	},
 
 	_onEdit : function() {

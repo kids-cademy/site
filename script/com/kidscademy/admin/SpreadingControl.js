@@ -51,6 +51,10 @@ com.kidscademy.admin.SpreadingControl.prototype = {
 		return this._regions;
 	},
 
+	isValid : function() {
+		return true;
+	},
+
 	_onAdd : function(ev) {
 		this._editingRegionIndex = -1;
 		this._showEditor(true);

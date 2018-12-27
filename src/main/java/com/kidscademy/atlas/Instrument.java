@@ -16,6 +16,7 @@ public class Instrument extends AtlasObject implements Serializable
   private Category category;
   private String sampleTitle;
   private String samplePath;
+  private String waveformPath;
 
   @Embedded
   @AttributeOverrides(
@@ -27,6 +28,7 @@ public class Instrument extends AtlasObject implements Serializable
 
   public Instrument()
   {
+    dtype = getClass().getSimpleName();
   }
 
   public Category getCategory()
@@ -57,6 +59,16 @@ public class Instrument extends AtlasObject implements Serializable
   public void setSamplePath(String samplePath)
   {
     this.samplePath = samplePath;
+  }
+
+  public String getWaveformPath()
+  {
+    return waveformPath;
+  }
+
+  public void setWaveformPath(String waveformPath)
+  {
+    this.waveformPath = waveformPath;
   }
 
   public HDate getDate()
