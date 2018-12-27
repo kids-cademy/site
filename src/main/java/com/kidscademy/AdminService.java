@@ -27,6 +27,12 @@ public interface AdminService
 
   List<Instrument> getInstruments();
 
+  /**
+   * Get instrument entity. If ID is zero returns an empty instance.
+   * 
+   * @param instrumentId
+   * @return instrument instance, possible empty or null.
+   */
   Instrument getInstrument(int instrumentId);
 
   Instrument getInstrumentByName(String name);

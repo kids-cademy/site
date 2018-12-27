@@ -6,11 +6,11 @@ com.kidscademy.admin.AudioAssets = function(ownerDoc, node) {
 	this.$super(ownerDoc, node);
 
 	/**
-	 * Parent object name published by <code>object-name-change</code> event.
+	 * Parent form page.
 	 * 
-	 * @type String
+	 * @type com.kidscademy.admin.FormPage
 	 */
-	this._objectName = null;
+	this._formPage = null;
 
 	this._sampleTitleControl = this.getByName("sample-title");
 	this._samplePathControl = this.getByName("sample-path");
@@ -41,28 +41,27 @@ com.kidscademy.admin.AudioAssets = function(ownerDoc, node) {
 };
 
 com.kidscademy.admin.AudioAssets.prototype = {
-	bindEvents : function(events) {
-		events.addListener("object-update", function(object) {
-			this._objectName = object.name;
-			this._updateSamplePath(object.samplePath);
-			this._updateWaveformPath(object.waveformPath);
-		}, this);
+	onCreated : function(formPage) {
+		this._formPage = formPage;
+	},
 
-		events.addListener("object-name-change", function(objectName) {
-			this._objectName = objectName;
-		}, this);
+	onStart : function() {
+		var object = this._formPage.getObject();
+		this._updateSamplePath(object.samplePath);
+		this._updateWaveformPath(object.waveformPath);
 	},
 
 	_onSampleFileSelected : function(ev) {
 		this._waveformGroup.removeCssClass("invalid");
-		if (this._objectName == null) {
+		var object = this._formPage.getObject();
+		if (!object.name) {
 			js.ua.System.alert("Missing object name.");
 			return;
 		}
 		this._waveformImage.reset();
 
 		var data = new FormData();
-		data.append("name", this._objectName);
+		data.append("name", object.name);
 		data.append("file", ev.target._node.files[0]);
 
 		var xhr = new js.net.XHR();
@@ -85,27 +84,34 @@ com.kidscademy.admin.AudioAssets.prototype = {
 	},
 
 	_onPlay : function() {
+		var progress = function() {
+			var percent = this._audioPlayer.currentTime / this._audioPlayer.duration;
+			this._audioPlayerProgress.style.setWidth(this._waveformWidth * percent);
+		}.bind(this);
+
+		var stop = function() {
+			clearInterval(this._timer);
+			this._audioPlayer.pause();
+			this._audioPlayer.currentTime = 0;
+			this._playAction.setSrc("@image/action/play");
+			this._audioPlayerProgress.style.setWidth(0);
+		}.bind(this);
+
 		if (this._audioPlayer.paused) {
 			this._audioPlayer.play();
 			this._playAction.setSrc("@image/action/stop");
 
 			this._timer = setInterval(function() {
-				requestAnimationFrame(function() {
-					var percent = this._audioPlayer.currentTime / this._audioPlayer.duration;
-					this._audioPlayerProgress.style.setWidth(this._waveformWidth * percent);
-					if (percent > 0.98) {
-						this._playAction.setSrc("@image/action/play");
-					}
-				}.bind(this));
+				if (this._audioPlayer.paused) {
+					stop();
+				}
+				else {
+					requestAnimationFrame(progress);
+				}
 			}.bind(this), 20);
 		}
 		else {
-			clearInterval(this._timer);
-
-			this._audioPlayer.pause();
-			this._audioPlayer.currentTime = 0;
-			this._playAction.setSrc("@image/action/play");
-			this._audioPlayerProgress.style.setWidth(0);
+			stop();
 		}
 	},
 
@@ -114,19 +120,27 @@ com.kidscademy.admin.AudioAssets.prototype = {
 	},
 
 	_onMissingWaveform : function(ev) {
-		AdminService.generateWaveform(this._objectName, function(waveformPath) {
+		var object = this._formPage.getObject();
+		if (!object.name) {
+			return;
+		}
+		AdminService.generateWaveform(object.name, function(waveformPath) {
 			this._updateWaveformPath(waveformPath);
 		}, this);
 	},
 
 	_updateSamplePath : function(samplePath) {
-		this._samplePathControl.setValue(samplePath);
-		this._audioPlayer.src = "/repository/" + samplePath;
+		if (samplePath) {
+			this._samplePathControl.setValue(samplePath);
+			this._audioPlayer.src = "/repository/" + samplePath;
+		}
 	},
 
 	_updateWaveformPath : function(waveformPath) {
-		this._waveformPathControl.setValue(waveformPath);
-		this._waveformImage.setSrc("/repository/" + waveformPath);
+		if (waveformPath) {
+			this._waveformPathControl.setValue(waveformPath);
+			this._waveformImage.setSrc("/repository/" + waveformPath);
+		}
 	},
 
 	/**

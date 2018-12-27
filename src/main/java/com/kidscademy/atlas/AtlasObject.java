@@ -30,9 +30,9 @@ public class AtlasObject
   protected String name;
   protected String display;
   protected String description;
+  protected String picturePath;
   protected String iconPath;
   protected String thumbnailPath;
-  protected String picturePath;
 
   @ElementCollection()
   protected List<String> aliases;

@@ -6,6 +6,10 @@ com.kidscademy.admin.TextControl = function(ownerDoc, node) {
 
 com.kidscademy.admin.TextControl.prototype = {
 	setValue : function(text) {
+		if (text == null) {
+			this.reset();
+			return;
+		}
 		this._setValue(text.replace(/<p>/g, "").replace(/<\/p>/g, "\n\n"));
 	},
 

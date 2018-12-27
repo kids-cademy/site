@@ -5,6 +5,13 @@ $include("com.kidscademy.AdminService");
 com.kidscademy.admin.RelatedControl = function(ownerDoc, node) {
 	this.$super(ownerDoc, node);
 
+	/**
+	 * Parent form page.
+	 * 
+	 * @type com.kidscademy.admin.FormPage
+	 */
+	this._formPage = null;
+
 	this._relatedView = this.getByCss(".list-view.related");
 	this._relatedView.on("dragstart", this._onDragStart, this);
 	this._relatedView.on("dragover", this._onDragOver, this);
@@ -25,10 +32,11 @@ com.kidscademy.admin.RelatedControl = function(ownerDoc, node) {
 };
 
 com.kidscademy.admin.RelatedControl.prototype = {
-	bindEvents : function(events) {
-		events.addListener("object-update", function(object) {
-			this._instrument = object;
-		}, this);
+	onCreated : function(formPage) {
+		this._formPage = formPage;
+	},
+
+	onStart : function() {
 	},
 
 	setValue : function(names) {
@@ -57,6 +65,11 @@ com.kidscademy.admin.RelatedControl.prototype = {
 
 	_onEdit : function() {
 		this._closeAction.show();
+		var instrument = this._formPage.getObject();
+		if (!instrument.category) {
+			js.ua.System.alert("Pleae select category.");
+			return;
+		}
 
 		var instruments = [];
 		this._relatedView.getChildren().forEach(function(view) {
@@ -64,11 +77,12 @@ com.kidscademy.admin.RelatedControl.prototype = {
 				id : view.getAttr("id")
 			});
 		}, this);
+
 		instruments.push({
-			id : this._instrument.id
+			id : instrument.id
 		});
 
-		AdminService.getAvailableInstruments(this._instrument.category, instruments, function(collection) {
+		AdminService.getAvailableInstruments(instrument.category, instruments, function(collection) {
 			collection.forEach(function(object) {
 				object.src = "/repository/" + object.iconPath;
 			});

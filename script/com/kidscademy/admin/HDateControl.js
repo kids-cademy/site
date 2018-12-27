@@ -11,6 +11,14 @@ com.kidscademy.admin.HDateControl = function(ownerDoc, node) {
 
 com.kidscademy.admin.HDateControl.prototype = {
 	setValue : function(hdate) {
+		if (hdate == null) {
+			this._valueInput.reset();
+			this._formatSelect.reset();
+			this._periodSelect.reset();
+			this._eraSelect.reset();
+			return;
+		}
+
 		this._valueInput.setValue(hdate.value);
 		this._formatSelect.setValue(hdate.mask & 0x000000FF);
 		this._periodSelect.setValue(hdate.mask & 0x0000FF00);

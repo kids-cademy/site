@@ -5,6 +5,20 @@ $include("com.kidscademy.AdminService");
 com.kidscademy.admin.LinksControl = function(ownerDoc, node) {
 	this.$super(ownerDoc, node);
 
+	/**
+	 * Parent form page.
+	 * 
+	 * @type com.kidscademy.admin.FormPage
+	 */
+	this._formPage = null;
+
+	/**
+	 * Links collection.
+	 * 
+	 * @type Array
+	 */
+	this._links = null;
+
 	this._listView = this.getByCssClass("list-view");
 	this._listView.on("click", this._onListViewClick, this);
 
@@ -35,10 +49,11 @@ com.kidscademy.admin.LinksControl = function(ownerDoc, node) {
 };
 
 com.kidscademy.admin.LinksControl.prototype = {
-	bindEvents : function(events) {
-		events.addListener("object-update", function(object) {
-			this._parentObjectId = object.id;
-		}, this);
+	onCreated : function(formPage) {
+		this._formPage = formPage;
+	},
+
+	onStart : function() {
 	},
 
 	setValue : function(links) {
@@ -94,7 +109,7 @@ com.kidscademy.admin.LinksControl.prototype = {
 		if (this._editIndex === -1) {
 			// edit index is not set therefore we are in append mode
 			link.id = 0;
-			link.objectId = this._parentObjectId;
+			link.objectId = this._formPage.getObject().id;
 			this._links.push(link);
 		}
 		else {

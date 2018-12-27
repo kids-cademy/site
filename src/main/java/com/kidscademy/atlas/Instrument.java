@@ -1,6 +1,7 @@
 package com.kidscademy.atlas;
 
 import java.io.Serializable;
+import java.util.Collections;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -99,5 +100,18 @@ public class Instrument extends AtlasObject implements Serializable
     WOODWIND,
     /** A keyboard instrument is a musical instrument played using a keyboard. */
     KEYBOARD
+  }
+
+  public static Instrument createEmpty(User user)
+  {
+    Instrument instrument = new Instrument();
+    instrument.dtype = Instrument.class.getSimpleName();
+    instrument.user = user;
+    instrument.aliases = Collections.emptyList();
+    instrument.spreading = Collections.emptyList();
+    instrument.facts = Collections.emptyMap();
+    instrument.links = Collections.emptyList();
+    instrument.related = Collections.emptyList();
+    return instrument;
   }
 }

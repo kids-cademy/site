@@ -78,6 +78,10 @@ public class AdminServiceImpl implements AdminService
   @Override
   public Instrument getInstrument(int instrumentId)
   {
+    if(instrumentId == 0) {
+      User user = context.getUserPrincipal();
+      return Instrument.createEmpty(user);
+    }
     return dao.getInstrument(instrumentId);
   }
 
@@ -90,8 +94,6 @@ public class AdminServiceImpl implements AdminService
   @Override
   public int saveInstrument(Instrument instrument)
   {
-    User user = context.getUserPrincipal();
-    instrument.setUser(user);
     dao.saveInstrument(instrument);
     return instrument.getId();
   }
@@ -161,8 +163,6 @@ public class AdminServiceImpl implements AdminService
 
     waveform.save(waveFormFile);
     wavFile.delete();
-
-    dao.updateWaveformPath(objectName, waveformPath);
     return waveformPath;
   }
 

@@ -3,6 +3,11 @@ $package("com.kidscademy.admin");
 com.kidscademy.admin.FactsControl = function(ownerDoc, node) {
 	this.$super(ownerDoc, node);
 
+	/**
+	 * Facts collection.
+	 * 
+	 * @type Object
+	 */
 	this._facts = null;
 
 	this._factsView = this.getByCssClass("facts-view");

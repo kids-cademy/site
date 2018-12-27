@@ -6,11 +6,11 @@ com.kidscademy.admin.GraphicAssets = function(ownerDoc, node) {
 	this.$super(ownerDoc, node);
 
 	/**
-	 * Parent object name published by <code>object-name-change</code> event.
+	 * Parent form page.
 	 * 
-	 * @type String
+	 * @type com.kidscademy.admin.FormPage
 	 */
-	this._objectName = null;
+	this._formPage = null;
 
 	this._pictureControl = this.getByName("picture-path");
 	this._iconControl = this.getByName("icon-path");
@@ -31,22 +31,25 @@ com.kidscademy.admin.GraphicAssets = function(ownerDoc, node) {
 };
 
 com.kidscademy.admin.GraphicAssets.prototype = {
-	bindEvents : function(events) {
-		events.addListener("object-update", function(object) {
-			this._objectName = object.name;
+	onCreated : function(formPage) {
+		this._formPage = formPage;
+	},
 
-			this._pictureControl.setValue(object.picturePath);
-			this._iconControl.setValue(object.iconPath);
-			this._thumbnailControl.setValue(object.thumbnailPath);
+	onStart : function() {
+		var object = this._formPage.getObject();
+		this._pictureControl.setValue(object.picturePath);
+		this._iconControl.setValue(object.iconPath);
+		this._thumbnailControl.setValue(object.thumbnailPath);
 
+		if (object.picturePath) {
 			this._pictureImage.setSrc("/repository/" + object.picturePath);
+		}
+		if (object.iconPath) {
 			this._iconImage.setSrc("/repository/" + object.iconPath);
+		}
+		if (object.thumbnailPath) {
 			this._thumbnailImage.setSrc("/repository/" + object.thumbnailPath);
-		}, this);
-
-		events.addListener("object-name-change", function(objectName) {
-			this._objectName = objectName;
-		}, this);
+		}
 	},
 
 	_onPictureFileSelected : function(ev) {
@@ -74,13 +77,14 @@ com.kidscademy.admin.GraphicAssets.prototype = {
 	},
 
 	_upload : function(input, method, callback) {
-		if (this._objectName == null) {
+		var object = this._formPage.getObject();
+		if (!object.name) {
 			js.ua.System.alert("Missing object name.");
 			return;
 		}
 
 		var data = new FormData();
-		data.append("name", this._objectName);
+		data.append("name", object.name);
 		data.append("file", input._node.files[0]);
 
 		var xhr = new js.net.XHR();
@@ -91,11 +95,12 @@ com.kidscademy.admin.GraphicAssets.prototype = {
 
 	_onCreateIcon : function() {
 		this._iconImage.removeCssClass("invalid");
-		if (this._objectName == null) {
+		var object = this._formPage.getObject();
+		if (!object.name) {
 			js.ua.System.alert("Missing object name.");
 			return;
 		}
-		AdminService.createObjectIcon(this._objectName, function(iconPath) {
+		AdminService.createObjectIcon(object.name, function(iconPath) {
 			this._iconControl.setValue(iconPath);
 			this._iconImage.setSrc("/repository/" + iconPath);
 		}, this);

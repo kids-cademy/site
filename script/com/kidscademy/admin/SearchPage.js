@@ -38,7 +38,7 @@ com.kidscademy.admin.SearchPage.prototype = {
 
 	_onNew : function() {
 		WinMain.assign("form.htm", {
-			"new" : true
+			id : 0
 		});
 	},
 
