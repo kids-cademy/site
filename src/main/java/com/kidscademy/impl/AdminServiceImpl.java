@@ -174,13 +174,10 @@ public class AdminServiceImpl implements AdminService
     File pictureFile = new File(REPOSITORY_DIR, picturePath);
     pictureFile.getParentFile().mkdirs();
 
-    //pictureFile.delete();
-    //form.getUploadedFile("file").getFile().renameTo(pictureFile);
-
     IMOperation op = new IMOperation();
     op.addImage(form.getUploadedFile("file").getFile().getAbsolutePath());
     op.resize(920, 560);
-    op.quality(80.0);
+    op.quality(40.0);
     op.addImage(pictureFile.getAbsolutePath());
 
     ConvertCmd cmd = new ConvertCmd();
@@ -203,14 +200,20 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
-  public String uploadThumbnailFile(Form form) throws IOException
+  public String uploadThumbnailFile(Form form) throws IOException, InterruptedException, IM4JavaException
   {
     String thumbnailPath = Strings.concat("instruments/", form.getValue("name"), "/thumbnail.png");
 
     File thumbnailFile = new File(REPOSITORY_DIR, thumbnailPath);
     thumbnailFile.getParentFile().mkdirs();
-    thumbnailFile.delete();
-    form.getUploadedFile("file").getFile().renameTo(thumbnailFile);
+
+    IMOperation op = new IMOperation();
+    op.addImage(form.getUploadedFile("file").getFile().getAbsolutePath());
+    op.resize(560);
+    op.addImage(thumbnailFile.getAbsolutePath());
+
+    ConvertCmd cmd = new ConvertCmd();
+    cmd.run(op);
 
     return thumbnailPath;
   }

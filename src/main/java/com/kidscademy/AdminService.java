@@ -51,7 +51,7 @@ public interface AdminService
 
   String uploadIconFile(Form form) throws IOException;
 
-  String uploadThumbnailFile(Form form) throws IOException;
+  String uploadThumbnailFile(Form form) throws IOException, InterruptedException, IM4JavaException;
 
   /**
    * Create object icon from picture.
