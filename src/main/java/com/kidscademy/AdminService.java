@@ -47,7 +47,7 @@ public interface AdminService
 
   String generateWaveform(String objectName) throws IOException, UnsupportedAudioFileException;
 
-  String uploadPictureFile(Form form) throws IOException;
+  String uploadPictureFile(Form form) throws IOException, InterruptedException, IM4JavaException;
 
   String uploadIconFile(Form form) throws IOException;
 

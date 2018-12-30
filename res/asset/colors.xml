@@ -23,4 +23,5 @@
 	<border>@color/grey-700</border>
 	<border-accent>@color/blue-100</border-accent>
 	<border-muted>@color/grey-300</border-muted>
+	<border-alert>@color/red-300</border-alert>
 </color>

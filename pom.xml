@@ -183,5 +183,11 @@
 			<version>1.4.0</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.js-lib</groupId>
+			<artifactId>wood</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 </project>

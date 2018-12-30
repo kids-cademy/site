@@ -11,7 +11,9 @@ import com.kidscademy.atlas.User;
 public interface AdminDao
 {
   User getUser(Login login);
-
+  
+  User getUserById(int userId);
+  
   void saveInstrument(Instrument instrument);
 
   Instrument getInstrument(int instrumentId);

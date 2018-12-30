@@ -41,6 +41,12 @@ public class AdminDaoImpl implements AdminDao
   }
 
   @Override
+  public User getUserById(int userId)
+  {
+    return em.find(User.class, userId);
+  }
+
+  @Override
   public void saveInstrument(Instrument instrument)
   {
     if(instrument.getId() == null) {

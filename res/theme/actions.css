@@ -1,0 +1,22 @@
+.actions {
+	margin-top: 40px;
+	padding-top: 10px;
+	border-top: solid 1px @color/border-accent;
+}
+
+.actions img {
+	display: inline-block;
+	width: 48px;
+	margin-right: 20px;
+	border: solid 1px #76be76;
+	opacity: 0.2;
+	cursor: pointer;
+}
+
+.actions img.last {
+	float: right;
+}
+
+.actions img:hover {
+	opacity: 0.6;
+}

@@ -61,50 +61,6 @@
 	min-height: 100px;
 }
 
-.object-form  .actions {
-	margin-top: 40px;
-	padding-top: 10px;
-	border-top: solid 1px @color/border-accent;
-}
-
-.object-form  .actions img {
-	display: inline-block;
-	width: 48px;
-	margin-right: 20px;
-	border: solid 1px #76be76;
-	opacity: 0.2;
-	cursor: pointer;
-}
-
-.object-form  .actions img.last {
-	float: right;
-}
-
-.object-form  .actions img:hover {
-	opacity: 0.6;
-}
-
-.object-form  .actions img[name='add'] {
-	display: inline-block;
-}
-
-.object-form .graphic-assets img {
-	display: inline-block;
-	height: 96px;
-	margin-right: 20px;
-	padding: 1px;
-}
-
-.object-form .graphic-assets img:not([src]) {
-	min-width: 128px;
-	cursor: pointer;
-	border: solid 1px #76be76;
-}
-
-.object-form .graphic-assets img.invalid {
-	border-color: #A00000;
-}
-
 .header p {
 	display: none;
 }
@@ -139,37 +95,4 @@
 	height: 100%;
 	background-color: rgba(255,255,255,0.4);
 	border-right: solid 1px #00b359;
-}
-
-.object-form .upload {
-	position: relative;
-	display: inline-block;
-}
-
-.object-form .upload.icon {
-	width: auto;
-	height: auto;
-	background: 0;
-	border-radius: unset;
-	opacity: 0.2;
-}
-
-.object-form .upload.icon:hover {
-	opacity: 0.6;
-}
-
-.object-form .upload.icon img {
-	opacity: 1;
-}
-
-.object-form .upload input {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	margin: 0;
-	padding: 0;
-	opacity: 0;
-	cursor: pointer;
 }

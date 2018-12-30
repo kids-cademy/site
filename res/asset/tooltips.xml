@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <string>
+	<actual-image-tip>see actual image size</actual-image-tip>
+	<close-editor-tip>close editor</close-editor-tip>
+	<image-upload-tip>select image file from device</image-upload-tip>
 	<picture-upload-tip>upload object picture</picture-upload-tip>
 	<icon-upload-tip>upload object icon</icon-upload-tip>
 	<thumbnail-upload-tip>upload object thumbnail</thumbnail-upload-tip>

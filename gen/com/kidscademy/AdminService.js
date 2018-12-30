@@ -273,6 +273,8 @@ com.kidscademy.AdminService = {
 	 * @param Object scope optional callback run-time scope, default to global scope.
 	 * @return java.lang.String
 	 * @throws java.io.IOException
+	 * @throws java.lang.InterruptedException
+	 * @throws org.im4java.core.IM4JavaException
 	 * @assert callback is a {@link Function} and scope is an {@link Object}.
 	 */
 	 uploadPictureFile: function(form) {

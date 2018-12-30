@@ -63,31 +63,7 @@
 			</div>
 		</fieldset>
 
-		<fieldset data-class="com.kidscademy.admin.GraphicAssets">
-			<input name="picture-path" type="hidden" data-class="com.kidscademy.admin.HiddenControl" data-cfg="for:picture-path" /><input name="icon-path" type="hidden" data-class="com.kidscademy.admin.HiddenControl" data-cfg="for:icon-path" /><input name="thumbnail-path" type="hidden" data-class="com.kidscademy.admin.HiddenControl" data-cfg="for:thumbnail-path" />
-			<div class="header container">
-				<h2>Graphic Assets</h2>
-				<p>@string/sample-text</p>
-			</div>
-			<div class="content">
-				<div class="container">
-					<div class="graphic-assets">
-						<div class="upload">
-							<img id="picture-path" /><input class="picture-file" type="file" title="@string/picture-upload-tip" accept="image/*" />
-						</div>
-						<div class="upload">
-							<img id="icon-path" /><input class="icon-file" type="file" title="@string/icon-upload-tip" accept="image/*" />
-						</div>
-						<div class="upload">
-							<img id="thumbnail-path" /><input class="thumbnail-file" type="file" title="@string/thumbnail-upload-tip" accept="image/*" />
-						</div>
-					</div>
-					<div class="container actions">
-						<img name="create-icon" src="@image/action/create-icon" title="@string/create-icon-tip" />
-					</div>
-				</div>
-			</div>
-		</fieldset>
+		<fieldset w:widget="admin/form/graphic-assets"></fieldset>
 
 		<fieldset class="audio-assets" data-class="com.kidscademy.admin.AudioAssets">
 			<input name="sample-path" type="hidden" data-class="com.kidscademy.admin.HiddenControl" data-cfg="for:sample-path" /><input name="waveform-path" type="hidden" />
@@ -105,7 +81,7 @@
 						<div class="progress"></div>
 					</div>
 					<div class="actions">
-						<div class="upload icon">
+						<div class="upload-icon">
 							<img src="@image/action/upload" /><input class="sample-file" type="file" title="@string/audio-upload-tip" accept="audio/*" />
 						</div>
 						<img name="fade-in" src="@image/action/fade-in" title="@string/fade-in-tip" /> <img name="fade-out" src="@image/action/fade-out" title="@string/fade-out-tip" /> <img name="play" src="@image/action/play" title="@string/audio-play-tip" /> <img name="remove" src="@image/action/remove" title="@string/remove-audio-tip" />

@@ -119,19 +119,6 @@ body>header .logo-type, body>footer .logo-type {
 	color: green;
 }
 
-.container {
-	box-sizing: border-box;
-	max-width: @dimen/container-width;
-	padding: 0 10px;
-	margin: 0 auto;
-}
-
-.container::after {
-	content: "";
-	display: block;
-	clear: both;	
-}
-
 body>section.body {
 	padding-top: @dimen/page-header-height;
 	padding-botton: 20px;

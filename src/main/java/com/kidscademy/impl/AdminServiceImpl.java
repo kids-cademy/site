@@ -167,14 +167,24 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
-  public String uploadPictureFile(Form form) throws IOException
+  public String uploadPictureFile(Form form) throws IOException, InterruptedException, IM4JavaException
   {
     String picturePath = Strings.concat("instruments/", form.getValue("name"), "/picture.jpg");
 
     File pictureFile = new File(REPOSITORY_DIR, picturePath);
     pictureFile.getParentFile().mkdirs();
-    pictureFile.delete();
-    form.getUploadedFile("file").getFile().renameTo(pictureFile);
+
+    //pictureFile.delete();
+    //form.getUploadedFile("file").getFile().renameTo(pictureFile);
+
+    IMOperation op = new IMOperation();
+    op.addImage(form.getUploadedFile("file").getFile().getAbsolutePath());
+    op.resize(920, 560);
+    op.quality(80.0);
+    op.addImage(pictureFile.getAbsolutePath());
+
+    ConvertCmd cmd = new ConvertCmd();
+    cmd.run(op);
 
     return picturePath;
   }
