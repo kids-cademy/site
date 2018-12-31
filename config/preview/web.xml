@@ -8,10 +8,6 @@
 		<param-value>D:/docs/workspaces/kids-cademy/www/site</param-value>
 	</context-param>
 	<context-param>
-		<param-name>NAMING_STRATEGY</param-name>
-		<param-value>XMLNS</param-value>
-	</context-param>
-	<context-param>
 		<param-name>PREVIEW_CALLBACK</param-name>
 		<param-value>com.kidscademy.WoodPreviewCallback</param-value>
 	</context-param>

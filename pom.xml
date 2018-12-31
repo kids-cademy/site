@@ -21,7 +21,7 @@
 			<plugin>
 				<groupId>com.js-lib</groupId>
 				<artifactId>wood-maven-plugin</artifactId>
-				<version>1.0.0</version>
+				<version>1.1.0</version>
 				<executions>
 					<execution>
 						<goals>
@@ -102,7 +102,7 @@
 						<!-- do not process wood resources on preview profile -->
 						<groupId>com.js-lib</groupId>
 						<artifactId>wood-maven-plugin</artifactId>
-						<version>1.0.0</version>
+						<version>1.1.0</version>
 						<executions>
 							<execution>
 								<phase>none</phase>
@@ -186,7 +186,7 @@
 		<dependency>
 			<groupId>com.js-lib</groupId>
 			<artifactId>wood</artifactId>
-			<version>1.0.0</version>
+			<version>1.1.0</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

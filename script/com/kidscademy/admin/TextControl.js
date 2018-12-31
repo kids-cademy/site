@@ -14,7 +14,7 @@ com.kidscademy.admin.TextControl.prototype = {
 	},
 
 	getValue : function() {
-		var text = this._getValue();
+		const text = this._getValue();
 		if (!text) {
 			return null;
 		}

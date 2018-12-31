@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page>
+	<version>1</version>
+	<title>Graphics Assets</title>
+	<description>Graphic assets field set from object form.</description>
+	<scripts>
+		<script>lib/js-lib/js-lib.js</script>
+		<script>script/com/kidscademy/admin/HiddenControl.js</script>
+		<script>script/com/kidscademy/admin/CropMask.js</script>
+		<script>gen/com/kidscademy/AdminService.js</script>
+		<script>script/com/kidscademy/admin/GraphicAssets.js</script>
+	</scripts>
+</page>

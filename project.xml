@@ -8,6 +8,8 @@
 	<locale>en</locale>
 
 	<site-dir>build/site</site-dir>
+	<naming-strategy>XMLNS</naming-strategy>
+	<script-dependency-strategy>DESCRIPTOR</script-dependency-strategy>
 
 	<analytics>UA-69260432-1</analytics>
 	<facebook>394593050887474</facebook>

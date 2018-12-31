@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page>
+	<version>1</version>
+	<title>Object Form</title>
+	<description>Object form page.</description>
+	<scripts>
+		<script>lib/js-lib/js-lib.js</script>
+		<script>gen/com/kidscademy/AdminService.js</script>
+		<script>script/com/kidscademy/page/Page.js</script>
+		<script>script/com/kidscademy/admin/HiddenControl.js</script>
+		<script>script/com/kidscademy/admin/CropMask.js</script>
+		<script>script/com/kidscademy/admin/GraphicAssets.js</script>
+		<script>script/com/kidscademy/admin/AudioAssets.js</script>
+		<script>script/com/kidscademy/admin/RelatedControl.js</script>
+		<script>script/com/kidscademy/admin/LinksControl.js</script>
+		<script>script/com/kidscademy/admin/AliasesControl.js</script>
+		<script>script/com/kidscademy/admin/FactsControl.js</script>
+		<script>script/com/kidscademy/admin/SpreadingControl.js</script>
+		<script>script/com/kidscademy/admin/HDateControl.js</script>
+		<script>script/com/kidscademy/admin/TextControl.js</script>
+		<script>script/com/kidscademy/admin/FormPage.js</script>
+	</scripts>
+</page>

@@ -1,44 +1,44 @@
 $package("com.kidscademy.admin");
 
-com.kidscademy.admin.CropMask = function(ownerDoc, node) {
-	this.$super(ownerDoc, node);
+com.kidscademy.admin.CropMask = class extends js.dom.Element { 
+	constructor(ownerDoc, node) {
+		super(ownerDoc, node);
 
-	this._x = 0;
-	this._y = 0;
-	this._cx = 400;
-	this._cy = 300;
+		this._MOVE = 0;
+		this._RESIZE_W = 1;
+		this._RESIZE_E = 2;
+		this._RESIZE_N = 3;
+		this._RESIZE_S = 4;
 
-	this._moveType = null;
+		this._x = 0;
+		this._y = 0;
+		this._cx = 400;
+		this._cy = 300;
 
-	this._mouseX = 0;
-	this._mouseY = 0;
+		this._moveType = null;
 
-	this._imageWidth = 0;
-	this._imageHeight = 0;
+		this._mouseX = 0;
+		this._mouseY = 0;
 
-	this._xOffsetRect = this.getByCssClass("x-offset");
-	this._yOffsetRect = this.getByCssClass("y-offset");
-	this._cropColumn = this.getByCssClass("crop-column");
-	this._cropRect = this.getByCssClass("crop-rect");
+		this._imageWidth = 0;
+		this._imageHeight = 0;
 
-	this.on("mousedown", this._onMouseDown, this);
+		this._xOffsetRect = this.getByCssClass("x-offset");
+		this._yOffsetRect = this.getByCssClass("y-offset");
+		this._cropColumn = this.getByCssClass("crop-column");
+		this._cropRect = this.getByCssClass("crop-rect");
 
-	/**
-	 * Frame request callback for box rendering while moving.
-	 * 
-	 * @type Function
-	 */
-	this._FRAME_REQUEST_CALLBACK = this._updateSelectArea.bind(this);
-};
+		this.on("mousedown", this._onMouseDown, this);
 
-com.kidscademy.admin.CropMask.prototype = {
-	_MOVE : 0,
-	_RESIZE_W : 1,
-	_RESIZE_E : 2,
-	_RESIZE_N : 3,
-	_RESIZE_S : 4,
+		/**
+		 * Frame request callback for box rendering while moving.
+		 * 
+		 * @type Function
+		 */
+		this._FRAME_REQUEST_CALLBACK = this._updateSelectArea.bind(this);
+	}
 
-	open : function(imageConfig, callback, scope) {
+	open(imageConfig, callback, scope) {
 		this._imageConfig = imageConfig;
 		this._px = this._imageConfig.naturalWidth / this._imageConfig.width;
 		this._py = this._imageConfig.naturalHeight / this._imageConfig.height;
@@ -49,18 +49,18 @@ com.kidscademy.admin.CropMask.prototype = {
 
 		this.show();
 		this._updateSelectArea();
-	},
+	}
 
-	getCropArea : function() {
+	getCropArea() {
 		return {
 			x : this._x * this._px,
 			y : this._y * this._py,
 			cx : this._cx * this._px,
 			cy : this._cy * this._py
 		}
-	},
+	}
 
-	_onMouseDown : function(ev) {
+	_onMouseDown(ev) {
 		ev.halt();
 
 		if (ev.target.hasCssClass("w")) {
@@ -85,9 +85,9 @@ com.kidscademy.admin.CropMask.prototype = {
 		this.addCssClass("moving");
 		this._ownerDoc.on("mousemove", this._onMouseMove, this);
 		this._ownerDoc.on("mouseup", this._onMouseUp, this);
-	},
+	}
 
-	_onMouseMove : function(ev) {
+	_onMouseMove(ev) {
 		ev.halt();
 
 		var dx = ev.pageX - this._mouseX;
@@ -146,20 +146,20 @@ com.kidscademy.admin.CropMask.prototype = {
 		}
 
 		this._requestAnimationFrame();
-	},
+	}
 
-	_onMouseUp : function(ev) {
+	_onMouseUp(ev) {
 		ev.halt();
 		this._ownerDoc.un("mousemove", this._onMouseMove);
 		this._ownerDoc.un("mouseup", this._onMouseUp);
 		this.removeCssClass("moving");
-	},
+	}
 
-	_requestAnimationFrame : function() {
+	_requestAnimationFrame() {
 		return window.requestAnimationFrame(this._FRAME_REQUEST_CALLBACK);
-	},
+	}
 
-	_updateSelectArea : function() {
+	_updateSelectArea() {
 		this._xOffsetRect.style.set("flex-basis", this._x + "px");
 		this._yOffsetRect.style.set("flex-basis", this._y + "px");
 
@@ -172,16 +172,16 @@ com.kidscademy.admin.CropMask.prototype = {
 			width : Math.round(this._cx * this._px),
 			height : Math.round(this._cy * this._py)
 		});
-	},
+	}
 
 	/**
 	 * Class string representation.
 	 * 
 	 * @return this class string representation.
 	 */
-	toString : function() {
+	toString() {
 		return "com.kidscademy.admin.CropMask";
 	}
 };
-$extends(com.kidscademy.admin.CropMask, js.dom.Element);
+
 $preload(com.kidscademy.admin.CropMask);
