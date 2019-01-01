@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page>
+	<version>1</version>
+	<title>Birds Atlas</title>
+	<description>Birds atlas app, on-line version.</description>
+	<scripts>
+		<script>lib/js-lib/js-lib.js</script>
+		<script>script/com/kidscademy/page/Page.js</script>
+	</scripts>
+</page>

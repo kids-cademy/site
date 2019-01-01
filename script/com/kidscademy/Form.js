@@ -4,24 +4,23 @@ $package("com.kidscademy");
  * Form class.
  * 
  * @author Iulian Rotaru
- * @since 1.0
- * 
- * @constructor Construct an instance of Form class.
- * @param js.dom.Document ownerDoc element owner document,
- * @param Node node native {@link Node} instance.
- * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
  */
-com.kidscademy.Form = function(ownerDoc, node) {
-	this.$super(ownerDoc, node);
-	this._textAreaControls = this.findByTag("textarea");
-};
+com.kidscademy.Form = class extends js.dom.Form {
+	/**
+	 * Construct an instance of Form class.
+	 * 
+	 * @param js.dom.Document ownerDoc element owner document,
+	 * @param Node node native {@link Node} instance.
+	 * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
+	 */
+	constructor(ownerDoc, node) {
+		super(ownerDoc, node);
+		this._textAreaControls = this.findByTag("textarea");
+	}
 
-com.kidscademy.Form.prototype = {
-	show : function() {
-		this.$super("show");
-		this._textAreaControls.forEach(function(control) {
-			control.show();
-		}, this);
+	show() {
+		super.show();
+		this._textAreaControls.forEach(control => control.show());
 	},
 
 	/**
@@ -29,8 +28,7 @@ com.kidscademy.Form.prototype = {
 	 * 
 	 * @return this class string representation.
 	 */
-	toString : function() {
+	toString() {
 		return "com.kidscademy.Form";
 	}
 };
-$extends(com.kidscademy.Form, js.dom.Form);

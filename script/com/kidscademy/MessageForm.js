@@ -10,35 +10,35 @@ $package("com.kidscademy");
  * @param Node node native {@link Node} instance.
  * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
  */
-com.kidscademy.MessageForm = function(ownerDoc, node) {
-	this.$super(ownerDoc, node);
+com.kidscademy.MessageForm = class extends com.kidscademy.Form { 
+	constructor(ownerDoc, node) {
+		super(ownerDoc, node);
 
-	/**
-	 * Underlying form.
-	 * 
-	 * @type js.dom.Form
-	 */
-	this._form = this.getByTag("form");
+		/**
+		 * Underlying form.
+		 * 
+		 * @type js.dom.Form
+		 */
+		this._form = this.getByTag("form");
 
-	/**
-	 * Captcha used to verify 'do not like' submit.
-	 * 
-	 * @type com.kidscademy.CheckboxCaptcha
-	 */
-	this._captcha = this.getByClass(com.kidscademy.CheckboxCaptcha);
+		/**
+		 * Captcha used to verify 'do not like' submit.
+		 * 
+		 * @type com.kidscademy.CheckboxCaptcha
+		 */
+		this._captcha = this.getByClass(com.kidscademy.CheckboxCaptcha);
 
-	this._events = this.getCustomEvents();
-	this._events.register("submitted");
-	this._events.register("canceled");
+		this._events = this.getCustomEvents();
+		this._events.register("submitted");
+		this._events.register("canceled");
 
-	this.getByCss(".submit").on("click", this._onSubmit, this);
-	this.getByCss(".cancel").on("click", this._onCancel, this);
-};
+		this.getByCss(".submit").on("click", this._onSubmit, this);
+		this.getByCss(".cancel").on("click", this._onCancel, this);
+	}
 
-com.kidscademy.MessageForm.prototype = {
-	reset : function() {
+	reset() {
 		this._form.reset();
-	},
+	}
 
 	/**
 	 * Get form data and if message present save suggestion to server. Takes care to normalize suggestion message, see
@@ -46,29 +46,29 @@ com.kidscademy.MessageForm.prototype = {
 	 * 
 	 * @param js.event.Event ev mouse click event.
 	 */
-	_onSubmit : function(ev) {
+	_onSubmit(ev) {
 		if (!this._form.isValid()) {
 			return;
 		}
-		var message = this._form.getObject();
-		var text = this._normalize(message.text);
+		const message = this._form.getObject();
+		const text = this._normalize(message.text);
 		if (text) {
-			com.kidscademy.ServiceController.sendDeveloperMessage("com.kidscademy", null, null, text, message.senderEmail, function() {
+			com.kidscademy.ServiceController.sendDeveloperMessage("com.kidscademy", null, null, text, message.senderEmail, () => {
 				this._form.reset();
 				this._events.fire("submitted");
-			}, this);
+			});
 		}
-	},
+	}
 
 	/**
 	 * Cancel form reset both message and email address, if any.
 	 * 
 	 * @param js.event.Event ev mouse click event.
 	 */
-	_onCancel : function(ev) {
+	_onCancel(ev) {
 		this._form.reset();
 		this._events.fire("canceled");
-	},
+	}
 
 	/**
 	 * Convert plain text into HTML formatted text. Current implementation just uses line break as separator for
@@ -77,16 +77,16 @@ com.kidscademy.MessageForm.prototype = {
 	 * @param String plain text.
 	 * @return String HTML formatted text.
 	 */
-	_normalize : function(text) {
-		var html = "";
-		text.split(/\n/g).forEach(function(paragraph) {
+	_normalize(text) {
+		let html = "";
+		text.split(/\n/g).forEach((paragraph) => {
 			paragraph = paragraph.trim();
 			if (paragraph) {
 				html += ("<p>" + paragraph + "</p>");
 			}
 		});
 		return html;
-	},
+	}
 
 	/**
 	 * Class string representation.
@@ -97,5 +97,5 @@ com.kidscademy.MessageForm.prototype = {
 		return "com.kidscademy.MessageForm";
 	}
 };
-$extends(com.kidscademy.MessageForm, com.kidscademy.Form);
+
 $preload(com.kidscademy.MessageForm);

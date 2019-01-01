@@ -102,6 +102,7 @@
 		<category>3</category>
 		<sampleTitle>Sample</sampleTitle>
 		<samplePath>sample.mp3</samplePath>
+		<waveformPath>waveform.png</waveformPath>
 		<date_value>1234567890</date_value>
 		<date_mask>0</date_mask>
 	</instrument>

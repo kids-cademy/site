@@ -11,53 +11,53 @@ $package("com.kidscademy");
  * @param Node node native {@link Node} instance.
  * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
  */
-com.kidscademy.Sharing = function(ownerDoc, node) {
-	this.$super(ownerDoc, node);
+com.kidscademy.Sharing = class extends js.dom.Element { 
+	constructor(ownerDoc, node) {
+		super(ownerDoc, node);
 
-	var image = "@image/facebook-sharing";
+		const image = "@image/facebook-sharing";
 
-	/**
-	 * Immutable site sharing Open Graph object.
-	 * 
-	 * @type Object
-	 */
-	this._siteSharingObject = {
-		url : com.kidscademy.DataSource.getSiteURL(),
-		image : "http://kids-cademy.com/media/asset_facebook-sharing.png",
-		title : "@string/site-name",
-		description : "@string/site-description"
-	};
+		/**
+		 * Immutable site sharing Open Graph object.
+		 * 
+		 * @type Object
+		 */
+		this._siteSharingObject = {
+				url : com.kidscademy.DataSource.getSiteURL(),
+				image : "http://kids-cademy.com/media/asset_facebook-sharing.png",
+				title : "@string/site-name",
+				description : "@string/site-description"
+		};
 
-	/**
-	 * Optional Open Graph object used to share current fable, default to null. If not null used this object to share a
-	 * certain fable instead of entire site.
-	 * 
-	 * @type Object
-	 */
-	this._fableSharingObject = null;
+		/**
+		 * Optional Open Graph object used to share current fable, default to null. If not null used this object to share a
+		 * certain fable instead of entire site.
+		 * 
+		 * @type Object
+		 */
+		this._fableSharingObject = null;
 
-	this.getByCss(".facebook").on("click", this._onFacebook, this);
-	this.getByCss(".twitter").on("click", this._onTwitter, this);
-	this.getByCss(".email").on("click", this._onEmail, this);
+		this.getByCss(".facebook").on("click", this._onFacebook, this);
+		this.getByCss(".twitter").on("click", this._onTwitter, this);
+		this.getByCss(".email").on("click", this._onEmail, this);
 
-	this._events = this.getCustomEvents();
-	this._events.register("sent");
-};
+		this._events = this.getCustomEvents();
+		this._events.register("sent");
+	}
 
-com.kidscademy.Sharing.prototype = {
-	setFable : function(fable) {
+	setFable(fable) {
 		this._fableSharingObject = {
 			url : com.kidscademy.DataSource.getFablePageURL(fable.name),
 			image : com.kidscademy.DataSource.getFablePictureURL(fable.name),
 			title : fable.content[0].title,
 			description : js.util.Strings.toPlainText(fable.content[0].text, 0, 120) + " ... \r\n\r\n" + fable.content[0].moral
 		};
-	},
+	}
 
-	_onFacebook : function(ev) {
+	_onFacebook(ev) {
 		this._events.fire("sent");
 
-		var objectToLike = {
+		const objectToLike = {
 			object : this._getOpenGraphObject()
 		};
 		FB.ui({
@@ -65,19 +65,19 @@ com.kidscademy.Sharing.prototype = {
 			action_type : 'og.shares',
 			action_properties : JSON.stringify(objectToLike)
 		});
-	},
+	}
 
-	_onTwitter : function(ev) {
+	_onTwitter(ev) {
 		this._events.fire("sent");
 
-		var isFable = this._fableSharingObject !== null;
-		var openGraphObject = this._getOpenGraphObject();
-		var text;
+		const isFable = this._fableSharingObject !== null;
+		const openGraphObject = this._getOpenGraphObject();
+		let text;
 		if (isFable) {
-			text = $format("Read \"%s\" on Kids Fables:", openGraphObject.title)
+			text = `Read "${openGraphObject.title}" on Kids Fables:`
 		}
 		else {
-			text = $format("%s. %s", openGraphObject.title, openGraphObject.description);
+			text = `${openGraphObject.title}. ${openGraphObject.description}`;
 		}
 
 		// https://dev.twitter.com/web/tweet-button/web-intent
@@ -92,34 +92,34 @@ com.kidscademy.Sharing.prototype = {
 			menubar : false,
 			toolbar : false
 		});
-	},
+	}
 
-	_onEmail : function(ev) {
+	_onEmail(ev) {
 		this._events.fire("sent");
 
-		var openGraphObject = this._getOpenGraphObject();
+		const openGraphObject = this._getOpenGraphObject();
 		WinMain.assign("mailto:", {
 			// uses the same subject for both site and fable sharing; site sharing title is site name
 			subject : this._siteSharingObject.title,
-			body : $format("%s\r\n\r\n%s", openGraphObject.description, openGraphObject.url)
+			body : `${openGraphObject.description}\r\n\r\n${openGraphObject.url}`
 		});
-	},
+	}
 
-	_getOpenGraphObject : function() {
-		var openGraphObject = this._fableSharingObject !== null ? this._fableSharingObject : this._siteSharingObject;
+	_getOpenGraphObject() {
+		const openGraphObject = this._fableSharingObject !== null ? this._fableSharingObject : this._siteSharingObject;
 		// ensure fable sharing object is used only once
 		this._fableSharingObject = null;
 		return openGraphObject;
-	},
+	}
 
 	/**
 	 * Class string representation.
 	 * 
 	 * @return this class string representation.
 	 */
-	toString : function() {
+	toString() {
 		return "com.kidscademy.Sharing";
 	}
 };
-$extends(com.kidscademy.Sharing, js.dom.Element);
+
 $preload(com.kidscademy.Sharing);

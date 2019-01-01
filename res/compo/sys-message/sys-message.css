@@ -68,4 +68,5 @@
 	width: 90%;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	margin: 0;
 }

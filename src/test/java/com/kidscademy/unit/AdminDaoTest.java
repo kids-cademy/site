@@ -175,6 +175,7 @@ public class AdminDaoTest
     instrument.setPicturePath("picture.jpg");
     instrument.setSampleTitle("Banjo solo");
     instrument.setSamplePath("sample.mp3");
+    instrument.setWaveformPath("waveform.png");
     instrument.setDate(new HDate(1821, HDate.Format.YEAR, HDate.Period.MIDDLE));
 
     List<String> aliases = new ArrayList<String>();
@@ -190,14 +191,18 @@ public class AdminDaoTest
     List<Link> links = new ArrayList<>();
     links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", "Accordion article on wikipedia.", "wikipedia.png"));
     links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", "Accordion article on wikipedia.", "wikipedia.png"));
-    // instrument.setLinks(links);
+    instrument.setLinks(links);
 
     Map<String, String> facts = new HashMap<>();
     facts.put("Banjo Fact #1", "Banjo fact #1 description.");
     facts.put("Banjo Fact #2", "Banjo fact #2 description.");
     instrument.setFacts(facts);
 
-    assertThat(instrument.getId(), not(equalTo(0)));
+    List<String> related = new ArrayList<>();
+    related.add("accordion");
+    instrument.setRelated(related);
+    
+    assertThat(instrument.getId(), equalTo(0));
     dao.saveInstrument(instrument);
     assertThat(instrument.getId(), not(equalTo(0)));
   }

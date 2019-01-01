@@ -1,60 +1,57 @@
 $package("com.kidscademy");
 
-$include("com.kidscademy.AdminService");
-
 /**
  * PageHeader class.
  * 
  * @author Iulian Rotaru
- * @since 1.0
- * 
- * @constructor Construct an instance of PageHeader class.
- * @param js.dom.Document ownerDoc element owner document,
- * @param Node node native {@link Node} instance.
- * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
  */
-com.kidscademy.PageHeader = function(ownerDoc, node) {
-	this.$super(ownerDoc, node);
+com.kidscademy.PageHeader = class extends js.dom.Element { 
+	/**
+	 * Construct an instance of PageHeader class.
+	 * 
+	 * @param js.dom.Document ownerDoc element owner document,
+	 * @param Node node native {@link Node} instance.
+	 * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
+	 */
+	constructor(ownerDoc, node) {
+		super(ownerDoc, node);
 
-	this._topMenu = this.getByCssClass("top-menu");
+		this._topMenu = this.getByCssClass("top-menu");
 
-	this._topMenuButton = this.getByCssClass("top-menu-button");
-	this._topMenuButton.on("click", this._onTopMenuButton, this);
+		this._topMenuButton = this.getByCssClass("top-menu-button");
+		this._topMenuButton.on("click", this._onTopMenuButton, this);
 
-	var communityAction = this.getByCss(".community-action a");
-	if (communityAction) {
-		communityAction.on("click", this._onCommunityAction, this);
+		const communityAction = this.getByCss(".community-action a");
+		if (communityAction) {
+			communityAction.on("click", this._onCommunityAction, this);
+		}
+
+		this._collapsed = true;
 	}
 
-	this._collapsed = true;
-};
-
-com.kidscademy.PageHeader.prototype = {
-	_onTopMenuButton : function(ev) {
+	_onTopMenuButton(ev) {
 		this._collapsed = !this._collapsed;
 		if (!this._collapsed) {
-			var topMenuHeight = this._topMenu.getFirstChild().style.getHeight();
+			const topMenuHeight = this._topMenu.getFirstChild().style.getHeight();
 			this._topMenu.style.set("height", topMenuHeight + "px");
 		}
 		else {
 			this._topMenu.style.set("height", "0");
 		}
-	},
+	}
 
-	_onCommunityAction : function(ev) {
-		AdminService.isAuthenticated(function(authenticated) {
-			WinMain.assign(authenticated ? "search.htm" : "community.htm");
-		});
-	},
+	_onCommunityAction(ev) {
+		AdminService.isAuthenticated((authenticated) => WinMain.assign(authenticated ? "search.htm" : "community.htm"));
+	}
 
 	/**
 	 * Class string representation.
 	 * 
 	 * @return this class string representation.
 	 */
-	toString : function() {
+	toString() {
 		return "com.kidscademy.PageHeader";
 	}
 };
-$extends(com.kidscademy.PageHeader, js.dom.Element);
+
 $preload(com.kidscademy.PageHeader);

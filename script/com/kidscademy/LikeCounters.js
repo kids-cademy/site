@@ -12,96 +12,97 @@ $include("com.kidscademy.ServiceController");
  * @param Node node native {@link Node} instance.
  * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
  */
-com.kidscademy.LikeCounters = function(ownerDoc, node) {
-	this.$super(ownerDoc, node);
+com.kidscademy.LikeCounters = class extends js.dom.Element { 
+	constructor(ownerDoc, node) {
+		super(ownerDoc, node);
 
-	/**
-	 * Counters view.
-	 * 
-	 * @type js.dom.Element
-	 */
-	this._countersView = this.getByCss(".counters");
+		this.SPEED_FACTOR = 20;
 
-	/**
-	 * Bar graph for score percent. On mobile devices this bar graph is not displayed.
-	 * 
-	 * @type js.dom.Element
-	 */
-	this._percentGraphView = this.getByCss(".percent-graph");
-
-	if (this._percentGraphView !== null) {
-		/**
-		 * Percent bar graph width, in pixels.
-		 * 
-		 * @type Number
-		 */
-		this._percentGraphWidth = this.getByCss(".percent-graph").style.getWidth();
 
 		/**
-		 * Pointer view for percent bar graph.
+		 * Counters view.
 		 * 
 		 * @type js.dom.Element
 		 */
-		this._percentGraphPointer = this.getByCss(".percent-graph .pointer");
+		this._countersView = this.getByCss(".counters");
 
 		/**
-		 * Empty percent label view with background color animated by bar graph.
+		 * Bar graph for score percent. On mobile devices this bar graph is not displayed.
 		 * 
 		 * @type js.dom.Element
 		 */
-		this._percentLabel = this.getByCss(".percent .label");
+		this._percentGraphView = this.getByCss(".percent-graph");
+
+		if (this._percentGraphView !== null) {
+			/**
+			 * Percent bar graph width, in pixels.
+			 * 
+			 * @type Number
+			 */
+			this._percentGraphWidth = this.getByCss(".percent-graph").style.getWidth();
+
+			/**
+			 * Pointer view for percent bar graph.
+			 * 
+			 * @type js.dom.Element
+			 */
+			this._percentGraphPointer = this.getByCss(".percent-graph .pointer");
+
+			/**
+			 * Empty percent label view with background color animated by bar graph.
+			 * 
+			 * @type js.dom.Element
+			 */
+			this._percentLabel = this.getByCss(".percent .label");
+
+			/**
+			 * Value view for percent integer part.
+			 * 
+			 * @type js.dom.Element
+			 */
+			this._percentIntegerView = this.getByCss(".percent .integer-part");
+
+			/**
+			 * Value view for percent fractional part.
+			 * 
+			 * @type js.dom.Element
+			 */
+			this._percentFractionalView = this.getByCss(".percent .fractional-part");
+
+			/**
+			 * Animation for percent value and bar graph.
+			 * 
+			 * @type js.fx.Anim
+			 */
+			this._percentAnim = null;
+		}
 
 		/**
-		 * Value view for percent integer part.
+		 * Dislike reasons group contains the form and buttons.
 		 * 
 		 * @type js.dom.Element
 		 */
-		this._percentIntegerView = this.getByCss(".percent .integer-part");
+		this._reasonsViewGroup = this.getByCss(".reasons");
 
 		/**
-		 * Value view for percent fractional part.
+		 * Dislike reasons form.
 		 * 
-		 * @type js.dom.Element
+		 * @type js.dom.Form
 		 */
-		this._percentFractionalView = this.getByCss(".percent .fractional-part");
+		this._reasonsForm = this.getByCss(".reasons form");
 
 		/**
-		 * Animation for percent value and bar graph.
+		 * Captcha used to verify 'do not like' submit.
 		 * 
-		 * @type js.fx.Anim
+		 * @type com.kidscademy.CheckboxCaptcha
 		 */
-		this._percentAnim = null;
+		this._captcha = this.getByClass(com.kidscademy.CheckboxCaptcha);
+
+		this.getByCss(".icon.plus").on("click", this._onLike, this);
+		this.getByCss(".icon.minus").on("click", this._onDislike, this);
+		this.getByCss(".reasons .submit").on("click", this._onReasonsSubmit, this);
+		this.getByCss(".reasons .cancel").on("click", this._onReasonsCancel, this);
 	}
-
-	/**
-	 * Dislike reasons group contains the form and buttons.
-	 * 
-	 * @type js.dom.Element
-	 */
-	this._reasonsViewGroup = this.getByCss(".reasons");
-
-	/**
-	 * Dislike reasons form.
-	 * 
-	 * @type js.dom.Form
-	 */
-	this._reasonsForm = this.getByCss(".reasons form");
-
-	/**
-	 * Captcha used to verify 'do not like' submit.
-	 * 
-	 * @type com.kidscademy.CheckboxCaptcha
-	 */
-	this._captcha = this.getByClass(com.kidscademy.CheckboxCaptcha);
-
-	this.getByCss(".icon.plus").on("click", this._onLike, this);
-	this.getByCss(".icon.minus").on("click", this._onDislike, this);
-	this.getByCss(".reasons .submit").on("click", this._onReasonsSubmit, this);
-	this.getByCss(".reasons .cancel").on("click", this._onReasonsCancel, this);
-};
-
-com.kidscademy.LikeCounters.prototype = {
-	SPEED_FACTOR : 20,
 
 	/**
 	 * Set like / dislike counters value, compute like percent value and start percent bar graph animation.
@@ -117,7 +118,7 @@ com.kidscademy.LikeCounters.prototype = {
 	 * 
 	 * @param Object counters counters value.
 	 */
-	setObject : function(counters) {
+	setObject(counters) {
 		this._countersView.setObject(counters);
 
 		// on mobile there is not percent bra graph
@@ -125,11 +126,11 @@ com.kidscademy.LikeCounters.prototype = {
 			return;
 		}
 
-		var percent = counters.dislikeCount !== 0 ? 100 * counters.likeCount / (counters.likeCount + counters.dislikeCount) : 100;
-		var percentIntegerPart = Math.floor(percent);
-		var percentFractionalPart = Math.ceil(((percent < 1.0) ? percent : (percent % Math.floor(percent))) * 100);
+		const percent = counters.dislikeCount !== 0 ? 100 * counters.likeCount / (counters.likeCount + counters.dislikeCount) : 100;
+		const percentIntegerPart = Math.floor(percent);
+		const percentFractionalPart = Math.ceil(((percent < 1.0) ? percent : (percent % Math.floor(percent))) * 100);
 
-		var anim = new js.fx.Anim({
+		const anim = new js.fx.Anim({
 			el : this._percentGraphPointer,
 			duration : this.SPEED_FACTOR * percent,
 			style : "left",
@@ -141,25 +142,25 @@ com.kidscademy.LikeCounters.prototype = {
 		this._percentIntegerView.setText("00");
 		this._percentFractionalView.setText("00");
 
-		anim.on("anim-render", function(timestamp) {
+		anim.on("anim-render", (timestamp) => {
 			// animation duration and pointer position are both proportional with percent value
 			// so time stamp can be used for both position and percent value inferring
 			this._percentIntegerView.setText(Math.round(timestamp / this.SPEED_FACTOR));
 			this._percentLabel.style.set("background-color", this._getColorByPosition(10 * timestamp / this.SPEED_FACTOR));
-		}, this);
+		});
 
-		anim.on("anim-stop", function(timestamp) {
+		anim.on("anim-stop", (timestamp) => {
 			this._percentIntegerView.setText(percentIntegerPart);
 			this._percentFractionalView.setText(percentFractionalPart);
-		}, this);
+		});
 		anim.start();
-	},
+	}
 
-	_onLike : function(ev) {
+	_onLike(ev) {
 		ServiceController.incrementLikeCounter(this.setObject, this);
-	},
+	}
 
-	_onDislike : function(ev) {
+	_onDislike(ev) {
 		this.findByCss(".checkbox").call("uncheck");
 		this._reasonsViewGroup.show();
 		// WinMain.scrollTo(this._reasonsViewGroup, parseInt("@dimen/page-header-height"));
@@ -167,33 +168,33 @@ com.kidscademy.LikeCounters.prototype = {
 		if (messageView !== null) {
 			WinMain.scrollTo(this._reasonsViewGroup, messageView.style.getPageTop());
 		}
-	},
+	}
 
-	_onReasonsSubmit : function(ev) {
+	_onReasonsSubmit(ev) {
 		if (!this._reasonsForm.isValid()) {
 			return;
 		}
 		this._reasonsViewGroup.hide();
 
-		var reasons = [];
-		this.findByCss("form>.checkbox").forEach(function(checkbox) {
+		const reasons = [];
+		this.findByCss("form>.checkbox").forEach((checkbox) => {
 			if (checkbox.checked()) {
 				reasons.push(checkbox.getValue());
 			}
-		}, this);
+		});
 
-		WinMain.scrollTo(WinMain.doc.getByTag("body"), 0, function() {
+		WinMain.scrollTo(WinMain.doc.getByTag("body"), 0, () => {
 			if (reasons.length > 0) {
 				ServiceController.incrementDislikeCounter(reasons, this.setObject, this);
 			}
-		}, this);
-	},
+		});
+	}
 
-	_onReasonsCancel : function(ev) {
+	_onReasonsCancel(ev) {
 		this._captcha.reset();
 		this._reasonsViewGroup.hide();
 		WinMain.scrollTo(WinMain.doc.getByTag("body"));
-	},
+	}
 
 	/**
 	 * Get color of the percent bar graph at given position. This color is used to animate percent label. This method
@@ -223,10 +224,10 @@ com.kidscademy.LikeCounters.prototype = {
 	 * @param Number position, value between 0 and bar graph width.
 	 * @return String color string in CSS format.
 	 */
-	_getColorByPosition : function(position) {
-		var halfWidth = this._percentGraphWidth / 2;
-		var offset = position % halfWidth;
-		var R, G, B = 0;
+	_getColorByPosition(position) {
+		const halfWidth = this._percentGraphWidth / 2;
+		const offset = position % halfWidth;
+		let R, G, B = 0;
 
 		if (position < halfWidth) {
 			R = 255;
@@ -238,15 +239,14 @@ com.kidscademy.LikeCounters.prototype = {
 		}
 
 		return $format("#%02X%02X%02X", R, G, B);
-	},
+	}
 
 	/**
 	 * Class string representation.
 	 * 
 	 * @return this class string representation.
 	 */
-	toString : function() {
+	toString() {
 		return "com.kidscademy.LikeCounters";
 	}
 };
-$extends(com.kidscademy.LikeCounters, js.dom.Element);

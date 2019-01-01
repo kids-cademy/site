@@ -49,7 +49,7 @@ public class AdminDaoImpl implements AdminDao
   @Override
   public void saveInstrument(Instrument instrument)
   {
-    if(instrument.getId() == null) {
+    if(instrument.getId() == 0) {
       em.persist(instrument);
     }
     else {
