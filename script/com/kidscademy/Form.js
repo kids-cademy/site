@@ -21,7 +21,7 @@ com.kidscademy.Form = class extends js.dom.Form {
 	show() {
 		super.show();
 		this._textAreaControls.forEach(control => control.show());
-	},
+	}
 
 	/**
 	 * Class string representation.

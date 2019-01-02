@@ -4,42 +4,42 @@ $package("com.kidscademy.page");
  * NoAdsManifestPage class.
  * 
  * @author Iulian Rotaru
- * 
- * @constructor Construct an instance of NoAdsManifestPage class.
  */
-com.kidscademy.page.NoAdsManifestPage = function() {
-	this.$super();
+com.kidscademy.page.NoAdsManifestPage = class extends com.kidscademy.page.Page {
+	/**
+	 * Construct an instance of NoAdsManifestPage class.
+	 */
+	constructor() {
+		super();
 
-	this._captcha = this.getByClass(com.kidscademy.CheckboxCaptcha);
+		this._captcha = this.getByClass(com.kidscademy.CheckboxCaptcha);
 
-	this.getByCss("button.agree").on("click", this._onAgree, this);
-	this.getByCss("button.not-agree").on("click", this._onNotAgree, this);
-};
+		this.getByCss("button.agree").on("click", this._onAgree, this);
+		this.getByCss("button.not-agree").on("click", this._onNotAgree, this);
+	}
 
-com.kidscademy.page.NoAdsManifestPage.prototype = {
-	_onAgree : function(ev) {
+	_onAgree(ev) {
 		if (this._captcha.isValid()) {
 			com.kidscademy.ServiceController.agreeNoAdsManifest(null, true, this._onSurveyDone, this);
 		}
-	},
+	}
 
-	_onNotAgree : function(ev) {
+	_onNotAgree(ev) {
 		if (this._captcha.isValid()) {
 			com.kidscademy.ServiceController.agreeNoAdsManifest(null, false, this._onSurveyDone, this);
 		}
-	},
+	}
 
-	_onSurveyDone : function() {
+	_onSurveyDone() {
 		WinMain.assign("@link/index");
-	},
+	}
 
 	/**
 	 * Class string representation.
 	 * 
 	 * @return this class string representation.
 	 */
-	toString : function() {
+	toString() {
 		return "com.kidscademy.page.NoAdsManifestPage";
 	}
 };
-$extends(com.kidscademy.page.NoAdsManifestPage, com.kidscademy.page.Page);

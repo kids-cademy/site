@@ -13,10 +13,10 @@ com.kidscademy.Checkbox = class extends js.dom.Element {
 	 * @param Node node native {@link Node} instance.
 	 * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
 	 */
-    constructor(ownerDoc, node) {
-    	super(ownerDoc, node);
-    	this._checkbox = this.getByCssClass("control").on("click", this._onClick, this);
-    }
+	constructor(ownerDoc, node) {
+		super(ownerDoc, node);
+		this._checkbox = this.getByCssClass("control").on("click", this._onClick, this);
+	}
 
 	/**
 	 * Check this checkbox. After this method execution {@link #checked} returns true.
@@ -54,7 +54,7 @@ com.kidscademy.Checkbox = class extends js.dom.Element {
 	getName() {
 		return this.getAttr("data-name");
 	}
-	
+
 	getValue() {
 		return this.getAttr("data-value");
 	}

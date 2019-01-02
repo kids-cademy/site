@@ -1,6 +1,6 @@
 $package("com.kidscademy.admin");
 
-com.kidscademy.admin.CropMask = class extends js.dom.Element { 
+com.kidscademy.admin.CropMask = class extends js.dom.Element {
 	constructor(ownerDoc, node) {
 		super(ownerDoc, node);
 
@@ -53,10 +53,10 @@ com.kidscademy.admin.CropMask = class extends js.dom.Element {
 
 	getCropArea() {
 		return {
-			x : this._x * this._px,
-			y : this._y * this._py,
-			cx : this._cx * this._px,
-			cy : this._cy * this._py
+			x: this._x * this._px,
+			y: this._y * this._py,
+			cx: this._cx * this._px,
+			cy: this._cy * this._py
 		}
 	}
 
@@ -97,52 +97,52 @@ com.kidscademy.admin.CropMask = class extends js.dom.Element {
 		this._mouseY = ev.pageY;
 
 		switch (this._moveType) {
-		case this._MOVE:
-			this._x = Math.max(this._x + dx, 0);
-			this._y = Math.max(this._y + dy, 0);
-			break;
+			case this._MOVE:
+				this._x = Math.max(this._x + dx, 0);
+				this._y = Math.max(this._y + dy, 0);
+				break;
 
-		case this._RESIZE_W:
-			if (this._x + dx <= 0) {
-				dx = -this._x;
-				this._x = 0;
-			}
-			else {
-				this._x += dx;
-			}
-			this._cx -= dx;
-			if (this._aspectRatio) {
-				this._cy = this._cx / this._aspectRatio;
-			}
-			break;
+			case this._RESIZE_W:
+				if (this._x + dx <= 0) {
+					dx = -this._x;
+					this._x = 0;
+				}
+				else {
+					this._x += dx;
+				}
+				this._cx -= dx;
+				if (this._aspectRatio) {
+					this._cy = this._cx / this._aspectRatio;
+				}
+				break;
 
-		case this._RESIZE_E:
-			this._cx += dx;
-			if (this._aspectRatio) {
-				this._cy = this._cx / this._aspectRatio;
-			}
-			break;
+			case this._RESIZE_E:
+				this._cx += dx;
+				if (this._aspectRatio) {
+					this._cy = this._cx / this._aspectRatio;
+				}
+				break;
 
-		case this._RESIZE_N:
-			if (this._y + dy <= 0) {
-				dy = -this._y;
-				this._y = 0;
-			}
-			else {
-				this._y += dy;
-			}
-			this._cy -= dy;
-			if (this._aspectRatio) {
-				this._cx = this._cy * this._aspectRatio;
-			}
-			break;
+			case this._RESIZE_N:
+				if (this._y + dy <= 0) {
+					dy = -this._y;
+					this._y = 0;
+				}
+				else {
+					this._y += dy;
+				}
+				this._cy -= dy;
+				if (this._aspectRatio) {
+					this._cx = this._cy * this._aspectRatio;
+				}
+				break;
 
-		case this._RESIZE_S:
-			this._cy += dy;
-			if (this._aspectRatio) {
-				this._cx = this._cy * this._aspectRatio;
-			}
-			break;
+			case this._RESIZE_S:
+				this._cy += dy;
+				if (this._aspectRatio) {
+					this._cx = this._cy * this._aspectRatio;
+				}
+				break;
 		}
 
 		this._requestAnimationFrame();
@@ -167,10 +167,10 @@ com.kidscademy.admin.CropMask = class extends js.dom.Element {
 		this._cropRect.style.set("flex-basis", this._cy + "px");
 
 		this._callback.call(this._scope, {
-			left : Math.round(this._x * this._px),
-			top : Math.round(this._y * this._py),
-			width : Math.round(this._cx * this._px),
-			height : Math.round(this._cy * this._py)
+			left: Math.round(this._x * this._px),
+			top: Math.round(this._y * this._py),
+			width: Math.round(this._cx * this._px),
+			height: Math.round(this._cy * this._py)
 		});
 	}
 

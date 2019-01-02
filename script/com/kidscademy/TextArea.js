@@ -5,7 +5,7 @@ $package("com.kidscademy");
  * 
  * @author Iulian Rotaru
  */
-com.kidscademy.TextArea class extends js.dom.Control { 
+com.kidscademy.TextArea = class extends js.dom.Control {
 	/**
 	 * Construct an instance of TextArea class.
 	 * 
@@ -30,7 +30,7 @@ com.kidscademy.TextArea class extends js.dom.Control {
 		super.reset();
 		this._onKeyUp(null);
 	}
-	
+
 	_onKeyUp(ev) {
 		$assert(this.style.isVisible(), "com.kidscademy.TextArea#_onKeyUp", "Attempt to auto-resize on invisible text area.");
 		this.style.setHeight(1);

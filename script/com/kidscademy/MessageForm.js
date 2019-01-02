@@ -4,13 +4,15 @@ $package("com.kidscademy");
  * Suggestion form takes care to save on server normalized suggestion message.
  * 
  * @author Iulian Rotaru
- * 
- * @constructor Construct an instance of MessageForm class.
- * @param js.dom.Document ownerDoc element owner document,
- * @param Node node native {@link Node} instance.
- * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
  */
-com.kidscademy.MessageForm = class extends com.kidscademy.Form { 
+com.kidscademy.MessageForm = class extends com.kidscademy.Form {
+	/**
+	 * Construct an instance of MessageForm class.
+	 * 
+	 * @param js.dom.Document ownerDoc element owner document,
+	 * @param Node node native {@link Node} instance.
+	 * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
+	 */
 	constructor(ownerDoc, node) {
 		super(ownerDoc, node);
 
@@ -93,7 +95,7 @@ com.kidscademy.MessageForm = class extends com.kidscademy.Form {
 	 * 
 	 * @return this class string representation.
 	 */
-	toString : function() {
+	toString() {
 		return "com.kidscademy.MessageForm";
 	}
 };

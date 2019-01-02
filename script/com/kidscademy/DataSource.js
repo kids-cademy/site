@@ -12,53 +12,53 @@ com.kidscademy.DataSource = {
 	 * 
 	 * @type String
 	 */
-	DATA_URL : "http://data.kids-cademy.com/fables/",
+	DATA_URL: "http://data.kids-cademy.com/fables/",
 
-	SITE_URL : "http://kids-cademy.com/",
+	SITE_URL: "http://kids-cademy.com/",
 
-	loadDescriptors : function(callback, scope) {
+	loadDescriptors: function (callback, scope) {
 		var url = this.DATA_URL + "panorama.json";
 		js.lang.JSON.load(url, callback, scope);
 	},
 
-	loadTags : function(callback, scope) {
+	loadTags: function (callback, scope) {
 		var url = this.DATA_URL + "tags.json";
 		js.lang.JSON.load(url, callback, scope);
 	},
 
-	loadFable : function(fableName, callback, scope) {
+	loadFable: function (fableName, callback, scope) {
 		var url = this.DATA_URL + "fables/" + fableName + "/fable_en.json";
-		js.lang.JSON.load(url, function(fable) {
+		js.lang.JSON.load(url, function (fable) {
 			fable.picture = this.DATA_URL + fable.picturePath;
 			callback.call(scope, fable);
 		}, this);
 	},
 
-	loadDevelopers : function(callback, scope) {
+	loadDevelopers: function (callback, scope) {
 		var url = this.DATA_URL + "/developers.json";
-		js.lang.JSON.load(url, function(developers) {
-			developers.forEach(function(developer) {
+		js.lang.JSON.load(url, function (developers) {
+			developers.forEach(function (developer) {
 				developer.picture = this.DATA_URL + developer.picturePath;
 			}, this);
 			callback.call(scope, developers);
 		}, this);
 	},
 
-	getSiteURL : function() {
+	getSiteURL: function () {
 		return this.SITE_URL;
 	},
 
-	getFileURL : function(file) {
+	getFileURL: function (file) {
 		return this.SITE_URL + file;
 	},
 
-	getFablePageURL : function(fableName) {
+	getFablePageURL: function (fableName) {
 		return js.net.URL(this.SITE_URL + "fable.htm", {
-			name : fableName
+			name: fableName
 		})
 	},
 
-	getFablePictureURL : function(fableName) {
+	getFablePictureURL: function (fableName) {
 		return this.DATA_URL + "fables/" + fableName + "/picture.jpg";
 	},
 
@@ -68,19 +68,19 @@ com.kidscademy.DataSource = {
 	 * @param String fableName fable name.
 	 * @return String fable tile URL.
 	 */
-	getFableTileURL : function(fableName) {
+	getFableTileURL: function (fableName) {
 		return this.DATA_URL + "fables/" + fableName + "/tile.jpg";
 	},
 
-	getFableIconURL : function(fableName) {
+	getFableIconURL: function (fableName) {
 		return this.DATA_URL + "fables/" + fableName + "/icon.jpg";
 	},
 
-	getVoiceURL : function(voicePath) {
+	getVoiceURL: function (voicePath) {
 		return voicePath === null ? null : this.DATA_URL + voicePath;
 	},
 
-	getTagIconURL : function(tagIconPath) {
+	getTagIconURL: function (tagIconPath) {
 		return this.DATA_URL + tagIconPath;
 	},
 
@@ -89,7 +89,7 @@ com.kidscademy.DataSource = {
 	 * 
 	 * @return this class string representation.
 	 */
-	toString : function() {
+	toString: function () {
 		return "com.kidscademy.DataSource";
 	}
 };

@@ -1,18 +1,18 @@
 $package("com.kidscademy");
 
-$include("com.kidscademy.ServiceController");
-
 /**
  * Counters for user like / dislike with like percent value and bar graph.
  * 
  * @author Iulian Rotaru
- * 
- * @constructor Construct an instance of LikeCounters class.
- * @param js.dom.Document ownerDoc element owner document,
- * @param Node node native {@link Node} instance.
- * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
  */
-com.kidscademy.LikeCounters = class extends js.dom.Element { 
+com.kidscademy.LikeCounters = class extends js.dom.Element {
+	/**
+	 * Construct an instance of LikeCounters class.
+	 * 
+	 * @param js.dom.Document ownerDoc element owner document,
+	 * @param Node node native {@link Node} instance.
+	 * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
+	 */
 	constructor(ownerDoc, node) {
 		super(ownerDoc, node);
 
@@ -131,12 +131,12 @@ com.kidscademy.LikeCounters = class extends js.dom.Element {
 		const percentFractionalPart = Math.ceil(((percent < 1.0) ? percent : (percent % Math.floor(percent))) * 100);
 
 		const anim = new js.fx.Anim({
-			el : this._percentGraphPointer,
-			duration : this.SPEED_FACTOR * percent,
-			style : "left",
-			from : 0,
-			to : this._percentGraphWidth * percent / 100,
-			ttf : js.fx.TTF.Logarithmic
+			el: this._percentGraphPointer,
+			duration: this.SPEED_FACTOR * percent,
+			style: "left",
+			from: 0,
+			to: this._percentGraphWidth * percent / 100,
+			ttf: js.fx.TTF.Logarithmic
 		});
 
 		this._percentIntegerView.setText("00");

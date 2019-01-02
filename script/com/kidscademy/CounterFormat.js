@@ -16,7 +16,7 @@ com.kidscademy.CounterFormat = class extends js.format.Number {
 		 * @type js.format.NumberFormat
 		 */
 		this._numberFormat = new js.format.NumberFormat();
-		
+
 		this._numberFormat.setGroupingUsed(true);
 		this._numberFormat.setMinimumFractionDigits(0);
 		this._numberFormat.setMaximumFractionDigits(0);

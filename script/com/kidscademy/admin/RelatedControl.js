@@ -1,128 +1,124 @@
 $package("com.kidscademy.admin");
 
-$include("com.kidscademy.AdminService");
+com.kidscademy.admin.RelatedControl = class extends js.dom.Control {
+	constructor(ownerDoc, node) {
+		super(ownerDoc, node);
 
-com.kidscademy.admin.RelatedControl = function(ownerDoc, node) {
-	this.$super(ownerDoc, node);
+		/**
+		 * Parent form page.
+		 * 
+		 * @type com.kidscademy.admin.FormPage
+		 */
+		this._formPage = null;
 
-	/**
-	 * Parent form page.
-	 * 
-	 * @type com.kidscademy.admin.FormPage
-	 */
-	this._formPage = null;
+		this._relatedView = this.getByCss(".list-view.related");
+		this._relatedView.on("dragstart", this._onDragStart, this);
+		this._relatedView.on("dragover", this._onDragOver, this);
+		this._relatedView.on("drop", this._onRelatedViewDrop, this);
 
-	this._relatedView = this.getByCss(".list-view.related");
-	this._relatedView.on("dragstart", this._onDragStart, this);
-	this._relatedView.on("dragover", this._onDragOver, this);
-	this._relatedView.on("drop", this._onRelatedViewDrop, this);
+		this._collectionView = this.getByCss(".list-view.collection");
+		this._collectionView.on("dragstart", this._onDragStart, this);
+		this._collectionView.on("dragover", this._onDragOver, this);
+		this._collectionView.on("drop", this._onCollectionViewDrop, this);
 
-	this._collectionView = this.getByCss(".list-view.collection");
-	this._collectionView.on("dragstart", this._onDragStart, this);
-	this._collectionView.on("dragover", this._onDragOver, this);
-	this._collectionView.on("drop", this._onCollectionViewDrop, this);
+		const actions = this.getByCssClass("actions");
+		this._editAction = actions.getByName("edit");
+		this._closeAction = actions.getByName("close");
 
-	var actions = this.getByCssClass("actions");
-	this._editAction = actions.getByName("edit");
-	this._closeAction = actions.getByName("close");
+		this._editAction.on("click", this._onEdit, this);
+		this._closeAction.on("click", this._onClose, this);
+		this._closeAction.hide();
+	}
 
-	this._editAction.on("click", this._onEdit, this);
-	this._closeAction.on("click", this._onClose, this);
-	this._closeAction.hide();
-};
-
-com.kidscademy.admin.RelatedControl.prototype = {
-	onCreated : function(formPage) {
+	onCreated(formPage) {
 		this._formPage = formPage;
-	},
+	}
 
-	onStart : function() {
-	},
+	onStart() {
+	}
 
-	setValue : function(names) {
-		com.kidscademy.AdminService.getRelatedInstruments(names, function(objects) {
-			objects.forEach(function(object) {
-				object.src = "/repository/" + object.iconPath;
-			});
+	setValue(names) {
+		com.kidscademy.AdminService.getRelatedInstruments(names, (objects) => {
+			objects.forEach((object) => object.src = "/repository/" + object.iconPath);
 			this._relatedView.setObject(objects);
-		}, this);
-	},
+		});
+	}
 
-	getValue : function() {
-		var names = [];
-		this._relatedView.getChildren().forEach(function(instrumentView) {
+	getValue() {
+		const names = [];
+		this._relatedView.getChildren().forEach((instrumentView) => {
 			// template item has no id attribute
 			if (instrumentView.getAttr("id") !== null) {
 				names.push(instrumentView.getUserData("value").name);
 			}
-		}, this);
+		});
 		return names;
-	},
+	}
 
-	isValid : function() {
+	isValid() {
 		return true;
-	},
+	}
 
-	_onEdit : function() {
+	_onEdit() {
 		this._closeAction.show();
-		var instrument = this._formPage.getObject();
+		const instrument = this._formPage.getObject();
 		if (!instrument.category) {
 			js.ua.System.alert("Pleae select category.");
 			return;
 		}
 
-		var instruments = [];
-		this._relatedView.getChildren().forEach(function(view) {
+		const instruments = [];
+		this._relatedView.getChildren().forEach((view) => {
 			instruments.push({
-				id : view.getAttr("id")
+				id: view.getAttr("id")
 			});
-		}, this);
-
-		instruments.push({
-			id : instrument.id
 		});
 
-		AdminService.getAvailableInstruments(instrument.category, instruments, function(collection) {
-			collection.forEach(function(object) {
+		instruments.push({
+			id: instrument.id
+		});
+
+		AdminService.getAvailableInstruments(instrument.category, instruments, (collection) => {
+			collection.forEach(function (object) {
 				object.src = "/repository/" + object.iconPath;
 			});
 			this._collectionView.show();
 			this._collectionView.setObject(collection);
-		}, this);
-	},
+		});
+	}
 
-	_onClose : function() {
+	_onClose() {
 		this._collectionView.hide();
 		this._closeAction.hide();
-	},
+	}
 
-	_onDragStart : function(ev) {
-		var li = ev.target.getParentByTag("li");
+	_onDragStart(ev) {
+		const li = ev.target.getParentByTag("li");
 		ev.setData("index", li.getChildIndex());
-	},
+	}
 
-	_onDragOver : function(ev) {
+	_onDragOver(ev) {
 		ev.prevent();
-	},
+	}
 
-	_onRelatedViewDrop : function(ev) {
+	_onRelatedViewDrop(ev) {
 		ev.prevent();
 		this._relatedView.addChild(this._collectionView.getByIndex(ev.getData("index")));
-	},
+	}
 
-	_onCollectionViewDrop : function(ev) {
+	_onCollectionViewDrop(ev) {
 		ev.prevent();
 		this._collectionView.addChild(this._relatedView.getByIndex(ev.getData("index")));
-	},
+	}
 
 	/**
 	 * Class string representation.
 	 * 
 	 * @return this class string representation.
 	 */
-	toString : function() {
+	toString() {
 		return "com.kidscademy.admin.RelatedControl";
 	}
 };
-$extends(com.kidscademy.admin.RelatedControl, js.dom.Control);
+
 $preload(com.kidscademy.admin.RelatedControl);

@@ -4,14 +4,15 @@ $package("com.kidscademy");
  * Sharing class.
  * 
  * @author Iulian Rotaru
- * @since 1.0
- * 
- * @constructor Construct an instance of Sharing class.
- * @param js.dom.Document ownerDoc element owner document,
- * @param Node node native {@link Node} instance.
- * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
  */
-com.kidscademy.Sharing = class extends js.dom.Element { 
+com.kidscademy.Sharing = class extends js.dom.Element {
+	/**
+	 * Construct an instance of Sharing class.
+	 * 
+	 * @param js.dom.Document ownerDoc element owner document,
+	 * @param Node node native {@link Node} instance.
+	 * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
+	 */
 	constructor(ownerDoc, node) {
 		super(ownerDoc, node);
 
@@ -23,10 +24,10 @@ com.kidscademy.Sharing = class extends js.dom.Element {
 		 * @type Object
 		 */
 		this._siteSharingObject = {
-				url : com.kidscademy.DataSource.getSiteURL(),
-				image : "http://kids-cademy.com/media/asset_facebook-sharing.png",
-				title : "@string/site-name",
-				description : "@string/site-description"
+			url: com.kidscademy.DataSource.getSiteURL(),
+			image: "http://kids-cademy.com/media/asset_facebook-sharing.png",
+			title: "@string/site-name",
+			description: "@string/site-description"
 		};
 
 		/**
@@ -47,10 +48,10 @@ com.kidscademy.Sharing = class extends js.dom.Element {
 
 	setFable(fable) {
 		this._fableSharingObject = {
-			url : com.kidscademy.DataSource.getFablePageURL(fable.name),
-			image : com.kidscademy.DataSource.getFablePictureURL(fable.name),
-			title : fable.content[0].title,
-			description : js.util.Strings.toPlainText(fable.content[0].text, 0, 120) + " ... \r\n\r\n" + fable.content[0].moral
+			url: com.kidscademy.DataSource.getFablePageURL(fable.name),
+			image: com.kidscademy.DataSource.getFablePictureURL(fable.name),
+			title: fable.content[0].title,
+			description: js.util.Strings.toPlainText(fable.content[0].text, 0, 120) + " ... \r\n\r\n" + fable.content[0].moral
 		};
 	}
 
@@ -58,12 +59,12 @@ com.kidscademy.Sharing = class extends js.dom.Element {
 		this._events.fire("sent");
 
 		const objectToLike = {
-			object : this._getOpenGraphObject()
+			object: this._getOpenGraphObject()
 		};
 		FB.ui({
-			method : 'share_open_graph',
-			action_type : 'og.shares',
-			action_properties : JSON.stringify(objectToLike)
+			method: 'share_open_graph',
+			action_type: 'og.shares',
+			action_properties: JSON.stringify(objectToLike)
 		});
 	}
 
@@ -82,16 +83,16 @@ com.kidscademy.Sharing = class extends js.dom.Element {
 
 		// https://dev.twitter.com/web/tweet-button/web-intent
 		WinMain.open("https://twitter.com/intent/tweet", {
-			text : text,
-			url : openGraphObject.url
+			text: text,
+			url: openGraphObject.url
 		}, {
-			top : 200,
-			left : 200,
-			width : 600,
-			height : 400,
-			menubar : false,
-			toolbar : false
-		});
+				top: 200,
+				left: 200,
+				width: 600,
+				height: 400,
+				menubar: false,
+				toolbar: false
+			});
 	}
 
 	_onEmail(ev) {
@@ -100,8 +101,8 @@ com.kidscademy.Sharing = class extends js.dom.Element {
 		const openGraphObject = this._getOpenGraphObject();
 		WinMain.assign("mailto:", {
 			// uses the same subject for both site and fable sharing; site sharing title is site name
-			subject : this._siteSharingObject.title,
-			body : `${openGraphObject.description}\r\n\r\n${openGraphObject.url}`
+			subject: this._siteSharingObject.title,
+			body: `${openGraphObject.description}\r\n\r\n${openGraphObject.url}`
 		});
 	}
 

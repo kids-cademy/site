@@ -17,7 +17,7 @@ com.kidscademy.admin.SearchPage = class extends com.kidscademy.page.Page {
 
 		const actionsBar = this.getByCssClass("actions-bar");
 		actionsBar.on(this, {
-			"&new" : this._onNew
+			"&new": this._onNew
 		});
 		AdminService.getInstruments((instruments) => {
 			instruments.forEach((instrument) => instrument.src = "/repository/" + instrument.iconPath);
@@ -28,13 +28,13 @@ com.kidscademy.admin.SearchPage = class extends com.kidscademy.page.Page {
 	_onClick(ev) {
 		const li = ev.target.getParentByTag("li");
 		WinMain.assign("form.htm", {
-			id : li.getAttr("id")
+			id: li.getAttr("id")
 		});
 	}
 
 	_onNew() {
 		WinMain.assign("form.htm", {
-			id : 0
+			id: 0
 		});
 	}
 

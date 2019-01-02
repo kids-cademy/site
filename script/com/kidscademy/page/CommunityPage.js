@@ -1,62 +1,59 @@
 $package("com.kidscademy.page");
 
-$include("com.kidscademy.AdminService");
-
 /**
  * CommunityPage class.
  * 
  * @author Iulian Rotaru
- * @since 1.0
- * 
- * @constructor Construct an instance of CommunityPage class.
  */
-com.kidscademy.page.CommunityPage = function() {
-	this.$super();
+com.kidscademy.page.CommunityPage = class extends com.kidscademy.page.Page {
+	/**
+	 * Construct an instance of CommunityPage class.
+	 */
+	constructor() {
+		super();
 
-	this._forgotPasswordSection = this.getByCss("section.forgot-password");
+		this._forgotPasswordSection = this.getByCss("section.forgot-password");
 
-	this._loginForm = this.getByCss(".login form");
-	this._joinForm = this._forgotPasswordSection.getByTag("form");
-	this._forgotPasswordForm = this.getByCss(".forgot-password form");
+		this._loginForm = this.getByCss(".login form");
+		this._joinForm = this._forgotPasswordSection.getByTag("form");
+		this._forgotPasswordForm = this.getByCss(".forgot-password form");
 
-	this.getByCss(".login button").on("click", this._onLogin, this);
-	this.getByCss(".join button").on("click", this._onJoin, this);
-	this._forgotPasswordSection.getByTag("button").on("click", this._onForgotPassword, this);
-};
+		this.getByCss(".login button").on("click", this._onLogin, this);
+		this.getByCss(".join button").on("click", this._onJoin, this);
+		this._forgotPasswordSection.getByTag("button").on("click", this._onForgotPassword, this);
+	}
 
-com.kidscademy.page.CommunityPage.prototype = {
-	_onLogin : function(ev) {
+	_onLogin(ev) {
 		if (this._loginForm.isValid()) {
-			AdminService.login(this._loginForm.getObject(), function(login) {
+			AdminService.login(this._loginForm.getObject(), (login) => {
 				if (login) {
 					WinMain.assign("search.htm");
 				}
 				else {
 					this._loginForm.reset();
 				}
-			}, this);
+			});
 		}
-	},
+	}
 
-	_onJoin : function(ev) {
+	_onJoin(ev) {
 		alert('join')
-	},
+	}
 
-	_onForgotPassword : function(ev) {
+	_onForgotPassword(ev) {
 		if (this._forgotPasswordForm.isValid()) {
-			com.kidscademy.SiteController.forgetPassword(this._forgotPasswordForm.getObject().emailAddress, function() {
-				this._forgotPasswordSection.collapse();
-			}, this);
+			com.kidscademy.SiteController.forgetPassword(this._forgotPasswordForm.getObject().emailAddress, () => this._forgotPasswordSection.collapse());
 		}
-	},
+	}
 
 	/**
 	 * Class string representation.
 	 * 
 	 * @return this class string representation.
 	 */
-	toString : function() {
+	toString() {
 		return "com.kidscademy.page.CommunityPage";
 	}
 };
-$extends(com.kidscademy.page.CommunityPage, com.kidscademy.page.Page);
+
+WinMain.setPage(com.kidscademy.page.CommunityPage);

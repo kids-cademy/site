@@ -4,13 +4,15 @@ $package("com.kidscademy");
  * AppFeedback class.
  * 
  * @author Iulian Rotaru
- * 
- * @constructor Construct an instance of AppFeedback class.
- * @param js.dom.Document ownerDoc element owner document,
- * @param Node node native {@link Node} instance.
- * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
  */
 com.kidscademy.AppFeedback = class extends js.dom.Element {
+	/**
+	 * Construct an instance of AppFeedback class.
+	 * 
+	 * @param js.dom.Document ownerDoc element owner document,
+	 * @param Node node native {@link Node} instance.
+	 * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
+	 */
 	constructor(ownerDoc, node) {
 		super(ownerDoc, node);
 
@@ -37,10 +39,10 @@ com.kidscademy.AppFeedback = class extends js.dom.Element {
 	}
 
 	_onSubmit(ev) {
-		if(!this._form.isValid()) {
+		if (!this._form.isValid()) {
 			return;
 		}
-		
+
 		const message = this._form.getObject();
 		const text = com.kidscademy.util.Text.text2html(message.text);
 		if (text) {

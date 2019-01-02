@@ -5,7 +5,7 @@ $package("com.kidscademy");
  * 
  * @author Iulian Rotaru
  */
-com.kidscademy.PageHeader = class extends js.dom.Element { 
+com.kidscademy.PageHeader = class extends js.dom.Element {
 	/**
 	 * Construct an instance of PageHeader class.
 	 * 
