@@ -8,11 +8,10 @@ import javax.persistence.Query;
 
 import com.kidscademy.model.App;
 import com.kidscademy.model.Audit;
-import com.kidscademy.model.Counter;
 import com.kidscademy.model.Counters;
 import com.kidscademy.model.CrashReport;
 import com.kidscademy.model.Device;
-import com.kidscademy.model.DislikeReason;
+import com.kidscademy.model.LikeCounter;
 import com.kidscademy.model.Model;
 import com.kidscademy.model.NoAdsSurvey;
 import com.kidscademy.model.Suggestion;
@@ -31,22 +30,18 @@ public class DaoImpl implements Dao
   }
 
   @Override
-  public void createCounter(Counter counter)
+  public void createCounter(LikeCounter counter)
   {
     em.persist(counter);
-    for(DislikeReason reason : counter.getReasons()) {
-      em.createNativeQuery("INSERT INTO dislike_reason SET counterId=?,value=?").setParameter(1, counter.getId()).setParameter(2, reason.name())
-          .executeUpdate();
-    }
   }
 
   @Override
   @Immutable
   public Counters getCounters()
   {
-    long likeCount = (long)em.createNativeQuery("SELECT COUNT(value) AS likeCount FROM like_counter WHERE value=1").getSingleResult();
-    long dislikeCount = (long)em.createNativeQuery("SELECT COUNT(value) AS dislikeCount FROM like_counter WHERE value=0").getSingleResult();
-    return new Counters((int)likeCount, (int)dislikeCount);
+    Long likeCount = em.createQuery("select count(c.id) from LikeCounter c where c.value=1", Long.class).getSingleResult();
+    Long dislikeCount = em.createQuery("select count(c.id) from LikeCounter c where c.value=0", Long.class).getSingleResult();
+    return new Counters(likeCount.intValue(), dislikeCount.intValue());
   }
 
   @Override

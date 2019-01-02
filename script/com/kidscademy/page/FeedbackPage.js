@@ -13,9 +13,14 @@ com.kidscademy.page.FeedbackPage = class extends com.kidscademy.page.Page {
 		super();
 
 		/**
+		 * Feedback data view. 
+		 * @type js.dom.Element
+		 */
+		this._feedbackView = this.getByCss(".feedback");
+
+		/**
 		 * Suggestions form.
-		 * 
-		 * @type com.kidscademy.page.MessageForm
+		 * @type com.kidscademy.MessageForm
 		 */
 		this._form = this.getByClass(com.kidscademy.MessageForm);
 		this._form.on("submitted", this._loadData, this);
@@ -24,11 +29,7 @@ com.kidscademy.page.FeedbackPage = class extends com.kidscademy.page.Page {
 	}
 
 	_loadData() {
-		com.kidscademy.ServiceController.getFeedbackData(this._onDataLoaded, this);
-	}
-
-	_onDataLoaded(data) {
-		this.getByCss(".feedback").setObject(data);
+		ServiceController.getFeedbackData((data) => this._feedbackView.setObject(data));
 	}
 
 	/**

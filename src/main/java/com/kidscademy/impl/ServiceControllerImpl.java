@@ -5,7 +5,7 @@ import java.util.List;
 import com.kidscademy.ServiceController;
 import com.kidscademy.dao.Dao;
 import com.kidscademy.model.Audit;
-import com.kidscademy.model.Counter;
+import com.kidscademy.model.LikeCounter;
 import com.kidscademy.model.Counters;
 import com.kidscademy.model.CrashReport;
 import com.kidscademy.model.Device;
@@ -107,7 +107,7 @@ public class ServiceControllerImpl implements ServiceController
   public Counters incrementLikeCounter()
   {
     RequestContext context = Factory.getInstance(RequestContext.class);
-    dao.createCounter(new Counter(true, context.getRemoteHost()));
+    dao.createCounter(new LikeCounter(true, context.getRemoteHost()));
     return dao.getCounters();
   }
 
@@ -117,7 +117,7 @@ public class ServiceControllerImpl implements ServiceController
     Params.notNull(reasons, "Dislike reasons list");
 
     RequestContext context = Factory.getInstance(RequestContext.class);
-    dao.createCounter(new Counter(false, reasons, context.getRemoteHost()));
+    dao.createCounter(new LikeCounter(false, context.getRemoteHost(), reasons));
     return dao.getCounters();
   }
 }

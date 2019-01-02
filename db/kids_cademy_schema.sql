@@ -85,7 +85,7 @@ CREATE TABLE `atlasobject` (
   UNIQUE KEY `uq_atlasobject_name` (`name`,`dtype`),
   KEY `fk_atlasobject_user1_idx` (`user_id`),
   CONSTRAINT `fk_atlasobject_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=404 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=401 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +102,7 @@ CREATE TABLE `atlasobject_aliases` (
   PRIMARY KEY (`id`),
   KEY `fk_alias_atlas_object1_idx` (`atlasobject_id`),
   CONSTRAINT `fk_alias_objec_id` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=444 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=442 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +121,7 @@ CREATE TABLE `atlasobject_facts` (
   UNIQUE KEY `uq_atlasobject_facts_key` (`atlasobject_id`,`facts_key`),
   KEY `id_atlasobject_facts_object_id` (`atlasobject_id`),
   CONSTRAINT `fk_fact_object1` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=307 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=304 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +142,7 @@ CREATE TABLE `atlasobject_links` (
   UNIQUE KEY `uq_link_url` (`url`,`atlasobject_id`),
   KEY `idx_link_atlasobject_id` (`atlasobject_id`),
   CONSTRAINT `fk_link_atlasobject_id` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=820 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=814 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,6 +155,7 @@ DROP TABLE IF EXISTS `atlasobject_related`;
 CREATE TABLE `atlasobject_related` (
   `atlasobject_id` int(11) NOT NULL,
   `atlasobject_name` varchar(45) NOT NULL,
+  `relevance` float NOT NULL,
   PRIMARY KEY (`atlasobject_id`,`atlasobject_name`),
   KEY `ix_atlasobject_related_id` (`atlasobject_id`),
   KEY `ix_atlastobject_related_name` (`atlasobject_name`),
@@ -179,7 +180,7 @@ CREATE TABLE `atlasobject_spreading` (
   UNIQUE KEY `uq_region_area` (`atlasobject_id`,`name`,`area`),
   KEY `idx_region_atlasobject_id` (`atlasobject_id`),
   CONSTRAINT `fk_region_atlasobject_id` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -317,23 +318,6 @@ CREATE TABLE `device` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `dislike_reason`
---
-
-DROP TABLE IF EXISTS `dislike_reason`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `dislike_reason` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `counterId` int(11) NOT NULL,
-  `value` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`,`counterId`),
-  KEY `fk_dislike_reason_like_counter_idx` (`counterId`),
-  CONSTRAINT `fk_dislike_reason_like_counter` FOREIGN KEY (`counterId`) REFERENCES `like_counter` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `i18ntext`
 --
 
@@ -382,19 +366,36 @@ CREATE TABLE `keyword` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `like_counter`
+-- Table structure for table `likecounter`
 --
 
-DROP TABLE IF EXISTS `like_counter`;
+DROP TABLE IF EXISTS `likecounter`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `like_counter` (
+CREATE TABLE `likecounter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ip` varchar(45) NOT NULL,
   `value` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `likecounter_reasons`
+--
+
+DROP TABLE IF EXISTS `likecounter_reasons`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `likecounter_reasons` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `likecounter_id` int(11) NOT NULL,
+  `reasons` enum('NOT_INTUITIVE','BAD_DESIGN','BAD_CONTENT','SLOW_LOADING','OTHER') NOT NULL,
+  PRIMARY KEY (`id`,`likecounter_id`),
+  KEY `fk_dislike_reason_like_counter_idx` (`likecounter_id`),
+  CONSTRAINT `fk_dislike_reason_like_counter` FOREIGN KEY (`likecounter_id`) REFERENCES `likecounter` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -495,4 +496,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-01 12:30:59
+-- Dump completed on 2019-01-02 15:51:01

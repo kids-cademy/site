@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.kidscademy.model.App;
 import com.kidscademy.model.Audit;
-import com.kidscademy.model.Counter;
+import com.kidscademy.model.LikeCounter;
 import com.kidscademy.model.Counters;
 import com.kidscademy.model.CrashReport;
 import com.kidscademy.model.Device;
@@ -13,7 +13,7 @@ import com.kidscademy.model.Suggestion;
 
 public interface Dao
 {
-  void createCounter(Counter counter);
+  void createCounter(LikeCounter counter);
 
   Counters getCounters();
 

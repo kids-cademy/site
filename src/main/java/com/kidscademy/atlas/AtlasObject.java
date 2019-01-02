@@ -34,17 +34,17 @@ public class AtlasObject
   protected String iconPath;
   protected String thumbnailPath;
 
-  @ElementCollection()
+  @ElementCollection
   protected List<String> aliases;
 
   /** Optional object spreading, empty list if not applicable. */
-  @ElementCollection()
+  @ElementCollection
   protected List<Region> spreading;
 
   @ElementCollection
   protected Map<String, String> facts;
 
-  @ElementCollection()
+  @ElementCollection
   protected List<Link> links;
 
   @ElementCollection

@@ -32,6 +32,7 @@ a[href='community.htm'] {
 }
 
 .collapsible .head .expand-icon {
+	float: right;
 	height: 32px;
 	vertical-align: middle;
 	margin-left: 40px;

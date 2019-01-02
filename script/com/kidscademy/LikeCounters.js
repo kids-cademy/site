@@ -250,3 +250,5 @@ com.kidscademy.LikeCounters = class extends js.dom.Element {
 		return "com.kidscademy.LikeCounters";
 	}
 };
+
+$preload(com.kidscademy.LikeCounters);

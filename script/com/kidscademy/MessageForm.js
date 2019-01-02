@@ -55,7 +55,7 @@ com.kidscademy.MessageForm = class extends com.kidscademy.Form {
 		const message = this._form.getObject();
 		const text = this._normalize(message.text);
 		if (text) {
-			com.kidscademy.ServiceController.sendDeveloperMessage("com.kidscademy", null, null, text, message.senderEmail, () => {
+			ServiceController.sendDeveloperMessage("com.kidscademy", null, null, text, message.senderEmail, () => {
 				this._form.reset();
 				this._events.fire("submitted");
 			});
@@ -80,11 +80,11 @@ com.kidscademy.MessageForm = class extends com.kidscademy.Form {
 	 * @return String HTML formatted text.
 	 */
 	_normalize(text) {
-		let html = "";
+		var html = "";
 		text.split(/\n/g).forEach((paragraph) => {
 			paragraph = paragraph.trim();
 			if (paragraph) {
-				html += ("<p>" + paragraph + "</p>");
+				html += (`<p>${paragraph}</p>`);
 			}
 		});
 		return html;

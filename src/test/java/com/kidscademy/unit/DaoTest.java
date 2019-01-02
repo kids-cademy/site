@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -18,8 +19,11 @@ import com.kidscademy.dao.Dao;
 import com.kidscademy.dao.DaoImpl;
 import com.kidscademy.model.App;
 import com.kidscademy.model.Audit;
+import com.kidscademy.model.Counters;
 import com.kidscademy.model.CrashReport;
 import com.kidscademy.model.Device;
+import com.kidscademy.model.DislikeReason;
+import com.kidscademy.model.LikeCounter;
 import com.kidscademy.model.Model;
 import com.kidscademy.model.NoAdsSurvey;
 import com.kidscademy.model.Suggestion;
@@ -139,5 +143,34 @@ public class DaoTest
     device.setModel(model);
     device.setSerial("qwertyuiop");
     return dao.getDevice(device);
+  }
+
+  @Test
+  public void getCounters()
+  {
+    Counters counters = dao.getCounters();
+    assertThat(counters, notNullValue());
+    assertThat(counters.getLikeCount(), equalTo(1));
+    assertThat(counters.getDislikeCount(), equalTo(1));
+  }
+
+  @Test
+  public void createCounter_Like()
+  {
+    LikeCounter counter = new LikeCounter(true, "192.168.1.3");
+
+    assertThat(counter.getId(), equalTo(0));
+    dao.createCounter(counter);
+    assertThat(counter.getId(), not(equalTo(0)));
+  }
+
+  @Test
+  public void createCounter_Dislike()
+  {
+    LikeCounter counter = new LikeCounter(true, "192.168.1.3", Arrays.asList(DislikeReason.NOT_INTUITIVE));
+
+    assertThat(counter.getId(), equalTo(0));
+    dao.createCounter(counter);
+    assertThat(counter.getId(), not(equalTo(0)));
   }
 }

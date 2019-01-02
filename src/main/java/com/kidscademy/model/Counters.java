@@ -1,14 +1,23 @@
 package com.kidscademy.model;
 
-@SuppressWarnings("unused")
 public class Counters
 {
-  private int likeCount;
-  private int dislikeCount;
+  private final int likeCount;
+  private final int dislikeCount;
 
   public Counters(int likeCount, int dislikeCount)
   {
     this.likeCount = likeCount;
     this.dislikeCount = dislikeCount;
+  }
+
+  public int getLikeCount()
+  {
+    return likeCount;
+  }
+
+  public int getDislikeCount()
+  {
+    return dislikeCount;
   }
 }

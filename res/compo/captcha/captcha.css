@@ -84,17 +84,13 @@
 
 .compo.captcha .actions {
 	margin-top: 4px;
+	border: 0;
 }
 
 .compo.captcha .actions img {
 	width: 32px;
 	margin-right: 10px;
-	opacity: 0.2;
-	cursor: pointer;
-}
-
-.compo.captcha .actions img:hover {
-	opacity: 0.4;
+	border: 0;
 }
 
 .compo.captcha .control.checked {

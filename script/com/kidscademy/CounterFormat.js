@@ -10,6 +10,8 @@ com.kidscademy.CounterFormat = class extends js.format.Number {
 	 * Construct an CounterFormat instance.
 	 */
 	constructor() {
+		super();
+		
 		/**
 		 * Number format used internally to render numeric values.
 		 * 
