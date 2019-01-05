@@ -22,6 +22,8 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this.getByCssClass("sample-file").on("change", this._onSampleFileSelected, this);
 
 		this._audioPlayer = new Audio();
+		// using timeupdate event for progress has slow update rate, that is, not smooth animation
+		// current implementation uses setPeriod; next commented line of code is just a reminder
 		// this._audioPlayer.addEventListener("timeupdate", this._onAudioPlayerProgress.bind(this));
 
 		this._playAction = this.getByName("play");
@@ -39,7 +41,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		});
 	}
 
-	onCreated(formPage) {
+	onCreate(formPage) {
 		this._formPage = formPage;
 	}
 
@@ -126,6 +128,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 	}
 
 	_updateSamplePath(samplePath) {
+		this._samplePathControl.reset();
 		if (samplePath) {
 			this._samplePathControl.setValue(samplePath);
 			this._audioPlayer.src = "/repository/" + samplePath;
@@ -133,6 +136,8 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 	}
 
 	_updateWaveformPath(waveformPath) {
+		this._waveformPathControl.reset();
+		this._waveformImage.reset();
 		if (waveformPath) {
 			this._waveformPathControl.setValue(waveformPath);
 			this._waveformImage.setSrc("/repository/" + waveformPath);

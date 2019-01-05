@@ -154,13 +154,13 @@ DROP TABLE IF EXISTS `atlasobject_related`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `atlasobject_related` (
   `atlasobject_id` int(11) NOT NULL,
-  `atlasobject_name` varchar(45) NOT NULL,
+  `name` varchar(45) NOT NULL,
   `relevance` float NOT NULL,
-  PRIMARY KEY (`atlasobject_id`,`atlasobject_name`),
+  PRIMARY KEY (`atlasobject_id`,`name`),
   KEY `ix_atlasobject_related_id` (`atlasobject_id`),
-  KEY `ix_atlastobject_related_name` (`atlasobject_name`),
-  CONSTRAINT `fk_atlasobject_related_id` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_atlastobject_related_name` FOREIGN KEY (`atlasobject_name`) REFERENCES `atlasobject` (`name`) ON DELETE CASCADE
+  KEY `ix_atlastobject_related_name` (`name`),
+  CONSTRAINT `fk_atlastobject_related_name` FOREIGN KEY (`name`) REFERENCES `atlasobject` (`name`) ON DELETE CASCADE,
+  CONSTRAINT `fk_atlasobject_related_id` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -378,7 +378,7 @@ CREATE TABLE `likecounter` (
   `ip` varchar(45) NOT NULL,
   `value` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -395,7 +395,7 @@ CREATE TABLE `likecounter_reasons` (
   PRIMARY KEY (`id`,`likecounter_id`),
   KEY `fk_dislike_reason_like_counter_idx` (`likecounter_id`),
   CONSTRAINT `fk_dislike_reason_like_counter` FOREIGN KEY (`likecounter_id`) REFERENCES `likecounter` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -496,4 +496,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-02 15:51:01
+-- Dump completed on 2019-01-03  6:48:46

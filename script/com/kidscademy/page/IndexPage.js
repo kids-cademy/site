@@ -38,4 +38,4 @@ com.kidscademy.page.IndexPage = class extends com.kidscademy.page.Page {
 	}
 };
 
-WinMain.setPage(com.kidscademy.page.IndexPage);
+WinMain.createPage(com.kidscademy.page.IndexPage);

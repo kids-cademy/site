@@ -90,7 +90,7 @@ public class ImportInstrument
       for(int relatedIndex : object.related) {
         related.add(objects.get(relatedIndex).name);
       }
-      instrument.setRelated(related);
+      //instrument.setRelated(related);
 
       dao.saveInstrument(instrument);
     }

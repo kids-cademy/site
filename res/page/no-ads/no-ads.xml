@@ -2,4 +2,9 @@
 <page>
 	<title>No-Ads Manifesto</title>
 	<description>Manifesto about ads usage.</description>
+	<scripts>
+		<script>lib/js-lib/js-lib.js</script>
+		<script>gen/com/kidscademy/ServiceController.js</script>
+		<script>script/com/kidscademy/page/NoAdsManifestoPage.js</script>
+	</scripts>
 </page>

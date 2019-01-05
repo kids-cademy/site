@@ -43,7 +43,7 @@ com.kidscademy.admin.GraphicAssets = class extends js.dom.Element {
 		});
 	}
 
-	onCreated(formPage) {
+	onCreate(formPage) {
 		this._formPage = formPage;
 	}
 

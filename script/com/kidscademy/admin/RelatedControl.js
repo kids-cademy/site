@@ -30,14 +30,15 @@ com.kidscademy.admin.RelatedControl = class extends js.dom.Control {
 		this._closeAction.hide();
 	}
 
-	onCreated(formPage) {
+	onCreate(formPage) {
 		this._formPage = formPage;
 	}
 
 	onStart() {
 	}
 
-	setValue(names) {
+	setValue(related) {
+		const names = related.map(object => object.name);
 		com.kidscademy.AdminService.getRelatedInstruments(names, (objects) => {
 			objects.forEach((object) => object.src = "/repository/" + object.iconPath);
 			this._relatedView.setObject(objects);
@@ -45,14 +46,14 @@ com.kidscademy.admin.RelatedControl = class extends js.dom.Control {
 	}
 
 	getValue() {
-		const names = [];
-		this._relatedView.getChildren().forEach((instrumentView) => {
+		const related = [];
+		this._relatedView.getChildren().forEach(instrumentView => {
 			// template item has no id attribute
 			if (instrumentView.getAttr("id") !== null) {
-				names.push(instrumentView.getUserData("value").name);
+				related.push({ name: instrumentView.getUserData("value").name });
 			}
 		});
-		return names;
+		return related;
 	}
 
 	isValid() {

@@ -19,13 +19,13 @@ ol li {
 	color: #378629;
 }
 
-.list-inline {
+.list-inline, ul.inline, ol.inline {
 	padding-left: 0;
 	margin-left: -5px;
 	list-style: none;
 }
 
-.list-inline>li {
+.list-inline>li, .inline>li {
 	display: inline-block;
 	padding-right: 5px;
 	padding-left: 5px;

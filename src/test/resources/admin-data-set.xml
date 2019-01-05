@@ -90,11 +90,13 @@
 
 	<atlasobject_related>
 		<atlasobject_id>1</atlasobject_id>
-		<atlasobject_name>bandoneon</atlasobject_name>
+		<name>bandoneon</name>
+		<relevance>0</relevance>
 	</atlasobject_related>
 	<atlasobject_related>
 		<atlasobject_id>1</atlasobject_id>
-		<atlasobject_name>cimbalom</atlasobject_name>
+		<name>cimbalom</name>
+		<relevance>0</relevance>
 	</atlasobject_related>
 
 	<instrument>

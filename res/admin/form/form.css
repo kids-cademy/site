@@ -1,11 +1,96 @@
 .object-form {
-	
 }
 
-.object-form .caption {
-	background-color: #cdf3f6;
-	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
-	border-bottom: solid 1px #C4E0E0;
+.object-form .form {
+	width: 100%;
+}
+
+.object-form.side-menu {
+}
+
+.object-form.side-menu .developers {
+	padding: 10px 0;
+	border-bottom: solid 1px @color/border-muted;
+}
+
+.object-form.side-menu .developers img {
+	width: 64px;
+	height: 64px;
+	cursor: pointer;
+}
+
+.object-form.side-menu .quick-links {
+	padding-top: 20px;
+}
+
+.object-form.side-menu .quick-links li {
+	height: 48px;
+	line-height: 48px;
+	padding-left: 20px;
+	margin-left: 1px;
+	margin-top: 1px;
+	border-left: solid 4px;
+	cursor: pointer;
+	color: black;
+}
+
+.object-form.side-menu .quick-links li .state {
+	display: inline-block;
+	vertical-align: middle;
+	float: right;
+	width: 20px;
+	height: 20px;
+	margin-top: 12px;
+	margin-right: 10px;
+	border-radius: 10px;
+}
+
+.object-form.side-menu .quick-links li.invalid .state {
+	background-color: @color/danger;
+}
+
+.object-form.side-menu .quick-links li:hover {
+	color: black;
+}
+
+.object-form.side-menu .quick-links li:nth-child(1) {
+	border-left-color: @color/red-300;
+	background-color: @color/red-50;
+}
+
+.object-form.side-menu .quick-links li:nth-child(2) {
+	border-left-color: @color/pink-300;
+	background-color: @color/pink-50;
+}
+
+.object-form.side-menu .quick-links li:nth-child(3) {
+	border-left-color: @color/purple-300;
+	background-color: @color/purple-50;
+}
+
+.object-form.side-menu .quick-links li:nth-child(4) {
+	border-left-color: @color/deep-purple-300;
+	background-color: @color/deep-purple-50;
+}
+
+.object-form.side-menu .quick-links li:nth-child(5) {
+	border-left-color: @color/indigo-300;
+	background-color: @color/indigo-50;
+}
+
+.object-form.side-menu .quick-links li:nth-child(6) {
+	border-left-color: @color/blue-300;
+	background-color: @color/blue-50;
+}
+
+.object-form.side-menu .quick-links li:nth-child(7) {
+	border-left-color: @color/light-blue-300;
+	background-color: @color/light-blue-50;
+}
+
+.object-form.side-menu .quick-links li:nth-child(8) {
+	border-left-color: @color/cyan-300;
+	background-color: @color/cyan-50;
 }
 
 .object-form fieldset {
@@ -95,4 +180,8 @@
 	height: 100%;
 	background-color: rgba(255,255,255,0.4);
 	border-right: solid 1px #00b359;
+}
+
+.object-form .buttons-bar {
+	margin: 40px 0;
 }

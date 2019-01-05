@@ -2,9 +2,16 @@
 <string>
 	<logo-type>kids (a)cademy</logo-type>
 	<slogan>learn by playing</slogan>
+	
+	<collection>collection</collection>
+	<account>account</account>
+	<logout>Logout</logout>
+	
 	<submit>Submit</submit>
 	<join>Join</join>
 	<ok>OK</ok>
+	<save>Save</save>
+	<reset>Reset</reset>
 	<cancel>Cancel</cancel>
 	<three-no>3xNO</three-no>
 	<message>Mesage for script variable.</message>

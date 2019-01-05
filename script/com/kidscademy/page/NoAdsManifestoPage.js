@@ -1,13 +1,13 @@
 $package("com.kidscademy.page");
 
 /**
- * NoAdsManifestPage class.
+ * Page class for No-Ads Manifesto.
  * 
  * @author Iulian Rotaru
  */
-com.kidscademy.page.NoAdsManifestPage = class extends com.kidscademy.page.Page {
+com.kidscademy.page.NoAdsManifestoPage = class extends com.kidscademy.page.Page {
 	/**
-	 * Construct an instance of NoAdsManifestPage class.
+	 * Construct an instance of No-Ads Manifesto page.
 	 */
 	constructor() {
 		super();
@@ -20,13 +20,13 @@ com.kidscademy.page.NoAdsManifestPage = class extends com.kidscademy.page.Page {
 
 	_onAgree(ev) {
 		if (this._captcha.isValid()) {
-			com.kidscademy.ServiceController.agreeNoAdsManifest(null, true, this._onSurveyDone, this);
+			ServiceController.agreeNoAdsManifest(null, true, this._onSurveyDone, this);
 		}
 	}
 
 	_onNotAgree(ev) {
 		if (this._captcha.isValid()) {
-			com.kidscademy.ServiceController.agreeNoAdsManifest(null, false, this._onSurveyDone, this);
+			ServiceController.agreeNoAdsManifest(null, false, this._onSurveyDone, this);
 		}
 	}
 
@@ -43,3 +43,5 @@ com.kidscademy.page.NoAdsManifestPage = class extends com.kidscademy.page.Page {
 		return "com.kidscademy.page.NoAdsManifestPage";
 	}
 };
+
+WinMain.createPage(com.kidscademy.page.NoAdsManifestoPage);

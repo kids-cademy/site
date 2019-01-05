@@ -16,7 +16,7 @@
 }
 
 .graphic-assets .view img.invalid {
-	border-color: @color/border-alert;
+	border-color: @color/control-invalid-border;
 }
 
 .graphic-assets .editor {

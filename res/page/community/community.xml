@@ -7,6 +7,7 @@
 		<script>lib/js-lib/js-lib.js</script>
 		<script>lib/captcha/captcha.js</script>
 		<script>lib/collapsible-section/collapsible-section.js</script>
+		<script>gen/com/kidscademy/AdminService.js</script>
 		<script>script/com/kidscademy/Checkbox.js</script>
 		<script>script/com/kidscademy/CheckboxCaptcha.js</script>
 		<script>script/com/kidscademy/page/Page.js</script>

@@ -14,6 +14,8 @@
 	<red-900>#B71C1C</red-900>
 
 	<!-- pink -->
+	<pink-50>#FCE4EC</pink-50>
+	<pink-100>#F8BBD0</pink-100>
 	<pink-300>#F06292</pink-300>
 	<pink-500>#E91E63</pink-500>
 	<pink-700>#C2185B</pink-700>
@@ -31,11 +33,15 @@
 	<purple-900>#4A148C</purple-900>
 
 	<!-- deep purple -->
+	<deep-purple-50>#EDE7F6</deep-purple-50>
+	<deep-purple-100>#D1C4E9</deep-purple-100>
 	<deep-purple-300>#9575CD</deep-purple-300>
 	<deep-purple-500>#673AB7</deep-purple-500>
 	<deep-purple-700>#512DA8</deep-purple-700>
 
 	<!-- indigo -->
+	<indigo-50>#E8EAF6</indigo-50>
+	<indigo-100>#C5CAE9</indigo-100>
 	<indigo-300>#7986CB</indigo-300>
 	<indigo-500>#3F51B5</indigo-500>
 	<indigo-700>#303F9F</indigo-700>

@@ -1,27 +1,62 @@
-/* header */
+body {
+	display: flex;
+	flex-direction: column;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;	
+}
+
 body>header {
-	position: fixed;
-	z-index: @dimen/max-z-index;
 	width: 100%;
 	height: @dimen/page-header-height;
+	flex-grow: 0;
+	flex-shrink: 0;
+	flex-basis: @dimen/page-header-height;
 	border-bottom: solid 1px white;
 	background-color: #cdf3f6;
 	background: radial-gradient(circle at 30% 50%, #FFFFFF, #41b5bd);
 }
 
-body.scroll>header {
-	background: rgba(255, 255, 255, 0.9);
-	border-bottom: solid 1px #E0E0E0;
-  	-webkit-box-shadow: 0 2px 16px -6px #222;
-  	-moz-box-shadow: 0 2px 16px -6px #222;
-  	box-shadow: 0 2px 16px -6px #222;
+body>.flex-content {
+	width: 100%;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: row;
+	overflow: hidden;
 }
 
+body>.flex-content .side-menu {
+	height: 100%;
+	padding-right: 20px;
+	padding-left: 20px;
+	margin-right: 20px;
+	border-right: solid 1px @color/border-muted;
+	background-color: #f8f8f8;
+	overflow: hidden;
+}
+
+body>.flex-content .body {
+	height: 100%;
+	flex-grow: 1;
+	overflow-y: scroll;
+}
+
+/* header */
+
 body>header .logo {
+	position: relative;
 	display: inline-block;
 	vertical-align: middle;
-	margin: 0 20px;
+	margin: -20px 20px 0;
 	cursor: pointer;
+}
+
+body>header .developer {
+	float: right;
+	width: 64px;
+	height: 64px;
+	padding: 10px;
+	margin-right: 40px;
 }
 
 body header .content {
@@ -47,7 +82,6 @@ body>header .top-menu-button span {
 
 body>header .top-menu {
 	display: inline-block;
-	xfloat: right;
 }
 
 body>header .top-menu ul {
@@ -62,43 +96,35 @@ body>header .top-menu ul li {
 
 body>header .top-menu a {
 	display: inline-block;
-	xwidth: 100%;
-	font-size: 22px;
+	height: @dimen/page-header-height;
 	line-height: @dimen/page-header-height;
 	margin: 0 20px;
 	padding: 0;
+	font-size: 2.2rem;
 	text-align: center;
 	text-decoration: none;
 	text-transform: uppercase;
 	color: @color/page-header-link;
 }
 
-body>header .top-menu .apps-action a {
-	color: rgb(248, 69, 69);
+body>header .top-menu a:nth-child(1) {
+	color: @color/red-500;
 }
 
-body>header .top-menu .tecky-action a {
-	color: rgb(0, 163, 222);
+body>header .top-menu a:nth-child(2) {
+	color: @color/blue-500;
 }
 
-body>header .top-menu .fables-action a {
-	color: #c38936;
+body>header .top-menu a:nth-child(3) {
+	color: @color/brown-500;
 }
 
-body>header .top-menu .feedback-action a {
-	color: #3ca054;
+body>header .top-menu a:nth-child(4) {
+	color: @color/yellow-500;
 }
 
-body>header .top-menu .blog-action a {
-	color: red;
-}
-
-body>header .top-menu .about-action a {
-	color: #007ccc;
-}
-
-body>header .top-menu .no-ads-action a {
-	color: #9930a6;
+body>header .top-menu a:nth-child(5) {
+	color: @color/teal-500;
 }
 
 body>header .top-menu a:hover {
@@ -117,9 +143,4 @@ body>header .logo-type, body>footer .logo-type {
 	padding: 0;
 	text-transform: lowercase;
 	color: green;
-}
-
-body>section.body {
-	padding-top: @dimen/page-header-height;
-	padding-botton: 20px;
 }

@@ -27,5 +27,6 @@ com.kidscademy.page.Page = class extends js.ua.Page {
     }
 };
 
-// this page class is designed to be extended ; to not call WinMain
-// WinMain.setPage(com.kidscademy.page.Page)
+// this page class is designed to be extended ; to not create it explicitly!
+// next commented line is a reminder and need leave it commented
+// WinMain.createPage(com.kidscademy.page.Page)

@@ -34,20 +34,20 @@ com.kidscademy.admin.LinksControl = class extends js.dom.Control {
 		const actions = this.getByCssClass("actions");
 		this._addAction = actions.getByName("add");
 		this._browseAction = actions.getByName("browse");
-		this._saveAction = actions.getByName("save");
+		this._doneAction = actions.getByName("done");
 		this._removeAction = actions.getByName("remove");
 		this._closeAction = actions.getByName("close");
 
 		this._addAction.on("click", this._onAdd, this);
 		this._browseAction.on("click", this._onBrowse, this);
-		this._saveAction.on("click", this._onSave, this);
+		this._doneAction.on("click", this._onDone, this);
 		this._removeAction.on("click", this._onRemove, this);
 		this._closeAction.on("click", this._onClose, this);
 
 		this._showEditor(false);
 	}
 
-	onCreated(formPage) {
+	onCreate(formPage) {
 		this._formPage = formPage;
 	}
 
@@ -95,14 +95,14 @@ com.kidscademy.admin.LinksControl = class extends js.dom.Control {
 		WinMain.open(urlInput.getValue());
 	}
 
-	_onSave() {
+	_onDone() {
 		function basedomain(url) {
 			var matches = /http[s]?\:\/\/(?:[^.]+\.)*([^.]+)\.[^/]+.*/g.exec(url);
 			return matches[1];
 		}
 
 		const link = this._editor.getObject(this._selectedLink);
-		link.iconPath = "links/" + basedomain(link.url) + ".png";
+		link.iconPath = `links/${basedomain(link.url)}.png`;
 
 		if (this._editIndex === -1) {
 			// edit index is not set therefore we are in append mode
@@ -138,7 +138,7 @@ com.kidscademy.admin.LinksControl = class extends js.dom.Control {
 
 	_showEditor(show) {
 		this._browseAction.show(show);
-		this._saveAction.show(show);
+		this._doneAction.show(show);
 		this._removeAction.show(show);
 		this._closeAction.show(show);
 		this._editor.show(show);

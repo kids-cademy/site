@@ -13,29 +13,26 @@ com.kidscademy.admin.SearchPage = class extends com.kidscademy.page.Page {
 		super();
 
 		this._listView = this.getByCssClass("list-view");
-		this._listView.on("click", this._onClick, this);
+		this._listView.on("click", this._onListClick, this);
 
-		const actionsBar = this.getByCssClass("actions-bar");
-		actionsBar.on(this, {
-			"&new": this._onNew
+		const actions = this.getByCss(".side-menu .actions");
+		actions.on(this, {
+			"&new-object": this._onNewObject
 		});
-		AdminService.getInstruments((instruments) => {
-			instruments.forEach((instrument) => instrument.src = "/repository/" + instrument.iconPath);
+
+		AdminService.getInstruments(instruments => {
+			instruments.forEach(instrument => instrument.src = "/repository/" + instrument.iconPath);
 			this._listView.setObject(instruments);
 		});
 	}
 
-	_onClick(ev) {
+	_onListClick(ev) {
 		const li = ev.target.getParentByTag("li");
-		WinMain.assign("form.htm", {
-			id: li.getAttr("id")
-		});
+		WinMain.assign("form.htm", { id: li.getAttr("id") });
 	}
 
-	_onNew() {
-		WinMain.assign("form.htm", {
-			id: 0
-		});
+	_onNewObject() {
+		WinMain.assign("form.htm", { id: 0 });
 	}
 
 	/**
@@ -48,4 +45,4 @@ com.kidscademy.admin.SearchPage = class extends com.kidscademy.page.Page {
 	}
 };
 
-WinMain.setPage(com.kidscademy.admin.SearchPage);
+WinMain.createPage(com.kidscademy.admin.SearchPage);

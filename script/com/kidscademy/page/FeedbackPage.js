@@ -42,4 +42,4 @@ com.kidscademy.page.FeedbackPage = class extends com.kidscademy.page.Page {
 	}
 };
 
-WinMain.setPage(com.kidscademy.page.FeedbackPage);
+WinMain.createPage(com.kidscademy.page.FeedbackPage);

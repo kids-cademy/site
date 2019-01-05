@@ -25,4 +25,4 @@ com.kidscademy.admin.ExportPage = class extends com.kidscademy.page.Page {
     }
 };
 
-WinMain.setPage(com.kidscademy.admin.ExportPage);
+WinMain.createPage(com.kidscademy.admin.ExportPage);

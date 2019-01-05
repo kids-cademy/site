@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <page>
-	<title>@string/site-name</title>
-	<description>@string/site-description</description>
+	<title>Site Home</title>
+	<description>Site entry page.</description>
+	<scripts>
+		<script>lib/js-lib/js-lib.js</script>
+		<script>gen/com/kidscademy/AdminService.js</script>
+		<script>script/com/kidscademy/PageHeader.js</script>
+		<script>script/com/kidscademy/page/Page.js</script>
+	</scripts>
 </page>

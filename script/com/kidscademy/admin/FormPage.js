@@ -12,42 +12,55 @@ com.kidscademy.admin.FormPage = class extends com.kidscademy.page.Page {
 	constructor() {
 		super();
 
-		this._form = this.getByTag("form");
+		this.CSS_INVALID = js.dom.Control.prototype.CSS_INVALID;
+
+		this._form = this.getByClass(com.kidscademy.Form);
 
 		this._graphicAssets = this.getByClass(com.kidscademy.admin.GraphicAssets);
 		this._audioAssets = this.getByClass(com.kidscademy.admin.AudioAssets);
 		this._relatedControl = this._form.getByClass(com.kidscademy.admin.RelatedControl);
 		this._linksControl = this._form.getByClass(com.kidscademy.admin.LinksControl);
 
-		if (typeof WinMain.url.parameters.id != "undefined") {
-			var id = Number(WinMain.url.parameters.id);
-			AdminService.getInstrument(id, this._onInstrumentLoaded, this);
-		}
-		else {
-			// for preview
-			AdminService.getInstrumentByName("cajon", this._onInstrumentLoaded, this);
-		}
-
 		const actions = this.getByCssClass("buttons-bar");
 		actions.on(this, {
-			"&submit": this._onSubmit,
+			"&save": this._onSave,
+			"&reset": this._onReset,
 			"&cancel": this._onCancel
 		});
 
-		this._graphicAssets.onCreated(this);
-		this._audioAssets.onCreated(this);
-		this._relatedControl.onCreated(this);
-		this._linksControl.onCreated(this);
+		this._graphicAssets.onCreate(this);
+		this._audioAssets.onCreate(this);
+		this._relatedControl.onCreate(this);
+		this._linksControl.onCreate(this);
+
+		const quickLinks = this.getByCssClass("quick-links");
+		quickLinks.on("click", this._onQuickLinks, this);
+
+		this._loadObject();
 	}
 
 	getObject() {
-		this._form.getObject(this._instrument);
-		return this._instrument;
+		this._form.getObject(this._object);
+		return this._object;
 	}
 
-	_onInstrumentLoaded(instrument) {
-		this._instrument = instrument;
-		this._form.setObject(instrument);
+	_loadObject() {
+		if (typeof WinMain.url.parameters.id != "undefined") {
+			var id = Number(WinMain.url.parameters.id);
+			AdminService.getInstrument(id, this._onObjectLoaded, this);
+		}
+		else {
+			// for development preview
+			AdminService.getInstrumentByName("cajon", this._onObjectLoaded, this);
+		}
+	}
+
+	_onObjectLoaded(object) {
+		this.findByCss(".quick-links li").removeCssClass(this.CSS_INVALID);
+		this._form.reset();
+
+		this._object = object;
+		this._form.setObject(object);
 
 		this._graphicAssets.onStart();
 		this._audioAssets.onStart();
@@ -55,14 +68,33 @@ com.kidscademy.admin.FormPage = class extends com.kidscademy.page.Page {
 		this._linksControl.onStart();
 	}
 
-	_onSubmit() {
-		if (this._form.isValid()) {
-			AdminService.saveInstrument(this.getObject(), (id) => this._instrument.id = id);
+	_onSave() {
+		this.findByCss(".quick-links li").removeCssClass(this.CSS_INVALID);
+		const updateQuickLink = control => {
+			const fieldset = control.getParentByTag("fieldset");
+			// by convention quick link class is the fieldset ID
+			this.getByCss(`.quick-links [data-name=${fieldset.getAttr("id")}]`).addCssClass(this.CSS_INVALID);
+		};
+
+		if (this._form.isValid(updateQuickLink)) {
+			AdminService.saveInstrument(this.getObject(), id => this._object.id = id);
 		}
 	}
 
-	_onCancel() {
+	_onReset() {
+		this._loadObject();
+	}
 
+	_onCancel() {
+		WinMain.back();
+	}
+
+	_onQuickLinks(ev) {
+		const quickLink = ev.target.getParentByTag("li");
+		if (quickLink != null) {
+			// by convention quick link name is fieldset ID
+			this.getById(quickLink.getAttr("data-name")).scrollIntoView();
+		}
 	}
 
 	/**
@@ -75,4 +107,4 @@ com.kidscademy.admin.FormPage = class extends com.kidscademy.page.Page {
 	}
 };
 
-WinMain.setPage(com.kidscademy.admin.FormPage);
+WinMain.createPage(com.kidscademy.admin.FormPage);

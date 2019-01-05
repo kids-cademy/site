@@ -3,7 +3,6 @@ package com.kidscademy.atlas;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,8 +47,7 @@ public class AtlasObject
   protected List<Link> links;
 
   @ElementCollection
-  @Column(name = "atlasobject_name")
-  protected List<String> related;
+  protected List<Related> related;
 
   /**
    * For testing
@@ -196,12 +194,12 @@ public class AtlasObject
     this.links = links;
   }
 
-  public List<String> getRelated()
+  public List<Related> getRelated()
   {
     return related;
   }
 
-  public void setRelated(List<String> related)
+  public void setRelated(List<Related> related)
   {
     this.related = related;
   }

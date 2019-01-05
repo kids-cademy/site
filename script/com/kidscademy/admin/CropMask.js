@@ -145,7 +145,7 @@ com.kidscademy.admin.CropMask = class extends js.dom.Element {
 				break;
 		}
 
-		this._requestAnimationFrame();
+		requestAnimationFrame(this._FRAME_REQUEST_CALLBACK);
 	}
 
 	_onMouseUp(ev) {
@@ -153,10 +153,6 @@ com.kidscademy.admin.CropMask = class extends js.dom.Element {
 		this._ownerDoc.un("mousemove", this._onMouseMove);
 		this._ownerDoc.un("mouseup", this._onMouseUp);
 		this.removeCssClass("moving");
-	}
-
-	_requestAnimationFrame() {
-		return window.requestAnimationFrame(this._FRAME_REQUEST_CALLBACK);
 	}
 
 	_updateSelectArea() {

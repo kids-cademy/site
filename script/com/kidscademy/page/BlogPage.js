@@ -23,4 +23,4 @@ com.kidscademy.page.BlogPage = class extends com.kidscademy.page.Page {
 	}
 };
 
-WinMain.setPage(com.kidscademy.page.BlogPage);
+WinMain.createPage(com.kidscademy.page.BlogPage);

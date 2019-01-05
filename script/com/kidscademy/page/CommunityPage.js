@@ -56,4 +56,4 @@ com.kidscademy.page.CommunityPage = class extends com.kidscademy.page.Page {
 	}
 };
 
-WinMain.setPage(com.kidscademy.page.CommunityPage);
+WinMain.createPage(com.kidscademy.page.CommunityPage);

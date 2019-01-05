@@ -51,4 +51,4 @@ com.kidscademy.page.AppDescriptionPage = class extends com.kidscademy.page.Page 
 	}
 };
 
-WinMain.setPage(com.kidscademy.page.AppDescriptionPage);
+WinMain.createPage(com.kidscademy.page.AppDescriptionPage);

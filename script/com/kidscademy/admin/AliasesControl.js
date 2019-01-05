@@ -10,7 +10,7 @@ com.kidscademy.admin.AliasesControl = class extends js.dom.Control {
 	}
 
 	getValue() {
-		var value = this.$super("getValue");
+		var value = super.getValue();
 		if (value == null) {
 			return [];
 		}

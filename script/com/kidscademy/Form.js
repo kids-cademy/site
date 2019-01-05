@@ -23,6 +23,17 @@ com.kidscademy.Form = class extends js.dom.Form {
 		this._textAreaControls.forEach(control => control.show());
 	}
 
+	isValid(callback) {
+		var valid = true;
+		this._iterable.forEach(control => {
+			valid = control.isValid() && valid;
+			if (callback && !control.isValid()) {
+				callback(control);
+			}
+		});
+		return valid;
+	}
+
 	/**
 	 * Class string representation.
 	 * 

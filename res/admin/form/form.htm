@@ -1,6 +1,6 @@
 <div w:template="template/admin#body" class="object-form" xmlns:w="js-lib.com/wood">
-	<form>
-		<fieldset>
+	<form data-class="com.kidscademy.Form">
+		<fieldset id="identity">
 			<div class="header container">
 				<h2>Identity</h2>
 				<p>@string/sample-text</p>
@@ -49,7 +49,7 @@
 			</div>
 		</fieldset>
 
-		<fieldset>
+		<fieldset id="description">
 			<div class="header container">
 				<h2>Description</h2>
 				<p>@string/sample-text</p>
@@ -63,10 +63,10 @@
 			</div>
 		</fieldset>
 
-		<fieldset w:widget="admin/form/graphic-assets"></fieldset>
+		<fieldset id="graphic-assets" w:widget="admin/form/graphic-assets"></fieldset>
 
-		<fieldset class="audio-assets" data-class="com.kidscademy.admin.AudioAssets">
-			<input name="sample-path" type="hidden" data-class="com.kidscademy.admin.HiddenControl" data-cfg="for:sample-path" /><input name="waveform-path" type="hidden" />
+		<fieldset id="audio-assets" class="audio-assets" data-class="com.kidscademy.admin.AudioAssets">
+			<input name="sample-path" type="hidden" data-class="com.kidscademy.HiddenControl" /><input name="waveform-path" type="hidden" />
 			<div class="header container">
 				<h2>Audio Assets</h2>
 				<p>@string/sample-text</p>
@@ -90,108 +90,135 @@
 			</div>
 		</fieldset>
 
-		<fieldset name="facts" data-class="com.kidscademy.admin.FactsControl">
+		<fieldset id="facts" name="facts" data-class="com.kidscademy.admin.FactsControl">
 			<div class="header container">
 				<h2>Facts</h2>
 				<p>@string/sample-text</p>
 			</div>
 			<div class="content">
-				<dl class="container facts-view" data-map=".">
-					<dt></dt>
-					<dd></dd>
-				</dl>
-				<div class="container actions">
-					<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="import" src="@image/action/import" title="@string/sample-tooltip" /> <img name="save" src="@image/action/save" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
-				</div>
-				<div class="container editor hidden">
-					<div>
+				<div class="container">
+					<dl class="facts-view" data-map=".">
+						<dt></dt>
+						<dd></dd>
+					</dl>
+					<div class="actions">
+						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="import" src="@image/action/import" title="@string/sample-tooltip" /> <img name="done" src="@image/action/done" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+					</div>
+					<div class="editor hidden">
 						<div>
-							<input name="term" />
-						</div>
-						<div>
-							<textarea name="definition" class="mini"></textarea>
+							<div>
+								<input name="term" />
+							</div>
+							<div>
+								<textarea name="definition" class="mini"></textarea>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</fieldset>
 
-		<fieldset name="spreading" data-class="com.kidscademy.admin.SpreadingControl">
+		<fieldset id="spreading" name="spreading" data-class="com.kidscademy.admin.SpreadingControl">
 			<div class="header container">
 				<h2>Spreading</h2>
 				<p>@string/sample-text</p>
 			</div>
 			<div class="content">
-				<ul class="container regions-view" data-list=".">
-					<li><span data-text="area"></span> <span data-text="name"></span></li>
-				</ul>
-				<div class="container actions">
-					<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="import" src="@image/action/import" title="@string/sample-tooltip" /> <img name="save" src="@image/action/save" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
-				</div>
-				<div class="container editor hidden">
-					<div>
+				<div class="container">
+					<ul class="regions-view" data-list=".">
+						<li><span data-text="area"></span> <span data-text="name"></span></li>
+					</ul>
+					<div class="actions">
+						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="import" src="@image/action/import" title="@string/sample-tooltip" /> <img name="done" src="@image/action/done" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+					</div>
+					<div class="editor hidden">
 						<div>
-							<label>Region</label><input name="region-name" class="medium" />
-						</div>
-						<div>
-							<label>Area</label><select name="area" w:widget="compo/region-select"></select>
+							<div>
+								<label>Region</label><input name="region-name" class="medium" />
+							</div>
+							<div>
+								<label>Area</label><select name="area" w:widget="compo/region-select"></select>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</fieldset>
 
-		<fieldset name="related" data-class="com.kidscademy.admin.RelatedControl">
+		<fieldset id="related" name="related" data-class="com.kidscademy.admin.RelatedControl">
 			<div class="header container">
 				<h2>Related</h2>
 				<p>@string/sample-text</p>
 			</div>
 			<div class="content">
-				<ul class="container list-view related" data-list=".">
-					<li data-id="id"><img data-src="src" />
-						<h4 data-text="display"></h4></li>
-				</ul>
-				<div class="container actions">
-					<img name="edit" src="@image/action/edit" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+				<div class="container">
+					<ul class="list-view related" data-list=".">
+						<li data-id="id"><img data-src="src" />
+							<h4 data-text="display"></h4></li>
+					</ul>
+					<div class="actions">
+						<img name="edit" src="@image/action/edit" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+					</div>
+					<ul class="list-view collection hidden" data-list=".">
+						<li data-id="id"><img data-src="src" />
+							<h4 data-text="display"></h4></li>
+					</ul>
 				</div>
-				<ul class="container list-view collection hidden" data-list=".">
-					<li data-id="id"><img data-src="src" />
-						<h4 data-text="display"></h4></li>
-				</ul>
 			</div>
 		</fieldset>
 
-		<fieldset name="links" data-class="com.kidscademy.admin.LinksControl">
+		<fieldset id="links" name="links" data-class="com.kidscademy.admin.LinksControl">
 			<div class="header container">
 				<h2>Links</h2>
 				<p>@string/sample-text</p>
 			</div>
 			<div class="content">
-				<ul class="container list-view" data-list=".">
-					<li><img data-src="src" data-title="description" />
-						<h4 data-text="name"></h4></li>
-				</ul>
-				<div class="container actions">
-					<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="browse" src="@image/action/browse" title="@string/sample-tooltip" /> <img name="save" src="@image/action/save" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
-				</div>
-				<div class="container editor hidden">
-					<div>
+				<div class="container">
+					<ul class="list-view" data-list=".">
+						<li><img data-src="src" data-title="description" />
+							<h4 data-text="name"></h4></li>
+					</ul>
+					<div class="actions">
+						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="browse" src="@image/action/browse" title="@string/sample-tooltip" /> <img name="done" src="@image/action/done" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+					</div>
+					<div class="editor hidden">
 						<div>
-							<label>URL</label> <input name="url" data-value="url" />
-						</div>
-						<div>
-							<label>Name</label> <input name="name" data-value="name" />
-						</div>
-						<div>
-							<label>Description</label> <input name="description" data-value="description" class="large" />
+							<div>
+								<label>URL</label> <input name="url" data-value="url" />
+							</div>
+							<div>
+								<label>Name</label> <input name="name" data-value="name" />
+							</div>
+							<div>
+								<label>Description</label> <input name="description" data-value="description" class="large" />
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</fieldset>
 	</form>
+</div>
+
+<div w:template="template/admin#side-menu" class="object-form" xmlns:w="js-lib.com/wood">
+	<ul class="developers inline">
+		<li><img src="/repository/developers/ioana-agavriloaiei.png" /></li>
+		<li><img src="/repository/developers/octavian-rotaru.png" /></li>
+		<li><img src="/repository/developers/lucian-rotaru.png" /></li>
+	</ul>
+	<ul class="quick-links">
+		<li data-name="identity">Identity<span class="state"></span></li>
+		<li data-name="description">Description<span class="state"></span></li>
+		<li data-name="graphic-assets">Graphic Assets<span class="state"></span></li>
+		<li data-name="audio-assets">Audio Assets<span class="state"></span></li>
+		<li data-name="facts">Facts<span class="state"></span></li>
+		<li data-name="spreading">Spreading<span class="state"></span></li>
+		<li data-name="related">Related<span class="state"></span></li>
+		<li data-name="links">Links<span class="state"></span></li>
+	</ul>
 	<div class="container buttons-bar">
-		<button name="submit">@string/submit</button>
+		<button name="save">@string/save</button>
+		<button name="reset" class="inverse">@string/reset</button>
 		<button name="cancel" class="inverse">@string/cancel</button>
 	</div>
 </div>
