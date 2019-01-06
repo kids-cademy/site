@@ -124,14 +124,14 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		if (!object.name) {
 			return;
 		}
-		AdminService.generateWaveform(object.name, (waveformPath) => this._updateWaveformPath(waveformPath));
+		AdminService.generateWaveform(object.name, waveformPath => this._updateWaveformPath(waveformPath));
 	}
 
 	_updateSamplePath(samplePath) {
 		this._samplePathControl.reset();
 		if (samplePath) {
 			this._samplePathControl.setValue(samplePath);
-			this._audioPlayer.src = "/repository/" + samplePath;
+			this._audioPlayer.src = "/media/atlas/" + samplePath;
 		}
 	}
 
@@ -140,7 +140,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._waveformImage.reset();
 		if (waveformPath) {
 			this._waveformPathControl.setValue(waveformPath);
-			this._waveformImage.setSrc("/repository/" + waveformPath);
+			this._waveformImage.setSrc(waveformPath);
 		}
 	}
 

@@ -24,7 +24,7 @@ public class AtlasObject
   @ManyToOne
   protected User user;
 
-  protected boolean published;
+  protected State state;
   protected int rank;
   protected String name;
   protected String display;
@@ -64,14 +64,14 @@ public class AtlasObject
     return id;
   }
 
-  public boolean isPublished()
+  public State getState()
   {
-    return published;
+    return state;
   }
 
-  public void setPublished(boolean published)
+  public void setState(State state)
   {
-    this.published = published;
+    this.state = state;
   }
 
   public int getRank()
@@ -228,5 +228,11 @@ public class AtlasObject
   public String toString()
   {
     return name;
+  }
+
+  public enum State
+  {
+    // ENUM('DEVELOPMENT','CREATED','PUBLISHED')
+    DEVELOPMENT, CREATED, PUBLISHED
   }
 }

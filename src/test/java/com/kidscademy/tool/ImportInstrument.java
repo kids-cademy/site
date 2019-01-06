@@ -74,7 +74,7 @@ public class ImportInstrument
 
       List<Link> links = new ArrayList<>();
       for(ExternalSource source : object.sources) {
-        links.add(new Link(source.url, source.name, "Link description", "links/" + source.icon.getName()));
+        links.add(new Link(source.url, source.name, "links/" + source.icon.getName()));
       }
       instrument.setLinks(links);
 

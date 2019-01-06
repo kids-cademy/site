@@ -14,7 +14,7 @@ com.kidscademy.HiddenControl = class extends js.dom.Control {
 	}
 
 	isValid() {
-		const value = this._getValue();
+		const value = super.isValid();
 		this._boundElement.addCssClass(this.CSS_INVALID, !value);
 		return value;
 	}

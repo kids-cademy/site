@@ -1,5 +1,7 @@
 package com.kidscademy.unit;
 
+import static org.hamcrest.Matchers.nullValue;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -17,10 +19,10 @@ public class HDateTest
   {
     HDate date = new HDate();
 
-    assertThat(date.getValue(), equalTo(0L));
-    assertThat(date.getFormat(), equalTo(HDate.Format.DATE));
-    assertThat(date.getPeriod(), equalTo(HDate.Period.FULL));
-    assertThat(date.getEra(), equalTo(HDate.Era.CE));
+    assertThat(date.getValue(), nullValue());
+    assertThat(date.getFormat(), nullValue());
+    assertThat(date.getPeriod(), nullValue());
+    assertThat(date.getEra(), nullValue());
   }
 
   @Test

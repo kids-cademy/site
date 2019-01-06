@@ -378,6 +378,33 @@ com.kidscademy.AdminService = {
 		rmi.setMethod("com.kidscademy.AdminService", "createObjectIcon");
 		rmi.setParameters(objectName);
 		rmi.exec(__callback__, __scope__);
+	},
+
+	/**
+	 * Create link.
+	 *
+	 * @param java.net.URL url,
+	 * @param Function callback function to invoke on RMI completion,
+	 * @param Object scope optional callback run-time scope, default to global scope.
+	 * @return com.kidscademy.atlas.Link
+	 * @assert callback is a {@link Function} and scope is an {@link Object}.
+	 */
+	 createLink: function(url) {
+		$assert(typeof url !== "undefined", "com.kidscademy.AdminService#createLink", "Url argument is undefined.");
+		$assert(url === null || js.lang.Types.isString(url), "com.kidscademy.AdminService#createLink", "Url argument is not a string.");
+
+		var __callback__ = arguments[1];
+		$assert(js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#createLink", "Callback is not a function.");
+		var __scope__ = arguments[2];
+		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#createLink", "Scope is not an object.");
+		if(!js.lang.Types.isObject(__scope__)) {
+			__scope__ = window;
+		}
+
+		var rmi = new js.net.RMI();
+		rmi.setMethod("com.kidscademy.AdminService", "createLink");
+		rmi.setParameters(url);
+		rmi.exec(__callback__, __scope__);
 	}
 };
 

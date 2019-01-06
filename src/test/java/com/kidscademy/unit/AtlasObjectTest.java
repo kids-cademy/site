@@ -47,8 +47,8 @@ public class AtlasObjectTest
     instrument.setSpreading(spreading);
 
     List<Link> links = new ArrayList<>();
-    links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", "Accordion article on wikipedia.", "wikipedia.png"));
-    links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", "Accordion article on wikipedia.", "wikipedia.png"));
+    links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", "wikipedia.png"));
+    links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", "wikipedia.png"));
     instrument.setLinks(links);
 
     Map<String, String> facts = new HashMap<>();

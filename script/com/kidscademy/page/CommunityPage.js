@@ -25,9 +25,9 @@ com.kidscademy.page.CommunityPage = class extends com.kidscademy.page.Page {
 
 	_onLogin(ev) {
 		if (this._loginForm.isValid()) {
-			AdminService.login(this._loginForm.getObject(), (login) => {
+			AdminService.login(this._loginForm.getObject(), login => {
 				if (login) {
-					WinMain.assign("search.htm");
+					WinMain.assign("collection.htm");
 				}
 				else {
 					this._loginForm.reset();

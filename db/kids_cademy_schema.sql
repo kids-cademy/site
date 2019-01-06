@@ -72,20 +72,20 @@ DROP TABLE IF EXISTS `atlasobject`;
 CREATE TABLE `atlasobject` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `published` tinyint(1) NOT NULL DEFAULT '1',
   `dtype` varchar(45) NOT NULL,
+  `state` enum('DEVELOPMENT','CREATED','PUBLISHED') NOT NULL,
   `rank` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
-  `display` varchar(45) NOT NULL,
-  `description` text NOT NULL,
-  `iconPath` varchar(45) NOT NULL,
-  `thumbnailPath` varchar(45) NOT NULL,
-  `picturePath` varchar(45) NOT NULL,
+  `display` varchar(45) DEFAULT NULL,
+  `description` text,
+  `iconPath` varchar(45) DEFAULT NULL,
+  `thumbnailPath` varchar(45) DEFAULT NULL,
+  `picturePath` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_atlasobject_name` (`name`,`dtype`),
   KEY `fk_atlasobject_user1_idx` (`user_id`),
   CONSTRAINT `fk_atlasobject_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=401 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=408 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +121,7 @@ CREATE TABLE `atlasobject_facts` (
   UNIQUE KEY `uq_atlasobject_facts_key` (`atlasobject_id`,`facts_key`),
   KEY `id_atlasobject_facts_object_id` (`atlasobject_id`),
   CONSTRAINT `fk_fact_object1` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=304 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=311 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,13 +136,12 @@ CREATE TABLE `atlasobject_links` (
   `atlasobject_id` int(11) NOT NULL,
   `url` varchar(128) NOT NULL,
   `name` varchar(45) NOT NULL,
-  `description` tinytext NOT NULL,
   `iconPath` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_link_url` (`url`,`atlasobject_id`),
   KEY `idx_link_atlasobject_id` (`atlasobject_id`),
   CONSTRAINT `fk_link_atlasobject_id` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=814 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=817 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -342,11 +341,11 @@ DROP TABLE IF EXISTS `instrument`;
 CREATE TABLE `instrument` (
   `id` int(11) NOT NULL,
   `category` tinyint(4) NOT NULL,
-  `sampleTitle` varchar(80) NOT NULL,
-  `samplePath` varchar(45) NOT NULL,
-  `waveformPath` varchar(45) NOT NULL,
-  `date_value` bigint(20) NOT NULL,
-  `date_mask` int(11) NOT NULL,
+  `sampleTitle` varchar(80) DEFAULT NULL,
+  `samplePath` varchar(45) DEFAULT NULL,
+  `waveformPath` varchar(45) DEFAULT NULL,
+  `date_value` bigint(20) DEFAULT NULL,
+  `date_mask` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_instrument_atlas_object1` FOREIGN KEY (`id`) REFERENCES `atlasobject` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -496,4 +495,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-03  6:48:46
+-- Dump completed on 2019-01-05 20:01:14

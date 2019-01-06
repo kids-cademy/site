@@ -102,11 +102,12 @@ public class Instrument extends AtlasObject implements Serializable
     KEYBOARD
   }
 
-  public static Instrument createEmpty(User user)
+  public static Instrument create(User user)
   {
     Instrument instrument = new Instrument();
     instrument.dtype = Instrument.class.getSimpleName();
     instrument.user = user;
+    instrument.state = AtlasObject.State.DEVELOPMENT;
     instrument.aliases = Collections.emptyList();
     instrument.spreading = Collections.emptyList();
     instrument.facts = Collections.emptyMap();

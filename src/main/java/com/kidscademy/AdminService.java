@@ -1,6 +1,7 @@
 package com.kidscademy;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.im4java.core.IM4JavaException;
 
 import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
+import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.Login;
 
 import js.annotation.Public;
@@ -63,4 +65,6 @@ public interface AdminService
    * @throws IOException
    */
   String createObjectIcon(String objectName) throws IOException, InterruptedException, IM4JavaException;
+  
+  Link createLink(URL url);
 }

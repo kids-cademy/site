@@ -27,8 +27,6 @@ body>.flex-content {
 
 body>.flex-content .side-menu {
 	height: 100%;
-	padding-right: 20px;
-	padding-left: 20px;
 	margin-right: 20px;
 	border-right: solid 1px @color/border-muted;
 	background-color: #f8f8f8;

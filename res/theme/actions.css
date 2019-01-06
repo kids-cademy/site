@@ -13,6 +13,10 @@
 	cursor: pointer;
 }
 
+.actions img.hidden {
+	display: none;
+}
+
 .actions img.last {
 	float: right;
 }

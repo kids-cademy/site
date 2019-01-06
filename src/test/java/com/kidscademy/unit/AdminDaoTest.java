@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.kidscademy.atlas.AtlasObject;
 import com.kidscademy.atlas.Bird;
 import com.kidscademy.atlas.HDate;
 import com.kidscademy.atlas.Instrument;
@@ -140,7 +141,6 @@ public class AdminDaoTest
     assertThat(link, notNullValue());
     assertThat(link.getId(), equalTo(1));
     assertThat(link.getName(), equalTo("Wikipedia"));
-    assertThat(link.getDescription(), equalTo("Wikipedia link."));
     assertThat(link.getIconPath(), equalTo("icon.png"));
     assertThat(link.getUrl(), equalTo(new URL("https://en.wikipedia.org/wiki/Accordion")));
 
@@ -166,6 +166,7 @@ public class AdminDaoTest
   {
     Instrument instrument = new Instrument();
     instrument.setUser(new User(1));
+    instrument.setState(AtlasObject.State.DEVELOPMENT);
     instrument.setRank(9999);
     instrument.setCategory(Instrument.Category.STRINGS);
     instrument.setName("banjo");
@@ -190,8 +191,8 @@ public class AdminDaoTest
     instrument.setSpreading(spreading);
 
     List<Link> links = new ArrayList<>();
-    links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", "Accordion article on wikipedia.", "wikipedia.png"));
-    links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", "Accordion article on wikipedia.", "wikipedia.png"));
+    links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", "wikipedia.png"));
+    links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", "wikipedia.png"));
     instrument.setLinks(links);
 
     Map<String, String> facts = new HashMap<>();

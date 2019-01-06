@@ -8,8 +8,8 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class HDate implements Comparable<HDate>
 {
-  private long value;
-  private int mask;
+  private Long value;
+  private Integer mask;
 
   public HDate()
   {
@@ -61,23 +61,32 @@ public class HDate implements Comparable<HDate>
     this.mask = format.ordinal() + (period.ordinal() << 8) + (era.ordinal() << 16);
   }
 
-  public long getValue()
+  public Long getValue()
   {
     return value;
   }
 
   public Format getFormat()
   {
+    if(mask == null) {
+      return null;
+    }
     return Format.values()[mask & 0x000000FF];
   }
 
   public Period getPeriod()
   {
+    if(mask == null) {
+      return null;
+    }
     return Period.values()[(mask & 0x0000FF00) >> 8];
   }
 
   public Era getEra()
   {
+    if(mask == null) {
+      return null;
+    }
     return Era.values()[(mask & 0x00FF0000) >> 16];
   }
 
@@ -98,7 +107,7 @@ public class HDate implements Comparable<HDate>
     case DATE:
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(new Date(value));
-      value = calendar.get(Calendar.YEAR) / 100;
+      value = calendar.get(Calendar.YEAR) / 100L;
       break;
 
     default:

@@ -5,6 +5,7 @@
 	
 	<collection>collection</collection>
 	<account>account</account>
+	<media>media</media>
 	<logout>Logout</logout>
 	
 	<submit>Submit</submit>

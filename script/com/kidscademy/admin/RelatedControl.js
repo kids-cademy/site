@@ -39,10 +39,7 @@ com.kidscademy.admin.RelatedControl = class extends js.dom.Control {
 
 	setValue(related) {
 		const names = related.map(object => object.name);
-		com.kidscademy.AdminService.getRelatedInstruments(names, (objects) => {
-			objects.forEach((object) => object.src = "/repository/" + object.iconPath);
-			this._relatedView.setObject(objects);
-		});
+		com.kidscademy.AdminService.getRelatedInstruments(names, objects => this._relatedView.setObject(objects));
 	}
 
 	getValue() {
@@ -69,20 +66,13 @@ com.kidscademy.admin.RelatedControl = class extends js.dom.Control {
 		}
 
 		const instruments = [];
-		this._relatedView.getChildren().forEach((view) => {
-			instruments.push({
-				id: view.getAttr("id")
-			});
-		});
+		this._relatedView.getChildren().forEach(view => instruments.push({ id: view.getAttr("id") }));
 
 		instruments.push({
 			id: instrument.id
 		});
 
-		AdminService.getAvailableInstruments(instrument.category, instruments, (collection) => {
-			collection.forEach(function (object) {
-				object.src = "/repository/" + object.iconPath;
-			});
+		AdminService.getAvailableInstruments(instrument.category, instruments, collection => {
 			this._collectionView.show();
 			this._collectionView.setObject(collection);
 		});

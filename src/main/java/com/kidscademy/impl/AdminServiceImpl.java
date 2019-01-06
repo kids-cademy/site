@@ -2,6 +2,7 @@ package com.kidscademy.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.im4java.process.ProcessStarter;
 import com.kidscademy.AdminService;
 import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
+import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.Login;
 import com.kidscademy.atlas.User;
 import com.kidscademy.dao.AdminDao;
@@ -80,7 +82,7 @@ public class AdminServiceImpl implements AdminService
   {
     if(instrumentId == 0) {
       User user = context.getUserPrincipal();
-      return Instrument.createEmpty(user);
+      return Instrument.create(user);
     }
     return dao.getInstrument(instrumentId);
   }
@@ -236,5 +238,11 @@ public class AdminServiceImpl implements AdminService
     cmd.run(op);
 
     return iconPath;
+  }
+
+  @Override
+  public Link createLink(URL url)
+  {
+    return Link.create(url);
   }
 }

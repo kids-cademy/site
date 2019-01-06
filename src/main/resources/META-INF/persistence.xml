@@ -4,9 +4,11 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<non-jta-data-source>java:comp/env/jdbc/kids-cademy</non-jta-data-source>
 
+		<!-- attribute converters -->
 		<class>com.kidscademy.dao.UrlConverter</class>
 		<class>com.kidscademy.dao.DislikeReasonConverter</class>
-		
+		<class>com.kidscademy.dao.AtlasObjectStateConverter</class>
+
 		<!-- embeddables -->
 		<class>com.kidscademy.atlas.Bird</class>
 		<class>com.kidscademy.atlas.Link</class>
@@ -29,7 +31,7 @@
 
 		<properties>
 			<property name="eclipselink.logging.level.sql" value="FINE" />
-			<property name="eclipselink.cache.shared.default" value= "true" />
+			<property name="eclipselink.cache.shared.default" value="true" />
 		</properties>
 	</persistence-unit>
 
@@ -66,7 +68,8 @@
 
 		<class>com.kidscademy.dao.UrlConverter</class>
 		<class>com.kidscademy.dao.DislikeReasonConverter</class>
-		
+		<class>com.kidscademy.dao.AtlasObjectStateConverter</class>
+
 		<!-- embeddables -->
 		<class>com.kidscademy.atlas.Bird</class>
 		<class>com.kidscademy.atlas.Link</class>

@@ -21,6 +21,8 @@ com.kidscademy.admin.FormPage = class extends com.kidscademy.page.Page {
 		this._relatedControl = this._form.getByClass(com.kidscademy.admin.RelatedControl);
 		this._linksControl = this._form.getByClass(com.kidscademy.admin.LinksControl);
 
+		this._sideNameView = this.getByCssClass("side-name");
+
 		const actions = this.getByCssClass("buttons-bar");
 		actions.on(this, {
 			"&save": this._onSave,
@@ -66,6 +68,8 @@ com.kidscademy.admin.FormPage = class extends com.kidscademy.page.Page {
 		this._audioAssets.onStart();
 		this._relatedControl.onStart();
 		this._linksControl.onStart();
+
+		this._sideNameView.setText(object.display);
 	}
 
 	_onSave() {
@@ -76,9 +80,12 @@ com.kidscademy.admin.FormPage = class extends com.kidscademy.page.Page {
 			this.getByCss(`.quick-links [data-name=${fieldset.getAttr("id")}]`).addCssClass(this.CSS_INVALID);
 		};
 
+		const object = this.getObject();
 		if (this._form.isValid(updateQuickLink)) {
-			AdminService.saveInstrument(this.getObject(), id => this._object.id = id);
+			AdminService.saveInstrument(object, id => this._object.id = id);
 		}
+
+		this._sideNameView.setText(object.display);
 	}
 
 	_onReset() {

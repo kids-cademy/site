@@ -26,13 +26,26 @@ com.kidscademy.admin.HDateControl = class extends js.dom.Control {
 	}
 
 	getValue() {
-		const format = Number(this._formatSelect.getValue());
-		const period = Number(this._periodSelect.getValue());
-		const era = Number(this._eraSelect.getValue());
+		const value = this._valueInput.getValue();
+		if (value == null) {
+			return null;
+		}
+		const format = this._formatSelect.getValue();
+		if (format == null) {
+			return null;
+		}
+		const period = this._periodSelect.getValue();
+		if (period == null) {
+			return null;
+		}
+		const era = this._eraSelect.getValue();
+		if (era == null) {
+			return null;
+		}
 
 		return {
-			value: Number(this._valueInput.getValue()),
-			mask: format + period + era
+			value: Number(value),
+			mask: Number(format) + Number(period) + Number(era)
 		};
 	}
 

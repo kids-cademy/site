@@ -8,8 +8,19 @@
 .object-form.side-menu {
 }
 
+.object-form.side-menu .side-name {
+	height: 48px;
+	line-height: 48px;
+	margin: 0;
+	padding-left: 10px;
+	xbackground-color: @color/blue-100;
+	border-bottom: solid 1px @color/border-muted;
+	font-size: 1.8rem;
+	color: black;
+}
+
 .object-form.side-menu .developers {
-	padding: 10px 0;
+	padding: 10px;
 	border-bottom: solid 1px @color/border-muted;
 }
 
@@ -20,7 +31,7 @@
 }
 
 .object-form.side-menu .quick-links {
-	padding-top: 20px;
+	padding: 20px;
 }
 
 .object-form.side-menu .quick-links li {
@@ -183,5 +194,5 @@
 }
 
 .object-form .buttons-bar {
-	margin: 40px 0;
+	margin: 10px 0;
 }

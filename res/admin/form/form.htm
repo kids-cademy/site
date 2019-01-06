@@ -14,7 +14,7 @@
 						<label>name</label> <input name="name" />
 					</div>
 					<div>
-						<label>display</label> <input name="display" />
+						<label>display</label> <input name="display" class="optional" />
 					</div>
 					<div>
 						<label>aliases</label> <input name="aliases" class="optional" data-class="com.kidscademy.admin.AliasesControl" />
@@ -23,7 +23,7 @@
 						<label>category</label> <select name="category" w:widget="compo/instrument-category-select"></select>
 					</div>
 					<div data-name="date" data-class="com.kidscademy.admin.HDateControl">
-						<label>date</label><input name="value" class="mini" /><select name="format">
+						<label>date</label><input name="value" class="mini optional" /><select name="format" class="optional">
 							<option selected="selected"></option>
 							<option value="0">DATE</option>
 							<option value="1">YEAR</option>
@@ -33,13 +33,13 @@
 							<option value="5">KYA</option>
 							<option value="6">MYA</option>
 							<option value="7">BYA</option>
-						</select> <select name="period">
+						</select> <select name="period" class="optional">
 							<option selected="selected"></option>
 							<option value="0">FULL</option>
 							<option value="256">BEGINNING</option>
 							<option value="512">MIDDLE</option>
 							<option value="768">END</option>
-						</select> <select name="era">
+						</select> <select name="era" class="optional">
 							<option selected="selected"></option>
 							<option value="0">CE</option>
 							<option value="65536">BCE</option>
@@ -57,7 +57,7 @@
 			<div class="content">
 				<div class="container">
 					<div>
-						<textarea name="description" data-class="com.kidscademy.admin.TextControl"></textarea>
+						<textarea name="description" class="optional" data-class="com.kidscademy.admin.TextControl"></textarea>
 					</div>
 				</div>
 			</div>
@@ -66,7 +66,7 @@
 		<fieldset id="graphic-assets" w:widget="admin/form/graphic-assets"></fieldset>
 
 		<fieldset id="audio-assets" class="audio-assets" data-class="com.kidscademy.admin.AudioAssets">
-			<input name="sample-path" type="hidden" data-class="com.kidscademy.HiddenControl" /><input name="waveform-path" type="hidden" />
+			<input name="sample-path" type="hidden" class="optional" data-class="com.kidscademy.HiddenControl" /><input name="waveform-path" type="hidden" class="optional" />
 			<div class="header container">
 				<h2>Audio Assets</h2>
 				<p>@string/sample-text</p>
@@ -74,10 +74,10 @@
 			<div class="content">
 				<div class="container">
 					<div>
-						<label>sample title</label> <input name="sample-title" />
+						<label>sample title</label> <input name="sample-title" class="optional" />
 					</div>
 					<div id="sample-path" class="waveform">
-						<img />
+						<img data-src="waveformPath" data-format="com.kidscademy.ImageFormat" />
 						<div class="progress"></div>
 					</div>
 					<div class="actions">
@@ -107,7 +107,7 @@
 					<div class="editor hidden">
 						<div>
 							<div>
-								<input name="term" />
+								<input name="term" maxlength="64" />
 							</div>
 							<div>
 								<textarea name="definition" class="mini"></textarea>
@@ -153,14 +153,14 @@
 			<div class="content">
 				<div class="container">
 					<ul class="list-view related" data-list=".">
-						<li data-id="id"><img data-src="src" />
+						<li data-id="id"><img data-src="iconPath" data-format="com.kidscademy.ImageFormat" data-default="@image/default-icon" />
 							<h4 data-text="display"></h4></li>
 					</ul>
 					<div class="actions">
 						<img name="edit" src="@image/action/edit" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
 					</div>
 					<ul class="list-view collection hidden" data-list=".">
-						<li data-id="id"><img data-src="src" />
+						<li data-id="id"><img data-src="iconPath" data-format="com.kidscademy.ImageFormat" data-default="@image/default-icon" />
 							<h4 data-text="display"></h4></li>
 					</ul>
 				</div>
@@ -175,22 +175,18 @@
 			<div class="content">
 				<div class="container">
 					<ul class="list-view" data-list=".">
-						<li><img data-src="src" data-title="description" />
+						<li data-id="id"><img data-src="iconPath" data-title="url" data-format="com.kidscademy.LinkIconFormat" />
 							<h4 data-text="name"></h4></li>
 					</ul>
+					
 					<div class="actions">
 						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="browse" src="@image/action/browse" title="@string/sample-tooltip" /> <img name="done" src="@image/action/done" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
 					</div>
+					
 					<div class="editor hidden">
 						<div>
 							<div>
 								<label>URL</label> <input name="url" data-value="url" />
-							</div>
-							<div>
-								<label>Name</label> <input name="name" data-value="name" />
-							</div>
-							<div>
-								<label>Description</label> <input name="description" data-value="description" class="large" />
 							</div>
 						</div>
 					</div>
@@ -201,10 +197,11 @@
 </div>
 
 <div w:template="template/admin#side-menu" class="object-form" xmlns:w="js-lib.com/wood">
+	<h1 class="side-name"></h1>
 	<ul class="developers inline">
-		<li><img src="/repository/developers/ioana-agavriloaiei.png" /></li>
-		<li><img src="/repository/developers/octavian-rotaru.png" /></li>
-		<li><img src="/repository/developers/lucian-rotaru.png" /></li>
+		<li><img src="/media/developer/ioana-agavriloaiei.png" /></li>
+		<li><img src="/media/developer/octavian-rotaru.png" /></li>
+		<li><img src="/media/developer/lucian-rotaru.png" /></li>
 	</ul>
 	<ul class="quick-links">
 		<li data-name="identity">Identity<span class="state"></span></li>

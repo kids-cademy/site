@@ -8,6 +8,8 @@
 		<script>gen/com/kidscademy/AdminService.js</script>
 		<script>script/com/kidscademy/page/Page.js</script>
 		<script>script/com/kidscademy/HiddenControl.js</script>
+		<script>script/com/kidscademy/ImageFormat.js</script>
+		<script>script/com/kidscademy/LinkIconFormat.js</script>
 		<script>script/com/kidscademy/Form.js</script>
 		<script>script/com/kidscademy/admin/CropMask.js</script>
 		<script>script/com/kidscademy/admin/GraphicAssets.js</script>

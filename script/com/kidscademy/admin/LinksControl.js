@@ -22,14 +22,10 @@ com.kidscademy.admin.LinksControl = class extends js.dom.Control {
 		this._listView.on("click", this._onListViewClick, this);
 
 		this._editor = this.getByCssClass("editor");
+		this._urlInput = this.getByName("url");
+		this._urlInput.on("keypress", this._onUrlInputKey, this);
 		this._editIndex = -1;
 
-		this._editor.getObject = function (link) {
-			link.url = this.getByName("url").getValue();
-			link.name = this.getByName("name").getValue();
-			link.description = this.getByName("description").getValue();
-			return link;
-		};
 
 		const actions = this.getByCssClass("actions");
 		this._addAction = actions.getByName("add");
@@ -72,50 +68,44 @@ com.kidscademy.admin.LinksControl = class extends js.dom.Control {
 	_onAdd() {
 		this._editIndex = -1;
 		this._showEditor(true);
-
-		this._selectedLink = {
-			url: null,
-			name: null,
-			description: null
-		};
-		this._editor.setObject(this._selectedLink);
+		this._urlInput.reset();
 	}
 
 	_onListViewClick(ev) {
 		const item = ev.target.getParentByTag("li");
 		this._editIndex = item.getChildIndex();
 		this._showEditor(true);
-
-		this._selectedLink = item.getUserData();
-		this._editor.setObject(this._selectedLink);
+		this._urlInput.setValue(item.getUserData().url);
 	}
 
 	_onBrowse() {
-		const urlInput = this.getByName("url");
-		WinMain.open(urlInput.getValue());
+		WinMain.open(this._urlInput.getValue());
 	}
 
 	_onDone() {
-		function basedomain(url) {
-			var matches = /http[s]?\:\/\/(?:[^.]+\.)*([^.]+)\.[^/]+.*/g.exec(url);
-			return matches[1];
+		const url = this._urlInput.getValue();
+		if (url == null) {
+			return;
 		}
-
-		const link = this._editor.getObject(this._selectedLink);
-		link.iconPath = `links/${basedomain(link.url)}.png`;
 
 		if (this._editIndex === -1) {
 			// edit index is not set therefore we are in append mode
-			link.id = 0;
-			link.objectId = this._formPage.getObject().id;
-			this._links.push(link);
+			AdminService.createLink(url, link => {
+				this._links.push(link);
+				this._updateView();
+			});
 		}
 		else {
 			// edit index is set therefore we are in edit mode
-			this._links[this._editIndex] = link;
+			const editLink = this._links[this._editIndex];
+			AdminService.createLink(url, link => {
+				editLink.url = link.url;
+				editLink.name = link.name;
+				editLink.iconPath = link.iconPath;
+				this._updateView();
+			});
 		}
 
-		this._updateView();
 		this._showEditor(false);
 	}
 
@@ -130,9 +120,6 @@ com.kidscademy.admin.LinksControl = class extends js.dom.Control {
 	}
 
 	_updateView() {
-		this._links.forEach(function (link) {
-			link.src = "/repository/" + link.iconPath;
-		});
 		this._listView.setObject(this._links);
 	}
 
@@ -142,6 +129,27 @@ com.kidscademy.admin.LinksControl = class extends js.dom.Control {
 		this._removeAction.show(show);
 		this._closeAction.show(show);
 		this._editor.show(show);
+
+		if (show) {
+			this._urlInput.scrollIntoView();
+			this._urlInput.focus();
+		}
+	}
+
+	_onUrlInputKey(ev) {
+		switch (ev.key) {
+			case js.event.Key.ENTER:
+				this._onDone();
+				break;
+
+			case js.event.Key.ESCAPE:
+				this._onClose();
+				break;
+
+			case js.event.Key.DELETE:
+				this._onRemove();
+				break;
+		}
 	}
 
 	/**
