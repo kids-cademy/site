@@ -6,6 +6,7 @@
 	<scripts>
 		<script>lib/js-lib/js-lib.js</script>
 		<script>gen/com/kidscademy/AdminService.js</script>
+		<script>script/com/kidscademy/ImageFormat.js</script>
 		<script>script/com/kidscademy/HiddenControl.js</script>
 		<script>script/com/kidscademy/admin/CropMask.js</script>
 		<script>script/com/kidscademy/admin/GraphicAssets.js</script>

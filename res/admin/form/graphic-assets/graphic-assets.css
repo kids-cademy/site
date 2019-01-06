@@ -1,5 +1,11 @@
 .graphic-assets {
-	
+}
+
+.graphic-assets .view {
+}
+
+.graphic-assets .view .item {
+	display: inline-block;
 }
 
 .graphic-assets .view img {
@@ -17,6 +23,13 @@
 
 .graphic-assets .view img.invalid {
 	border-color: @color/control-invalid-border;
+}
+
+.graphic-assets .view .item h3 {
+	margin: 0;
+	padding: 0;
+	font-size: 1.8rem;
+	color: black;
 }
 
 .graphic-assets .editor {

@@ -1,7 +1,7 @@
 WinMain.on("load", function() {
 	var graphicAssets = WinMain.doc.getByClass(com.kidscademy.admin.GraphicAssets);
 
-	graphicAssets.onCreated({
+	graphicAssets.onCreate({
 		getObject : function() {
 			return {
 				name : "test",

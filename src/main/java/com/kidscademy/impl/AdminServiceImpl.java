@@ -189,14 +189,21 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
-  public String uploadIconFile(Form form) throws IOException
+  public String uploadIconFile(Form form) throws IOException, InterruptedException, IM4JavaException
   {
     String iconPath = Strings.concat("instruments/", form.getValue("name"), "/icon.jpg");
 
     File iconFile = new File(REPOSITORY_DIR, iconPath);
     iconFile.getParentFile().mkdirs();
-    iconFile.delete();
-    form.getUploadedFile("file").getFile().renameTo(iconFile);
+
+    IMOperation op = new IMOperation();
+    op.addImage(form.getUploadedFile("file").getFile().getAbsolutePath());
+    op.resize(96, 96);
+    op.quality(80.0);
+    op.addImage(iconFile.getAbsolutePath());
+
+    ConvertCmd cmd = new ConvertCmd();
+    cmd.run(op);
 
     return iconPath;
   }
