@@ -15,6 +15,7 @@ import org.im4java.core.IMOperation;
 import org.im4java.process.ProcessStarter;
 
 import com.kidscademy.AdminService;
+import com.kidscademy.atlas.AudioSampleInfo;
 import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
@@ -27,10 +28,12 @@ import com.kidscademy.util.WaveStream;
 import js.annotation.ContextParam;
 import js.core.AppContext;
 import js.http.form.Form;
+import js.lang.BugError;
 import js.log.Log;
 import js.log.LogFactory;
 import js.util.Strings;
 import net.bramp.ffmpeg.FFmpegExecutor;
+import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 
 public class AdminServiceImpl implements AdminService
@@ -78,13 +81,24 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
-  public Instrument getInstrument(int instrumentId)
+  public Instrument getInstrument(int instrumentId) throws IOException
   {
     if(instrumentId == 0) {
       User user = context.getUserPrincipal();
       return Instrument.create(user);
     }
-    return dao.getInstrument(instrumentId);
+    Instrument instrument = dao.getInstrument(instrumentId);
+
+    if(instrument.getSamplePath() != null) {
+      File sampleFile = new File(REPOSITORY_DIR, instrument.getSamplePath());
+      if(sampleFile.exists()) {
+        FFprobe probe = new FFprobe();
+        AudioSampleInfo sampleInfo = new AudioSampleInfo(probe.probe(sampleFile.getAbsolutePath()));
+        instrument.setSampleInfo(sampleInfo);
+      }
+    }
+
+    return instrument;
   }
 
   @Override
@@ -115,7 +129,7 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
-  public Map<String, String> uploadAudioSample(Form form) throws IOException, UnsupportedAudioFileException
+  public Map<String, Object> uploadAudioSample(Form form) throws IOException, UnsupportedAudioFileException
   {
     String objectName = form.getValue("name");
     String samplePath = Strings.concat("instruments/", objectName, "/sample.mp3");
@@ -126,18 +140,23 @@ public class AdminServiceImpl implements AdminService
 
     form.getUploadedFile("file").getFile().renameTo(sampleFile);
 
-    Map<String, String> result = new HashMap<>();
+    Map<String, Object> result = new HashMap<>();
     result.put("samplePath", samplePath);
     result.put("waveformPath", generateWaveform(objectName));
+
+    FFprobe probe = new FFprobe();
+    result.put("sampleInfo", new AudioSampleInfo(probe.probe(sampleFile.getAbsolutePath())));
+    
     return result;
   }
 
   @Override
   public String generateWaveform(String objectName) throws IOException, UnsupportedAudioFileException
   {
-    String waveformPath = Strings.concat("instruments/", objectName, "/waveform.png");
     File mp3File = new File(REPOSITORY_DIR, Strings.concat("instruments/", objectName, "/sample.mp3"));
-    mp3File.getParentFile().mkdirs();
+    if(!mp3File.exists()) {
+      throw new BugError("Database not consistent. Missing sample file |%s|.", mp3File);
+    }
 
     File wavFile = File.createTempFile("sample", ".wav");
 
@@ -149,6 +168,7 @@ public class AdminServiceImpl implements AdminService
     FFmpegExecutor executor = new FFmpegExecutor();
     executor.createJob(builder).run();
 
+    String waveformPath = Strings.concat("instruments/", objectName, "/waveform.png");
     File waveFormFile = new File(REPOSITORY_DIR, waveformPath);
     WaveStream stream = new WaveStream(wavFile);
     WaveForm waveform = new WaveForm(960, 140);
@@ -251,5 +271,15 @@ public class AdminServiceImpl implements AdminService
   public Link createLink(URL url)
   {
     return Link.create(url);
+  }
+
+  @Override
+  public void removeInstrumentSample(String instrumentName)
+  {
+    dao.removeInstrumentSample(instrumentName);
+    
+    File instrumentDir = new File(REPOSITORY_DIR, Strings.concat("instruments/", instrumentName));
+    new File(instrumentDir, "sample.mp3").delete();
+    new File(instrumentDir, "waveform.png").delete();
   }
 }

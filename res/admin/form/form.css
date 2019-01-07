@@ -5,10 +5,10 @@
 	width: 100%;
 }
 
-.object-form.side-menu {
+.object-form.side-bar {
 }
 
-.object-form.side-menu .side-name {
+.object-form.side-bar .side-name {
 	height: 48px;
 	line-height: 48px;
 	margin: 0;
@@ -19,142 +19,15 @@
 	color: black;
 }
 
-.object-form.side-menu .developers {
+.object-form.side-bar .developers {
 	padding: 10px;
 	border-bottom: solid 1px @color/border-muted;
 }
 
-.object-form.side-menu .developers img {
+.object-form.side-bar .developers img {
 	width: 64px;
 	height: 64px;
 	cursor: pointer;
-}
-
-.object-form.side-menu .quick-links {
-	padding: 20px;
-}
-
-.object-form.side-menu .quick-links li {
-	height: 48px;
-	line-height: 48px;
-	padding-left: 20px;
-	margin-left: 1px;
-	margin-top: 1px;
-	border-left: solid 4px;
-	cursor: pointer;
-	color: black;
-}
-
-.object-form.side-menu .quick-links li .state {
-	display: inline-block;
-	vertical-align: middle;
-	float: right;
-	width: 20px;
-	height: 20px;
-	margin-top: 12px;
-	margin-right: 10px;
-	border-radius: 10px;
-}
-
-.object-form.side-menu .quick-links li.invalid .state {
-	background-color: @color/danger;
-}
-
-.object-form.side-menu .quick-links li:hover {
-	color: black;
-}
-
-.object-form.side-menu .quick-links li:nth-child(1) {
-	border-left-color: @color/red-300;
-	background-color: @color/red-50;
-}
-
-.object-form.side-menu .quick-links li:nth-child(2) {
-	border-left-color: @color/pink-300;
-	background-color: @color/pink-50;
-}
-
-.object-form.side-menu .quick-links li:nth-child(3) {
-	border-left-color: @color/purple-300;
-	background-color: @color/purple-50;
-}
-
-.object-form.side-menu .quick-links li:nth-child(4) {
-	border-left-color: @color/deep-purple-300;
-	background-color: @color/deep-purple-50;
-}
-
-.object-form.side-menu .quick-links li:nth-child(5) {
-	border-left-color: @color/indigo-300;
-	background-color: @color/indigo-50;
-}
-
-.object-form.side-menu .quick-links li:nth-child(6) {
-	border-left-color: @color/blue-300;
-	background-color: @color/blue-50;
-}
-
-.object-form.side-menu .quick-links li:nth-child(7) {
-	border-left-color: @color/light-blue-300;
-	background-color: @color/light-blue-50;
-}
-
-.object-form.side-menu .quick-links li:nth-child(8) {
-	border-left-color: @color/cyan-300;
-	background-color: @color/cyan-50;
-}
-
-.object-form fieldset {
-	padding: 20px 0;
-	margin-top: 20px;
-}
-
-.object-form fieldset .content {
-	margin-top: 30px;
-	padding: 30px 0;
-	background: radial-gradient(circle at 30% 50%, #FFFFFF, #2d9a27);
-}
-
-.object-form label {
-	display: inline-block;
-	width: 200px;
-	font-size: 18px;
-}
-
-.object-form input {
-	display: inline-block;
-	width: 600px;
-	xborder:solid 1px #76be76;
-	padding: 10px;
-}
-
-.object-form input.medium {
-	width: 380px;
-	margin-right: 20px;
-}
-
-.object-form input.mini {
-	width: 180px;
-	margin-right: 20px;
-}
-
-.object-form input.large {
-	width: 800px;
-	max-width: 800px;
-}
-
-.object-form textarea {
-	width: 820px;
-	height: 400px;
-	max-width: 1100px;
-	min-height: 200px;
-	overflow:auto;
-	padding: 10px;
-}
-
-.object-form textarea.mini {
-	height: 100px;
-	min-height: 100px;
 }
 
 .header p {
@@ -165,34 +38,6 @@
 	min-height: 120px;
 }
 
-.object-form .audio-assets .waveform {
-	position: relative;
-	width: 100%;
-	height: 120px;
-	margin-top: 40px;
-	background-color: rgba(255,255,255,0.1);
-	border: solid 1px transparent;
-}
-
-.object-form .audio-assets .waveform.invalid {
-	border-color: #A00000;
-}
-
-.object-form .audio-assets .waveform img {
-	display: inline-block;
-	width: 100%;
-	height: 100%;
-}
-
-.object-form .audio-assets .waveform .progress {
-	position: absolute;
-	top: 0;
-	width: 0;
-	height: 100%;
-	background-color: rgba(255,255,255,0.4);
-	border-right: solid 1px #00b359;
-}
-
 .object-form .buttons-bar {
-	margin: 10px 0;
+	margin: 20px 0;
 }

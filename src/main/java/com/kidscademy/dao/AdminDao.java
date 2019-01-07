@@ -33,4 +33,6 @@ public interface AdminDao
   List<GraphicObject> getInstrumentsByCategory(Instrument.Category category);
 
   void updateWaveformPath(String objectName, String waveformPath);
+
+  void removeInstrumentSample(String instrumentName);
 }

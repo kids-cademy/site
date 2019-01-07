@@ -22,4 +22,9 @@
 	<!-- DL dimensions -->
 	<!-- space between dt and dd when displayed vertically -->
 	<dt-head-space>4px</dt-head-space>
+	
+	<!-- side menu -->
+	<side-menu-item-height>48px</side-menu-item-height>
+	<side-menu-icon-size>32px</side-menu-icon-size>
+	<side-menu-bullet-size>20px</side-menu-bullet-size>
 </dimen>

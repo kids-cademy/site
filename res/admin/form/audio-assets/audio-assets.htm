@@ -1,0 +1,48 @@
+<fieldset class="audio-assets" data-class="com.kidscademy.admin.AudioAssets">
+	<input name="sample-path" type="hidden" class="optional" data-class="com.kidscademy.HiddenControl" />
+	<input name="waveform-path" type="hidden" class="optional" />
+	
+	<div class="header container">
+		<h2>Audio Assets</h2>
+		<p>@string/sample-text</p>
+	</div>
+	
+	<div class="content">
+		<div class="container">
+			<div>
+				<label>sample title</label> <input name="sample-title" class="optional" />
+			</div>
+			<div id="sample-path" class="waveform">
+				<img data-src="waveformPath" data-format="com.kidscademy.ImageFormat" />
+				<div class="progress"></div>
+			</div>
+			<div class="sample-info">
+				<dl class="inline">
+					<dt>Codec</dt>
+					<dd data-text="codec"></dd>
+					<dt>File Size</dt>
+					<dd data-text="file-size" data-format="js.format.FileSize"></dd>
+					<dt>Duration</dt>
+					<dd data-text="duration" data-format="js.format.Duration"></dd>
+				</dl>
+				<dl class="inline">
+					<dt>Channels</dt>
+					<dd data-text="channels"></dd>
+					<dt>Sample Rate</dt>
+					<dd data-text="sample-rate"></dd>
+					<dt>Bit Rate</dt>
+					<dd data-text="bit-rate" data-format="js.format.BitRate"></dd>
+				</dl>
+			</div>
+			<div class="actions">
+				<div class="upload-icon">
+					<img src="@image/action/upload" /><input class="sample-file" type="file" title="@string/audio-upload-tip" accept="audio/*" />
+				</div>
+				<img name="fade-in" src="@image/action/fade-in" title="@string/fade-in-tip" />
+				<img name="fade-out" src="@image/action/fade-out" title="@string/fade-out-tip" />
+				<img name="play" src="@image/action/play" title="@string/audio-play-tip" />
+				<img name="remove" src="@image/action/remove" title="@string/remove-audio-tip" />
+			</div>
+		</div>
+	</div>
+</fieldset>

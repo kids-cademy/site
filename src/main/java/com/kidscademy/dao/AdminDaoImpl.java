@@ -122,4 +122,11 @@ public class AdminDaoImpl implements AdminDao
     String jpql = "update Instrument i set i.waveformPath=:waveformPath where i.name=:objectName";
     em.createQuery(jpql).setParameter("waveformPath", waveformPath).setParameter("objectName", objectName).executeUpdate();
   }
+
+  @Override
+  public void removeInstrumentSample(String instrumentName)
+  {
+    String jpql = "update Instrument i set i.sampleTitle=null,i.samplePath=null,i.waveformPath=null where i.name=:name";
+    em.createQuery(jpql).setParameter("name", instrumentName).executeUpdate();
+  }
 }

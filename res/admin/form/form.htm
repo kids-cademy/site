@@ -8,7 +8,7 @@
 			<div class="content">
 				<div class="container">
 					<div>
-						<label>rank</label> <input name="rank" />
+						<label>rank</label> <input name="rank" class="mini" />
 					</div>
 					<div>
 						<label>name</label> <input name="name" />
@@ -64,31 +64,7 @@
 		</fieldset>
 
 		<fieldset id="graphic-assets" w:widget="admin/form/graphic-assets"></fieldset>
-
-		<fieldset id="audio-assets" class="audio-assets" data-class="com.kidscademy.admin.AudioAssets">
-			<input name="sample-path" type="hidden" class="optional" data-class="com.kidscademy.HiddenControl" /><input name="waveform-path" type="hidden" class="optional" />
-			<div class="header container">
-				<h2>Audio Assets</h2>
-				<p>@string/sample-text</p>
-			</div>
-			<div class="content">
-				<div class="container">
-					<div>
-						<label>sample title</label> <input name="sample-title" class="optional" />
-					</div>
-					<div id="sample-path" class="waveform">
-						<img data-src="waveformPath" data-format="com.kidscademy.ImageFormat" />
-						<div class="progress"></div>
-					</div>
-					<div class="actions">
-						<div class="upload-icon">
-							<img src="@image/action/upload" /><input class="sample-file" type="file" title="@string/audio-upload-tip" accept="audio/*" />
-						</div>
-						<img name="fade-in" src="@image/action/fade-in" title="@string/fade-in-tip" /> <img name="fade-out" src="@image/action/fade-out" title="@string/fade-out-tip" /> <img name="play" src="@image/action/play" title="@string/audio-play-tip" /> <img name="remove" src="@image/action/remove" title="@string/remove-audio-tip" />
-					</div>
-				</div>
-			</div>
-		</fieldset>
+		<fieldset id="audio-assets" w:widget="admin/form/audio-assets"></fieldset>
 
 		<fieldset id="facts" name="facts" data-class="com.kidscademy.admin.FactsControl">
 			<div class="header container">
@@ -153,7 +129,7 @@
 			<div class="content">
 				<div class="container">
 					<ul class="list-view related" data-list=".">
-						<li data-id="id"><img data-src="iconPath" data-format="com.kidscademy.ImageFormat" data-default="@image/default-icon" />
+						<li data-id="id"><a data-href="href"><img data-src="iconPath" data-format="com.kidscademy.ImageFormat" data-default="@image/default-icon" /></a>
 							<h4 data-text="display"></h4></li>
 					</ul>
 					<div class="actions">
@@ -178,11 +154,11 @@
 						<li data-id="id"><img data-src="iconPath" data-title="url" data-format="com.kidscademy.LinkIconFormat" />
 							<h4 data-text="name"></h4></li>
 					</ul>
-					
+
 					<div class="actions">
 						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="browse" src="@image/action/browse" title="@string/sample-tooltip" /> <img name="done" src="@image/action/done" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
 					</div>
-					
+
 					<div class="editor hidden">
 						<div>
 							<div>
@@ -196,22 +172,22 @@
 	</form>
 </div>
 
-<div w:template="template/admin#side-menu" class="object-form" xmlns:w="js-lib.com/wood">
+<div w:template="template/admin#side-bar" class="object-form" xmlns:w="js-lib.com/wood">
 	<h1 class="side-name"></h1>
 	<ul class="developers inline">
 		<li><img src="/media/developer/ioana-agavriloaiei.png" /></li>
 		<li><img src="/media/developer/octavian-rotaru.png" /></li>
 		<li><img src="/media/developer/lucian-rotaru.png" /></li>
 	</ul>
-	<ul class="quick-links">
-		<li data-name="identity">Identity<span class="state"></span></li>
-		<li data-name="description">Description<span class="state"></span></li>
-		<li data-name="graphic-assets">Graphic Assets<span class="state"></span></li>
-		<li data-name="audio-assets">Audio Assets<span class="state"></span></li>
-		<li data-name="facts">Facts<span class="state"></span></li>
-		<li data-name="spreading">Spreading<span class="state"></span></li>
-		<li data-name="related">Related<span class="state"></span></li>
-		<li data-name="links">Links<span class="state"></span></li>
+	<ul class="side-menu quick-links">
+		<li data-name="identity"><img src="@image/action/identity" />Identity<span class="state"></span></li>
+		<li data-name="description"><img src="@image/action/description" />Description<span class="state"></span></li>
+		<li data-name="graphic-assets"><img src="@image/action/graphic-asset" />Graphic Assets<span class="state"></span></li>
+		<li data-name="audio-assets"><img src="@image/action/audio-asset" />Audio Assets<span class="state"></span></li>
+		<li data-name="facts"><img src="@image/action/facts" />Facts<span class="state"></span></li>
+		<li data-name="spreading"><img src="@image/action/spreading" />Spreading<span class="state"></span></li>
+		<li data-name="related"><img src="@image/action/related" />Related<span class="state"></span></li>
+		<li data-name="links"><img src="@image/action/link" />Links<span class="state"></span></li>
 	</ul>
 	<div class="container buttons-bar">
 		<button name="save">@string/save</button>

@@ -3,6 +3,7 @@
 	<index>index.htm</index>
 	
 	<admin-collection>collection.htm</admin-collection>
+	<admin-object>form.htm</admin-object>
 	<admin-media>media.htm</admin-media>
 	<admin-account>account.htm</admin-account>
 	

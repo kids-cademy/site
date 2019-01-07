@@ -78,6 +78,7 @@ public class Link
   static {
     DOMAIN_NAMES.put("wikipedia", "Wikipedia");
     DOMAIN_NAMES.put("softschools", "Soft Schools");
+    DOMAIN_NAMES.put("kiddle", "Kiddle");
     DOMAIN_NAMES.put("kids-cademy", "kids (a)cademy");
   }
 

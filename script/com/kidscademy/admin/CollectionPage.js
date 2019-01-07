@@ -15,7 +15,7 @@ com.kidscademy.admin.CollectionPage = class extends com.kidscademy.page.Page {
 		this._listView = this.getByCssClass("list-view");
 		this._listView.on("click", this._onListClick, this);
 
-		const actions = this.getByCss(".side-menu .actions");
+		const actions = this.getByCss(".side-bar .actions");
 		actions.on(this, {
 			"&new-object": this._onNewObject
 		});

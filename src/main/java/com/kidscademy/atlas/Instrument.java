@@ -8,6 +8,7 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 @Entity
 public class Instrument extends AtlasObject implements Serializable
@@ -18,6 +19,9 @@ public class Instrument extends AtlasObject implements Serializable
   private String sampleTitle;
   private String samplePath;
   private String waveformPath;
+  
+  @Transient
+  private AudioSampleInfo sampleInfo;
 
   @Embedded
   @AttributeOverrides(
@@ -70,6 +74,11 @@ public class Instrument extends AtlasObject implements Serializable
   public void setWaveformPath(String waveformPath)
   {
     this.waveformPath = waveformPath;
+  }
+
+  public void setSampleInfo(AudioSampleInfo sampleInfo)
+  {
+    this.sampleInfo = sampleInfo;
   }
 
   public HDate getDate()

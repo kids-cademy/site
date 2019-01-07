@@ -19,6 +19,8 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._waveformImage = this._waveformGroup.getByTag("img");
 		this._waveformImage.on("error", this._onMissingWaveform, this);
 
+		this._sampleInfo = this.getByCssClass("sample-info");
+
 		this.getByCssClass("sample-file").on("change", this._onSampleFileSelected, this);
 
 		this._audioPlayer = new Audio();
@@ -49,6 +51,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		const object = this._formPage.getObject();
 		this._updateSamplePath(object.samplePath);
 		this._updateWaveformPath(object.waveformPath);
+		this._sampleInfo.setObject(object.sampleInfo);
 	}
 
 	_onSampleFileSelected(ev) {
@@ -59,6 +62,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 			return;
 		}
 		this._waveformImage.reset();
+		this._sampleInfo.resetObject();
 
 		const data = new FormData();
 		data.append("name", object.name);
@@ -73,6 +77,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 	_onUploadComplete(object) {
 		this._updateSamplePath(object.samplePath);
 		this._updateWaveformPath(object.waveformPath);
+		this._sampleInfo.setObject(object.sampleInfo);
 	}
 
 	_onFadeIn() {
@@ -116,7 +121,17 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 	}
 
 	_onRemove() {
-
+		const object = this._formPage.getObject();
+		if (!object.name) {
+			return;
+		}
+		AdminService.removeInstrumentSample(object.name, () => {
+			this._samplePathControl.reset();
+			this._waveformPathControl.reset();
+			this._waveformImage.reset();
+			this._audioPlayer.src = null;
+			this._sampleInfo.resetObject();
+		});
 	}
 
 	_onMissingWaveform(ev) {
@@ -131,7 +146,8 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._samplePathControl.reset();
 		if (samplePath) {
 			this._samplePathControl.setValue(samplePath);
-			this._audioPlayer.src = "/media/atlas/" + samplePath;
+			// TODO hard coded media repository path
+			this._audioPlayer.src = "/media/atlas/" + samplePath + '?' + Math.random().toString(36);
 		}
 	}
 
@@ -140,7 +156,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._waveformImage.reset();
 		if (waveformPath) {
 			this._waveformPathControl.setValue(waveformPath);
-			this._waveformImage.setSrc(waveformPath);
+			this._waveformImage.reload(waveformPath);
 		}
 	}
 

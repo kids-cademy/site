@@ -174,21 +174,21 @@ com.kidscademy.admin.GraphicAssets = class extends js.dom.Element {
 
 		switch (this._aspectRatio) {
 			case 0:
-				this._upload("upload-thumbnail-file", (thumbnailPath) => {
+				this._upload("upload-thumbnail-file", thumbnailPath => {
 					this._thumbnailControl.setValue(thumbnailPath);
 					this._thumbnailImage.reload(thumbnailPath);
 				});
 				break;
 
 			case 1:
-				this._upload("upload-icon-file", (iconPath) => {
+				this._upload("upload-icon-file", iconPath => {
 					this._iconControl.setValue(iconPath);
 					this._iconImage.reload(iconPath);
 				});
 				break;
 
 			default:
-				this._upload("upload-picture-file", (picturePath) => {
+				this._upload("upload-picture-file", picturePath => {
 					this._pictureControl.setValue(picturePath);
 					this._pictureImage.reload(picturePath);
 				});

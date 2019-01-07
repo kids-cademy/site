@@ -39,7 +39,10 @@ com.kidscademy.admin.RelatedControl = class extends js.dom.Control {
 
 	setValue(related) {
 		const names = related.map(object => object.name);
-		com.kidscademy.AdminService.getRelatedInstruments(names, objects => this._relatedView.setObject(objects));
+		com.kidscademy.AdminService.getRelatedInstruments(names, objects => {
+			objects.forEach(object => object.href = `@link/admin-object?id=${object.id}`);
+			this._relatedView.setObject(objects)
+		});
 	}
 
 	getValue() {

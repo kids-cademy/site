@@ -34,8 +34,9 @@ public interface AdminService
    * 
    * @param instrumentId
    * @return instrument instance, possible empty or null.
+   * @throws IOException 
    */
-  Instrument getInstrument(int instrumentId);
+  Instrument getInstrument(int instrumentId) throws IOException;
 
   Instrument getInstrumentByName(String name);
 
@@ -45,7 +46,7 @@ public interface AdminService
 
   List<GraphicObject> getAvailableInstruments(Instrument.Category category, List<GraphicObject> related);
 
-  Map<String, String> uploadAudioSample(Form form) throws IOException, UnsupportedAudioFileException;
+  Map<String, Object> uploadAudioSample(Form form) throws IOException, UnsupportedAudioFileException;
 
   String generateWaveform(String objectName) throws IOException, UnsupportedAudioFileException;
 
@@ -67,4 +68,6 @@ public interface AdminService
   String createObjectIcon(String objectName) throws IOException, InterruptedException, IM4JavaException;
   
   Link createLink(URL url);
+  
+  void removeInstrumentSample(String instrumentName);
 }
