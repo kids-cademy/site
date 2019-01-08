@@ -193,6 +193,7 @@
             <groupId>com.github.axet</groupId>
             <artifactId>vget</artifactId>
             <version>1.1.33</version>
-        </dependency>
+            <scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>

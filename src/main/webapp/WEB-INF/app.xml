@@ -9,6 +9,8 @@
 		<entity-manager interface="javax.persistence.EntityManager" class="js.transaction.eclipselink.EntityManagerImpl" />
 		<dao interface="com.kidscademy.dao.Dao" class="com.kidscademy.dao.DaoImpl" type="PROXY" />
 		<admin-dao interface="com.kidscademy.dao.AdminDao" class="com.kidscademy.dao.AdminDaoImpl" type="PROXY" />
+
+		<audio-processor interface="com.kidscademy.AudioProcessor" class="com.kidscademy.impl.AudioProcessorImpl" />
 	</managed-classes>
 	<observer period="60000" />
 	<views>

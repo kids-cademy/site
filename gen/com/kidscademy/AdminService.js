@@ -218,6 +218,8 @@ com.kidscademy.AdminService = {
 	 * @return java.util.Map<java.lang.String,java.lang.Object>
 	 * @throws java.io.IOException
 	 * @throws javax.sound.sampled.UnsupportedAudioFileException
+	 * @throws java.lang.InterruptedException
+	 * @throws org.im4java.core.IM4JavaException
 	 * @assert callback is a {@link Function} and scope is an {@link Object}.
 	 */
 	 uploadAudioSample: function(form) {
@@ -246,6 +248,8 @@ com.kidscademy.AdminService = {
 	 * @return java.lang.String
 	 * @throws java.io.IOException
 	 * @throws javax.sound.sampled.UnsupportedAudioFileException
+	 * @throws java.lang.InterruptedException
+	 * @throws org.im4java.core.IM4JavaException
 	 * @assert callback is a {@link Function} and scope is an {@link Object}.
 	 */
 	 generateWaveform: function(objectName) {

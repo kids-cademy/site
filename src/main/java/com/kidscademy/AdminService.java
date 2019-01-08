@@ -46,9 +46,9 @@ public interface AdminService
 
   List<GraphicObject> getAvailableInstruments(Instrument.Category category, List<GraphicObject> related);
 
-  Map<String, Object> uploadAudioSample(Form form) throws IOException, UnsupportedAudioFileException;
+  Map<String, Object> uploadAudioSample(Form form) throws IOException, UnsupportedAudioFileException, InterruptedException, IM4JavaException;
 
-  String generateWaveform(String objectName) throws IOException, UnsupportedAudioFileException;
+  String generateWaveform(String objectName) throws IOException, UnsupportedAudioFileException, InterruptedException, IM4JavaException;
 
   String uploadPictureFile(Form form) throws IOException, InterruptedException, IM4JavaException;
 

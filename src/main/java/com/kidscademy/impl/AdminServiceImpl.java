@@ -15,6 +15,7 @@ import org.im4java.core.IMOperation;
 import org.im4java.process.ProcessStarter;
 
 import com.kidscademy.AdminService;
+import com.kidscademy.AudioProcessor;
 import com.kidscademy.atlas.AudioSampleInfo;
 import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
@@ -22,8 +23,6 @@ import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.Login;
 import com.kidscademy.atlas.User;
 import com.kidscademy.dao.AdminDao;
-import com.kidscademy.util.WaveForm;
-import com.kidscademy.util.WaveStream;
 
 import js.annotation.ContextParam;
 import js.core.AppContext;
@@ -32,9 +31,7 @@ import js.lang.BugError;
 import js.log.Log;
 import js.log.LogFactory;
 import js.util.Strings;
-import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
-import net.bramp.ffmpeg.builder.FFmpegBuilder;
 
 public class AdminServiceImpl implements AdminService
 {
@@ -48,12 +45,14 @@ public class AdminServiceImpl implements AdminService
 
   private final AppContext context;
   private final AdminDao dao;
+  private final AudioProcessor audio;
 
-  public AdminServiceImpl(AppContext context, AdminDao dao)
+  public AdminServiceImpl(AppContext context, AdminDao dao, AudioProcessor audio)
   {
     log.trace("AtlasServiceImpl(AppContext, AtlasDao)");
     this.context = context;
     this.dao = dao;
+    this.audio = audio;
     ProcessStarter.setGlobalSearchPath(IMAGE_MAGICK_PATH);
   }
 
@@ -129,7 +128,7 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
-  public Map<String, Object> uploadAudioSample(Form form) throws IOException, UnsupportedAudioFileException
+  public Map<String, Object> uploadAudioSample(Form form) throws IOException, UnsupportedAudioFileException, InterruptedException, IM4JavaException
   {
     String objectName = form.getValue("name");
     String samplePath = Strings.concat("instruments/", objectName, "/sample.mp3");
@@ -146,45 +145,21 @@ public class AdminServiceImpl implements AdminService
 
     FFprobe probe = new FFprobe();
     result.put("sampleInfo", new AudioSampleInfo(probe.probe(sampleFile.getAbsolutePath())));
-    
+
     return result;
   }
 
   @Override
-  public String generateWaveform(String objectName) throws IOException, UnsupportedAudioFileException
+  public String generateWaveform(String objectName) throws IOException, UnsupportedAudioFileException, InterruptedException, IM4JavaException
   {
     File mp3File = new File(REPOSITORY_DIR, Strings.concat("instruments/", objectName, "/sample.mp3"));
     if(!mp3File.exists()) {
       throw new BugError("Database not consistent. Missing sample file |%s|.", mp3File);
     }
 
-    File wavFile = File.createTempFile("sample", ".wav");
-
-    FFmpegBuilder builder = new FFmpegBuilder();
-    builder.setVerbosity(FFmpegBuilder.Verbosity.DEBUG);
-    builder.setInput(mp3File.getAbsolutePath());
-    builder.addOutput(wavFile.getAbsolutePath());
-
-    FFmpegExecutor executor = new FFmpegExecutor();
-    executor.createJob(builder).run();
-
     String waveformPath = Strings.concat("instruments/", objectName, "/waveform.png");
-    File waveFormFile = new File(REPOSITORY_DIR, waveformPath);
-    WaveStream stream = new WaveStream(wavFile);
-    WaveForm waveform = new WaveForm(960, 140);
-
-    try {
-      waveform.setSamplesCount(stream.getSamplesCount());
-      stream.setProgressListener(waveform);
-      stream.setSamplesListener(waveform);
-      stream.process();
-    }
-    finally {
-      stream.close();
-    }
-
-    waveform.save(waveFormFile);
-    wavFile.delete();
+    File waveformFile = new File(REPOSITORY_DIR, waveformPath);
+    audio.generateWaveform(mp3File, waveformFile);
     return waveformPath;
   }
 
@@ -277,7 +252,7 @@ public class AdminServiceImpl implements AdminService
   public void removeInstrumentSample(String instrumentName)
   {
     dao.removeInstrumentSample(instrumentName);
-    
+
     File instrumentDir = new File(REPOSITORY_DIR, Strings.concat("instruments/", instrumentName));
     new File(instrumentDir, "sample.mp3").delete();
     new File(instrumentDir, "waveform.png").delete();
