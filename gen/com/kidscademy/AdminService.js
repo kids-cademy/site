@@ -440,6 +440,34 @@ com.kidscademy.AdminService = {
 		rmi.setMethod("com.kidscademy.AdminService", "removeInstrumentSample");
 		rmi.setParameters(instrumentName);
 		rmi.exec(__callback__, __scope__);
+	},
+
+	/**
+	 * Normalize sample.
+	 *
+	 * @param java.lang.String objectName,
+	 * @param Function callback function to invoke on RMI completion,
+	 * @param Object scope optional callback run-time scope, default to global scope.
+	 * @return java.util.Map<java.lang.String,java.lang.Object>
+	 * @throws java.io.IOException
+	 * @assert callback is a {@link Function} and scope is an {@link Object}.
+	 */
+	 normalizeSample: function(objectName) {
+		$assert(typeof objectName !== "undefined", "com.kidscademy.AdminService#normalizeSample", "Object name argument is undefined.");
+		$assert(objectName === null || js.lang.Types.isString(objectName), "com.kidscademy.AdminService#normalizeSample", "Object name argument is not a string.");
+
+		var __callback__ = arguments[1];
+		$assert(js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#normalizeSample", "Callback is not a function.");
+		var __scope__ = arguments[2];
+		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#normalizeSample", "Scope is not an object.");
+		if(!js.lang.Types.isObject(__scope__)) {
+			__scope__ = window;
+		}
+
+		var rmi = new js.net.RMI();
+		rmi.setMethod("com.kidscademy.AdminService", "normalizeSample");
+		rmi.setParameters(objectName);
+		rmi.exec(__callback__, __scope__);
 	}
 };
 

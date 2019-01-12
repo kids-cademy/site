@@ -3,24 +3,28 @@ package com.kidscademy.impl;
 import java.io.File;
 import java.io.IOException;
 
-import org.im4java.core.ConvertCmd;
-import org.im4java.core.IM4JavaException;
-import org.im4java.core.IMOperation;
 import org.im4java.process.ProcessStarter;
 
 import com.kidscademy.AudioProcessor;
+import com.kidscademy.ImageProcessor;
+import com.kidscademy.atlas.AudioFileInfo;
 
 import js.annotation.ContextParam;
 import js.core.AppContext;
+import js.util.Files;
 import net.bramp.ffmpeg.FFmpegExecutor;
+import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
+import net.bramp.ffmpeg.builder.FFmpegOutputBuilder;
 
 public class AudioProcessorImpl implements AudioProcessor
 {
+  private static final String TEMP_PREFIX = "audio-processor";
+
   private static final int WAVEFORM_WIDTH = 800;
   private static final int WAVEFORM_HEIGHT = 160;
   private static final String WAVEFORM_COLOR = "#0000FF";
-  private static final String XAXIS_COLOR = "#00B359";
+  private static final String XAXIS_COLOR = "#FFFFFF";
 
   @ContextParam("image.magick.path")
   private static String IMAGE_MAGICK_PATH;
@@ -28,117 +32,115 @@ public class AudioProcessorImpl implements AudioProcessor
   private final File waveformXAxisFile;
   private final File waveformGradientFile;
 
-  public AudioProcessorImpl(AppContext context) throws IOException, InterruptedException, IM4JavaException
+  private final ImageProcessor image;
+
+  public AudioProcessorImpl(AppContext context, ImageProcessor image) throws IOException
   {
     ProcessStarter.setGlobalSearchPath(IMAGE_MAGICK_PATH);
+    this.image = image;
 
-    File waveformXAxisFile = context.getAppFile("waveform-x-axis.png");
+    waveformXAxisFile = context.getAppFile("waveform-x-axis.png");
     if(!waveformXAxisFile.exists()) {
-      // convert -size 960x140 xc:transparent -fill white -stroke black -draw "line 0,69.5,960,69.5" waveform-x-axis.png
-
-      IMOperation op = new IMOperation();
-      op.size(WAVEFORM_WIDTH, WAVEFORM_HEIGHT);
-      op.addRawArgs("xc:transparent");
-      op.fill("white");
-      op.stroke(XAXIS_COLOR);
-      float y = (WAVEFORM_HEIGHT - 1) / 2.0F;
-      op.draw(String.format("line 0,%f,%d,%f", y, WAVEFORM_WIDTH, y));
-      op.addImage(waveformXAxisFile.getAbsolutePath());
-
-      ConvertCmd cmd = new ConvertCmd();
-      cmd.run(op);
+      this.image.generateXAxis(waveformXAxisFile, WAVEFORM_WIDTH, WAVEFORM_HEIGHT, XAXIS_COLOR);
     }
-    this.waveformXAxisFile = waveformXAxisFile;
 
-    File waveformGradientFile = context.getAppFile("waveform-gradient.png");
+    waveformGradientFile = context.getAppFile("waveform-gradient.png");
     if(!waveformGradientFile.exists()) {
-      // convert -size 140x960 xc:red -colorspace HSB gradient: -compose CopyRed -composite -colorspace RGB -rotate 90
-      // waveform-gradient.png
-      IMOperation op = new IMOperation();
-      // reverse order of width and height because of -rotate 90
-      op.size(WAVEFORM_HEIGHT, WAVEFORM_WIDTH);
-      op.addRawArgs("xc:red");
-      op.colorspace("HSB");
-      op.addRawArgs("gradient:");
-      op.compose("CopyRed");
-      op.composite();
-      op.colorspace("RGB");
-      op.rotate(90.0);
-      op.addImage(waveformGradientFile.getAbsolutePath());
-
-      ConvertCmd cmd = new ConvertCmd();
-      cmd.run(op);
+      this.image.generateRainbowGradient(waveformGradientFile, WAVEFORM_HEIGHT, WAVEFORM_WIDTH);
     }
-    this.waveformGradientFile = waveformGradientFile;
   }
 
   @Override
-  public void generateWaveform(File audioFile, File waveformFile) throws IOException, InterruptedException, IM4JavaException
+  public AudioFileInfo getAudioFileInfo(File audioFile) throws IOException
   {
-    // uses ffmpeg to create waveform image with solid fill
-    // ffmpeg -i ${audio-file} -filter_complex "aformat=channel_layouts=mono,showwavespic=s=960x140:colors=#999980"
-    // -frames:v 1 ${waveform-file}
-
-    FFmpegBuilder builder = new FFmpegBuilder();
-    builder.setVerbosity(FFmpegBuilder.Verbosity.DEBUG);
-    builder.setInput(audioFile.getAbsolutePath());
-    builder.addOutput(waveformFile.getAbsolutePath());
-    builder.setComplexFilter(String.format("aformat=channel_layouts=mono,showwavespic=size=%dx%d:colors=%s", WAVEFORM_WIDTH, WAVEFORM_HEIGHT, WAVEFORM_COLOR));
-
-    FFmpegExecutor executor = new FFmpegExecutor();
-    executor.createJob(builder).run();
-
-    // uses image magick to replace waveform solid color with gradient
-    //
-    IMOperation op = new IMOperation();
-    op.composite();
-    op.compose("srcin");
-    op.addImage(waveformFile.getAbsolutePath());
-    op.addImage(waveformGradientFile.getAbsolutePath());
-    op.addImage(waveformFile.getAbsolutePath());
-
-    ConvertCmd cmd = new ConvertCmd();
-    cmd.run(op);
-
-    op = new IMOperation();
-    op.addImage(waveformFile.getAbsolutePath());
-    op.addImage(waveformXAxisFile.getAbsolutePath());
-    op.composite();
-    op.addImage(waveformFile.getAbsolutePath());
-
-    cmd = new ConvertCmd();
-    cmd.run(op);
+    FFprobe probe = new FFprobe();
+    return new AudioFileInfo(probe.probe(audioFile.getAbsolutePath()));
   }
 
-  public void generateWaveformEOL(File audioFile, File waveformFile) throws IOException
+  @Override
+  public void generateWaveform(File audioFile, File waveformFile) throws IOException
   {
-    FFmpegBuilder builder = new FFmpegBuilder();
-    builder.setVerbosity(FFmpegBuilder.Verbosity.DEBUG);
-    builder.setInput(audioFile.getAbsolutePath());
+    // sample should be already mono
 
-    // File wavFile = File.createTempFile("sample", ".wav");
-    // builder.addOutput(wavFile.getAbsolutePath());
+    // create waveform image with solid fill
+    // sample file should already be mono
+    // ffmpeg -i ${audio-file} -filter_complex "showwavespic=s=${width}x${height}:colors=${color}" ${waveform-file}
 
-    builder.addOutput(waveformFile.getAbsolutePath());
-    builder.setComplexFilter("aformat=channel_layouts=mono,showwavespic=size=960x140:colors=#0000FF");
+    // if not add filter aformat=channel_layouts=mono to mix down channels
+    // ffmpeg -i ${audio-file} -filter_complex "aformat=channel_layouts=mono,showwavespic=s=${width}x${height}:colors=${color}" ${waveform-file}
+
+    // hard to believe but there is a bug on waveform generation when use linear scale, that is default
+    // generated waveform height is half of requested value
+    // work around is to create waveform with double height then crop to original, i.e. requested value
+
+    FFmpegBuilder ffmpeg = new FFmpegBuilder();
+    ffmpeg.setInput(audioFile.getAbsolutePath());
+    ffmpeg.addOutput(waveformFile.getAbsolutePath());
+    // create waveform with double height to compensate ffmpeg bug
+    ffmpeg.setComplexFilter(String.format("showwavespic=size=%dx%d:colors=%s", WAVEFORM_WIDTH, 2 * WAVEFORM_HEIGHT, WAVEFORM_COLOR));
+    execute(ffmpeg);
+
+    // crop waveform image to original height
+    image.crop(waveformFile, WAVEFORM_WIDTH, WAVEFORM_HEIGHT, 0, WAVEFORM_HEIGHT / 2);
+
+    // replace waveform solid color with gradient
+    // SRC-IN alpha blending replace SRC solid color with gradient and leave SRC alpha as it is
+    image.compose(waveformFile, waveformGradientFile, ImageProcessor.Compose.SRCIN);
+
+    // overlap xaxis on waveform
+    image.overlap(waveformFile, waveformXAxisFile);
+  }
+
+  @Override
+  public void removeSilence(File audioFile, File... optionalTargetFile) throws IOException
+  {
+    File targetFile = createTempFile(audioFile, optionalTargetFile);
+
+    // ffmpeg -i ${audioFile} -af silenceremove=start_periods=1:start_duration=1:start_threshold=0.02:stop_periods=1:stop_duration=1:stop_threshold=0.02 ${targetFile}
+    FFmpegBuilder ffmpeg = new FFmpegBuilder();
+    ffmpeg.setInput(audioFile.getAbsolutePath());
+    // current version - 0.6.2 of FFmpeg wrapper has a bug mixing video and audio filters
+    // work around is just to use video filter when in fact need audio
+    ffmpeg.setVideoFilter("silenceremove=start_periods=1:start_duration=1:start_threshold=0.02:stop_periods=1:stop_duration=1:stop_threshold=0.02");
+    ffmpeg.addOutput(targetFile.getAbsolutePath());
+    execute(ffmpeg);
+
+    if(optionalTargetFile.length == 0) {
+      audioFile.delete();
+      targetFile.renameTo(audioFile);
+    }
+  }
+
+  @Override
+  public void convertToMono(File audioFile, File... optionalTargetFile) throws IOException
+  {
+    File targetFile = createTempFile(audioFile, optionalTargetFile);
+
+    // ffmpeg -i ${audioFile} -ac 1 ${targetFile}
+    FFmpegBuilder ffmpeg = new FFmpegBuilder();
+    ffmpeg.setInput(audioFile.getAbsolutePath());
+    FFmpegOutputBuilder output = ffmpeg.addOutput(targetFile.getAbsolutePath());
+    output.setAudioChannels(1);
 
     FFmpegExecutor executor = new FFmpegExecutor();
-    executor.createJob(builder).run();
+    executor.createJob(ffmpeg).run();
 
-    // WaveStream stream = new WaveStream(wavFile);
-    // WaveForm waveform = new WaveForm(960, 140);
-    //
-    // try {
-    // waveform.setSamplesCount(stream.getSamplesCount());
-    // stream.setProgressListener(waveform);
-    // stream.setSamplesListener(waveform);
-    // stream.process();
-    // }
-    // finally {
-    // stream.close();
-    // }
-    //
-    // waveform.save(waveFormFile);
-    // wavFile.delete();
+    if(optionalTargetFile.length == 0) {
+      audioFile.delete();
+      targetFile.renameTo(audioFile);
+    }
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  private static void execute(FFmpegBuilder builder) throws IOException
+  {
+    FFmpegExecutor executor = new FFmpegExecutor();
+    executor.createJob(builder).run();
+  }
+
+  private static File createTempFile(File audioFile, File... optionalTargetFile) throws IOException
+  {
+    return optionalTargetFile.length > 0 ? optionalTargetFile[0] : File.createTempFile(TEMP_PREFIX, "." + Files.getExtension(audioFile));
   }
 }

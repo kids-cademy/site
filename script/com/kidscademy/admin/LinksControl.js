@@ -73,9 +73,11 @@ com.kidscademy.admin.LinksControl = class extends js.dom.Control {
 
 	_onListViewClick(ev) {
 		const item = ev.target.getParentByTag("li");
-		this._editIndex = item.getChildIndex();
-		this._showEditor(true);
-		this._urlInput.setValue(item.getUserData().url);
+		if (item != null) {
+			this._editIndex = item.getChildIndex();
+			this._showEditor(true);
+			this._urlInput.setValue(item.getUserData().url);
+		}
 	}
 
 	_onBrowse() {

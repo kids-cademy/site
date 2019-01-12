@@ -9,14 +9,13 @@ import java.util.Map;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import org.im4java.core.ConvertCmd;
 import org.im4java.core.IM4JavaException;
-import org.im4java.core.IMOperation;
 import org.im4java.process.ProcessStarter;
 
 import com.kidscademy.AdminService;
 import com.kidscademy.AudioProcessor;
-import com.kidscademy.atlas.AudioSampleInfo;
+import com.kidscademy.ImageProcessor;
+import com.kidscademy.atlas.AudioFileInfo;
 import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
@@ -46,13 +45,15 @@ public class AdminServiceImpl implements AdminService
   private final AppContext context;
   private final AdminDao dao;
   private final AudioProcessor audio;
+  private final ImageProcessor image;
 
-  public AdminServiceImpl(AppContext context, AdminDao dao, AudioProcessor audio)
+  public AdminServiceImpl(AppContext context, AdminDao dao, AudioProcessor audio, ImageProcessor image)
   {
     log.trace("AtlasServiceImpl(AppContext, AtlasDao)");
     this.context = context;
     this.dao = dao;
     this.audio = audio;
+    this.image = image;
     ProcessStarter.setGlobalSearchPath(IMAGE_MAGICK_PATH);
   }
 
@@ -92,7 +93,7 @@ public class AdminServiceImpl implements AdminService
       File sampleFile = new File(REPOSITORY_DIR, instrument.getSamplePath());
       if(sampleFile.exists()) {
         FFprobe probe = new FFprobe();
-        AudioSampleInfo sampleInfo = new AudioSampleInfo(probe.probe(sampleFile.getAbsolutePath()));
+        AudioFileInfo sampleInfo = new AudioFileInfo(probe.probe(sampleFile.getAbsolutePath()));
         instrument.setSampleInfo(sampleInfo);
       }
     }
@@ -144,7 +145,7 @@ public class AdminServiceImpl implements AdminService
     result.put("waveformPath", generateWaveform(objectName));
 
     FFprobe probe = new FFprobe();
-    result.put("sampleInfo", new AudioSampleInfo(probe.probe(sampleFile.getAbsolutePath())));
+    result.put("sampleInfo", new AudioFileInfo(probe.probe(sampleFile.getAbsolutePath())));
 
     return result;
   }
@@ -164,81 +165,46 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
-  public String uploadPictureFile(Form form) throws IOException, InterruptedException, IM4JavaException
+  public String uploadPictureFile(Form form) throws IOException
   {
     String picturePath = Strings.concat("instruments/", form.getValue("name"), "/picture.jpg");
-
     File pictureFile = new File(REPOSITORY_DIR, picturePath);
     pictureFile.getParentFile().mkdirs();
 
-    IMOperation op = new IMOperation();
-    op.addImage(form.getUploadedFile("file").getFile().getAbsolutePath());
-    op.resize(920, 560);
-    op.quality(40.0);
-    op.addImage(pictureFile.getAbsolutePath());
-
-    ConvertCmd cmd = new ConvertCmd();
-    cmd.run(op);
-
+    image.saveObjectPicture(form.getUploadedFile("file").getFile(), pictureFile);
     return picturePath;
   }
 
   @Override
-  public String uploadIconFile(Form form) throws IOException, InterruptedException, IM4JavaException
+  public String uploadIconFile(Form form) throws IOException
   {
     String iconPath = Strings.concat("instruments/", form.getValue("name"), "/icon.jpg");
-
     File iconFile = new File(REPOSITORY_DIR, iconPath);
     iconFile.getParentFile().mkdirs();
 
-    IMOperation op = new IMOperation();
-    op.addImage(form.getUploadedFile("file").getFile().getAbsolutePath());
-    op.resize(96, 96);
-    op.quality(80.0);
-    op.addImage(iconFile.getAbsolutePath());
-
-    ConvertCmd cmd = new ConvertCmd();
-    cmd.run(op);
-
+    image.saveObjectIcon(form.getUploadedFile("file").getFile(), iconFile);
     return iconPath;
   }
 
   @Override
-  public String uploadThumbnailFile(Form form) throws IOException, InterruptedException, IM4JavaException
+  public String uploadThumbnailFile(Form form) throws IOException
   {
     String thumbnailPath = Strings.concat("instruments/", form.getValue("name"), "/thumbnail.png");
-
     File thumbnailFile = new File(REPOSITORY_DIR, thumbnailPath);
     thumbnailFile.getParentFile().mkdirs();
 
-    IMOperation op = new IMOperation();
-    op.addImage(form.getUploadedFile("file").getFile().getAbsolutePath());
-    op.resize(560);
-    op.addImage(thumbnailFile.getAbsolutePath());
-
-    ConvertCmd cmd = new ConvertCmd();
-    cmd.run(op);
-
+    image.saveObjectThumbnail(form.getUploadedFile("file").getFile(), thumbnailFile);
     return thumbnailPath;
   }
 
   @Override
-  public String createObjectIcon(String objectName) throws IOException, InterruptedException, IM4JavaException
+  public String createObjectIcon(String objectName) throws IOException
   {
     File pictureFile = new File(REPOSITORY_DIR, Strings.concat("instruments/", objectName, "/picture.jpg"));
     String iconPath = Strings.concat("instruments/", objectName, "/icon.jpg");
     File iconFile = new File(REPOSITORY_DIR, iconPath);
 
-    IMOperation op = new IMOperation();
-    op.addImage(pictureFile.getAbsolutePath());
-    op.crop(560, 560, 180, 0);
-    op.resize(96, 96);
-    op.quality(80.0);
-    op.addImage(iconFile.getAbsolutePath());
-
-    ConvertCmd cmd = new ConvertCmd();
-    cmd.run(op);
-
+    image.createObjectIcon(pictureFile, iconFile);
     return iconPath;
   }
 
@@ -256,5 +222,30 @@ public class AdminServiceImpl implements AdminService
     File instrumentDir = new File(REPOSITORY_DIR, Strings.concat("instruments/", instrumentName));
     new File(instrumentDir, "sample.mp3").delete();
     new File(instrumentDir, "waveform.png").delete();
+  }
+
+  @Override
+  public Map<String, Object> normalizeSample(String objectName) throws IOException
+  {
+    String samplePath = Strings.concat("instruments/", objectName, "/sample.mp3");
+    File sampleFile = new File(REPOSITORY_DIR, samplePath);
+
+    String workingSamplePath = Strings.concat("instruments/", objectName, "/working-sample.mp3");
+    File workingSampleFile = new File(REPOSITORY_DIR, workingSamplePath);
+    workingSampleFile.delete();
+    
+    audio.convertToMono(sampleFile, workingSampleFile);
+    audio.removeSilence(workingSampleFile);
+
+    String waveformPath = Strings.concat("instruments/", objectName, "/working-waveform.png");
+    File waveformFile = new File(REPOSITORY_DIR, waveformPath);
+    audio.generateWaveform(workingSampleFile, waveformFile);
+
+    Map<String, Object> result = new HashMap<>();
+    result.put("samplePath", workingSamplePath);
+    result.put("waveformPath", waveformPath);
+    result.put("sampleInfo", audio.getAudioFileInfo(workingSampleFile));
+
+    return result;
   }
 }

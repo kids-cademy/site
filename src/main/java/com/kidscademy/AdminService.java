@@ -34,7 +34,7 @@ public interface AdminService
    * 
    * @param instrumentId
    * @return instrument instance, possible empty or null.
-   * @throws IOException 
+   * @throws IOException
    */
   Instrument getInstrument(int instrumentId) throws IOException;
 
@@ -66,8 +66,10 @@ public interface AdminService
    * @throws IOException
    */
   String createObjectIcon(String objectName) throws IOException, InterruptedException, IM4JavaException;
-  
+
   Link createLink(URL url);
-  
+
   void removeInstrumentSample(String instrumentName);
+
+  Map<String, Object> normalizeSample(String objectName) throws IOException;
 }

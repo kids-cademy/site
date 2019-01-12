@@ -21,7 +21,7 @@ public class Instrument extends AtlasObject implements Serializable
   private String waveformPath;
   
   @Transient
-  private AudioSampleInfo sampleInfo;
+  private AudioFileInfo sampleInfo;
 
   @Embedded
   @AttributeOverrides(
@@ -76,7 +76,7 @@ public class Instrument extends AtlasObject implements Serializable
     this.waveformPath = waveformPath;
   }
 
-  public void setSampleInfo(AudioSampleInfo sampleInfo)
+  public void setSampleInfo(AudioFileInfo sampleInfo)
   {
     this.sampleInfo = sampleInfo;
   }

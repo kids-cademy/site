@@ -3,9 +3,15 @@ package com.kidscademy;
 import java.io.File;
 import java.io.IOException;
 
-import org.im4java.core.IM4JavaException;
+import com.kidscademy.atlas.AudioFileInfo;
 
 public interface AudioProcessor
 {
-  void generateWaveform(File audioFile, File waveformFile) throws IOException, InterruptedException, IM4JavaException;
+  AudioFileInfo getAudioFileInfo(File audioFile) throws IOException;
+  
+  void generateWaveform(File audioFile, File waveformFile) throws IOException;
+
+  void removeSilence(File audioFile, File... optionalTargetFile) throws IOException;
+
+  void convertToMono(File audioFile, File... optionalTargetFile) throws IOException;
 }

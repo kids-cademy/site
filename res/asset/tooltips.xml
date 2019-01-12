@@ -13,4 +13,5 @@
 	<fade-out-tip>fade out</fade-out-tip>
 	<audio-play-tip>play audio sample</audio-play-tip>
 	<remove-audio-tip>remove audio sample</remove-audio-tip>
+	<audio-normalize-tip>trim silence and adjust audio level</audio-normalize-tip>
 </string>

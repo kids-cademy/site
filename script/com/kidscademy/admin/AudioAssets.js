@@ -36,6 +36,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 
 		const actions = this.getByCssClass("actions");
 		actions.on(this, {
+			"&normalize": this._onNormalize,
 			"&fade-in": this._onFadeIn,
 			"&fade-out": this._onFadeOut,
 			"&play": this._onPlay,
@@ -78,6 +79,14 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._updateSamplePath(object.samplePath);
 		this._updateWaveformPath(object.waveformPath);
 		this._sampleInfo.setObject(object.sampleInfo);
+	}
+
+	_onNormalize() {
+		this._waveformImage.reset();
+		this._sampleInfo.resetObject();
+
+		const object = this._formPage.getObject();
+		AdminService.normalizeSample(object.name, this._onUploadComplete, this);
 	}
 
 	_onFadeIn() {
