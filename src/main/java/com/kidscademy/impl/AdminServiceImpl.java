@@ -30,7 +30,6 @@ import js.lang.BugError;
 import js.log.Log;
 import js.log.LogFactory;
 import js.util.Strings;
-import net.bramp.ffmpeg.FFprobe;
 
 public class AdminServiceImpl implements AdminService
 {
@@ -92,8 +91,7 @@ public class AdminServiceImpl implements AdminService
     if(instrument.getSamplePath() != null) {
       File sampleFile = new File(REPOSITORY_DIR, instrument.getSamplePath());
       if(sampleFile.exists()) {
-        FFprobe probe = new FFprobe();
-        AudioFileInfo sampleInfo = new AudioFileInfo(probe.probe(sampleFile.getAbsolutePath()));
+        AudioFileInfo sampleInfo = audio.getAudioFileInfo(sampleFile);
         instrument.setSampleInfo(sampleInfo);
       }
     }
@@ -144,8 +142,7 @@ public class AdminServiceImpl implements AdminService
     result.put("samplePath", samplePath);
     result.put("waveformPath", generateWaveform(objectName));
 
-    FFprobe probe = new FFprobe();
-    result.put("sampleInfo", new AudioFileInfo(probe.probe(sampleFile.getAbsolutePath())));
+    result.put("sampleInfo", audio.getAudioFileInfo(sampleFile));
 
     return result;
   }
@@ -233,9 +230,10 @@ public class AdminServiceImpl implements AdminService
     String workingSamplePath = Strings.concat("instruments/", objectName, "/working-sample.mp3");
     File workingSampleFile = new File(REPOSITORY_DIR, workingSamplePath);
     workingSampleFile.delete();
-    
+
     audio.convertToMono(sampleFile, workingSampleFile);
-    audio.removeSilence(workingSampleFile);
+    //audio.trimSilence(workingSampleFile);
+    audio.normalizeLevel(workingSampleFile);
 
     String waveformPath = Strings.concat("instruments/", objectName, "/working-waveform.png");
     File waveformFile = new File(REPOSITORY_DIR, waveformPath);

@@ -1,8 +1,5 @@
 package com.kidscademy.atlas;
 
-import net.bramp.ffmpeg.probe.FFmpegProbeResult;
-import net.bramp.ffmpeg.probe.FFmpegStream;
-
 public class AudioFileInfo
 {
   /** Sample file name. */
@@ -17,26 +14,14 @@ public class AudioFileInfo
   private int sampleRate;
   private int bitRate;
 
-  public AudioFileInfo()
-  {
-  }
-
-  public AudioFileInfo(FFmpegProbeResult probe)
-  {
-    this.fileName = probe.format.filename;
-    this.fileSize = (int)probe.format.size;
-
-    FFmpegStream stream = probe.getStreams().get(0);
-    this.codec = stream.codec_long_name;
-    this.duration = (int)Math.round(stream.duration * 1000);
-    this.channels = stream.channels;
-    this.sampleRate = stream.sample_rate;
-    this.bitRate = (int)stream.bit_rate;
-  }
-
   public String getFileName()
   {
     return fileName;
+  }
+
+  public void setFileName(String fileName)
+  {
+    this.fileName = fileName;
   }
 
   public int getFileSize()
@@ -44,9 +29,19 @@ public class AudioFileInfo
     return fileSize;
   }
 
+  public void setFileSize(int fileSize)
+  {
+    this.fileSize = fileSize;
+  }
+
   public String getCodec()
   {
     return codec;
+  }
+
+  public void setCodec(String codec)
+  {
+    this.codec = codec;
   }
 
   public int getDuration()
@@ -54,9 +49,19 @@ public class AudioFileInfo
     return duration;
   }
 
+  public void setDuration(int duration)
+  {
+    this.duration = duration;
+  }
+
   public int getChannels()
   {
     return channels;
+  }
+
+  public void setChannels(int channels)
+  {
+    this.channels = channels;
   }
 
   public int getSampleRate()
@@ -64,8 +69,18 @@ public class AudioFileInfo
     return sampleRate;
   }
 
+  public void setSampleRate(int sampleRate)
+  {
+    this.sampleRate = sampleRate;
+  }
+
   public int getBitRate()
   {
     return bitRate;
+  }
+
+  public void setBitRate(int bitRate)
+  {
+    this.bitRate = bitRate;
   }
 }

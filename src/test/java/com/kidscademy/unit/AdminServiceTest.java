@@ -78,9 +78,8 @@ public class AdminServiceTest
 
     Map<String, Object> result = service.normalizeSample("test");
 
-    verify(audio).removeSilence(sampleFile.capture(), workingSampleFile.capture());
-    assertThat(sampleFile.getValue(), equalTo(new File("fixture/instruments/test/sample.mp3")));
-    assertThat(workingSampleFile.getValue(), equalTo(new File("fixture/instruments/test/working-sample.mp3")));
+    verify(audio).trimSilence(sampleFile.capture());
+    assertThat(sampleFile.getValue(), equalTo(new File("fixture/instruments/test/working-sample.mp3")));
 
     verify(audio).generateWaveform(workingSampleFile.capture(), waveformFile.capture());
     assertThat(workingSampleFile.getValue(), equalTo(new File("fixture/instruments/test/working-sample.mp3")));
