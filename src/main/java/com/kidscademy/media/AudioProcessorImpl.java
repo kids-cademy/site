@@ -1,4 +1,4 @@
-package com.kidscademy.impl;
+package com.kidscademy.media;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,10 +8,6 @@ import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 
-import com.kidscademy.AudioProcessor;
-import com.kidscademy.ImageProcessor;
-import com.kidscademy.atlas.AudioFileInfo;
-
 import js.core.AppContext;
 import js.json.Json;
 import js.json.impl.JsonParserException;
@@ -19,14 +15,12 @@ import js.lang.BugError;
 import js.log.Log;
 import js.log.LogFactory;
 import js.util.Classes;
-import js.util.Files;
 import js.util.Strings;
 
 public class AudioProcessorImpl implements AudioProcessor
 {
   private static final Log log = LogFactory.getLog(AudioProcessorImpl.class);
 
-  private static final String TEMP_PREFIX = "audio-processor";
   private static final long FFMPEG_TIMEOUT = 16000L;
 
   private static final int WAVEFORM_WIDTH = 800;
@@ -59,11 +53,11 @@ public class AudioProcessorImpl implements AudioProcessor
   }
 
   @Override
-  public AudioFileInfo getAudioFileInfo(File audioFile) throws IOException
+  public SampleFileInfo getAudioFileInfo(File audioFile) throws IOException
   {
     Result result = probe(Result.class, "-show_format -show_streams ${audioFile}", audioFile);
 
-    AudioFileInfo info = new AudioFileInfo();
+    SampleFileInfo info = new SampleFileInfo();
     info.setFileName(result.format.filename);
     info.setFileSize(result.format.size);
 
@@ -169,64 +163,38 @@ public class AudioProcessorImpl implements AudioProcessor
   }
 
   @Override
-  public void trimSilence(File audioFile, File... optionalTargetFile) throws IOException
+  public void trimSilence(MediaFileHandler handler) throws IOException
   {
-    File targetFile = createTempFile(audioFile, optionalTargetFile);
-
     String filter = format("silenceremove=start_periods=1:start_duration=${start_duration}:start_threshold=0.02:stop_periods=1:stop_duration=${stop_duration}:stop_threshold=0.02", SILENCE_DURATION, SILENCE_DURATION);
-    exec("-i ${audioFile} -af ${filter} ${targetFile}", audioFile, filter, targetFile);
-
-    if(optionalTargetFile.length == 0) {
-      audioFile.delete();
-      targetFile.renameTo(audioFile);
-    }
+    exec("-i ${audioFile} -af ${filter} ${targetFile}", handler.file(), filter, handler.target());
   }
 
   @Override
-  public void convertToMono(File audioFile, File... optionalTargetFile) throws IOException
+  public void convertToMono(MediaFileHandler handler) throws IOException
   {
-    File targetFile = createTempFile(audioFile, optionalTargetFile);
+    // do not use ffmpeg down mix because it adjust levels, accordingly recommendations, with -3dB
+    // exec("-i ${audioFile} -ac 1 ${targetFile}", handler.file(), handler.target());
 
-    // do not use ffmpeg downmix because it adjust levels and force bit rate to 64kbit/s
-    // exec("-i ${audioFile} -ac 1 ${targetFile}", audioFile, targetFile);
+    // uses instead pan with half level to ensure peaks are not trimmed
+    exec("-i ${audioFile} -af pan=mono|c0=0.5*c0+0.5*c1 ${targetFile}", handler.file(), handler.target());
 
-    exec("-i ${audioFile} -af pan=mono|c0=0.5*c0+0.5*c1 ${targetFile}", audioFile, targetFile);
-
-    // when save 'mono' audio layout, audio codec reduce bit rate to half, e.g. 64Kbit/s if original was 128Kbit/s
-    // can force audio bit rate with -b:a
-    // exec("-i ${audioFile} -af pan=mono|c0=0.5*c0+0.5*c1 -b:a 128k ${targetFile}", audioFile, targetFile);
-
-    if(optionalTargetFile.length == 0) {
-      audioFile.delete();
-      targetFile.renameTo(audioFile);
-    }
+    // when save using 'mono' audio layout, audio codec reduce bit rate to half, e.g. 64Kbit/s if original was 128Kbit/s
+    // one can force audio bit rate with -b:a but do not see any reason to do it
+    // exec("-i ${audioFile} -af pan=mono|c0=0.5*c0+0.5*c1 -b:a 128k ${targetFile}", handler.file(), handler.target());
   }
 
   @Override
-  public void normalizeLevel(File audioFile, File... optionalTargetFile) throws IOException
+  public void normalizeLevel(MediaFileHandler handler) throws IOException
   {
-    File targetFile = createTempFile(audioFile, optionalTargetFile);
-
-    VolumeInfo volume = exec(VolumeInfo.class, "-i ${audioFile} -af volumedetect -f null /dev/null", audioFile);
-    if(Math.abs(volume.getPeak()) <= 0.4) {
-      return;
-    }
-
-    exec("-i ${audioFile} -af volume=${adjustment}dB ${targetFile}", audioFile, -volume.getPeak(), targetFile);
-
-    if(optionalTargetFile.length == 0) {
-      audioFile.delete();
-      targetFile.renameTo(audioFile);
+    VolumeInfo volume = exec(VolumeInfo.class, "-i ${audioFile} -af volumedetect -f null /dev/null", handler.file());
+    // do not see how peak can exceed 0dB but just to be sure...
+    if(volume.getPeak() > 0 || volume.getPeak() < -0.4) {
+      exec("-i ${audioFile} -af volume=${adjustment}dB ${targetFile}", handler.file(), -volume.getPeak(), handler.target());
     }
   }
 
   // ----------------------------------------------------------------------------------------------
   // UTILITY METHODS
-
-  private static File createTempFile(File audioFile, File... optionalTargetFile) throws IOException
-  {
-    return optionalTargetFile.length > 0 ? optionalTargetFile[0] : File.createTempFile(TEMP_PREFIX, "." + Files.getExtension(audioFile));
-  }
 
   private static void exec(String format, Object... args) throws IOException
   {
@@ -357,8 +325,16 @@ public class AudioProcessorImpl implements AudioProcessor
       process.destroy();
       throw new IOException("FFmpeg process timeout. See stdout logs for process printout.");
     }
-    if(process.exitValue() != 0) {
-      throw new IOException(String.format("FFmpeg process fail. Exit code |%d|. See stdout logs for process printout.", process.exitValue()));
+
+    int returnCode = -1;
+    try {
+      returnCode = process.waitFor();
+    }
+    catch(InterruptedException e) {
+      log.error(e);
+    }
+    if(returnCode != 0) {
+      throw new IOException(String.format("FFmpeg process fail. Exit code |%d|. See stdout logs for process printout.", returnCode));
     }
   }
 

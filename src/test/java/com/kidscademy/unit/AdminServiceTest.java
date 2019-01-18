@@ -2,7 +2,6 @@ package com.kidscademy.unit;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -10,7 +9,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -22,10 +20,11 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.kidscademy.AdminService;
-import com.kidscademy.AudioProcessor;
-import com.kidscademy.ImageProcessor;
 import com.kidscademy.dao.AdminDao;
 import com.kidscademy.impl.AdminServiceImpl;
+import com.kidscademy.media.AudioProcessor;
+import com.kidscademy.media.ImageProcessor;
+import com.kidscademy.media.SampleFileInfo;
 
 import js.core.AppContext;
 import js.util.Classes;
@@ -76,18 +75,17 @@ public class AdminServiceTest
 
     when(audio.getAudioFileInfo(any(File.class))).thenReturn(null);
 
-    Map<String, Object> result = service.normalizeSample("test");
+    SampleFileInfo info = service.normalizeSample("test");
 
-    verify(audio).trimSilence(sampleFile.capture());
+    //verify(audio).trimSilence(sampleFile.capture());
     assertThat(sampleFile.getValue(), equalTo(new File("fixture/instruments/test/working-sample.mp3")));
 
     verify(audio).generateWaveform(workingSampleFile.capture(), waveformFile.capture());
     assertThat(workingSampleFile.getValue(), equalTo(new File("fixture/instruments/test/working-sample.mp3")));
     assertThat(waveformFile.getValue(), equalTo(new File("fixture/instruments/test/working-waveform.png")));
 
-    assertThat(result, notNullValue());
-    assertThat((String)result.get("samplePath"), equalTo("instruments/test/working-sample.mp3"));
-    assertThat((String)result.get("waveformPath"), equalTo("instruments/test/working-waveform.png"));
-    assertThat(result.get("sampleInfo"), nullValue());
+    assertThat(info, notNullValue());
+    assertThat(info.getSamplePath(), equalTo("instruments/test/working-sample.mp3"));
+    assertThat(info.getWaveformPath(), equalTo("instruments/test/working-waveform.png"));
   }
 }

@@ -1,13 +1,11 @@
-package com.kidscademy;
+package com.kidscademy.media;
 
 import java.io.File;
 import java.io.IOException;
 
-import com.kidscademy.atlas.AudioFileInfo;
-
 public interface AudioProcessor
 {
-  AudioFileInfo getAudioFileInfo(File audioFile) throws IOException;
+  SampleFileInfo getAudioFileInfo(File audioFile) throws IOException;
 
   void generateWaveform(File audioFile, File waveformFile) throws IOException;
 
@@ -21,9 +19,9 @@ public interface AudioProcessor
    * @param optionalTargetFile optional target file.
    * @throws IOException if processing fails.
    */
-  void trimSilence(File audioFile, File... optionalTargetFile) throws IOException;
+  void trimSilence(MediaFileHandler object) throws IOException;
 
-  void convertToMono(File audioFile, File... optionalTargetFile) throws IOException;
+  void convertToMono(MediaFileHandler object) throws IOException;
 
   /**
    * Normalize audio level peak to 0dB. Normalized audio is saved on optional target file; if target file is not provided store normalized audio in source file.
@@ -32,5 +30,5 @@ public interface AudioProcessor
    * @param optionalTargetFile optional target file.
    * @throws IOException if processing fails.
    */
-  void normalizeLevel(File audioFile, File... optionalTargetFile) throws IOException;
+  void normalizeLevel(MediaFileHandler object) throws IOException;
 }

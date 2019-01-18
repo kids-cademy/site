@@ -36,10 +36,14 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 
 		const actions = this.getByCssClass("actions");
 		actions.on(this, {
+			"&audio-mono": this._onAudioMono,
 			"&normalize": this._onNormalize,
+			"&trim": this._onTrim,
 			"&fade-in": this._onFadeIn,
 			"&fade-out": this._onFadeOut,
 			"&play": this._onPlay,
+			"&undo": this._onUndo,
+			"&done": this._onDone,
 			"&remove": this._onRemove
 		});
 	}
@@ -78,7 +82,15 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 	_onUploadComplete(object) {
 		this._updateSamplePath(object.samplePath);
 		this._updateWaveformPath(object.waveformPath);
-		this._sampleInfo.setObject(object.sampleInfo);
+		this._sampleInfo.setObject(object);
+	}
+
+	_onAudioMono() {
+		this._waveformImage.reset();
+		this._sampleInfo.resetObject();
+
+		const object = this._formPage.getObject();
+		AdminService.convertToMono(object.name, this._onUploadComplete, this);
 	}
 
 	_onNormalize() {
@@ -87,6 +99,14 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 
 		const object = this._formPage.getObject();
 		AdminService.normalizeSample(object.name, this._onUploadComplete, this);
+	}
+
+	_onTrim() {
+		this._waveformImage.reset();
+		this._sampleInfo.resetObject();
+
+		const object = this._formPage.getObject();
+		AdminService.trimSilence(object.name, this._onUploadComplete, this);
 	}
 
 	_onFadeIn() {
@@ -127,6 +147,22 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		else {
 			stop();
 		}
+	}
+
+	_onUndo() {
+		this._waveformImage.reset();
+		this._sampleInfo.resetObject();
+
+		const object = this._formPage.getObject();
+		AdminService.undoMediaProcessing(object.name, this._onUploadComplete, this);
+	}
+
+	_onDone() {
+		this._waveformImage.reset();
+		this._sampleInfo.resetObject();
+
+		const object = this._formPage.getObject();
+		AdminService.commitMediaProcessing(object.name, this._onUploadComplete, this);
 	}
 
 	_onRemove() {

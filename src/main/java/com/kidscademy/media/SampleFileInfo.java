@@ -1,7 +1,10 @@
-package com.kidscademy.atlas;
+package com.kidscademy.media;
 
-public class AudioFileInfo
+public class SampleFileInfo
 {
+  private String samplePath;
+  private String waveformPath;
+  
   /** Sample file name. */
   private String fileName;
   /** Sample file size, in bytes. */
@@ -13,6 +16,26 @@ public class AudioFileInfo
   private int channels;
   private int sampleRate;
   private int bitRate;
+
+  public void setSamplePath(String samplePath)
+  {
+    this.samplePath = samplePath;
+  }
+
+  public void setWaveformPath(String waveformPath)
+  {
+    this.waveformPath = waveformPath;
+  }
+
+  public String getSamplePath()
+  {
+    return samplePath;
+  }
+
+  public String getWaveformPath()
+  {
+    return waveformPath;
+  }
 
   public String getFileName()
   {

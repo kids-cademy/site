@@ -3,7 +3,6 @@ package com.kidscademy;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -13,6 +12,7 @@ import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.Login;
+import com.kidscademy.media.SampleFileInfo;
 
 import js.annotation.Public;
 import js.annotation.Service;
@@ -46,10 +46,6 @@ public interface AdminService
 
   List<GraphicObject> getAvailableInstruments(Instrument.Category category, List<GraphicObject> related);
 
-  Map<String, Object> uploadAudioSample(Form form) throws IOException, UnsupportedAudioFileException, InterruptedException, IM4JavaException;
-
-  String generateWaveform(String objectName) throws IOException, UnsupportedAudioFileException, InterruptedException, IM4JavaException;
-
   String uploadPictureFile(Form form) throws IOException, InterruptedException, IM4JavaException;
 
   String uploadIconFile(Form form) throws IOException, InterruptedException, IM4JavaException;
@@ -69,7 +65,22 @@ public interface AdminService
 
   Link createLink(URL url);
 
-  void removeInstrumentSample(String instrumentName);
+  // ----------------------------------------------------------------------------------------------
+  // Audio Services
 
-  Map<String, Object> normalizeSample(String objectName) throws IOException;
+  SampleFileInfo uploadAudioSample(Form form) throws IOException, UnsupportedAudioFileException, InterruptedException, IM4JavaException;
+
+  SampleFileInfo normalizeSample(String objectName) throws IOException;
+
+  SampleFileInfo convertToMono(String objectName) throws IOException;
+
+  SampleFileInfo trimSilence(String objectName) throws IOException;
+
+  String generateWaveform(String objectName) throws IOException, UnsupportedAudioFileException, InterruptedException, IM4JavaException;
+
+  void removeInstrumentSample(String instrumentName);
+  
+  SampleFileInfo undoMediaProcessing(String objectName) throws IOException;
+  
+  SampleFileInfo commitMediaProcessing(String objectName) throws IOException;
 }

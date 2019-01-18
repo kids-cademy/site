@@ -1,4 +1,4 @@
-package com.kidscademy;
+package com.kidscademy.media;
 
 import java.io.File;
 import java.io.IOException;

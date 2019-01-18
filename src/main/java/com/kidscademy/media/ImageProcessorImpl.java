@@ -1,4 +1,4 @@
-package com.kidscademy.impl;
+package com.kidscademy.media;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,8 +6,6 @@ import java.io.IOException;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IM4JavaException;
 import org.im4java.core.IMOperation;
-
-import com.kidscademy.ImageProcessor;
 
 import js.lang.BugError;
 

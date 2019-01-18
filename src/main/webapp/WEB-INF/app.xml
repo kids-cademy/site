@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <app-descriptor>
 	<managed-classes>
+		<constants class="com.kidscademy.CT" />
+		
 		<service-controller interface="com.kidscademy.ServiceController" class="com.kidscademy.impl.ServiceControllerImpl" />
 		<site-controller interface="com.kidscademy.SiteController" class="com.kidscademy.impl.SiteControllerImpl" />
 		<admin-service interface="com.kidscademy.AdminService" class="com.kidscademy.impl.AdminServiceImpl" />
@@ -10,8 +12,8 @@
 		<dao interface="com.kidscademy.dao.Dao" class="com.kidscademy.dao.DaoImpl" type="PROXY" />
 		<admin-dao interface="com.kidscademy.dao.AdminDao" class="com.kidscademy.dao.AdminDaoImpl" type="PROXY" />
 
-		<audio-processor interface="com.kidscademy.AudioProcessor" class="com.kidscademy.impl.AudioProcessorImpl" />
-		<image-processor interface="com.kidscademy.ImageProcessor" class="com.kidscademy.impl.ImageProcessorImpl" />
+		<audio-processor interface="com.kidscademy.media.AudioProcessor" class="com.kidscademy.media.AudioProcessorImpl" />
+		<image-processor interface="com.kidscademy.media.ImageProcessor" class="com.kidscademy.media.ImageProcessorImpl" />
 	</managed-classes>
 	<observer period="60000" />
 	<views>

@@ -210,67 +210,6 @@ com.kidscademy.AdminService = {
 	},
 
 	/**
-	 * Upload audio sample.
-	 *
-	 * @param js.http.form.Form form,
-	 * @param Function callback function to invoke on RMI completion,
-	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return java.util.Map<java.lang.String,java.lang.Object>
-	 * @throws java.io.IOException
-	 * @throws javax.sound.sampled.UnsupportedAudioFileException
-	 * @throws java.lang.InterruptedException
-	 * @throws org.im4java.core.IM4JavaException
-	 * @assert callback is a {@link Function} and scope is an {@link Object}.
-	 */
-	 uploadAudioSample: function(form) {
-		$assert(typeof form !== "undefined", "com.kidscademy.AdminService#uploadAudioSample", "Form argument is undefined.");
-
-		var __callback__ = arguments[1];
-		$assert(js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#uploadAudioSample", "Callback is not a function.");
-		var __scope__ = arguments[2];
-		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#uploadAudioSample", "Scope is not an object.");
-		if(!js.lang.Types.isObject(__scope__)) {
-			__scope__ = window;
-		}
-
-		var rmi = new js.net.RMI();
-		rmi.setMethod("com.kidscademy.AdminService", "uploadAudioSample");
-		rmi.setParameters(form);
-		rmi.exec(__callback__, __scope__);
-	},
-
-	/**
-	 * Generate waveform.
-	 *
-	 * @param java.lang.String objectName,
-	 * @param Function callback function to invoke on RMI completion,
-	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return java.lang.String
-	 * @throws java.io.IOException
-	 * @throws javax.sound.sampled.UnsupportedAudioFileException
-	 * @throws java.lang.InterruptedException
-	 * @throws org.im4java.core.IM4JavaException
-	 * @assert callback is a {@link Function} and scope is an {@link Object}.
-	 */
-	 generateWaveform: function(objectName) {
-		$assert(typeof objectName !== "undefined", "com.kidscademy.AdminService#generateWaveform", "Object name argument is undefined.");
-		$assert(objectName === null || js.lang.Types.isString(objectName), "com.kidscademy.AdminService#generateWaveform", "Object name argument is not a string.");
-
-		var __callback__ = arguments[1];
-		$assert(js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#generateWaveform", "Callback is not a function.");
-		var __scope__ = arguments[2];
-		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#generateWaveform", "Scope is not an object.");
-		if(!js.lang.Types.isObject(__scope__)) {
-			__scope__ = window;
-		}
-
-		var rmi = new js.net.RMI();
-		rmi.setMethod("com.kidscademy.AdminService", "generateWaveform");
-		rmi.setParameters(objectName);
-		rmi.exec(__callback__, __scope__);
-	},
-
-	/**
 	 * Upload picture file.
 	 *
 	 * @param js.http.form.Form form,
@@ -415,6 +354,151 @@ com.kidscademy.AdminService = {
 	},
 
 	/**
+	 * Upload audio sample.
+	 *
+	 * @param js.http.form.Form form,
+	 * @param Function callback function to invoke on RMI completion,
+	 * @param Object scope optional callback run-time scope, default to global scope.
+	 * @return com.kidscademy.media.SampleFileInfo
+	 * @throws java.io.IOException
+	 * @throws javax.sound.sampled.UnsupportedAudioFileException
+	 * @throws java.lang.InterruptedException
+	 * @throws org.im4java.core.IM4JavaException
+	 * @assert callback is a {@link Function} and scope is an {@link Object}.
+	 */
+	 uploadAudioSample: function(form) {
+		$assert(typeof form !== "undefined", "com.kidscademy.AdminService#uploadAudioSample", "Form argument is undefined.");
+
+		var __callback__ = arguments[1];
+		$assert(js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#uploadAudioSample", "Callback is not a function.");
+		var __scope__ = arguments[2];
+		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#uploadAudioSample", "Scope is not an object.");
+		if(!js.lang.Types.isObject(__scope__)) {
+			__scope__ = window;
+		}
+
+		var rmi = new js.net.RMI();
+		rmi.setMethod("com.kidscademy.AdminService", "uploadAudioSample");
+		rmi.setParameters(form);
+		rmi.exec(__callback__, __scope__);
+	},
+
+	/**
+	 * Normalize sample.
+	 *
+	 * @param java.lang.String objectName,
+	 * @param Function callback function to invoke on RMI completion,
+	 * @param Object scope optional callback run-time scope, default to global scope.
+	 * @return com.kidscademy.media.SampleFileInfo
+	 * @throws java.io.IOException
+	 * @assert callback is a {@link Function} and scope is an {@link Object}.
+	 */
+	 normalizeSample: function(objectName) {
+		$assert(typeof objectName !== "undefined", "com.kidscademy.AdminService#normalizeSample", "Object name argument is undefined.");
+		$assert(objectName === null || js.lang.Types.isString(objectName), "com.kidscademy.AdminService#normalizeSample", "Object name argument is not a string.");
+
+		var __callback__ = arguments[1];
+		$assert(js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#normalizeSample", "Callback is not a function.");
+		var __scope__ = arguments[2];
+		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#normalizeSample", "Scope is not an object.");
+		if(!js.lang.Types.isObject(__scope__)) {
+			__scope__ = window;
+		}
+
+		var rmi = new js.net.RMI();
+		rmi.setMethod("com.kidscademy.AdminService", "normalizeSample");
+		rmi.setParameters(objectName);
+		rmi.exec(__callback__, __scope__);
+	},
+
+	/**
+	 * Convert to mono.
+	 *
+	 * @param java.lang.String objectName,
+	 * @param Function callback function to invoke on RMI completion,
+	 * @param Object scope optional callback run-time scope, default to global scope.
+	 * @return com.kidscademy.media.SampleFileInfo
+	 * @throws java.io.IOException
+	 * @assert callback is a {@link Function} and scope is an {@link Object}.
+	 */
+	 convertToMono: function(objectName) {
+		$assert(typeof objectName !== "undefined", "com.kidscademy.AdminService#convertToMono", "Object name argument is undefined.");
+		$assert(objectName === null || js.lang.Types.isString(objectName), "com.kidscademy.AdminService#convertToMono", "Object name argument is not a string.");
+
+		var __callback__ = arguments[1];
+		$assert(js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#convertToMono", "Callback is not a function.");
+		var __scope__ = arguments[2];
+		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#convertToMono", "Scope is not an object.");
+		if(!js.lang.Types.isObject(__scope__)) {
+			__scope__ = window;
+		}
+
+		var rmi = new js.net.RMI();
+		rmi.setMethod("com.kidscademy.AdminService", "convertToMono");
+		rmi.setParameters(objectName);
+		rmi.exec(__callback__, __scope__);
+	},
+
+	/**
+	 * Trim silence.
+	 *
+	 * @param java.lang.String objectName,
+	 * @param Function callback function to invoke on RMI completion,
+	 * @param Object scope optional callback run-time scope, default to global scope.
+	 * @return com.kidscademy.media.SampleFileInfo
+	 * @throws java.io.IOException
+	 * @assert callback is a {@link Function} and scope is an {@link Object}.
+	 */
+	 trimSilence: function(objectName) {
+		$assert(typeof objectName !== "undefined", "com.kidscademy.AdminService#trimSilence", "Object name argument is undefined.");
+		$assert(objectName === null || js.lang.Types.isString(objectName), "com.kidscademy.AdminService#trimSilence", "Object name argument is not a string.");
+
+		var __callback__ = arguments[1];
+		$assert(js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#trimSilence", "Callback is not a function.");
+		var __scope__ = arguments[2];
+		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#trimSilence", "Scope is not an object.");
+		if(!js.lang.Types.isObject(__scope__)) {
+			__scope__ = window;
+		}
+
+		var rmi = new js.net.RMI();
+		rmi.setMethod("com.kidscademy.AdminService", "trimSilence");
+		rmi.setParameters(objectName);
+		rmi.exec(__callback__, __scope__);
+	},
+
+	/**
+	 * Generate waveform.
+	 *
+	 * @param java.lang.String objectName,
+	 * @param Function callback function to invoke on RMI completion,
+	 * @param Object scope optional callback run-time scope, default to global scope.
+	 * @return java.lang.String
+	 * @throws java.io.IOException
+	 * @throws javax.sound.sampled.UnsupportedAudioFileException
+	 * @throws java.lang.InterruptedException
+	 * @throws org.im4java.core.IM4JavaException
+	 * @assert callback is a {@link Function} and scope is an {@link Object}.
+	 */
+	 generateWaveform: function(objectName) {
+		$assert(typeof objectName !== "undefined", "com.kidscademy.AdminService#generateWaveform", "Object name argument is undefined.");
+		$assert(objectName === null || js.lang.Types.isString(objectName), "com.kidscademy.AdminService#generateWaveform", "Object name argument is not a string.");
+
+		var __callback__ = arguments[1];
+		$assert(js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#generateWaveform", "Callback is not a function.");
+		var __scope__ = arguments[2];
+		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#generateWaveform", "Scope is not an object.");
+		if(!js.lang.Types.isObject(__scope__)) {
+			__scope__ = window;
+		}
+
+		var rmi = new js.net.RMI();
+		rmi.setMethod("com.kidscademy.AdminService", "generateWaveform");
+		rmi.setParameters(objectName);
+		rmi.exec(__callback__, __scope__);
+	},
+
+	/**
 	 * Remove instrument sample.
 	 *
 	 * @param java.lang.String instrumentName,
@@ -443,29 +527,57 @@ com.kidscademy.AdminService = {
 	},
 
 	/**
-	 * Normalize sample.
+	 * Undo media processing.
 	 *
 	 * @param java.lang.String objectName,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return java.util.Map<java.lang.String,java.lang.Object>
+	 * @return com.kidscademy.media.SampleFileInfo
 	 * @throws java.io.IOException
 	 * @assert callback is a {@link Function} and scope is an {@link Object}.
 	 */
-	 normalizeSample: function(objectName) {
-		$assert(typeof objectName !== "undefined", "com.kidscademy.AdminService#normalizeSample", "Object name argument is undefined.");
-		$assert(objectName === null || js.lang.Types.isString(objectName), "com.kidscademy.AdminService#normalizeSample", "Object name argument is not a string.");
+	 undoMediaProcessing: function(objectName) {
+		$assert(typeof objectName !== "undefined", "com.kidscademy.AdminService#undoMediaProcessing", "Object name argument is undefined.");
+		$assert(objectName === null || js.lang.Types.isString(objectName), "com.kidscademy.AdminService#undoMediaProcessing", "Object name argument is not a string.");
 
 		var __callback__ = arguments[1];
-		$assert(js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#normalizeSample", "Callback is not a function.");
+		$assert(js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#undoMediaProcessing", "Callback is not a function.");
 		var __scope__ = arguments[2];
-		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#normalizeSample", "Scope is not an object.");
+		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#undoMediaProcessing", "Scope is not an object.");
 		if(!js.lang.Types.isObject(__scope__)) {
 			__scope__ = window;
 		}
 
 		var rmi = new js.net.RMI();
-		rmi.setMethod("com.kidscademy.AdminService", "normalizeSample");
+		rmi.setMethod("com.kidscademy.AdminService", "undoMediaProcessing");
+		rmi.setParameters(objectName);
+		rmi.exec(__callback__, __scope__);
+	},
+
+	/**
+	 * Commit media processing.
+	 *
+	 * @param java.lang.String objectName,
+	 * @param Function callback function to invoke on RMI completion,
+	 * @param Object scope optional callback run-time scope, default to global scope.
+	 * @return com.kidscademy.media.SampleFileInfo
+	 * @throws java.io.IOException
+	 * @assert callback is a {@link Function} and scope is an {@link Object}.
+	 */
+	 commitMediaProcessing: function(objectName) {
+		$assert(typeof objectName !== "undefined", "com.kidscademy.AdminService#commitMediaProcessing", "Object name argument is undefined.");
+		$assert(objectName === null || js.lang.Types.isString(objectName), "com.kidscademy.AdminService#commitMediaProcessing", "Object name argument is not a string.");
+
+		var __callback__ = arguments[1];
+		$assert(js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#commitMediaProcessing", "Callback is not a function.");
+		var __scope__ = arguments[2];
+		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#commitMediaProcessing", "Scope is not an object.");
+		if(!js.lang.Types.isObject(__scope__)) {
+			__scope__ = window;
+		}
+
+		var rmi = new js.net.RMI();
+		rmi.setMethod("com.kidscademy.AdminService", "commitMediaProcessing");
 		rmi.setParameters(objectName);
 		rmi.exec(__callback__, __scope__);
 	}

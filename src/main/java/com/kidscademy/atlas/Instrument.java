@@ -10,6 +10,8 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
+import com.kidscademy.media.SampleFileInfo;
+
 @Entity
 public class Instrument extends AtlasObject implements Serializable
 {
@@ -21,7 +23,7 @@ public class Instrument extends AtlasObject implements Serializable
   private String waveformPath;
   
   @Transient
-  private AudioFileInfo sampleInfo;
+  private SampleFileInfo sampleInfo;
 
   @Embedded
   @AttributeOverrides(
@@ -76,7 +78,7 @@ public class Instrument extends AtlasObject implements Serializable
     this.waveformPath = waveformPath;
   }
 
-  public void setSampleInfo(AudioFileInfo sampleInfo)
+  public void setSampleInfo(SampleFileInfo sampleInfo)
   {
     this.sampleInfo = sampleInfo;
   }

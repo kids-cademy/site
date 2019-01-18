@@ -1,7 +1,7 @@
 .actions {
 	margin-top: 40px;
 	padding-top: 10px;
-	border-top: solid 1px @color/border-accent;
+	border-top: solid 1px white;
 }
 
 .actions img {
