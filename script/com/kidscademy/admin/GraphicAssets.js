@@ -53,14 +53,14 @@ com.kidscademy.admin.GraphicAssets = class extends js.dom.Element {
 		this._iconControl.setValue(object.iconPath);
 		this._thumbnailControl.setValue(object.thumbnailPath);
 
-		if (object.picturePath) {
-			this._pictureImage.setSrc(object.picturePath);
+		if (object.pictureSrc) {
+			this._pictureImage.setSrc(object.pictureSrc);
 		}
-		if (object.iconPath) {
-			this._iconImage.setSrc(object.iconPath);
+		if (object.iconSrc) {
+			this._iconImage.setSrc(object.iconSrc);
 		}
-		if (object.thumbnailPath) {
-			this._thumbnailImage.setSrc(object.thumbnailPath);
+		if (object.thumbnailSrc) {
+			this._thumbnailImage.setSrc(object.thumbnailSrc);
 		}
 	}
 

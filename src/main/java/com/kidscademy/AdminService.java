@@ -4,15 +4,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 import org.im4java.core.IM4JavaException;
 
 import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.Login;
-import com.kidscademy.media.SampleFileInfo;
+import com.kidscademy.media.AudioSampleInfo;
 
 import js.annotation.Public;
 import js.annotation.Service;
@@ -66,21 +64,21 @@ public interface AdminService
   Link createLink(URL url);
 
   // ----------------------------------------------------------------------------------------------
-  // Audio Services
+  // Object Audio Sample Services
 
-  SampleFileInfo uploadAudioSample(Form form) throws IOException, UnsupportedAudioFileException, InterruptedException, IM4JavaException;
+  AudioSampleInfo uploadAudioSample(Form form) throws IOException;
 
-  SampleFileInfo normalizeSample(String objectName) throws IOException;
+  AudioSampleInfo normalizeSample(String objectName) throws IOException;
 
-  SampleFileInfo convertToMono(String objectName) throws IOException;
+  AudioSampleInfo convertToMono(String objectName) throws IOException;
 
-  SampleFileInfo trimSilence(String objectName) throws IOException;
+  AudioSampleInfo trimSilence(String objectName) throws IOException;
 
-  String generateWaveform(String objectName) throws IOException, UnsupportedAudioFileException, InterruptedException, IM4JavaException;
+  String generateWaveform(String objectName) throws IOException;
 
-  void removeInstrumentSample(String instrumentName);
-  
-  SampleFileInfo undoMediaProcessing(String objectName) throws IOException;
-  
-  SampleFileInfo commitMediaProcessing(String objectName) throws IOException;
+  AudioSampleInfo undoMediaProcessing(String objectName) throws IOException;
+
+  AudioSampleInfo commitMediaProcessing(String objectName) throws IOException;
+
+  void removeInstrumentSample(String instrumentName) throws IOException;
 }

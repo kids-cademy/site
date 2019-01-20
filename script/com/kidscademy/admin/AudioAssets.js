@@ -54,8 +54,8 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 
 	onStart() {
 		const object = this._formPage.getObject();
-		this._updateSamplePath(object.samplePath);
-		this._updateWaveformPath(object.waveformPath);
+		this._updateSamplePath(object.sampleSrc);
+		this._updateWaveformPath(object.waveformSrc);
 		this._sampleInfo.setObject(object.sampleInfo);
 	}
 
@@ -74,15 +74,15 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		data.append("file", ev.target._node.files[0]);
 
 		const xhr = new js.net.XHR();
-		xhr.on("load", this._onUploadComplete, this);
+		xhr.on("load", this._onProcessingComplete, this);
 		xhr.open("POST", "rest/upload-audio-sample");
 		xhr.send(data);
 	}
 
-	_onUploadComplete(object) {
-		this._updateSamplePath(object.samplePath);
-		this._updateWaveformPath(object.waveformPath);
-		this._sampleInfo.setObject(object);
+	_onProcessingComplete(info) {
+		this._updateSamplePath(info.sampleSrc);
+		this._updateWaveformPath(info.waveformSrc);
+		this._sampleInfo.setObject(info);
 	}
 
 	_onAudioMono() {
@@ -90,7 +90,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._sampleInfo.resetObject();
 
 		const object = this._formPage.getObject();
-		AdminService.convertToMono(object.name, this._onUploadComplete, this);
+		AdminService.convertToMono(object.name, this._onProcessingComplete, this);
 	}
 
 	_onNormalize() {
@@ -98,7 +98,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._sampleInfo.resetObject();
 
 		const object = this._formPage.getObject();
-		AdminService.normalizeSample(object.name, this._onUploadComplete, this);
+		AdminService.normalizeSample(object.name, this._onProcessingComplete, this);
 	}
 
 	_onTrim() {
@@ -106,7 +106,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._sampleInfo.resetObject();
 
 		const object = this._formPage.getObject();
-		AdminService.trimSilence(object.name, this._onUploadComplete, this);
+		AdminService.trimSilence(object.name, this._onProcessingComplete, this);
 	}
 
 	_onFadeIn() {
@@ -154,7 +154,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._sampleInfo.resetObject();
 
 		const object = this._formPage.getObject();
-		AdminService.undoMediaProcessing(object.name, this._onUploadComplete, this);
+		AdminService.undoMediaProcessing(object.name, this._onProcessingComplete, this);
 	}
 
 	_onDone() {
@@ -162,7 +162,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._sampleInfo.resetObject();
 
 		const object = this._formPage.getObject();
-		AdminService.commitMediaProcessing(object.name, this._onUploadComplete, this);
+		AdminService.commitMediaProcessing(object.name, this._onProcessingComplete, this);
 	}
 
 	_onRemove() {
@@ -174,8 +174,10 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 			this._samplePathControl.reset();
 			this._waveformPathControl.reset();
 			this._waveformImage.reset();
-			this._audioPlayer.src = null;
 			this._sampleInfo.resetObject();
+
+			this._audioPlayer.pause();
+			this._audioPlayer.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAVFYAAFRWAAABAAgAZGF0YQAAAAA=';
 		});
 	}
 
@@ -191,8 +193,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._samplePathControl.reset();
 		if (samplePath) {
 			this._samplePathControl.setValue(samplePath);
-			// TODO hard coded media repository path
-			this._audioPlayer.src = "/media/atlas/" + samplePath + '?' + Math.random().toString(36);
+			this._audioPlayer.src = samplePath + '?' + Date.now();
 		}
 	}
 

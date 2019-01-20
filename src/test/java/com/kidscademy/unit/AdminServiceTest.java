@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.IOException;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,9 +21,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import com.kidscademy.AdminService;
 import com.kidscademy.dao.AdminDao;
 import com.kidscademy.impl.AdminServiceImpl;
+import com.kidscademy.impl.MediaFileHandler;
 import com.kidscademy.media.AudioProcessor;
+import com.kidscademy.media.AudioSampleInfo;
 import com.kidscademy.media.ImageProcessor;
-import com.kidscademy.media.SampleFileInfo;
 
 import js.core.AppContext;
 import js.util.Classes;
@@ -32,9 +32,6 @@ import js.util.Classes;
 @RunWith(MockitoJUnitRunner.class)
 public class AdminServiceTest
 {
-  /** Save and restore static repository directory from admin service implementation. */
-  private static String REPOSITORY_DIR;
-
   @Mock
   private AppContext context;
   @Mock
@@ -49,15 +46,7 @@ public class AdminServiceTest
   @BeforeClass
   public static void beforeClass()
   {
-    REPOSITORY_DIR = Classes.getFieldValue(AdminServiceImpl.class, "REPOSITORY_DIR");
-    Classes.setFieldValue(AdminServiceImpl.class, "REPOSITORY_DIR", "fixture");
-  }
-
-  @AfterClass
-  public static void afterClass()
-  {
-    // takes care to restore static state after test class concludes
-    Classes.setFieldValue(AdminServiceImpl.class, "REPOSITORY_DIR", REPOSITORY_DIR);
+    Classes.setFieldValue(MediaFileHandler.class, "REPOSIOTRY_DIR", "fixture/tomcat/webapps");
   }
 
   @Before
@@ -69,23 +58,26 @@ public class AdminServiceTest
   @Test
   public void normalizeSample() throws IOException
   {
-    ArgumentCaptor<File> sampleFile = ArgumentCaptor.forClass(File.class);
-    ArgumentCaptor<File> workingSampleFile = ArgumentCaptor.forClass(File.class);
+    ArgumentCaptor<File> audioFile = ArgumentCaptor.forClass(File.class);
+    ArgumentCaptor<File> targetFile = ArgumentCaptor.forClass(File.class);
     ArgumentCaptor<File> waveformFile = ArgumentCaptor.forClass(File.class);
 
-    when(audio.getAudioFileInfo(any(File.class))).thenReturn(null);
+    AudioSampleInfo info = new AudioSampleInfo();
 
-    SampleFileInfo info = service.normalizeSample("test");
+    when(audio.getAudioFileInfo(any(File.class))).thenReturn(info);
 
-    //verify(audio).trimSilence(sampleFile.capture());
-    assertThat(sampleFile.getValue(), equalTo(new File("fixture/instruments/test/working-sample.mp3")));
+    info = service.normalizeSample("test");
 
-    verify(audio).generateWaveform(workingSampleFile.capture(), waveformFile.capture());
-    assertThat(workingSampleFile.getValue(), equalTo(new File("fixture/instruments/test/working-sample.mp3")));
-    assertThat(waveformFile.getValue(), equalTo(new File("fixture/instruments/test/working-waveform.png")));
+    verify(audio).normalizeLevel(audioFile.capture(), targetFile.capture());
+    assertThat(audioFile.getValue(), equalTo(new File("fixture/tomcat/webapps/media/atlas/instruments/test/sample.mp3")));
+    assertThat(targetFile.getValue(), equalTo(new File("fixture/tomcat/webapps/media/atlas/instruments/test/sample_1.mp3")));
+
+    verify(audio).generateWaveform(targetFile.capture(), waveformFile.capture());
+    assertThat(targetFile.getValue(), equalTo(new File("fixture/tomcat/webapps/media/atlas/instruments/test/sample_1.mp3")));
+    assertThat(waveformFile.getValue(), equalTo(new File("fixture/tomcat/webapps/media/atlas/instruments/test/waveform.png")));
 
     assertThat(info, notNullValue());
-    assertThat(info.getSamplePath(), equalTo("instruments/test/working-sample.mp3"));
-    assertThat(info.getWaveformPath(), equalTo("instruments/test/working-waveform.png"));
+    assertThat(info.getSampleSrc(), equalTo("/media/atlas/instruments/test/sample_1.mp3"));
+    assertThat(info.getWaveformSrc(), equalTo("/media/atlas/instruments/test/waveform.png"));
   }
 }

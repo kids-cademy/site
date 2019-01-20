@@ -48,16 +48,16 @@ public class AudioProcessorImpl implements AudioProcessor
 
     waveformGradientFile = context.getAppFile("waveform-gradient.png");
     if(!waveformGradientFile.exists()) {
-      this.image.generateRainbowGradient(waveformGradientFile, WAVEFORM_HEIGHT, WAVEFORM_WIDTH);
+      this.image.generateRainbowGradient(waveformGradientFile, WAVEFORM_WIDTH, WAVEFORM_HEIGHT);
     }
   }
 
   @Override
-  public SampleFileInfo getAudioFileInfo(File audioFile) throws IOException
+  public AudioSampleInfo getAudioFileInfo(File audioFile) throws IOException
   {
     Result result = probe(Result.class, "-show_format -show_streams ${audioFile}", audioFile);
 
-    SampleFileInfo info = new SampleFileInfo();
+    AudioSampleInfo info = new AudioSampleInfo();
     info.setFileName(result.format.filename);
     info.setFileSize(result.format.size);
 
@@ -163,33 +163,33 @@ public class AudioProcessorImpl implements AudioProcessor
   }
 
   @Override
-  public void trimSilence(MediaFileHandler handler) throws IOException
+  public void trimSilence(File audioFile, File targetFile) throws IOException
   {
     String filter = format("silenceremove=start_periods=1:start_duration=${start_duration}:start_threshold=0.02:stop_periods=1:stop_duration=${stop_duration}:stop_threshold=0.02", SILENCE_DURATION, SILENCE_DURATION);
-    exec("-i ${audioFile} -af ${filter} ${targetFile}", handler.file(), filter, handler.target());
+    exec("-i ${audioFile} -af ${filter} ${targetFile}", audioFile, filter, targetFile);
   }
 
   @Override
-  public void convertToMono(MediaFileHandler handler) throws IOException
+  public void convertToMono(File audioFile, File targetFile) throws IOException
   {
     // do not use ffmpeg down mix because it adjust levels, accordingly recommendations, with -3dB
-    // exec("-i ${audioFile} -ac 1 ${targetFile}", handler.file(), handler.target());
+    // exec("-i ${audioFile} -ac 1 ${targetFile}", audioFile, targetFile);
 
     // uses instead pan with half level to ensure peaks are not trimmed
-    exec("-i ${audioFile} -af pan=mono|c0=0.5*c0+0.5*c1 ${targetFile}", handler.file(), handler.target());
+    exec("-i ${audioFile} -af pan=mono|c0=0.5*c0+0.5*c1 ${targetFile}", audioFile, targetFile);
 
     // when save using 'mono' audio layout, audio codec reduce bit rate to half, e.g. 64Kbit/s if original was 128Kbit/s
     // one can force audio bit rate with -b:a but do not see any reason to do it
-    // exec("-i ${audioFile} -af pan=mono|c0=0.5*c0+0.5*c1 -b:a 128k ${targetFile}", handler.file(), handler.target());
+    // exec("-i ${audioFile} -af pan=mono|c0=0.5*c0+0.5*c1 -b:a 128k ${targetFile}", audioFile, targetFile);
   }
 
   @Override
-  public void normalizeLevel(MediaFileHandler handler) throws IOException
+  public void normalizeLevel(File audioFile, File targetFile) throws IOException
   {
-    VolumeInfo volume = exec(VolumeInfo.class, "-i ${audioFile} -af volumedetect -f null /dev/null", handler.file());
+    VolumeInfo volume = exec(VolumeInfo.class, "-i ${audioFile} -af volumedetect -f null /dev/null", audioFile);
     // do not see how peak can exceed 0dB but just to be sure...
     if(volume.getPeak() > 0 || volume.getPeak() < -0.4) {
-      exec("-i ${audioFile} -af volume=${adjustment}dB ${targetFile}", handler.file(), -volume.getPeak(), handler.target());
+      exec("-i ${audioFile} -af volume=${adjustment}dB ${targetFile}", audioFile, -volume.getPeak(), targetFile);
     }
   }
 

@@ -1,0 +1,26 @@
+
+
+
+http://server/media/atlas/instruments/accordion/picture.jpg
+
+
+http://server              /media/atlas/collection/object/media-file
+
+${catalina.base}/webapps  /media/atlas/collection/object/media-file
+
+
+absolute url
+http://server/media/atlas/collection/object/media-file
+
+absolute file
+${catalina.base}/webapps/media/atlas/collection/object/media-file
+
+root relative path|url
+/media/atlas/collection/object/media-file
+
+
+
+
+db       :                                                         media-file
+root path:                         /media/atlas/instruments/object/media-file
+file     : ${catalina.base}/webapps/media/atlas/instruments/object/media-file

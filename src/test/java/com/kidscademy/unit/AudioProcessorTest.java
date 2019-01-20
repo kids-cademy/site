@@ -1,8 +1,8 @@
 package com.kidscademy.unit;
 
 import static org.hamcrest.Matchers.closeTo;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.io.FileMatchers.anExistingFile;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -19,13 +19,12 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-import com.kidscademy.media.SampleFileInfo;
 import com.kidscademy.media.AudioProcessor;
 import com.kidscademy.media.AudioProcessorImpl;
+import com.kidscademy.media.AudioSampleInfo;
 import com.kidscademy.media.ImageProcessor;
 
 import js.core.AppContext;
-import js.util.Files;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AudioProcessorTest
@@ -56,7 +55,7 @@ public class AudioProcessorTest
   public void getAudioFileInfo() throws IOException
   {
     File audioFile = new File("fixture/sample.mp3");
-    SampleFileInfo info = audio.getAudioFileInfo(audioFile);
+    AudioSampleInfo info = audio.getAudioFileInfo(audioFile);
 
     assertThat(info, notNullValue());
     assertThat(info.getFileName(), equalTo("fixture\\sample.mp3"));
@@ -74,26 +73,11 @@ public class AudioProcessorTest
     File audioFile = new File("fixture/tone-with-silence.mp3");
     File targetFile = new File("fixture/normalized-tone.mp3");
 
-    //audio.trimSilence(audioFile, targetFile);
+    audio.trimSilence(audioFile, targetFile);
     assertThat(targetFile, anExistingFile());
 
-    SampleFileInfo info = audio.getAudioFileInfo(targetFile);
+    AudioSampleInfo info = audio.getAudioFileInfo(targetFile);
     assertThat((double)info.getDuration(), closeTo(2000, 100));
-  }
-
-  @Test
-  public void trimSilence_selfTarget() throws IOException
-  {
-    File audioFile = new File("fixture/temp-tone-with-silence.mp3");
-    Files.copy(new File("fixture/tone-with-silence.mp3"), audioFile);
-
-    //audio.trimSilence(audioFile);
-    assertThat(audioFile, anExistingFile());
-
-    SampleFileInfo info = audio.getAudioFileInfo(audioFile);
-    assertThat((double)info.getDuration(), closeTo(2000, 100));
-
-    audioFile.delete();
   }
 
   @Test
@@ -102,7 +86,7 @@ public class AudioProcessorTest
     File stereoFile = new File("fixture/stereo-tone.mp3");
     File monoFile = new File("fixture/mono-tone.mp3");
 
- //   audio.convertToMono(stereoFile, monoFile);
+    audio.convertToMono(stereoFile, monoFile);
     assertThat(monoFile, anExistingFile());
 
     assertThat(audio.getAudioFileInfo(stereoFile).getChannels(), equalTo(2));
@@ -116,8 +100,8 @@ public class AudioProcessorTest
   {
     File audioFile = new File("fixture/sample.mp3");
     File targetFile = new File("fixture/sample_normalize.mp3");
-    // targetFile.delete();
+    targetFile.delete();
 
-   // audio.normalizeLevel(audioFile, targetFile);
+    audio.normalizeLevel(audioFile, targetFile);
   }
 }

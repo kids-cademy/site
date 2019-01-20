@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-import javax.sound.sampled.UnsupportedAudioFileException;
-
-import org.im4java.core.IM4JavaException;
 import org.im4java.process.ProcessStarter;
 
 import com.kidscademy.AdminService;
@@ -19,16 +16,14 @@ import com.kidscademy.atlas.Login;
 import com.kidscademy.atlas.User;
 import com.kidscademy.dao.AdminDao;
 import com.kidscademy.media.AudioProcessor;
+import com.kidscademy.media.AudioSampleInfo;
 import com.kidscademy.media.ImageProcessor;
-import com.kidscademy.media.MediaFileHandler;
-import com.kidscademy.media.SampleFileInfo;
 
 import js.core.AppContext;
 import js.http.form.Form;
 import js.lang.BugError;
 import js.log.Log;
 import js.log.LogFactory;
-import js.util.Strings;
 
 public class AdminServiceImpl implements AdminService
 {
@@ -84,7 +79,7 @@ public class AdminServiceImpl implements AdminService
     if(instrument.getSamplePath() != null) {
       File sampleFile = new File(CT.repositoryDir(), instrument.getSamplePath());
       if(sampleFile.exists()) {
-        SampleFileInfo sampleInfo = audio.getAudioFileInfo(sampleFile);
+        AudioSampleInfo sampleInfo = audio.getAudioFileInfo(sampleFile);
         instrument.setSampleInfo(sampleInfo);
       }
     }
@@ -122,8 +117,9 @@ public class AdminServiceImpl implements AdminService
   @Override
   public String uploadPictureFile(Form form) throws IOException
   {
-    String picturePath = Strings.concat("instruments/", form.getValue("name"), "/picture.jpg");
-    File pictureFile = new File(CT.repositoryDir(), picturePath);
+    String objectName = form.getValue("name");
+    String picturePath = MediaFileHandler.path(objectName, "picture.jpg");
+    File pictureFile = MediaFileHandler.file(picturePath);
     pictureFile.getParentFile().mkdirs();
 
     image.saveObjectPicture(form.getUploadedFile("file").getFile(), pictureFile);
@@ -131,21 +127,11 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
-  public String uploadIconFile(Form form) throws IOException
-  {
-    String iconPath = Strings.concat("instruments/", form.getValue("name"), "/icon.jpg");
-    File iconFile = new File(CT.repositoryDir(), iconPath);
-    iconFile.getParentFile().mkdirs();
-
-    image.saveObjectIcon(form.getUploadedFile("file").getFile(), iconFile);
-    return iconPath;
-  }
-
-  @Override
   public String uploadThumbnailFile(Form form) throws IOException
   {
-    String thumbnailPath = Strings.concat("instruments/", form.getValue("name"), "/thumbnail.png");
-    File thumbnailFile = new File(CT.repositoryDir(), thumbnailPath);
+    String objectName = form.getValue("name");
+    String thumbnailPath = MediaFileHandler.path(objectName, "thumbnail.png");
+    File thumbnailFile = MediaFileHandler.file(thumbnailPath);
     thumbnailFile.getParentFile().mkdirs();
 
     image.saveObjectThumbnail(form.getUploadedFile("file").getFile(), thumbnailFile);
@@ -153,11 +139,23 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
+  public String uploadIconFile(Form form) throws IOException
+  {
+    String objectName = form.getValue("name");
+    String iconPath = MediaFileHandler.path(objectName, "icon.jpg");
+    File iconFile = MediaFileHandler.file(iconPath);
+    iconFile.getParentFile().mkdirs();
+
+    image.saveObjectIcon(form.getUploadedFile("file").getFile(), iconFile);
+    return iconPath;
+  }
+
+  @Override
   public String createObjectIcon(String objectName) throws IOException
   {
-    File pictureFile = new File(CT.repositoryDir(), Strings.concat("instruments/", objectName, "/picture.jpg"));
-    String iconPath = Strings.concat("instruments/", objectName, "/icon.jpg");
-    File iconFile = new File(CT.repositoryDir(), iconPath);
+    File pictureFile = MediaFileHandler.file(objectName, "picture.jpg");
+    String iconPath = MediaFileHandler.path(objectName, "icon.jpg");
+    File iconFile = MediaFileHandler.file(iconPath);
 
     image.createObjectIcon(pictureFile, iconFile);
     return iconPath;
@@ -170,128 +168,94 @@ public class AdminServiceImpl implements AdminService
   }
 
   // ----------------------------------------------------------------------------------------------
-  // Audio Services
+  // Object Audio Sample Services
 
   @Override
-  public SampleFileInfo uploadAudioSample(Form form) throws IOException, UnsupportedAudioFileException, InterruptedException, IM4JavaException
+  public AudioSampleInfo uploadAudioSample(Form form) throws IOException
   {
     String objectName = form.getValue("name");
-    MediaFileHandler handler = new MediaFileHandler("instruments", objectName, "sample.mp3");
-    handler.mkdirs();
-    handler.reset();
-
-    form.getUploadedFile("file").getFile().renameTo(handler.file());
-
-    SampleFileInfo info = audio.getAudioFileInfo(handler.file());
-    info.setSamplePath(handler.path());
-    info.setWaveformPath(generateWaveform(objectName));
-    return info;
+    MediaFileHandler handler = new MediaFileHandler(objectName, "sample.mp3");
+    handler.upload(form.getUploadedFile("file").getFile());
+    return getAudioSampleInfo(objectName, handler.source(), handler.sourcePath());
   }
 
   @Override
-  public SampleFileInfo normalizeSample(String objectName) throws IOException
+  public AudioSampleInfo normalizeSample(String objectName) throws IOException
   {
-    MediaFileHandler handler = new MediaFileHandler("instruments", objectName, "sample.mp3");
-    audio.normalizeLevel(handler);
-
-    String waveformPath = Strings.concat("instruments/", objectName, "/waveform.png");
-    File waveformFile = new File(CT.repositoryDir(), waveformPath);
-    audio.generateWaveform(handler.target(), waveformFile);
-
-    SampleFileInfo info = audio.getAudioFileInfo(handler.target());
-    info.setSamplePath(handler.target().getPath());
-    info.setWaveformPath(waveformPath);
-    return info;
+    MediaFileHandler handler = new MediaFileHandler(objectName, "sample.mp3");
+    audio.normalizeLevel(handler.source(), handler.target());
+    return getAudioSampleInfo(objectName, handler.target(), handler.targetPath());
   }
 
   @Override
-  public SampleFileInfo convertToMono(String objectName) throws IOException
+  public AudioSampleInfo convertToMono(String objectName) throws IOException
   {
-    MediaFileHandler handler = new MediaFileHandler("instruments", objectName, "sample.mp3");
-    audio.convertToMono(handler);
-
-    String waveformPath = Strings.concat("instruments/", objectName, "/waveform.png");
-    File waveformFile = new File(CT.repositoryDir(), waveformPath);
-    audio.generateWaveform(handler.target(), waveformFile);
-
-    SampleFileInfo info = audio.getAudioFileInfo(handler.target());
-    info.setSamplePath(handler.target().getPath());
-    info.setWaveformPath(waveformPath);
-    return info;
+    MediaFileHandler handler = new MediaFileHandler(objectName, "sample.mp3");
+    audio.convertToMono(handler.source(), handler.target());
+    return getAudioSampleInfo(objectName, handler.target(), handler.targetPath());
   }
 
   @Override
-  public SampleFileInfo trimSilence(String objectName) throws IOException
+  public AudioSampleInfo trimSilence(String objectName) throws IOException
   {
-    MediaFileHandler handler = new MediaFileHandler("instruments", objectName, "sample.mp3");
-    audio.trimSilence(handler);
-
-    String waveformPath = Strings.concat("instruments/", objectName, "/waveform.png");
-    File waveformFile = new File(CT.repositoryDir(), waveformPath);
-    audio.generateWaveform(handler.target(), waveformFile);
-
-    SampleFileInfo info = audio.getAudioFileInfo(handler.target());
-    info.setSamplePath(handler.target().getPath());
-    info.setWaveformPath(waveformPath);
-    return info;
+    MediaFileHandler handler = new MediaFileHandler(objectName, "sample.mp3");
+    audio.trimSilence(handler.source(), handler.target());
+    return getAudioSampleInfo(objectName, handler.target(), handler.targetPath());
   }
 
   @Override
-  public String generateWaveform(String objectName) throws IOException, UnsupportedAudioFileException, InterruptedException, IM4JavaException
+  public String generateWaveform(String objectName) throws IOException
   {
-    File mp3File = new File(CT.repositoryDir(), Strings.concat("instruments/", objectName, "/sample.mp3"));
-    if(!mp3File.exists()) {
-      throw new BugError("Database not consistent. Missing sample file |%s|.", mp3File);
+    File sampleFile = MediaFileHandler.file(objectName, "sample.mp3");
+    if(!sampleFile.exists()) {
+      throw new BugError("Database not consistent. Missing sample file |%s|.", sampleFile);
     }
-
-    String waveformPath = Strings.concat("instruments/", objectName, "/waveform.png");
-    File waveformFile = new File(CT.repositoryDir(), waveformPath);
-    audio.generateWaveform(mp3File, waveformFile);
-    return waveformPath;
+    return generateWaveform(objectName, sampleFile);
   }
 
   @Override
-  public void removeInstrumentSample(String instrumentName)
+  public AudioSampleInfo undoMediaProcessing(String objectName) throws IOException
   {
-    MediaFileHandler handler = new MediaFileHandler("instruments", instrumentName, "sample.mp3");
+    MediaFileHandler handler = new MediaFileHandler(objectName, "sample.mp3");
+    handler.rollback();
+    return getAudioSampleInfo(objectName, handler.source(), handler.sourcePath());
+  }
+
+  @Override
+  public AudioSampleInfo commitMediaProcessing(String objectName) throws IOException
+  {
+    MediaFileHandler handler = new MediaFileHandler(objectName, "sample.mp3");
+    handler.commit();
+    return getAudioSampleInfo(objectName, handler.source(), handler.sourcePath());
+  }
+
+  @Override
+  public void removeInstrumentSample(String instrumentName) throws IOException
+  {
+    MediaFileHandler handler = new MediaFileHandler(instrumentName, "sample.mp3");
     handler.delete();
 
     dao.removeInstrumentSample(instrumentName);
 
-    File instrumentDir = new File(CT.repositoryDir(), Strings.concat("instruments/", instrumentName));
-    new File(instrumentDir, "sample.mp3").delete();
-    new File(instrumentDir, "waveform.png").delete();
+    MediaFileHandler.file(instrumentName, "sample.mp3").delete();
+    MediaFileHandler.file(instrumentName, "waveform.png").delete();
   }
 
-  @Override
-  public SampleFileInfo undoMediaProcessing(String objectName) throws IOException
+  // ----------------------------------------------------------------------------------------------
+
+  private AudioSampleInfo getAudioSampleInfo(String objectName, File file, String path) throws IOException
   {
-    MediaFileHandler handler = new MediaFileHandler("instruments", objectName, "sample.mp3");
-    handler.rollback();
-
-    String waveformPath = Strings.concat("instruments/", objectName, "/waveform.png");
-    File waveformFile = new File(CT.repositoryDir(), waveformPath);
-    audio.generateWaveform(handler.file(), waveformFile);
-
-    SampleFileInfo info = audio.getAudioFileInfo(handler.file());
-    info.setSamplePath(handler.file().getPath());
-    info.setWaveformPath(waveformPath);
+    AudioSampleInfo info = audio.getAudioFileInfo(file);
+    info.setSampleSrc(path);
+    info.setWaveformSrc(generateWaveform(objectName, file));
     return info;
   }
 
-  @Override
-  public SampleFileInfo commitMediaProcessing(String objectName) throws IOException
+  private String generateWaveform(String objectName, File audioFile) throws IOException
   {
-    MediaFileHandler handler = new MediaFileHandler("instruments", objectName, "sample.mp3");
-    handler.commit();
-
-    String waveformPath = Strings.concat("instruments/", objectName, "/waveform.png");
-    File waveformFile = new File(CT.repositoryDir(), waveformPath);
-    audio.generateWaveform(handler.file(), waveformFile);
-
-    SampleFileInfo info = audio.getAudioFileInfo(handler.file());
-    info.setSamplePath(handler.file().getPath());
-    info.setWaveformPath(waveformPath);
-    return info;
+    String waveformPath = MediaFileHandler.path(objectName, "waveform.png");
+    File waveformFile = MediaFileHandler.file(waveformPath);
+    audio.generateWaveform(audioFile, waveformFile);
+    return waveformPath;
   }
 }

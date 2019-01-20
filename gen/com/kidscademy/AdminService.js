@@ -359,11 +359,8 @@ com.kidscademy.AdminService = {
 	 * @param js.http.form.Form form,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return com.kidscademy.media.SampleFileInfo
+	 * @return com.kidscademy.media.AudioSampleInfo
 	 * @throws java.io.IOException
-	 * @throws javax.sound.sampled.UnsupportedAudioFileException
-	 * @throws java.lang.InterruptedException
-	 * @throws org.im4java.core.IM4JavaException
 	 * @assert callback is a {@link Function} and scope is an {@link Object}.
 	 */
 	 uploadAudioSample: function(form) {
@@ -389,7 +386,7 @@ com.kidscademy.AdminService = {
 	 * @param java.lang.String objectName,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return com.kidscademy.media.SampleFileInfo
+	 * @return com.kidscademy.media.AudioSampleInfo
 	 * @throws java.io.IOException
 	 * @assert callback is a {@link Function} and scope is an {@link Object}.
 	 */
@@ -417,7 +414,7 @@ com.kidscademy.AdminService = {
 	 * @param java.lang.String objectName,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return com.kidscademy.media.SampleFileInfo
+	 * @return com.kidscademy.media.AudioSampleInfo
 	 * @throws java.io.IOException
 	 * @assert callback is a {@link Function} and scope is an {@link Object}.
 	 */
@@ -445,7 +442,7 @@ com.kidscademy.AdminService = {
 	 * @param java.lang.String objectName,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return com.kidscademy.media.SampleFileInfo
+	 * @return com.kidscademy.media.AudioSampleInfo
 	 * @throws java.io.IOException
 	 * @assert callback is a {@link Function} and scope is an {@link Object}.
 	 */
@@ -475,9 +472,6 @@ com.kidscademy.AdminService = {
 	 * @param Object scope optional callback run-time scope, default to global scope.
 	 * @return java.lang.String
 	 * @throws java.io.IOException
-	 * @throws javax.sound.sampled.UnsupportedAudioFileException
-	 * @throws java.lang.InterruptedException
-	 * @throws org.im4java.core.IM4JavaException
 	 * @assert callback is a {@link Function} and scope is an {@link Object}.
 	 */
 	 generateWaveform: function(objectName) {
@@ -499,40 +493,12 @@ com.kidscademy.AdminService = {
 	},
 
 	/**
-	 * Remove instrument sample.
-	 *
-	 * @param java.lang.String instrumentName,
-	 * @param Function callback function to invoke on RMI completion,
-	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return void
-	 * @assert callback is a {@link Function} and scope is an {@link Object}, if they are defined.
-	 * @note since method return type is void, callback, and hence scope too, is optional.
-	 */
-	 removeInstrumentSample: function(instrumentName) {
-		$assert(typeof instrumentName !== "undefined", "com.kidscademy.AdminService#removeInstrumentSample", "Instrument name argument is undefined.");
-		$assert(instrumentName === null || js.lang.Types.isString(instrumentName), "com.kidscademy.AdminService#removeInstrumentSample", "Instrument name argument is not a string.");
-
-		var __callback__ = arguments[1];
-		$assert(typeof __callback__ === "undefined" || js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#removeInstrumentSample", "Callback is not a function.");
-		var __scope__ = arguments[2];
-		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#removeInstrumentSample", "Scope is not an object.");
-		if(!js.lang.Types.isObject(__scope__)) {
-			__scope__ = window;
-		}
-
-		var rmi = new js.net.RMI();
-		rmi.setMethod("com.kidscademy.AdminService", "removeInstrumentSample");
-		rmi.setParameters(instrumentName);
-		rmi.exec(__callback__, __scope__);
-	},
-
-	/**
 	 * Undo media processing.
 	 *
 	 * @param java.lang.String objectName,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return com.kidscademy.media.SampleFileInfo
+	 * @return com.kidscademy.media.AudioSampleInfo
 	 * @throws java.io.IOException
 	 * @assert callback is a {@link Function} and scope is an {@link Object}.
 	 */
@@ -560,7 +526,7 @@ com.kidscademy.AdminService = {
 	 * @param java.lang.String objectName,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return com.kidscademy.media.SampleFileInfo
+	 * @return com.kidscademy.media.AudioSampleInfo
 	 * @throws java.io.IOException
 	 * @assert callback is a {@link Function} and scope is an {@link Object}.
 	 */
@@ -579,6 +545,35 @@ com.kidscademy.AdminService = {
 		var rmi = new js.net.RMI();
 		rmi.setMethod("com.kidscademy.AdminService", "commitMediaProcessing");
 		rmi.setParameters(objectName);
+		rmi.exec(__callback__, __scope__);
+	},
+
+	/**
+	 * Remove instrument sample.
+	 *
+	 * @param java.lang.String instrumentName,
+	 * @param Function callback function to invoke on RMI completion,
+	 * @param Object scope optional callback run-time scope, default to global scope.
+	 * @return void
+	 * @throws java.io.IOException
+	 * @assert callback is a {@link Function} and scope is an {@link Object}, if they are defined.
+	 * @note since method return type is void, callback, and hence scope too, is optional.
+	 */
+	 removeInstrumentSample: function(instrumentName) {
+		$assert(typeof instrumentName !== "undefined", "com.kidscademy.AdminService#removeInstrumentSample", "Instrument name argument is undefined.");
+		$assert(instrumentName === null || js.lang.Types.isString(instrumentName), "com.kidscademy.AdminService#removeInstrumentSample", "Instrument name argument is not a string.");
+
+		var __callback__ = arguments[1];
+		$assert(typeof __callback__ === "undefined" || js.lang.Types.isFunction(__callback__), "com.kidscademy.AdminService#removeInstrumentSample", "Callback is not a function.");
+		var __scope__ = arguments[2];
+		$assert(typeof __scope__ === "undefined" || js.lang.Types.isObject(__scope__), "com.kidscademy.AdminService#removeInstrumentSample", "Scope is not an object.");
+		if(!js.lang.Types.isObject(__scope__)) {
+			__scope__ = window;
+		}
+
+		var rmi = new js.net.RMI();
+		rmi.setMethod("com.kidscademy.AdminService", "removeInstrumentSample");
+		rmi.setParameters(instrumentName);
 		rmi.exec(__callback__, __scope__);
 	}
 };

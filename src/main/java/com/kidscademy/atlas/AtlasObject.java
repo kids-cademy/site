@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.PostLoad;
-import javax.persistence.Transient;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -32,8 +30,6 @@ public class AtlasObject
   protected String display;
   protected String description;
   protected String picturePath;
-  @Transient
-  protected String pictureSrc;
   protected String iconPath;
   protected String thumbnailPath;
 
@@ -53,11 +49,6 @@ public class AtlasObject
   @ElementCollection
   protected List<Related> related;
 
-  @PostLoad
-  public void postLoad() {
-    pictureSrc = "/media/atlas/" + picturePath;
-  }
-  
   /**
    * For testing
    * 

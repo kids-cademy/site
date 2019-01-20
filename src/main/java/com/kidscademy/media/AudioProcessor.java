@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public interface AudioProcessor
 {
-  SampleFileInfo getAudioFileInfo(File audioFile) throws IOException;
+  AudioSampleInfo getAudioFileInfo(File audioFile) throws IOException;
 
   void generateWaveform(File audioFile, File waveformFile) throws IOException;
 
@@ -19,9 +19,9 @@ public interface AudioProcessor
    * @param optionalTargetFile optional target file.
    * @throws IOException if processing fails.
    */
-  void trimSilence(MediaFileHandler object) throws IOException;
+  void trimSilence(File audioFile, File targetFile) throws IOException;
 
-  void convertToMono(MediaFileHandler object) throws IOException;
+  void convertToMono(File audioFile, File targetFile) throws IOException;
 
   /**
    * Normalize audio level peak to 0dB. Normalized audio is saved on optional target file; if target file is not provided store normalized audio in source file.
@@ -30,5 +30,5 @@ public interface AudioProcessor
    * @param optionalTargetFile optional target file.
    * @throws IOException if processing fails.
    */
-  void normalizeLevel(MediaFileHandler object) throws IOException;
+  void normalizeLevel(File audioFile, File targetFile) throws IOException;
 }

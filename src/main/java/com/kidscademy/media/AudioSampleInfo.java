@@ -1,9 +1,9 @@
 package com.kidscademy.media;
 
-public class SampleFileInfo
+public class AudioSampleInfo
 {
-  private String samplePath;
-  private String waveformPath;
+  private String sampleSrc;
+  private String waveformSrc;
   
   /** Sample file name. */
   private String fileName;
@@ -17,24 +17,24 @@ public class SampleFileInfo
   private int sampleRate;
   private int bitRate;
 
-  public void setSamplePath(String samplePath)
+  public void setSampleSrc(String samplePath)
   {
-    this.samplePath = samplePath;
+    this.sampleSrc = samplePath;
   }
 
-  public void setWaveformPath(String waveformPath)
+  public void setWaveformSrc(String waveformPath)
   {
-    this.waveformPath = waveformPath;
+    this.waveformSrc = waveformPath;
   }
 
-  public String getSamplePath()
+  public String getSampleSrc()
   {
-    return samplePath;
+    return sampleSrc;
   }
 
-  public String getWaveformPath()
+  public String getWaveformSrc()
   {
-    return waveformPath;
+    return waveformSrc;
   }
 
   public String getFileName()

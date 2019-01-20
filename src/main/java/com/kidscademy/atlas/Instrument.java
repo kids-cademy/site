@@ -8,9 +8,13 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 
-import com.kidscademy.media.SampleFileInfo;
+import com.kidscademy.impl.MediaFileHandler;
+import com.kidscademy.media.AudioSampleInfo;
 
 @Entity
 public class Instrument extends AtlasObject implements Serializable
@@ -21,9 +25,9 @@ public class Instrument extends AtlasObject implements Serializable
   private String sampleTitle;
   private String samplePath;
   private String waveformPath;
-  
+
   @Transient
-  private SampleFileInfo sampleInfo;
+  private AudioSampleInfo sampleInfo;
 
   @Embedded
   @AttributeOverrides(
@@ -36,6 +40,44 @@ public class Instrument extends AtlasObject implements Serializable
   public Instrument()
   {
     dtype = getClass().getSimpleName();
+  }
+
+  @Transient
+  private String pictureSrc;
+  @Transient
+  private String iconSrc;
+  @Transient
+  private String thumbnailSrc;
+  @Transient
+  private String sampleSrc;
+  @Transient
+  private String waveformSrc;
+
+  @PrePersist
+  @PreUpdate
+  public void preSave()
+  {
+    picturePath = file(pictureSrc);
+    iconPath = file(iconSrc);
+    thumbnailPath = file(thumbnailSrc);
+    samplePath = file(sampleSrc);
+    waveformPath = file(waveformSrc);
+  }
+
+  private String file(String path)
+  {
+    return path != null ? path.substring(path.lastIndexOf('/') + 1) : null;
+  }
+
+  @PostLoad
+  public void postLoad()
+  {
+    // database contains only media file names; convert to root relative URLs
+    pictureSrc = MediaFileHandler.path(name, picturePath);
+    iconSrc = MediaFileHandler.path(name, iconPath);
+    thumbnailSrc = MediaFileHandler.path(name, thumbnailPath);
+    sampleSrc = MediaFileHandler.path(name, samplePath);
+    waveformSrc = MediaFileHandler.path(name, waveformPath);
   }
 
   public Category getCategory()
@@ -78,7 +120,7 @@ public class Instrument extends AtlasObject implements Serializable
     this.waveformPath = waveformPath;
   }
 
-  public void setSampleInfo(SampleFileInfo sampleInfo)
+  public void setSampleInfo(AudioSampleInfo sampleInfo)
   {
     this.sampleInfo = sampleInfo;
   }
