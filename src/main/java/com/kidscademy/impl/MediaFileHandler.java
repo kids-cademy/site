@@ -3,7 +3,9 @@ package com.kidscademy.impl;
 import java.io.File;
 import java.io.IOException;
 
-import js.util.Files;
+import com.kidscademy.util.Files;
+
+import js.lang.BugError;
 import js.util.Params;
 import js.util.Strings;
 
@@ -52,8 +54,12 @@ public class MediaFileHandler
   /** Media file extension. */
   private String extension;
   /**
-   * Latest version denotes last media transform. This file version exist created on file system by previous transform. It is the source file; target file
-   * version is this value incremented by one.
+   * Last media processing version. Version is detecting by this handler constructor by scanning all files with requested name and annotated with version, e.g.
+   * <code>media-file_version.ext</code>. This property holds the greatest version, that is, points to most recent processing. When a new processing occurs on
+   * this media file handler, latest version is processing source file and a new incremented version is created with processing result.
+   * <p>
+   * If there is not transform performed on this media file, but base file exists, version is zero. If there is no media file with requested file name version
+   * value is -1.
    */
   private int version;
 
@@ -64,16 +70,16 @@ public class MediaFileHandler
    * @param mediaFile media file name, without any path components.
    * @throws IllegalArgumentException if arguments are null or empty or media file has no extension.
    */
-  public MediaFileHandler(String objectName, String mediaFile) throws IllegalArgumentException
+  public MediaFileHandler(String collectionName, String objectName, String mediaFile) throws IllegalArgumentException
   {
     Params.notNullOrEmpty(objectName, "Object name");
     Params.notNullOrEmpty(objectName, "Media file");
 
-    String path = path(objectName, mediaFile);
+    String mediaSrc = Files.mediaSrc(collectionName, objectName, mediaFile);
     // infer base path from path in order to avoid hard coded path dependency
-    basePath = path.substring(0, path.lastIndexOf('/') + 1);
+    basePath = mediaSrc.substring(0, mediaSrc.lastIndexOf('/') + 1);
 
-    File file = file(path);
+    File file = file(mediaSrc);
     baseDir = file.getParentFile();
     basename = Files.basename(mediaFile);
     extension = Files.getExtension(mediaFile);
@@ -86,9 +92,8 @@ public class MediaFileHandler
     while(file(baseDir, basename, version, extension).exists()) {
       ++version;
     }
-    if(version > 0) {
-      --version;
-    }
+    // if base file is missing, that is, no media file at all version will become -1
+    --version;
   }
 
   /**
@@ -101,15 +106,19 @@ public class MediaFileHandler
   public void upload(File file) throws IOException
   {
     Params.isFile(file, "Source file");
-    File source = source();
+    File source = file(baseDir, basename, 0, extension);
     File parentDir = source.getParentFile();
 
     if(!parentDir.exists() && !parentDir.mkdirs()) {
       throw new IOException(Strings.format("Fail to create parent directory |%s.|", parentDir));
     }
+
     if(source.exists()) {
       delete();
     }
+    // after delete() version is -1 since all media file were removed; take care to initialize it to base file
+    version = 0;
+
     if(!file.renameTo(source)) {
       throw new IOException(Strings.format("Fail to move source file |%s| to |%s|", file, source));
     }
@@ -119,10 +128,14 @@ public class MediaFileHandler
    * Get absolute file for processing source. Source is the file from where processor reads media content.
    * 
    * @return source absolute file.
+   * @throws BugError if attempt to retrieve source file but not media file actually exists on file system.
    * @see #source
    */
   public File source()
   {
+    if(version == -1) {
+      throw new BugError("Attempt to processs not existing media file.");
+    }
     if(source == null) {
       source = file(baseDir, basename, version, extension);
     }
@@ -134,10 +147,14 @@ public class MediaFileHandler
    * content.
    * 
    * @return root relative URL for source file.
+   * @throws BugError if attempt to retrieve source path but not media file actually exists on file system.
    * @see #sourcePath
    */
   public String sourcePath()
   {
+    if(version == -1) {
+      throw new BugError("Attempt to retrieve not existing media file.");
+    }
     if(sourcePath == null) {
       sourcePath = path(basePath, basename, version, extension);
     }
@@ -149,10 +166,14 @@ public class MediaFileHandler
    * till processor creates it.
    * 
    * @return target absolute file.
+   * @throws BugError if attempt to retrieve target file but not media file actually exists on file system.
    * @see #target
    */
   public File target()
   {
+    if(version == -1) {
+      throw new BugError("Attempt to processs not existing media file.");
+    }
     if(target == null) {
       target = file(baseDir, basename, version + 1, extension);
     }
@@ -164,10 +185,14 @@ public class MediaFileHandler
    * render media content.
    * 
    * @return root relative URL for target file.
+   * @throws BugError if attempt to retrieve target path but not media file actually exists on file system.
    * @see #targetPath
    */
   public String targetPath()
   {
+    if(version == -1) {
+      throw new BugError("Attempt to retrieve not existing media file.");
+    }
     if(targetPath == null) {
       targetPath = path(basePath, basename, version + 1, extension);
     }
@@ -243,11 +268,17 @@ public class MediaFileHandler
    * Remove <code>ALL</code> files, including base version zero from file system and reset version value. This method remove every file version, one by one in
    * sequence. If a file remove operation fails all lower versions are left on file system; {@link #version} value is guaranteed to reflect this incomplete
    * remove. If this method is invoked after media processor has been created target file, remove it too.
+   * <p>
+   * If there is no media file to delete this method does nothing.
    * 
    * @throws IOException if a file remove operation fails.
    */
   public void delete() throws IOException
   {
+    if(version == -1) {
+      return;
+    }
+
     File target = target();
     if(target.exists() && !target.delete()) {
       throw new IOException(String.format("Unable to remove media target file with version |%d|.", version + 1));
@@ -259,7 +290,6 @@ public class MediaFileHandler
       }
     }
 
-    this.version = 0;
     this.source = null;
     this.target = null;
   }
@@ -299,25 +329,32 @@ public class MediaFileHandler
 
   private static File REPOSIOTRY_DIR = new File(System.getProperty("catalina.base") + "/webapps");
 
-  public static String path(String objectName, String file)
+  /**
+   * Get root relative URL of media file belonging to object.
+   * 
+   * @param objectName object name,
+   * @param mediaFile media file name.
+   * @return root relative URL of requested media file.
+   */
+  public static String pathEOL(String objectName, String mediaFile)
   {
-    if(file == null) {
+    if(mediaFile == null) {
       return null;
     }
-    return Strings.concat("/media/atlas/instruments/", objectName, '/', file);
+    return Strings.concat("/media/atlas/instrument/", objectName, '/', mediaFile);
   }
 
   public static File file(String path)
   {
     // repository dir := ${catalina.base}/webapps
-    // path := /media/atlas/instruments/object/file
+    // path := /media/atlas/instrument/object/file
     return new File(REPOSIOTRY_DIR, path);
   }
 
-  public static File file(String objectName, String file)
+  public static File file(String collectionName, String objectName, String file)
   {
     // repository dir := ${catalina.base}/webapps
-    // path := /media/atlas/instruments/object/file
-    return new File(REPOSIOTRY_DIR, path(objectName, file));
+    // path := /media/atlas/instrument/object/file
+    return new File(REPOSIOTRY_DIR, Files.mediaSrc(collectionName, objectName, file));
   }
 }

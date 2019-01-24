@@ -55,13 +55,13 @@ public class ImportInstrument
       instrument.setName(object.name);
       instrument.setDisplay(object.title);
       instrument.setDescription(object.description);
-      instrument.setIconPath(object.iconPath.replace("collection", "instruments"));
-      instrument.setThumbnailPath(object.thumbnailPath.replace("collection", "instruments"));
-      instrument.setPicturePath(object.picturePath.replace("collection", "instruments"));
+      instrument.setIconFile(object.iconPath.replace("collection", "instruments"));
+      instrument.setThumbnailFile(object.thumbnailPath.replace("collection", "instruments"));
+      instrument.setPictureFile(object.picturePath.replace("collection", "instruments"));
 
       instrument.setCategory(object.category);
       instrument.setSampleTitle(object.sampleTitle);
-      instrument.setSamplePath(object.samplePath);
+      instrument.setSampleFile(object.samplePath);
       instrument.setDate(new HDate(object.date.value, object.date.format, object.date.period, object.date.era));
 
       instrument.setAliases(Arrays.asList(object.aliases));

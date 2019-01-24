@@ -1,24 +1,27 @@
 package com.kidscademy.atlas;
 
+import com.kidscademy.impl.MediaFileHandler;
+import com.kidscademy.util.Files;
+
 @SuppressWarnings("unused")
 public class GraphicObject
 {
   private int id;
   private String name;
   private String display;
-  private String iconPath;
+  private String iconSrc;
 
   public GraphicObject()
   {
   }
 
-  public GraphicObject(int id, String name, String display, String iconPath)
+  public GraphicObject(int id, String dtype, String name, String display, String iconFile)
   {
     super();
     this.id = id;
     this.name = name;
     this.display = display;
-    this.iconPath = iconPath;
+    this.iconSrc = Files.mediaSrc(dtype, name, iconFile);
   }
 
   @Override

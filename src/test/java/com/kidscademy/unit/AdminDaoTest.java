@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
@@ -38,6 +39,7 @@ import js.transaction.TransactionFactory;
 import js.transaction.eclipselink.TransactionFactoryImpl;
 import js.unit.db.Database;
 import js.util.Classes;
+import js.util.Strings;
 
 public class AdminDaoTest
 {
@@ -80,6 +82,83 @@ public class AdminDaoTest
     assertInstrument(instrument);
   }
 
+  /** When create new instrument with not null media source values, media files fields should initialized before actual database persist. */
+  @Test
+  public void prePersistInstrument()
+  {
+    Instrument instrument = new Instrument();
+    instrument.setUser(new User(1));
+    instrument.setState(AtlasObject.State.DEVELOPMENT);
+    instrument.setRank(9999);
+    instrument.setCategory(Instrument.Category.STRINGS);
+    instrument.setName("banjo");
+
+    instrument.setIconSrc(path("banjo", "icon.jpg"));
+    instrument.setThumbnailSrc(path("banjo", "thumbnail.png"));
+    instrument.setPictureSrc(path("banjo", "picture.jpg"));
+    instrument.setSampleSrc(path("banjo", "sample.mp3"));
+    instrument.setWaveformSrc(path("banjo", "waveform.png"));
+
+    dao.saveInstrument(instrument);
+
+    Instrument persistedInstrument = dao.getInstrument(instrument.getId());
+    assertThat(persistedInstrument.getIconFile(), equalTo("icon.jpg"));
+    assertThat(persistedInstrument.getThumbnailFile(), equalTo("thumbnail.png"));
+    assertThat(persistedInstrument.getPictureFile(), equalTo("picture.jpg"));
+    assertThat(persistedInstrument.getSampleFile(), equalTo("sample.mp3"));
+    assertThat(persistedInstrument.getWaveformFile(), equalTo("waveform.png"));
+  }
+
+  @Test
+  public void preUpdateInstrument()
+  {
+    Instrument instrument = new Instrument();
+    instrument.setUser(new User(1));
+    instrument.setState(AtlasObject.State.DEVELOPMENT);
+    instrument.setRank(9999);
+    instrument.setCategory(Instrument.Category.STRINGS);
+    instrument.setName("banjo");
+    dao.saveInstrument(instrument);
+    System.out.println("==================================================================");
+    
+    Instrument persistedInstrument = dao.getInstrument(instrument.getId());
+    assertThat(persistedInstrument.getIconFile(), nullValue());
+    assertThat(persistedInstrument.getThumbnailFile(), nullValue());
+    assertThat(persistedInstrument.getPictureFile(), nullValue());
+    assertThat(persistedInstrument.getSampleFile(), nullValue());
+    assertThat(persistedInstrument.getWaveformFile(), nullValue());
+
+    instrument.setIconSrc(path("banjo", "icon.jpg"));
+    instrument.setThumbnailSrc(path("banjo", "thumbnail.png"));
+    instrument.setPictureSrc(path("banjo", "picture.jpg"));
+    instrument.setSampleSrc(path("banjo", "sample.mp3"));
+    instrument.setWaveformSrc(path("banjo", "waveform.png"));
+    // database merge is triggered on DAO because instrument ID is not zero
+    assertThat(instrument.getId(), not(equalTo(0)));
+//    instrument.preSave();
+//    instrument.setIconFile("xxxxxxxxx");
+//    instrument.setDisplay("Banjo Display");
+    dao.saveInstrument(instrument);
+
+    persistedInstrument = dao.getInstrument(instrument.getId());
+    assertThat(persistedInstrument.getIconFile(), equalTo("icon.jpg"));
+    assertThat(persistedInstrument.getThumbnailFile(), equalTo("thumbnail.png"));
+    assertThat(persistedInstrument.getPictureFile(), equalTo("picture.jpg"));
+    assertThat(persistedInstrument.getSampleFile(), equalTo("sample.mp3"));
+    assertThat(persistedInstrument.getWaveformFile(), equalTo("waveform.png"));
+  }
+
+  @Test
+  public void postLoadInstrument()
+  {
+    Instrument instrument = dao.getInstrument(1);
+    assertThat(instrument.getIconSrc(), equalTo(path("icon.jpg")));
+    assertThat(instrument.getThumbnailSrc(), equalTo(path("thumbnail.png")));
+    assertThat(instrument.getPictureSrc(), equalTo(path("picture.jpg")));
+    assertThat(instrument.getSampleSrc(), equalTo(path("sample.mp3")));
+    assertThat(instrument.getWaveformSrc(), equalTo(path("waveform.png")));
+  }
+
   @Test
   public void findObjectByType_Instrument() throws MalformedURLException
   {
@@ -105,13 +184,20 @@ public class AdminDaoTest
     assertThat(instrument.getName(), equalTo("accordion"));
     assertThat(instrument.getDisplay(), equalTo("Accordion"));
     assertThat(instrument.getDescription(), equalTo("Accordion description."));
-    assertThat(instrument.getIconPath(), equalTo("icon.jpg"));
-    assertThat(instrument.getThumbnailPath(), equalTo("thumbnail.png"));
-    assertThat(instrument.getPicturePath(), equalTo("picture.jpg"));
+
+    assertThat(instrument.getIconFile(), equalTo("icon.jpg"));
+    assertThat(instrument.getThumbnailFile(), equalTo("thumbnail.png"));
+    assertThat(instrument.getPictureFile(), equalTo("picture.jpg"));
+    assertThat(instrument.getIconSrc(), equalTo(path("icon.jpg")));
+    assertThat(instrument.getThumbnailSrc(), equalTo(path("thumbnail.png")));
+    assertThat(instrument.getPictureSrc(), equalTo(path("picture.jpg")));
 
     assertThat(instrument.getCategory(), equalTo(Category.KEYBOARD));
     assertThat(instrument.getSampleTitle(), equalTo("Sample"));
-    assertThat(instrument.getSamplePath(), equalTo("sample.mp3"));
+    assertThat(instrument.getSampleFile(), equalTo("sample.mp3"));
+    assertThat(instrument.getWaveformFile(), equalTo("waveform.png"));
+    assertThat(instrument.getSampleSrc(), equalTo(path("sample.mp3")));
+    assertThat(instrument.getWaveformSrc(), equalTo(path("waveform.png")));
 
     assertThat(instrument.getDate().getValue(), equalTo(1234567890L));
     assertThat(instrument.getDate().getFormat(), equalTo(HDate.Format.DATE));
@@ -147,8 +233,8 @@ public class AdminDaoTest
     assertThat(instrument.getRelated(), notNullValue());
     assertThat(instrument.getRelated(), not(empty()));
     assertThat(instrument.getRelated(), hasSize(2));
-    //assertThat(instrument.getRelated().get(0), equalTo("bandoneon"));
-    //assertThat(instrument.getRelated().get(1), equalTo("cimbalom"));
+    // assertThat(instrument.getRelated().get(0), equalTo("bandoneon"));
+    // assertThat(instrument.getRelated().get(1), equalTo("cimbalom"));
   }
 
   @Test
@@ -172,12 +258,12 @@ public class AdminDaoTest
     instrument.setName("banjo");
     instrument.setDisplay("Banjo");
     instrument.setDescription("Banjo description.");
-    instrument.setIconPath("icon.png");
-    instrument.setThumbnailPath("thumbnail.png");
-    instrument.setPicturePath("picture.jpg");
+    instrument.setIconFile("icon.png");
+    instrument.setThumbnailFile("thumbnail.png");
+    instrument.setPictureFile("picture.jpg");
     instrument.setSampleTitle("Banjo solo");
-    instrument.setSamplePath("sample.mp3");
-    instrument.setWaveformPath("waveform.png");
+    instrument.setSampleFile("sample.mp3");
+    instrument.setWaveformFile("waveform.png");
     instrument.setDate(new HDate(1821, HDate.Format.YEAR, HDate.Period.MIDDLE));
 
     List<String> aliases = new ArrayList<String>();
@@ -203,7 +289,7 @@ public class AdminDaoTest
     List<Related> related = new ArrayList<>();
     related.add(new Related("accordion", 0.5F));
     instrument.setRelated(related);
-    
+
     assertThat(instrument.getId(), equalTo(0));
     dao.saveInstrument(instrument);
     assertThat(instrument.getId(), not(equalTo(0)));
@@ -227,5 +313,17 @@ public class AdminDaoTest
     assertThat(bird.getFacts(), notNullValue());
     assertThat(bird.getFacts().keySet(), empty());
     assertThat(bird.getFacts().keySet(), hasSize(0));
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  private static String path(String mediaFile)
+  {
+    return path("accordion", mediaFile);
+  }
+
+  private static String path(String objectName, String mediaFile)
+  {
+    return Strings.concat("/media/atlas/instrument/", objectName, '/', mediaFile);
   }
 }

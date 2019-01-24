@@ -29,9 +29,9 @@ public class AtlasObject
   protected String name;
   protected String display;
   protected String description;
-  protected String picturePath;
-  protected String iconPath;
-  protected String thumbnailPath;
+  protected String pictureFile;
+  protected String iconFile;
+  protected String thumbnailFile;
 
   @ElementCollection
   protected List<String> aliases;
@@ -62,6 +62,11 @@ public class AtlasObject
   public Integer getId()
   {
     return id;
+  }
+
+  public String getDtype()
+  {
+    return dtype;
   }
 
   public State getState()
@@ -134,34 +139,34 @@ public class AtlasObject
     this.description = description;
   }
 
-  public String getIconPath()
+  public String getIconFile()
   {
-    return iconPath;
+    return iconFile;
   }
 
-  public void setIconPath(String iconPath)
+  public void setIconFile(String iconPath)
   {
-    this.iconPath = iconPath;
+    this.iconFile = iconPath;
   }
 
-  public String getThumbnailPath()
+  public String getThumbnailFile()
   {
-    return thumbnailPath;
+    return thumbnailFile;
   }
 
-  public void setThumbnailPath(String thumbnailPath)
+  public void setThumbnailFile(String thumbnailPath)
   {
-    this.thumbnailPath = thumbnailPath;
+    this.thumbnailFile = thumbnailPath;
   }
 
-  public String getPicturePath()
+  public String getPictureFile()
   {
-    return picturePath;
+    return pictureFile;
   }
 
-  public void setPicturePath(String picturePath)
+  public void setPictureFile(String picturePath)
   {
-    this.picturePath = picturePath;
+    this.pictureFile = picturePath;
   }
 
   public List<Region> getSpreading()

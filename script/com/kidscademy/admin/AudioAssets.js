@@ -11,9 +11,22 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		 */
 		this._formPage = null;
 
-		this._sampleTitleControl = this.getByName("sample-title");
-		this._samplePathControl = this.getByName("sample-path");
-		this._waveformPathControl = this.getByName("waveform-path");
+		/**
+		 * Input control for sample title.
+		 * @type js.dom.Control
+		 */
+		this._sampleTitleInput = this.getByName("sample-title");
+		/**
+		 * Hidden input that stores root relative URL for audio sample. This input is entangled with waveform graph and its validity
+		 * state is reflected on waveform displayed state.
+		 * @type com.kidscademy.HiddenControl
+		 */
+		this._sampleSrcValue = this.getByName("sample-src");
+		/**
+		 * Hidden input that stores root relative URL for waveform image.
+		 * @type js.dom.Control
+		 */
+		this._waveformSrcValue = this.getByName("waveform-src");
 
 		this._waveformGroup = this.getByCssClass("waveform");
 		this._waveformImage = this._waveformGroup.getByTag("img");
@@ -70,7 +83,8 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._sampleInfo.resetObject();
 
 		const data = new FormData();
-		data.append("name", object.name);
+		data.append("collection-name", object.dtype);
+		data.append("object-name", object.name);
 		data.append("file", ev.target._node.files[0]);
 
 		const xhr = new js.net.XHR();
@@ -90,7 +104,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._sampleInfo.resetObject();
 
 		const object = this._formPage.getObject();
-		AdminService.convertToMono(object.name, this._onProcessingComplete, this);
+		AdminService.convertToMono(object.dtype, object.name, this._onProcessingComplete, this);
 	}
 
 	_onNormalize() {
@@ -98,7 +112,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._sampleInfo.resetObject();
 
 		const object = this._formPage.getObject();
-		AdminService.normalizeSample(object.name, this._onProcessingComplete, this);
+		AdminService.normalizeSample(object.dtype, object.name, this._onProcessingComplete, this);
 	}
 
 	_onTrim() {
@@ -106,7 +120,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._sampleInfo.resetObject();
 
 		const object = this._formPage.getObject();
-		AdminService.trimSilence(object.name, this._onProcessingComplete, this);
+		AdminService.trimSilence(object.dtype, object.name, this._onProcessingComplete, this);
 	}
 
 	_onFadeIn() {
@@ -154,7 +168,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._sampleInfo.resetObject();
 
 		const object = this._formPage.getObject();
-		AdminService.undoMediaProcessing(object.name, this._onProcessingComplete, this);
+		AdminService.undoMediaProcessing(object.dtype, object.name, this._onProcessingComplete, this);
 	}
 
 	_onDone() {
@@ -162,7 +176,7 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		this._sampleInfo.resetObject();
 
 		const object = this._formPage.getObject();
-		AdminService.commitMediaProcessing(object.name, this._onProcessingComplete, this);
+		AdminService.commitMediaProcessing(object.dtype, object.name, this._onProcessingComplete, this);
 	}
 
 	_onRemove() {
@@ -170,9 +184,9 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		if (!object.name) {
 			return;
 		}
-		AdminService.removeInstrumentSample(object.name, () => {
-			this._samplePathControl.reset();
-			this._waveformPathControl.reset();
+		AdminService.removeObjectSample(object.dtype, object.name, () => {
+			this._sampleSrcValue.reset();
+			this._waveformSrcValue.reset();
 			this._waveformImage.reset();
 			this._sampleInfo.resetObject();
 
@@ -186,22 +200,22 @@ com.kidscademy.admin.AudioAssets = class extends js.dom.Element {
 		if (!object.name) {
 			return;
 		}
-		AdminService.generateWaveform(object.name, waveformPath => this._updateWaveformPath(waveformPath));
+		AdminService.generateWaveform(object.dtype, object.name, waveformPath => this._updateWaveformPath(waveformPath));
 	}
 
 	_updateSamplePath(samplePath) {
-		this._samplePathControl.reset();
+		this._sampleSrcValue.reset();
 		if (samplePath) {
-			this._samplePathControl.setValue(samplePath);
+			this._sampleSrcValue.setValue(samplePath);
 			this._audioPlayer.src = samplePath + '?' + Date.now();
 		}
 	}
 
 	_updateWaveformPath(waveformPath) {
-		this._waveformPathControl.reset();
+		this._waveformSrcValue.reset();
 		this._waveformImage.reset();
 		if (waveformPath) {
-			this._waveformPathControl.setValue(waveformPath);
+			this._waveformSrcValue.setValue(waveformPath);
 			this._waveformImage.reload(waveformPath);
 		}
 	}

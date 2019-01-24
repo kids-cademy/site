@@ -52,14 +52,13 @@ public interface AdminService
 
   /**
    * Create object icon from picture.
-   * 
+   *
+   * @param collectionName
    * @param objectName
    * @return
-   * @throws IM4JavaException
-   * @throws InterruptedException
    * @throws IOException
    */
-  String createObjectIcon(String objectName) throws IOException, InterruptedException, IM4JavaException;
+  String createObjectIcon(String collectionName, String objectName) throws IOException;
 
   Link createLink(URL url);
 
@@ -68,17 +67,17 @@ public interface AdminService
 
   AudioSampleInfo uploadAudioSample(Form form) throws IOException;
 
-  AudioSampleInfo normalizeSample(String objectName) throws IOException;
+  AudioSampleInfo normalizeSample(String collectionName, String objectName) throws IOException;
 
-  AudioSampleInfo convertToMono(String objectName) throws IOException;
+  AudioSampleInfo convertToMono(String collectionName, String objectName) throws IOException;
 
-  AudioSampleInfo trimSilence(String objectName) throws IOException;
+  AudioSampleInfo trimSilence(String collectionName, String objectName) throws IOException;
 
-  String generateWaveform(String objectName) throws IOException;
+  String generateWaveform(String collectionName, String objectName) throws IOException;
 
-  AudioSampleInfo undoMediaProcessing(String objectName) throws IOException;
+  AudioSampleInfo undoMediaProcessing(String collectionName, String objectName) throws IOException;
 
-  AudioSampleInfo commitMediaProcessing(String objectName) throws IOException;
+  AudioSampleInfo commitMediaProcessing(String collectionName, String objectName) throws IOException;
 
-  void removeInstrumentSample(String instrumentName) throws IOException;
+  void removeObjectSample(String collectionName, String objectName) throws IOException;
 }

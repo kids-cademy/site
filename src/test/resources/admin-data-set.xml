@@ -8,55 +8,55 @@
 	
 	<atlasobject>
 		<id>1</id>
-		<dtype>Instrument</dtype>
+		<dtype>instrument</dtype>
 		<user_id>1</user_id>
 		<state>DEVELOPMENT</state>
 		<rank>1234</rank>
 		<name>accordion</name>
 		<display>Accordion</display>
 		<description>Accordion description.</description>
-		<iconPath>icon.jpg</iconPath>
-		<thumbnailPath>thumbnail.png</thumbnailPath>
-		<picturePath>picture.jpg</picturePath>
+		<iconFile>icon.jpg</iconFile>
+		<thumbnailFile>thumbnail.png</thumbnailFile>
+		<pictureFile>picture.jpg</pictureFile>
 	</atlasobject>
 	<atlasobject>
 		<id>2</id>
-		<dtype>Bird</dtype>
+		<dtype>bird</dtype>
 		<user_id>1</user_id>
 		<state>DEVELOPMENT</state>
 		<rank>4321</rank>
 		<name>eagle</name>
 		<display>Eagle</display>
 		<description>Eagle description.</description>
-		<iconPath>icon.jpg</iconPath>
-		<thumbnailPath>thumbnail.png</thumbnailPath>
-		<picturePath>picture.jpg</picturePath>
+		<iconFile>icon.jpg</iconFile>
+		<thumbnailFile>thumbnail.png</thumbnailFile>
+		<pictureFile>picture.jpg</pictureFile>
 	</atlasobject>
 	<atlasobject>
 		<id>3</id>
-		<dtype>Instrument</dtype>
+		<dtype>instrument</dtype>
 		<user_id>1</user_id>
 		<state>DEVELOPMENT</state>
 		<rank>1235</rank>
 		<name>bandoneon</name>
 		<display>Bandoneon</display>
 		<description>Bandonenon description.</description>
-		<iconPath>icon.jpg</iconPath>
-		<thumbnailPath>thumbnail.png</thumbnailPath>
-		<picturePath>picture.jpg</picturePath>
+		<iconFile>icon.jpg</iconFile>
+		<thumbnailFile>thumbnail.png</thumbnailFile>
+		<pictureFile>picture.jpg</pictureFile>
 	</atlasobject>
 	<atlasobject>
 		<id>4</id>
-		<dtype>Instrument</dtype>
+		<dtype>instrument</dtype>
 		<user_id>1</user_id>
 		<state>DEVELOPMENT</state>
 		<rank>1236</rank>
 		<name>cimbalom</name>
 		<display>Cimbalom</display>
 		<description>Cimbalom description.</description>
-		<iconPath>icon.jpg</iconPath>
-		<thumbnailPath>thumbnail.png</thumbnailPath>
-		<picturePath>picture.jpg</picturePath>
+		<iconFile>icon.jpg</iconFile>
+		<thumbnailFile>thumbnail.png</thumbnailFile>
+		<pictureFile>picture.jpg</pictureFile>
 	</atlasobject>
 
 	<atlasobject_aliases>
@@ -102,8 +102,8 @@
 		<id>1</id>
 		<category>3</category>
 		<sampleTitle>Sample</sampleTitle>
-		<samplePath>sample.mp3</samplePath>
-		<waveformPath>waveform.png</waveformPath>
+		<sampleFile>sample.mp3</sampleFile>
+		<waveformFile>waveform.png</waveformFile>
 		<date_value>1234567890</date_value>
 		<date_mask>0</date_mask>
 	</instrument>

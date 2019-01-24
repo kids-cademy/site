@@ -96,7 +96,8 @@ com.kidscademy.admin.GraphicAssets = class extends js.dom.Element {
 		const canvas = this.getByTag("canvas")._node;
 		canvas.toBlob((file) => {
 			const data = new FormData();
-			data.append("name", object.name);
+			data.append("collection-name", object.dtype);
+			data.append("object-name", object.name);
 			data.append("file", file);
 
 			xhr.send(data);
@@ -141,7 +142,7 @@ com.kidscademy.admin.GraphicAssets = class extends js.dom.Element {
 			js.ua.System.alert("Missing object name.");
 			return;
 		}
-		AdminService.createObjectIcon(object.name, (iconPath) => {
+		AdminService.createObjectIcon(object.dtype, object.name, (iconPath) => {
 			this._iconControl.setValue(iconPath);
 			this._iconImage.setSrc(iconPath);
 		}, this);

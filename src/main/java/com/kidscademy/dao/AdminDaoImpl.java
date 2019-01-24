@@ -53,7 +53,7 @@ public class AdminDaoImpl implements AdminDao
       em.persist(instrument);
     }
     else {
-      em.merge(instrument);
+      em.merge(instrument).postMerge(instrument);
     }
   }
 
@@ -80,7 +80,7 @@ public class AdminDaoImpl implements AdminDao
   @Override
   public <T> List<T> findObjectByType(Class<T> type)
   {
-    return em.createQuery("select o from AtlasObject o where type(o)=:type", type).setParameter("type", type).getResultList();
+    return em.createQuery("select o from AtlasObject o where o.dtype=:dtype", type).setParameter("dtype", type.getSimpleName().toLowerCase()).getResultList();
   }
 
   @Override
@@ -105,28 +105,28 @@ public class AdminDaoImpl implements AdminDao
     if(names.isEmpty()) {
       return Collections.emptyList();
     }
-    String jpql = "select new com.kidscademy.atlas.GraphicObject(o.id,o.name,o.display,o.iconPath) from AtlasObject o where o.dtype=:type and o.name in :names";
-    return em.createQuery(jpql, GraphicObject.class).setParameter("type", type.getSimpleName()).setParameter("names", names).getResultList();
+    String jpql = "select new com.kidscademy.atlas.GraphicObject(o.id,o.dtype,o.name,o.display,o.iconFile) from AtlasObject o where o.dtype=:type and o.name in :names";
+    return em.createQuery(jpql, GraphicObject.class).setParameter("type", type.getSimpleName().toLowerCase()).setParameter("names", names).getResultList();
   }
 
   @Override
   public List<GraphicObject> getInstrumentsByCategory(Instrument.Category category)
   {
-    String jpql = "select new com.kidscademy.atlas.GraphicObject(i.id,i.name,i.display,i.iconPath) from Instrument i where i.category=:category";
+    String jpql = "select new com.kidscademy.atlas.GraphicObject(i.id,o.dtype,i.name,i.display,i.iconFile) from Instrument i where i.category=:category";
     return em.createQuery(jpql, GraphicObject.class).setParameter("category", category).getResultList();
   }
 
   @Override
-  public void updateWaveformPath(String objectName, String waveformPath)
+  public void updateWaveformFile(String objectName, String waveformFile)
   {
-    String jpql = "update Instrument i set i.waveformPath=:waveformPath where i.name=:objectName";
-    em.createQuery(jpql).setParameter("waveformPath", waveformPath).setParameter("objectName", objectName).executeUpdate();
+    String jpql = "update Instrument i set i.waveformFile=:waveformFile where i.name=:objectName";
+    em.createQuery(jpql).setParameter("waveformFile", waveformFile).setParameter("objectName", objectName).executeUpdate();
   }
 
   @Override
   public void removeInstrumentSample(String instrumentName)
   {
-    String jpql = "update Instrument i set i.sampleTitle=null,i.samplePath=null,i.waveformPath=null where i.name=:name";
+    String jpql = "update Instrument i set i.sampleTitle=null,i.sampleFile=null,i.waveformFile=null where i.name=:name";
     em.createQuery(jpql).setParameter("name", instrumentName).executeUpdate();
   }
 }

@@ -9,12 +9,12 @@ import java.io.File;
 import java.io.IOException;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.kidscademy.impl.MediaFileHandler;
 
+import js.lang.BugError;
 import js.util.Classes;
 import js.util.Files;
 import js.util.Strings;
@@ -27,21 +27,14 @@ public class MediFileHandlerTest
     Classes.setFieldValue(MediaFileHandler.class, "REPOSIOTRY_DIR", "fixture/tomcat/webapps");
   }
 
-  private MediaFileHandler handler;
-
-  @Before
-  public void beforeTest()
-  {
-    handler = new MediaFileHandler("object", "media.ext");
-  }
-
   @Test
   public void upload() throws IOException
   {
+    file("media.ext").delete();
+    MediaFileHandler handler = new MediaFileHandler("instrument", "object", "media.ext");
+
     File uploadFile = new File("fixture/upload.jpg");
     Files.copy(new File("fixture/icon.jpg"), uploadFile);
-    handler.source().delete();
-    Assert.assertFalse(handler.source().exists());
 
     handler.upload(new File("fixture/upload.jpg"));
     Assert.assertFalse(uploadFile.exists());
@@ -52,35 +45,75 @@ public class MediFileHandlerTest
   }
 
   @Test
-  public void source()
+  public void source() throws IOException
   {
+    Files.copy(new File("fixture/icon.jpg"), file("media.ext"));
+    MediaFileHandler handler = new MediaFileHandler("instrument", "object", "media.ext");
+
     File file = handler.source();
     assertThat(file, notNullValue());
     assertThat(file, equalTo(file("media.ext")));
   }
 
-  @Test
-  public void sourcePath()
+  @Test(expected = BugError.class)
+  public void source_exception()
   {
-    String path = handler.sourcePath();
-    assertThat(path, notNullValue());
-    assertThat(path, equalTo("/media/atlas/instruments/object/media.ext"));
+    MediaFileHandler handler = new MediaFileHandler("instrument", "object", "fake-media.ext");
+    handler.source();
   }
 
   @Test
-  public void target()
+  public void sourcePath() throws IOException
   {
+    Files.copy(new File("fixture/icon.jpg"), file("media.ext"));
+    MediaFileHandler handler = new MediaFileHandler("instrument", "object", "media.ext");
+
+    String path = handler.sourcePath();
+    assertThat(path, notNullValue());
+    assertThat(path, equalTo("/media/atlas/instrument/object/media.ext"));
+  }
+
+  @Test(expected = BugError.class)
+  public void sourcePath_exception()
+  {
+    MediaFileHandler handler = new MediaFileHandler("instrument", "object", "fake-media.ext");
+    handler.sourcePath();
+  }
+
+  @Test
+  public void target() throws IOException
+  {
+    Files.copy(new File("fixture/icon.jpg"), file("media.ext"));
+    MediaFileHandler handler = new MediaFileHandler("instrument", "object", "media.ext");
+
     File file = handler.target();
     assertThat(file, notNullValue());
     assertThat(file, equalTo(file("media_1.ext")));
   }
 
-  @Test
-  public void targetPath()
+  @Test(expected = BugError.class)
+  public void target_exception()
   {
+    MediaFileHandler handler = new MediaFileHandler("instrument", "object", "fake-media.ext");
+    handler.target();
+  }
+
+  @Test
+  public void targetPath() throws IOException
+  {
+    Files.copy(new File("fixture/icon.jpg"), file("media.ext"));
+    MediaFileHandler handler = new MediaFileHandler("instrument", "object", "media.ext");
+
     String path = handler.targetPath();
     assertThat(path, notNullValue());
-    assertThat(path, equalTo("/media/atlas/instruments/object/media_1.ext"));
+    assertThat(path, equalTo("/media/atlas/instrument/object/media_1.ext"));
+  }
+
+  @Test(expected = BugError.class)
+  public void targetPath_exception()
+  {
+    MediaFileHandler handler = new MediaFileHandler("instrument", "object", "fake-media.ext");
+    handler.targetPath();
   }
 
   @Test
@@ -96,7 +129,7 @@ public class MediFileHandlerTest
     Strings.save("media file 2", mediaFile_2);
     Strings.save("media file 3", mediaFile_3);
 
-    MediaFileHandler handler = new MediaFileHandler("object", "media.ext");
+    MediaFileHandler handler = new MediaFileHandler("instrument", "object", "media.ext");
     assertThat(Strings.load(mediaFile), equalTo("media file"));
     handler.commit();
 
@@ -135,7 +168,7 @@ public class MediFileHandlerTest
     Strings.save("media file 2", mediaFile_2);
     Strings.save("media file 3", mediaFile_3);
 
-    MediaFileHandler handler = new MediaFileHandler("object", "media.ext");
+    MediaFileHandler handler = new MediaFileHandler("instrument", "object", "media.ext");
     assertThat(Strings.load(handler.source()), equalTo("media file 3"));
     handler.rollback();
 
@@ -173,7 +206,7 @@ public class MediFileHandlerTest
     Strings.save("media file 2", mediaFile_2);
     Strings.save("media file 3", mediaFile_3);
 
-    MediaFileHandler handler = new MediaFileHandler("object", "media.ext");
+    MediaFileHandler handler = new MediaFileHandler("instrument", "object", "media.ext");
     assertThat(Strings.load(handler.source()), equalTo("media file 3"));
     handler.delete();
 
@@ -183,7 +216,7 @@ public class MediFileHandlerTest
 
     assertThat(source, nullValue());
     assertThat(target, nullValue());
-    assertThat(version, equalTo(0));
+    assertThat(version, equalTo(-1));
 
     Assert.assertFalse(mediaFile.exists());
     Assert.assertFalse(mediaFile_1.exists());
@@ -191,8 +224,18 @@ public class MediFileHandlerTest
     Assert.assertFalse(mediaFile_3.exists());
   }
 
+  /** Attempting to delete not existing media files should not throw exception. */
+  @Test
+  public void delete_nop() throws IOException
+  {
+    MediaFileHandler handler = new MediaFileHandler("instrument", "object", "fake-media.ext");
+    handler.delete();
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
   private static File file(String fileName)
   {
-    return new File("fixture/tomcat/webapps/media/atlas/instruments/object/" + fileName);
+    return new File("fixture/tomcat/webapps/media/atlas/instrument/object/" + fileName);
   }
 }

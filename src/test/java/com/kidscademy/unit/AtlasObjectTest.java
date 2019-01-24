@@ -29,11 +29,11 @@ public class AtlasObjectTest
     instrument.setName("banjo");
     instrument.setDisplay("Banjo");
     instrument.setDescription("Banjo description.");
-    instrument.setIconPath("icon.png");
-    instrument.setThumbnailPath("thumbnail.png");
-    instrument.setPicturePath("picture.jpg");
+    instrument.setIconFile("icon.png");
+    instrument.setThumbnailFile("thumbnail.png");
+    instrument.setPictureFile("picture.jpg");
     instrument.setSampleTitle("Banjo solo");
-    instrument.setSamplePath("sample.mp3");
+    instrument.setSampleFile("sample.mp3");
     instrument.setDate(new HDate(1821, HDate.Format.YEAR, HDate.Period.MIDDLE));
 
     List<String> aliases = new ArrayList<String>();
