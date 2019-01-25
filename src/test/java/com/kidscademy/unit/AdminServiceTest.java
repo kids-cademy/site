@@ -22,17 +22,17 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.kidscademy.AdminService;
+import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.dao.AdminDao;
 import com.kidscademy.impl.AdminServiceImpl;
-import com.kidscademy.impl.MediaFileHandler;
 import com.kidscademy.media.AudioProcessor;
 import com.kidscademy.media.AudioSampleInfo;
 import com.kidscademy.media.ImageProcessor;
+import com.kidscademy.util.Files;
 
 import js.core.AppContext;
 import js.http.form.Form;
 import js.util.Classes;
-import js.util.Files;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AdminServiceTest
@@ -51,7 +51,7 @@ public class AdminServiceTest
   @BeforeClass
   public static void beforeClass()
   {
-    Classes.setFieldValue(MediaFileHandler.class, "REPOSIOTRY_DIR", "fixture/tomcat/webapps");
+    Classes.setFieldValue(Files.class, "REPOSIOTRY_DIR", "fixture/tomcat/webapps");
   }
 
   @Before
@@ -85,8 +85,8 @@ public class AdminServiceTest
     assertThat(waveformFile.getValue(), equalTo(file("waveform.png")));
 
     assertThat(info, notNullValue());
-    assertThat(info.getSampleSrc(), equalTo(path("sample.mp3")));
-    assertThat(info.getWaveformSrc(), equalTo(path("waveform.png")));
+    assertThat(info.getSampleSrc(), equalTo(src("sample.mp3")));
+    assertThat(info.getWaveformSrc(), equalTo(src("waveform.png")));
   }
 
   @Test
@@ -112,8 +112,8 @@ public class AdminServiceTest
     assertThat(waveformFile.getValue(), equalTo(file("waveform.png")));
 
     assertThat(info, notNullValue());
-    assertThat(info.getSampleSrc(), equalTo(path("sample_1.mp3")));
-    assertThat(info.getWaveformSrc(), equalTo(path("waveform.png")));
+    assertThat(info.getSampleSrc(), equalTo(src("sample_1.mp3")));
+    assertThat(info.getWaveformSrc(), equalTo(src("waveform.png")));
   }
 
   @Test
@@ -139,8 +139,8 @@ public class AdminServiceTest
     assertThat(waveformFile.getValue(), equalTo(file("waveform.png")));
 
     assertThat(info, notNullValue());
-    assertThat(info.getSampleSrc(), equalTo(path("sample_1.mp3")));
-    assertThat(info.getWaveformSrc(), equalTo(path("waveform.png")));
+    assertThat(info.getSampleSrc(), equalTo(src("sample_1.mp3")));
+    assertThat(info.getWaveformSrc(), equalTo(src("waveform.png")));
   }
 
   @Test
@@ -166,8 +166,8 @@ public class AdminServiceTest
     assertThat(waveformFile.getValue(), equalTo(file("waveform.png")));
 
     assertThat(info, notNullValue());
-    assertThat(info.getSampleSrc(), equalTo(path("sample_1.mp3")));
-    assertThat(info.getWaveformSrc(), equalTo(path("waveform.png")));
+    assertThat(info.getSampleSrc(), equalTo(src("sample_1.mp3")));
+    assertThat(info.getWaveformSrc(), equalTo(src("waveform.png")));
   }
 
   @Test
@@ -175,10 +175,10 @@ public class AdminServiceTest
   {
     Files.copy(new File("fixture/sample.mp3"), file("sample.mp3"));
 
-    String waveformPath = service.generateWaveform("instrument", "test");
+    MediaSRC waveformSrc = service.generateWaveform("instrument", "test");
 
-    assertThat(waveformPath, notNullValue());
-    assertThat(waveformPath, equalTo(path("waveform.png")));
+    assertThat(waveformSrc, notNullValue());
+    assertThat(waveformSrc, equalTo(src("waveform.png")));
   }
 
   @Test
@@ -202,8 +202,8 @@ public class AdminServiceTest
     assertThat(waveformFile.getValue(), equalTo(file("waveform.png")));
 
     assertThat(info, notNullValue());
-    assertThat(info.getSampleSrc(), equalTo(path("sample_1.mp3")));
-    assertThat(info.getWaveformSrc(), equalTo(path("waveform.png")));
+    assertThat(info.getSampleSrc(), equalTo(src("sample_1.mp3")));
+    assertThat(info.getWaveformSrc(), equalTo(src("waveform.png")));
   }
 
   @Test
@@ -229,8 +229,8 @@ public class AdminServiceTest
     assertThat(waveformFile.getValue(), equalTo(file("waveform.png")));
 
     assertThat(info, notNullValue());
-    assertThat(info.getSampleSrc(), equalTo(path("sample.mp3")));
-    assertThat(info.getWaveformSrc(), equalTo(path("waveform.png")));
+    assertThat(info.getSampleSrc(), equalTo(src("sample.mp3")));
+    assertThat(info.getWaveformSrc(), equalTo(src("waveform.png")));
   }
 
   @Test
@@ -254,8 +254,8 @@ public class AdminServiceTest
     return new File(dir, fileName);
   }
 
-  private static String path(String fileName)
+  private static MediaSRC src(String fileName)
   {
-    return "/media/atlas/instrument/test/" + fileName;
+    return new MediaSRC("/media/atlas/instrument/test/" + fileName);
   }
 }

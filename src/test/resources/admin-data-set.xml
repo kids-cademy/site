@@ -15,9 +15,9 @@
 		<name>accordion</name>
 		<display>Accordion</display>
 		<description>Accordion description.</description>
-		<iconFile>icon.jpg</iconFile>
-		<thumbnailFile>thumbnail.png</thumbnailFile>
-		<pictureFile>picture.jpg</pictureFile>
+		<iconName>icon.jpg</iconName>
+		<thumbnailName>thumbnail.png</thumbnailName>
+		<pictureName>picture.jpg</pictureName>
 	</atlasobject>
 	<atlasobject>
 		<id>2</id>
@@ -28,9 +28,9 @@
 		<name>eagle</name>
 		<display>Eagle</display>
 		<description>Eagle description.</description>
-		<iconFile>icon.jpg</iconFile>
-		<thumbnailFile>thumbnail.png</thumbnailFile>
-		<pictureFile>picture.jpg</pictureFile>
+		<iconName>icon.jpg</iconName>
+		<thumbnailName>thumbnail.png</thumbnailName>
+		<pictureName>picture.jpg</pictureName>
 	</atlasobject>
 	<atlasobject>
 		<id>3</id>
@@ -41,9 +41,9 @@
 		<name>bandoneon</name>
 		<display>Bandoneon</display>
 		<description>Bandonenon description.</description>
-		<iconFile>icon.jpg</iconFile>
-		<thumbnailFile>thumbnail.png</thumbnailFile>
-		<pictureFile>picture.jpg</pictureFile>
+		<iconName>icon.jpg</iconName>
+		<thumbnailName>thumbnail.png</thumbnailName>
+		<pictureName>picture.jpg</pictureName>
 	</atlasobject>
 	<atlasobject>
 		<id>4</id>
@@ -54,9 +54,9 @@
 		<name>cimbalom</name>
 		<display>Cimbalom</display>
 		<description>Cimbalom description.</description>
-		<iconFile>icon.jpg</iconFile>
-		<thumbnailFile>thumbnail.png</thumbnailFile>
-		<pictureFile>picture.jpg</pictureFile>
+		<iconName>icon.jpg</iconName>
+		<thumbnailName>thumbnail.png</thumbnailName>
+		<pictureName>picture.jpg</pictureName>
 	</atlasobject>
 
 	<atlasobject_aliases>
@@ -102,8 +102,8 @@
 		<id>1</id>
 		<category>3</category>
 		<sampleTitle>Sample</sampleTitle>
-		<sampleFile>sample.mp3</sampleFile>
-		<waveformFile>waveform.png</waveformFile>
+		<sampleName>sample.mp3</sampleName>
+		<waveformName>waveform.png</waveformName>
 		<date_value>1234567890</date_value>
 		<date_mask>0</date_mask>
 	</instrument>

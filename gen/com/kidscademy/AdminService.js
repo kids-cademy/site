@@ -215,7 +215,7 @@ com.kidscademy.AdminService = {
 	 * @param js.http.form.Form form,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return java.lang.String
+	 * @return com.kidscademy.atlas.MediaSRC
 	 * @throws java.io.IOException
 	 * @throws java.lang.InterruptedException
 	 * @throws org.im4java.core.IM4JavaException
@@ -244,7 +244,7 @@ com.kidscademy.AdminService = {
 	 * @param js.http.form.Form form,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return java.lang.String
+	 * @return com.kidscademy.atlas.MediaSRC
 	 * @throws java.io.IOException
 	 * @throws java.lang.InterruptedException
 	 * @throws org.im4java.core.IM4JavaException
@@ -273,7 +273,7 @@ com.kidscademy.AdminService = {
 	 * @param js.http.form.Form form,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return java.lang.String
+	 * @return com.kidscademy.atlas.MediaSRC
 	 * @throws java.io.IOException
 	 * @throws java.lang.InterruptedException
 	 * @throws org.im4java.core.IM4JavaException
@@ -303,7 +303,7 @@ com.kidscademy.AdminService = {
 	 * @param java.lang.String objectName,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return java.lang.String
+	 * @return com.kidscademy.atlas.MediaSRC
 	 * @throws java.io.IOException
 	 * @assert callback is a {@link Function} and scope is an {@link Object}.
 	 */
@@ -481,7 +481,7 @@ com.kidscademy.AdminService = {
 	 * @param java.lang.String objectName,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
-	 * @return java.lang.String
+	 * @return com.kidscademy.atlas.MediaSRC
 	 * @throws java.io.IOException
 	 * @assert callback is a {@link Function} and scope is an {@link Object}.
 	 */

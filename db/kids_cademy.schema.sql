@@ -78,9 +78,9 @@ CREATE TABLE `atlasobject` (
   `name` varchar(45) NOT NULL,
   `display` varchar(45) DEFAULT NULL,
   `description` text,
-  `iconFile` varchar(45) DEFAULT NULL,
-  `thumbnailFile` varchar(45) DEFAULT NULL,
-  `pictureFile` varchar(45) DEFAULT NULL,
+  `iconName` varchar(45) DEFAULT NULL,
+  `thumbnailName` varchar(45) DEFAULT NULL,
+  `pictureName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_atlasobject_name` (`name`,`dtype`),
   KEY `fk_atlasobject_user1_idx` (`user_id`),
@@ -342,8 +342,8 @@ CREATE TABLE `instrument` (
   `id` int(11) NOT NULL,
   `category` tinyint(4) NOT NULL,
   `sampleTitle` varchar(80) DEFAULT NULL,
-  `sampleFile` varchar(45) DEFAULT NULL,
-  `waveformFile` varchar(45) DEFAULT NULL,
+  `sampleName` varchar(45) DEFAULT NULL,
+  `waveformName` varchar(45) DEFAULT NULL,
   `date_value` bigint(20) DEFAULT NULL,
   `date_mask` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -495,4 +495,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-22  5:10:41
+-- Dump completed on 2019-01-25  6:17:54

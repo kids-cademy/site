@@ -6,9 +6,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import org.eclipse.persistence.config.CacheUsage;
-import org.eclipse.persistence.config.QueryHints;
-
 import com.kidscademy.atlas.Bird;
 import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
@@ -73,8 +70,7 @@ public class AdminDaoImpl implements AdminDao
   @Override
   public Instrument getInstrumentByName(String name)
   {
-    return (Instrument)em.createQuery("select i from Instrument i where i.name=:name").setParameter("name", name)
-        .setHint(QueryHints.CACHE_USAGE, CacheUsage.NoCache).getSingleResult();
+    return em.createQuery("select i from Instrument i where i.name=:name", Instrument.class).setParameter("name", name).getSingleResult();
   }
 
   @Override
@@ -105,28 +101,21 @@ public class AdminDaoImpl implements AdminDao
     if(names.isEmpty()) {
       return Collections.emptyList();
     }
-    String jpql = "select new com.kidscademy.atlas.GraphicObject(o.id,o.dtype,o.name,o.display,o.iconFile) from AtlasObject o where o.dtype=:type and o.name in :names";
+    String jpql = "select new com.kidscademy.atlas.GraphicObject(o.id,o.dtype,o.name,o.display,o.iconName) from AtlasObject o where o.dtype=:type and o.name in :names";
     return em.createQuery(jpql, GraphicObject.class).setParameter("type", type.getSimpleName().toLowerCase()).setParameter("names", names).getResultList();
   }
 
   @Override
   public List<GraphicObject> getInstrumentsByCategory(Instrument.Category category)
   {
-    String jpql = "select new com.kidscademy.atlas.GraphicObject(i.id,o.dtype,i.name,i.display,i.iconFile) from Instrument i where i.category=:category";
+    String jpql = "select new com.kidscademy.atlas.GraphicObject(i.id,i.dtype,i.name,i.display,i.iconName) from Instrument i where i.category=:category";
     return em.createQuery(jpql, GraphicObject.class).setParameter("category", category).getResultList();
-  }
-
-  @Override
-  public void updateWaveformFile(String objectName, String waveformFile)
-  {
-    String jpql = "update Instrument i set i.waveformFile=:waveformFile where i.name=:objectName";
-    em.createQuery(jpql).setParameter("waveformFile", waveformFile).setParameter("objectName", objectName).executeUpdate();
   }
 
   @Override
   public void removeInstrumentSample(String instrumentName)
   {
-    String jpql = "update Instrument i set i.sampleTitle=null,i.sampleFile=null,i.waveformFile=null where i.name=:name";
+    String jpql = "update Instrument i set i.sampleTitle=null,i.sampleName=null,i.waveformName=null where i.name=:name";
     em.createQuery(jpql).setParameter("name", instrumentName).executeUpdate();
   }
 }

@@ -3,6 +3,7 @@ package com.kidscademy.impl;
 import java.io.File;
 import java.io.IOException;
 
+import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.util.Files;
 
 import js.lang.BugError;
@@ -38,11 +39,11 @@ public class MediaFileHandler
   /** Absolute file used as source for media transform. */
   private File source;
   /** Root relative URL for source used by web views to render media content. */
-  private String sourcePath;
+  private MediaSRC sourceSrc;
   /** Absolute file used as media transform target - where processing result is stored. It does not actually exists on file system till processor creates it. */
   private File target;
   /** Root relative URL for target used by web views to render media content. It does not actually exists on file system till processor creates it. */
-  private String targetPath;
+  private MediaSRC targetSrc;
 
   /** Base directory stores all source / target files and is absolute file. */
   private File baseDir;
@@ -75,11 +76,11 @@ public class MediaFileHandler
     Params.notNullOrEmpty(objectName, "Object name");
     Params.notNullOrEmpty(objectName, "Media file");
 
-    String mediaSrc = Files.mediaSrc(collectionName, objectName, mediaFile);
+    MediaSRC mediaSrc = Files.mediaSrc(collectionName, objectName, mediaFile);
     // infer base path from path in order to avoid hard coded path dependency
-    basePath = mediaSrc.substring(0, mediaSrc.lastIndexOf('/') + 1);
+    basePath = mediaSrc.basePath();
 
-    File file = file(mediaSrc);
+    File file = Files.mediaFile(mediaSrc);
     baseDir = file.getParentFile();
     basename = Files.basename(mediaFile);
     extension = Files.getExtension(mediaFile);
@@ -143,22 +144,22 @@ public class MediaFileHandler
   }
 
   /**
-   * Get root relative URL for processing source. Source is the file from where processor reads media content. This path is used by web views to render media
-   * content.
+   * Get root-relative URL, aka media SRC for processing source. Source is the file from where processor reads media content. This media SRC is used by web user
+   * interface to render media content.
    * 
-   * @return root relative URL for source file.
+   * @return root-relative URL for source file.
    * @throws BugError if attempt to retrieve source path but not media file actually exists on file system.
-   * @see #sourcePath
+   * @see #sourceSrc
    */
-  public String sourcePath()
+  public MediaSRC sourceSrc()
   {
     if(version == -1) {
       throw new BugError("Attempt to retrieve not existing media file.");
     }
-    if(sourcePath == null) {
-      sourcePath = path(basePath, basename, version, extension);
+    if(sourceSrc == null) {
+      sourceSrc = src(basePath, basename, version, extension);
     }
-    return sourcePath;
+    return sourceSrc;
   }
 
   /**
@@ -181,22 +182,22 @@ public class MediaFileHandler
   }
 
   /**
-   * Get root relative URL for processing target. Target is the file on which processor writes transformed media content. This path is used by web views to
-   * render media content.
+   * Get root-relative URL, aka media SRC for processing target. Target is the file on which processor writes transformed media content. This media SRC is used
+   * by web user interface to render media content.
    * 
-   * @return root relative URL for target file.
+   * @return root-relative URL for target file.
    * @throws BugError if attempt to retrieve target path but not media file actually exists on file system.
-   * @see #targetPath
+   * @see #targetSrc
    */
-  public String targetPath()
+  public MediaSRC targetSrc()
   {
     if(version == -1) {
       throw new BugError("Attempt to retrieve not existing media file.");
     }
-    if(targetPath == null) {
-      targetPath = path(basePath, basename, version + 1, extension);
+    if(targetSrc == null) {
+      targetSrc = src(basePath, basename, version + 1, extension);
     }
-    return targetPath;
+    return targetSrc;
   }
 
   /**
@@ -310,7 +311,7 @@ public class MediaFileHandler
     return new File(dir, fileName.toString());
   }
 
-  private static String path(String basePath, String basename, int version, String extension)
+  private static MediaSRC src(String basePath, String basename, int version, String extension)
   {
     StringBuilder path = new StringBuilder();
     path.append(basePath);
@@ -321,40 +322,6 @@ public class MediaFileHandler
     }
     path.append('.');
     path.append(extension);
-    return path.toString();
-  }
-
-  // ----------------------------------------------------------------------------------------------
-  // FACTORY METHODS
-
-  private static File REPOSIOTRY_DIR = new File(System.getProperty("catalina.base") + "/webapps");
-
-  /**
-   * Get root relative URL of media file belonging to object.
-   * 
-   * @param objectName object name,
-   * @param mediaFile media file name.
-   * @return root relative URL of requested media file.
-   */
-  public static String pathEOL(String objectName, String mediaFile)
-  {
-    if(mediaFile == null) {
-      return null;
-    }
-    return Strings.concat("/media/atlas/instrument/", objectName, '/', mediaFile);
-  }
-
-  public static File file(String path)
-  {
-    // repository dir := ${catalina.base}/webapps
-    // path := /media/atlas/instrument/object/file
-    return new File(REPOSIOTRY_DIR, path);
-  }
-
-  public static File file(String collectionName, String objectName, String file)
-  {
-    // repository dir := ${catalina.base}/webapps
-    // path := /media/atlas/instrument/object/file
-    return new File(REPOSIOTRY_DIR, Files.mediaSrc(collectionName, objectName, file));
+    return new MediaSRC(path.toString());
   }
 }

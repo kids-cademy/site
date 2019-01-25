@@ -9,7 +9,7 @@ public class GraphicObject
   private int id;
   private String name;
   private String display;
-  private String iconSrc;
+  private MediaSRC iconSrc;
 
   public GraphicObject()
   {

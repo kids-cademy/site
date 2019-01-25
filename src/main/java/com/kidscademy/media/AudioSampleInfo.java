@@ -1,10 +1,12 @@
 package com.kidscademy.media;
 
+import com.kidscademy.atlas.MediaSRC;
+
 public class AudioSampleInfo
 {
-  private String sampleSrc;
-  private String waveformSrc;
-  
+  private MediaSRC sampleSrc;
+  private MediaSRC waveformSrc;
+
   /** Sample file name. */
   private String fileName;
   /** Sample file size, in bytes. */
@@ -17,22 +19,22 @@ public class AudioSampleInfo
   private int sampleRate;
   private int bitRate;
 
-  public void setSampleSrc(String samplePath)
+  public void setSampleSrc(MediaSRC sampleSrc)
   {
-    this.sampleSrc = samplePath;
+    this.sampleSrc = sampleSrc;
   }
 
-  public void setWaveformSrc(String waveformPath)
+  public void setWaveformSrc(MediaSRC waveformSrc)
   {
-    this.waveformSrc = waveformPath;
+    this.waveformSrc = waveformSrc;
   }
 
-  public String getSampleSrc()
+  public MediaSRC getSampleSrc()
   {
     return sampleSrc;
   }
 
-  public String getWaveformSrc()
+  public MediaSRC getWaveformSrc()
   {
     return waveformSrc;
   }

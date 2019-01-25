@@ -10,6 +10,7 @@ import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.Login;
+import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.media.AudioSampleInfo;
 
 import js.annotation.Public;
@@ -44,11 +45,11 @@ public interface AdminService
 
   List<GraphicObject> getAvailableInstruments(Instrument.Category category, List<GraphicObject> related);
 
-  String uploadPictureFile(Form form) throws IOException, InterruptedException, IM4JavaException;
+  MediaSRC uploadPictureFile(Form form) throws IOException, InterruptedException, IM4JavaException;
 
-  String uploadIconFile(Form form) throws IOException, InterruptedException, IM4JavaException;
+  MediaSRC uploadIconFile(Form form) throws IOException, InterruptedException, IM4JavaException;
 
-  String uploadThumbnailFile(Form form) throws IOException, InterruptedException, IM4JavaException;
+  MediaSRC uploadThumbnailFile(Form form) throws IOException, InterruptedException, IM4JavaException;
 
   /**
    * Create object icon from picture.
@@ -58,7 +59,7 @@ public interface AdminService
    * @return
    * @throws IOException
    */
-  String createObjectIcon(String collectionName, String objectName) throws IOException;
+  MediaSRC createObjectIcon(String collectionName, String objectName) throws IOException;
 
   Link createLink(URL url);
 
@@ -73,7 +74,7 @@ public interface AdminService
 
   AudioSampleInfo trimSilence(String collectionName, String objectName) throws IOException;
 
-  String generateWaveform(String collectionName, String objectName) throws IOException;
+  MediaSRC generateWaveform(String collectionName, String objectName) throws IOException;
 
   AudioSampleInfo undoMediaProcessing(String collectionName, String objectName) throws IOException;
 

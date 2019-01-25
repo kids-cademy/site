@@ -29,9 +29,25 @@ public class AtlasObject
   protected String name;
   protected String display;
   protected String description;
-  protected String pictureFile;
-  protected String iconFile;
-  protected String thumbnailFile;
+  /**
+   * Media file name for object picture. This is a picture of the object in its natural context. It may contain the object and related contextual content; e.g.
+   * for a musical instrument it contains a player using the instrument. It has 16:9 aspect ration and usually is 902x560 pixels.
+   * <p>
+   * This fields contains only file name, including extension, but does not contain any path components. This is to avoid keeping path structure into database.
+   * Path components are added when object is loaded from persistence by a specialized hook, from every concrete object class. Media file name plus path
+   * components are a root-relative URL and is named media SRC; remember that root-relative URL is the URL path after server that starts from context.
+   */
+  protected String pictureName;
+  /**
+   * Media file name for object icon. Object icon has a small dimension and has 1:1 ratio; usually is 96x96 pixels. See {@link #pictureName} for details about
+   * media file name.
+   */
+  protected String iconName;
+  /**
+   * Media file name for object thumbnail. Object thumbnail is a featured picture that have transparent background. It has fixed width - usually 560 pixels, but
+   * variable height to accommodate picture content, hence aspect ratio is variable too. See {@link #pictureName} for details about media file name.
+   */
+  protected String thumbnailName;
 
   @ElementCollection
   protected List<String> aliases;
@@ -139,34 +155,34 @@ public class AtlasObject
     this.description = description;
   }
 
-  public String getIconFile()
+  public String getIconName()
   {
-    return iconFile;
+    return iconName;
   }
 
-  public void setIconFile(String iconPath)
+  public void setIconName(String iconName)
   {
-    this.iconFile = iconPath;
+    this.iconName = iconName;
   }
 
-  public String getThumbnailFile()
+  public String getThumbnailName()
   {
-    return thumbnailFile;
+    return thumbnailName;
   }
 
-  public void setThumbnailFile(String thumbnailPath)
+  public void setThumbnailName(String thumbnailName)
   {
-    this.thumbnailFile = thumbnailPath;
+    this.thumbnailName = thumbnailName;
   }
 
-  public String getPictureFile()
+  public String getPictureName()
   {
-    return pictureFile;
+    return pictureName;
   }
 
-  public void setPictureFile(String picturePath)
+  public void setPictureName(String pictureName)
   {
-    this.pictureFile = picturePath;
+    this.pictureName = pictureName;
   }
 
   public List<Region> getSpreading()

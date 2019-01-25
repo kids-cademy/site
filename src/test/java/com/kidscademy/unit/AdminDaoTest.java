@@ -13,6 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,11 +24,13 @@ import org.junit.Test;
 
 import com.kidscademy.atlas.AtlasObject;
 import com.kidscademy.atlas.Bird;
+import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.HDate;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Instrument.Category;
 import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.Login;
+import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.atlas.Region;
 import com.kidscademy.atlas.Related;
 import com.kidscademy.atlas.User;
@@ -93,20 +96,20 @@ public class AdminDaoTest
     instrument.setCategory(Instrument.Category.STRINGS);
     instrument.setName("banjo");
 
-    instrument.setIconSrc(path("banjo", "icon.jpg"));
-    instrument.setThumbnailSrc(path("banjo", "thumbnail.png"));
-    instrument.setPictureSrc(path("banjo", "picture.jpg"));
-    instrument.setSampleSrc(path("banjo", "sample.mp3"));
-    instrument.setWaveformSrc(path("banjo", "waveform.png"));
+    instrument.setIconSrc(src("banjo", "icon.jpg"));
+    instrument.setThumbnailSrc(src("banjo", "thumbnail.png"));
+    instrument.setPictureSrc(src("banjo", "picture.jpg"));
+    instrument.setSampleSrc(src("banjo", "sample.mp3"));
+    instrument.setWaveformSrc(src("banjo", "waveform.png"));
 
     dao.saveInstrument(instrument);
 
     Instrument persistedInstrument = dao.getInstrument(instrument.getId());
-    assertThat(persistedInstrument.getIconFile(), equalTo("icon.jpg"));
-    assertThat(persistedInstrument.getThumbnailFile(), equalTo("thumbnail.png"));
-    assertThat(persistedInstrument.getPictureFile(), equalTo("picture.jpg"));
-    assertThat(persistedInstrument.getSampleFile(), equalTo("sample.mp3"));
-    assertThat(persistedInstrument.getWaveformFile(), equalTo("waveform.png"));
+    assertThat(persistedInstrument.getIconName(), equalTo("icon.jpg"));
+    assertThat(persistedInstrument.getThumbnailName(), equalTo("thumbnail.png"));
+    assertThat(persistedInstrument.getPictureName(), equalTo("picture.jpg"));
+    assertThat(persistedInstrument.getSampleName(), equalTo("sample.mp3"));
+    assertThat(persistedInstrument.getWaveformName(), equalTo("waveform.png"));
   }
 
   @Test
@@ -119,44 +122,40 @@ public class AdminDaoTest
     instrument.setCategory(Instrument.Category.STRINGS);
     instrument.setName("banjo");
     dao.saveInstrument(instrument);
-    System.out.println("==================================================================");
-    
-    Instrument persistedInstrument = dao.getInstrument(instrument.getId());
-    assertThat(persistedInstrument.getIconFile(), nullValue());
-    assertThat(persistedInstrument.getThumbnailFile(), nullValue());
-    assertThat(persistedInstrument.getPictureFile(), nullValue());
-    assertThat(persistedInstrument.getSampleFile(), nullValue());
-    assertThat(persistedInstrument.getWaveformFile(), nullValue());
 
-    instrument.setIconSrc(path("banjo", "icon.jpg"));
-    instrument.setThumbnailSrc(path("banjo", "thumbnail.png"));
-    instrument.setPictureSrc(path("banjo", "picture.jpg"));
-    instrument.setSampleSrc(path("banjo", "sample.mp3"));
-    instrument.setWaveformSrc(path("banjo", "waveform.png"));
+    Instrument persistedInstrument = dao.getInstrument(instrument.getId());
+    assertThat(persistedInstrument.getIconName(), nullValue());
+    assertThat(persistedInstrument.getThumbnailName(), nullValue());
+    assertThat(persistedInstrument.getPictureName(), nullValue());
+    assertThat(persistedInstrument.getSampleName(), nullValue());
+    assertThat(persistedInstrument.getWaveformName(), nullValue());
+
+    instrument.setIconSrc(src("banjo", "icon.jpg"));
+    instrument.setThumbnailSrc(src("banjo", "thumbnail.png"));
+    instrument.setPictureSrc(src("banjo", "picture.jpg"));
+    instrument.setSampleSrc(src("banjo", "sample.mp3"));
+    instrument.setWaveformSrc(src("banjo", "waveform.png"));
     // database merge is triggered on DAO because instrument ID is not zero
     assertThat(instrument.getId(), not(equalTo(0)));
-//    instrument.preSave();
-//    instrument.setIconFile("xxxxxxxxx");
-//    instrument.setDisplay("Banjo Display");
     dao.saveInstrument(instrument);
 
     persistedInstrument = dao.getInstrument(instrument.getId());
-    assertThat(persistedInstrument.getIconFile(), equalTo("icon.jpg"));
-    assertThat(persistedInstrument.getThumbnailFile(), equalTo("thumbnail.png"));
-    assertThat(persistedInstrument.getPictureFile(), equalTo("picture.jpg"));
-    assertThat(persistedInstrument.getSampleFile(), equalTo("sample.mp3"));
-    assertThat(persistedInstrument.getWaveformFile(), equalTo("waveform.png"));
+    assertThat(persistedInstrument.getIconName(), equalTo("icon.jpg"));
+    assertThat(persistedInstrument.getThumbnailName(), equalTo("thumbnail.png"));
+    assertThat(persistedInstrument.getPictureName(), equalTo("picture.jpg"));
+    assertThat(persistedInstrument.getSampleName(), equalTo("sample.mp3"));
+    assertThat(persistedInstrument.getWaveformName(), equalTo("waveform.png"));
   }
 
   @Test
   public void postLoadInstrument()
   {
     Instrument instrument = dao.getInstrument(1);
-    assertThat(instrument.getIconSrc(), equalTo(path("icon.jpg")));
-    assertThat(instrument.getThumbnailSrc(), equalTo(path("thumbnail.png")));
-    assertThat(instrument.getPictureSrc(), equalTo(path("picture.jpg")));
-    assertThat(instrument.getSampleSrc(), equalTo(path("sample.mp3")));
-    assertThat(instrument.getWaveformSrc(), equalTo(path("waveform.png")));
+    assertThat(instrument.getIconSrc(), equalTo(src("icon.jpg")));
+    assertThat(instrument.getThumbnailSrc(), equalTo(src("thumbnail.png")));
+    assertThat(instrument.getPictureSrc(), equalTo(src("picture.jpg")));
+    assertThat(instrument.getSampleSrc(), equalTo(src("sample.mp3")));
+    assertThat(instrument.getWaveformSrc(), equalTo(src("waveform.png")));
   }
 
   @Test
@@ -185,19 +184,19 @@ public class AdminDaoTest
     assertThat(instrument.getDisplay(), equalTo("Accordion"));
     assertThat(instrument.getDescription(), equalTo("Accordion description."));
 
-    assertThat(instrument.getIconFile(), equalTo("icon.jpg"));
-    assertThat(instrument.getThumbnailFile(), equalTo("thumbnail.png"));
-    assertThat(instrument.getPictureFile(), equalTo("picture.jpg"));
-    assertThat(instrument.getIconSrc(), equalTo(path("icon.jpg")));
-    assertThat(instrument.getThumbnailSrc(), equalTo(path("thumbnail.png")));
-    assertThat(instrument.getPictureSrc(), equalTo(path("picture.jpg")));
+    assertThat(instrument.getIconName(), equalTo("icon.jpg"));
+    assertThat(instrument.getThumbnailName(), equalTo("thumbnail.png"));
+    assertThat(instrument.getPictureName(), equalTo("picture.jpg"));
+    assertThat(instrument.getIconSrc(), equalTo(src("icon.jpg")));
+    assertThat(instrument.getThumbnailSrc(), equalTo(src("thumbnail.png")));
+    assertThat(instrument.getPictureSrc(), equalTo(src("picture.jpg")));
 
     assertThat(instrument.getCategory(), equalTo(Category.KEYBOARD));
     assertThat(instrument.getSampleTitle(), equalTo("Sample"));
-    assertThat(instrument.getSampleFile(), equalTo("sample.mp3"));
-    assertThat(instrument.getWaveformFile(), equalTo("waveform.png"));
-    assertThat(instrument.getSampleSrc(), equalTo(path("sample.mp3")));
-    assertThat(instrument.getWaveformSrc(), equalTo(path("waveform.png")));
+    assertThat(instrument.getSampleName(), equalTo("sample.mp3"));
+    assertThat(instrument.getWaveformName(), equalTo("waveform.png"));
+    assertThat(instrument.getSampleSrc(), equalTo(src("sample.mp3")));
+    assertThat(instrument.getWaveformSrc(), equalTo(src("waveform.png")));
 
     assertThat(instrument.getDate().getValue(), equalTo(1234567890L));
     assertThat(instrument.getDate().getFormat(), equalTo(HDate.Format.DATE));
@@ -258,12 +257,12 @@ public class AdminDaoTest
     instrument.setName("banjo");
     instrument.setDisplay("Banjo");
     instrument.setDescription("Banjo description.");
-    instrument.setIconFile("icon.png");
-    instrument.setThumbnailFile("thumbnail.png");
-    instrument.setPictureFile("picture.jpg");
+    instrument.setIconName("icon.png");
+    instrument.setThumbnailName("thumbnail.png");
+    instrument.setPictureName("picture.jpg");
     instrument.setSampleTitle("Banjo solo");
-    instrument.setSampleFile("sample.mp3");
-    instrument.setWaveformFile("waveform.png");
+    instrument.setSampleName("sample.mp3");
+    instrument.setWaveformName("waveform.png");
     instrument.setDate(new HDate(1821, HDate.Format.YEAR, HDate.Period.MIDDLE));
 
     List<String> aliases = new ArrayList<String>();
@@ -315,15 +314,31 @@ public class AdminDaoTest
     assertThat(bird.getFacts().keySet(), hasSize(0));
   }
 
-  // ----------------------------------------------------------------------------------------------
-
-  private static String path(String mediaFile)
+  @Test
+  public void findObjectsByName()
   {
-    return path("accordion", mediaFile);
+    List<GraphicObject> objects = dao.findObjectsByName(Instrument.class, Arrays.asList("accordion", "banjo"));
+    assertThat(objects, notNullValue());
+    assertThat(objects, hasSize(1));
   }
 
-  private static String path(String objectName, String mediaFile)
+  @Test
+  public void getInstrumentsByCategory()
   {
-    return Strings.concat("/media/atlas/instrument/", objectName, '/', mediaFile);
+    List<GraphicObject> objects = dao.getInstrumentsByCategory(Instrument.Category.KEYBOARD);
+    assertThat(objects, notNullValue());
+    assertThat(objects, hasSize(1));
+  }
+
+  // ----------------------------------------------------------------------------------------------
+
+  private static MediaSRC src(String mediaFile)
+  {
+    return src("accordion", mediaFile);
+  }
+
+  private static MediaSRC src(String objectName, String mediaFile)
+  {
+    return new MediaSRC(Strings.concat("/media/atlas/instrument/", objectName, '/', mediaFile));
   }
 }

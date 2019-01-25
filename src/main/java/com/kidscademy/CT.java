@@ -21,4 +21,10 @@ public class CT
   {
     return IMAGE_MAGICK_PATH;
   }
+
+  public static final String PICTURE_FILE_NAME = "picture.jpg";
+  public static final String ICON_FILE_NAME = "icon.jpg";
+  public static final String THUMBNAIL_FILE_NAME = "thumbnail.png";
+  public static final String SAMPLE_FILE_NAME = "sample.mp3";
+  public static final String WAVEFORM_FILE_NAME = "waveform.png";
 }

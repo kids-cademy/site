@@ -12,11 +12,12 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.impl.MediaFileHandler;
+import com.kidscademy.util.Files;
 
 import js.lang.BugError;
 import js.util.Classes;
-import js.util.Files;
 import js.util.Strings;
 
 public class MediFileHandlerTest
@@ -24,7 +25,7 @@ public class MediFileHandlerTest
   @BeforeClass
   public static void beforeClass()
   {
-    Classes.setFieldValue(MediaFileHandler.class, "REPOSIOTRY_DIR", "fixture/tomcat/webapps");
+    Classes.setFieldValue(Files.class, "REPOSIOTRY_DIR", "fixture/tomcat/webapps");
   }
 
   @Test
@@ -68,16 +69,16 @@ public class MediFileHandlerTest
     Files.copy(new File("fixture/icon.jpg"), file("media.ext"));
     MediaFileHandler handler = new MediaFileHandler("instrument", "object", "media.ext");
 
-    String path = handler.sourcePath();
+    MediaSRC path = handler.sourceSrc();
     assertThat(path, notNullValue());
-    assertThat(path, equalTo("/media/atlas/instrument/object/media.ext"));
+    assertThat(path, equalTo(new MediaSRC("/media/atlas/instrument/object/media.ext")));
   }
 
   @Test(expected = BugError.class)
   public void sourcePath_exception()
   {
     MediaFileHandler handler = new MediaFileHandler("instrument", "object", "fake-media.ext");
-    handler.sourcePath();
+    handler.sourceSrc();
   }
 
   @Test
@@ -104,16 +105,16 @@ public class MediFileHandlerTest
     Files.copy(new File("fixture/icon.jpg"), file("media.ext"));
     MediaFileHandler handler = new MediaFileHandler("instrument", "object", "media.ext");
 
-    String path = handler.targetPath();
+    MediaSRC path = handler.targetSrc();
     assertThat(path, notNullValue());
-    assertThat(path, equalTo("/media/atlas/instrument/object/media_1.ext"));
+    assertThat(path, equalTo(new MediaSRC("/media/atlas/instrument/object/media_1.ext")));
   }
 
   @Test(expected = BugError.class)
   public void targetPath_exception()
   {
     MediaFileHandler handler = new MediaFileHandler("instrument", "object", "fake-media.ext");
-    handler.targetPath();
+    handler.targetSrc();
   }
 
   @Test

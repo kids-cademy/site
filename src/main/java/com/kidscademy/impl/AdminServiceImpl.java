@@ -13,6 +13,7 @@ import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.Login;
+import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.atlas.User;
 import com.kidscademy.dao.AdminDao;
 import com.kidscademy.media.AudioProcessor;
@@ -77,8 +78,8 @@ public class AdminServiceImpl implements AdminService
     }
     Instrument instrument = dao.getInstrument(instrumentId);
 
-    if(instrument.getSampleFile() != null) {
-      File sampleFile = new File(CT.repositoryDir(), instrument.getSampleFile());
+    if(instrument.getSampleSrc() != null) {
+      File sampleFile = Files.mediaFile(instrument.getSampleSrc());
       if(sampleFile.exists()) {
         AudioSampleInfo sampleInfo = audio.getAudioFileInfo(sampleFile);
         instrument.setSampleInfo(sampleInfo);
@@ -116,13 +117,13 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
-  public String uploadPictureFile(Form form) throws IOException
+  public MediaSRC uploadPictureFile(Form form) throws IOException
   {
     String collectionName = form.getValue("collection-name");
     String objectName = form.getValue("object-name");
 
-    String pictureSrc = Files.mediaSrc(collectionName, objectName, "picture.jpg");
-    File pictureFile = MediaFileHandler.file(pictureSrc);
+    MediaSRC pictureSrc = Files.mediaSrc(collectionName, objectName, "picture.jpg");
+    File pictureFile = Files.mediaFile(pictureSrc);
     pictureFile.getParentFile().mkdirs();
 
     image.saveObjectPicture(form.getUploadedFile("file").getFile(), pictureFile);
@@ -130,13 +131,13 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
-  public String uploadThumbnailFile(Form form) throws IOException
+  public MediaSRC uploadThumbnailFile(Form form) throws IOException
   {
     String collectionName = form.getValue("collection-name");
     String objectName = form.getValue("object-name");
 
-    String thumbnailSrc = Files.mediaSrc(collectionName, objectName, "thumbnail.png");
-    File thumbnailFile = MediaFileHandler.file(thumbnailSrc);
+    MediaSRC thumbnailSrc = Files.mediaSrc(collectionName, objectName, "thumbnail.png");
+    File thumbnailFile = Files.mediaFile(thumbnailSrc);
     thumbnailFile.getParentFile().mkdirs();
 
     image.saveObjectThumbnail(form.getUploadedFile("file").getFile(), thumbnailFile);
@@ -144,13 +145,13 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
-  public String uploadIconFile(Form form) throws IOException
+  public MediaSRC uploadIconFile(Form form) throws IOException
   {
     String collectionName = form.getValue("collection-name");
     String objectName = form.getValue("object-name");
 
-    String iconSrc = Files.mediaSrc(collectionName, objectName, "icon.jpg");
-    File iconFile = MediaFileHandler.file(iconSrc);
+    MediaSRC iconSrc = Files.mediaSrc(collectionName, objectName, "icon.jpg");
+    File iconFile = Files.mediaFile(iconSrc);
     iconFile.getParentFile().mkdirs();
 
     image.saveObjectIcon(form.getUploadedFile("file").getFile(), iconFile);
@@ -158,11 +159,12 @@ public class AdminServiceImpl implements AdminService
   }
 
   @Override
-  public String createObjectIcon(String collectionName, String objectName) throws IOException
+  public MediaSRC createObjectIcon(String collectionName, String objectName) throws IOException
   {
-    File pictureFile = MediaFileHandler.file(collectionName, objectName, "picture.jpg");
-    String iconSrc = Files.mediaSrc(collectionName, objectName, "icon.jpg");
-    File iconFile = MediaFileHandler.file(iconSrc);
+    File pictureFile = Files.mediaFile(collectionName, objectName, "picture.jpg");
+    
+    MediaSRC iconSrc = Files.mediaSrc(collectionName, objectName, "icon.jpg");
+    File iconFile = Files.mediaFile(iconSrc);
 
     image.createObjectIcon(pictureFile, iconFile);
     return iconSrc;
@@ -185,7 +187,7 @@ public class AdminServiceImpl implements AdminService
 
     MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
     handler.upload(form.getFile("file"));
-    return getAudioSampleInfo(collectionName, objectName, handler.source(), handler.sourcePath());
+    return getAudioSampleInfo(collectionName, objectName, handler.source(), handler.sourceSrc());
   }
 
   @Override
@@ -193,7 +195,7 @@ public class AdminServiceImpl implements AdminService
   {
     MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
     audio.normalizeLevel(handler.source(), handler.target());
-    return getAudioSampleInfo(collectionName, objectName, handler.target(), handler.targetPath());
+    return getAudioSampleInfo(collectionName, objectName, handler.target(), handler.targetSrc());
   }
 
   @Override
@@ -201,7 +203,7 @@ public class AdminServiceImpl implements AdminService
   {
     MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
     audio.convertToMono(handler.source(), handler.target());
-    return getAudioSampleInfo(collectionName, objectName, handler.target(), handler.targetPath());
+    return getAudioSampleInfo(collectionName, objectName, handler.target(), handler.targetSrc());
   }
 
   @Override
@@ -209,13 +211,13 @@ public class AdminServiceImpl implements AdminService
   {
     MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
     audio.trimSilence(handler.source(), handler.target());
-    return getAudioSampleInfo(collectionName, objectName, handler.target(), handler.targetPath());
+    return getAudioSampleInfo(collectionName, objectName, handler.target(), handler.targetSrc());
   }
 
   @Override
-  public String generateWaveform(String collectionName, String objectName) throws IOException
+  public MediaSRC generateWaveform(String collectionName, String objectName) throws IOException
   {
-    File sampleFile = MediaFileHandler.file(collectionName, objectName, "sample.mp3");
+    File sampleFile = Files.mediaFile(collectionName, objectName, "sample.mp3");
     if(!sampleFile.exists()) {
       throw new BugError("Database not consistent. Missing sample file |%s|.", sampleFile);
     }
@@ -227,7 +229,7 @@ public class AdminServiceImpl implements AdminService
   {
     MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
     handler.rollback();
-    return getAudioSampleInfo(collectionName, objectName, handler.source(), handler.sourcePath());
+    return getAudioSampleInfo(collectionName, objectName, handler.source(), handler.sourceSrc());
   }
 
   @Override
@@ -235,7 +237,7 @@ public class AdminServiceImpl implements AdminService
   {
     MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
     handler.commit();
-    return getAudioSampleInfo(collectionName, objectName, handler.source(), handler.sourcePath());
+    return getAudioSampleInfo(collectionName, objectName, handler.source(), handler.sourceSrc());
   }
 
   @Override
@@ -244,24 +246,24 @@ public class AdminServiceImpl implements AdminService
     MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
     handler.delete();
     dao.removeInstrumentSample(objectName);
-    MediaFileHandler.file(collectionName, objectName, "sample.mp3").delete();
-    MediaFileHandler.file(collectionName, objectName, "waveform.png").delete();
+    Files.mediaFile(collectionName, objectName, "sample.mp3").delete();
+    Files.mediaFile(collectionName, objectName, "waveform.png").delete();
   }
 
   // ----------------------------------------------------------------------------------------------
 
-  private AudioSampleInfo getAudioSampleInfo(String collectionName, String objectName, File file, String path) throws IOException
+  private AudioSampleInfo getAudioSampleInfo(String collectionName, String objectName, File file, MediaSRC mediaSrc) throws IOException
   {
     AudioSampleInfo info = audio.getAudioFileInfo(file);
-    info.setSampleSrc(path);
+    info.setSampleSrc(mediaSrc);
     info.setWaveformSrc(generateWaveform(collectionName, objectName, file));
     return info;
   }
 
-  private String generateWaveform(String collectionName, String objectName, File audioFile) throws IOException
+  private MediaSRC generateWaveform(String collectionName, String objectName, File audioFile) throws IOException
   {
-    String waveformSrc = Files.mediaSrc(collectionName, objectName, "waveform.png");
-    File waveformFile = MediaFileHandler.file(waveformSrc);
+    MediaSRC waveformSrc = Files.mediaSrc(collectionName, objectName, "waveform.png");
+    File waveformFile = Files.mediaFile(waveformSrc);
     audio.generateWaveform(audioFile, waveformFile);
     return waveformSrc;
   }
