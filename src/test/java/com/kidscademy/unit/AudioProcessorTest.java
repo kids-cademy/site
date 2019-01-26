@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.IOException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,81 +28,76 @@ import com.kidscademy.media.ImageProcessor;
 import js.core.AppContext;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AudioProcessorTest
-{
-  @Mock
-  private AppContext context;
-  @Mock
-  private ImageProcessor image;
+public class AudioProcessorTest {
+    @Mock
+    private AppContext context;
+    @Mock
+    private ImageProcessor image;
 
-  private AudioProcessor audio;
+    private AudioProcessor audio;
 
-  @Before
-  public void beforeTest() throws IOException
-  {
-    when(context.getAppFile(anyString())).thenAnswer(new Answer<File>()
-    {
-      @Override
-      public File answer(InvocationOnMock invocation) throws Throwable
-      {
-        return new File("fixture/" + (String)invocation.getArguments()[0]);
-      }
-    });
+    @Before
+    public void beforeTest() throws IOException {
+	when(context.getAppFile(anyString())).thenAnswer(new Answer<File>() {
+	    @Override
+	    public File answer(InvocationOnMock invocation) throws Throwable {
+		return new File("fixture/audio/" + (String) invocation.getArguments()[0]);
+	    }
+	});
 
-    audio = new AudioProcessorImpl(context, image);
-  }
+	audio = new AudioProcessorImpl(context, image);
+    }
 
-  @Test
-  public void getAudioFileInfo() throws IOException
-  {
-    File audioFile = new File("fixture/sample.mp3");
-    AudioSampleInfo info = audio.getAudioFileInfo(audioFile);
+    @After
+    public void afterTest() {
+	File targetFile = new File("fixture/audio/target.mp3");
+	targetFile.delete();
+    }
 
-    assertThat(info, notNullValue());
-    assertThat(info.getFileName(), equalTo("fixture\\sample.mp3"));
-    assertThat(info.getFileSize(), equalTo(3041906));
-    assertThat(info.getCodec(), equalTo("MP3 (MPEG audio layer 3)"));
-    assertThat(info.getDuration(), equalTo(190119));
-    assertThat(info.getChannels(), equalTo(2));
-    assertThat(info.getSampleRate(), equalTo(44100));
-    assertThat(info.getBitRate(), equalTo(128000));
-  }
+    @Test
+    public void getAudioFileInfo() throws IOException {
+	File audioFile = new File("fixture/audio/sample.mp3");
+	AudioSampleInfo info = audio.getAudioFileInfo(audioFile);
 
-  @Test
-  public void trimSilence() throws IOException
-  {
-    File audioFile = new File("fixture/tone-with-silence.mp3");
-    File targetFile = new File("fixture/normalized-tone.mp3");
+	assertThat(info, notNullValue());
+	assertThat(info.getFileName(), equalTo("fixture\\audio\\sample.mp3"));
+	assertThat(info.getFileSize(), equalTo(3041906));
+	assertThat(info.getCodec(), equalTo("MP3 (MPEG audio layer 3)"));
+	assertThat(info.getDuration(), equalTo(190119));
+	assertThat(info.getChannels(), equalTo(2));
+	assertThat(info.getSampleRate(), equalTo(44100));
+	assertThat(info.getBitRate(), equalTo(128000));
+    }
 
-    audio.trimSilence(audioFile, targetFile);
-    assertThat(targetFile, anExistingFile());
+    @Test
+    public void trimSilence() throws IOException {
+	File audioFile = new File("fixture/audio/silence.mp3");
+	File targetFile = new File("fixture/audio/target.mp3");
 
-    AudioSampleInfo info = audio.getAudioFileInfo(targetFile);
-    assertThat((double)info.getDuration(), closeTo(2000, 100));
-  }
+	audio.trimSilence(audioFile, targetFile);
+	assertThat(targetFile, anExistingFile());
 
-  @Test
-  public void convertToMono() throws IOException
-  {
-    File stereoFile = new File("fixture/stereo-tone.mp3");
-    File monoFile = new File("fixture/mono-tone.mp3");
+	AudioSampleInfo info = audio.getAudioFileInfo(targetFile);
+	assertThat((double) info.getDuration(), closeTo(28000, 100));
+    }
 
-    audio.convertToMono(stereoFile, monoFile);
-    assertThat(monoFile, anExistingFile());
+    @Test
+    public void convertToMono() throws IOException {
+	File stereoFile = new File("fixture/audio/sample.mp3");
+	File monoFile = new File("fixture/audio/target.mp3");
 
-    assertThat(audio.getAudioFileInfo(stereoFile).getChannels(), equalTo(2));
-    assertThat(audio.getAudioFileInfo(monoFile).getChannels(), equalTo(1));
+	audio.convertToMono(stereoFile, monoFile);
+	assertThat(monoFile, anExistingFile());
 
-    monoFile.delete();
-  }
+	assertThat(audio.getAudioFileInfo(stereoFile).getChannels(), equalTo(2));
+	assertThat(audio.getAudioFileInfo(monoFile).getChannels(), equalTo(1));
+    }
 
-  @Test
-  public void normalizeLevel() throws IOException
-  {
-    File audioFile = new File("fixture/sample.mp3");
-    File targetFile = new File("fixture/sample_normalize.mp3");
-    targetFile.delete();
+    @Test
+    public void normalizeLevel() throws IOException {
+	File audioFile = new File("fixture/audio/sample.mp3");
+	File targetFile = new File("fixture/audio/target.mp3");
 
-    audio.normalizeLevel(audioFile, targetFile);
-  }
+	audio.normalizeLevel(audioFile, targetFile);
+    }
 }

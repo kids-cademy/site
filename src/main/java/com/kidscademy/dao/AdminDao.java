@@ -2,35 +2,59 @@ package com.kidscademy.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
+
 import com.kidscademy.atlas.Bird;
 import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Login;
 import com.kidscademy.atlas.User;
 
-public interface AdminDao
-{
-  User getUser(Login login);
-  
-  User getUserById(int userId);
-  
-  void saveInstrument(Instrument instrument);
+public interface AdminDao {
+    User getUser(Login login);
 
-  Instrument getInstrument(int instrumentId);
+    User getUserById(int userId);
 
-  Instrument getInstrumentByName(String name);
+    /**
+     * Persist or merge instrument entity, depending on ID value. If ID is zero
+     * instance is considered never created into database and
+     * {@link EntityManager#persist(Object)} is enacted. Otherwise instance is
+     * considered persisted but detached and {@link EntityManager#merge(Object)} is
+     * performed.
+     * <p>
+     * Instrument entity has JPA event listener for {@link PostLoad} used to
+     * initialize root-relative media SRC, used on web interface, from media file
+     * names that are persisted. Also has {@link PrePersist} for reverse operation.
+     * <p>
+     * Because media SRC fields are {@link Transient}, merge is not able to detect
+     * they are changed and {@link PreUpdate} cannot be used because will be not
+     * triggered. This method takes care to explicitly invoke
+     * {@link Instrument#postMerge(Instrument)} on attached entity.
+     * 
+     * @param instrument
+     *            instrument instance.
+     */
+    void saveInstrument(Instrument instrument);
 
-  <T> List<T> findObjectByType(Class<T> type);
+    Instrument getInstrument(int instrumentId);
 
-  Bird getBird(int birdId);
+    Instrument getInstrumentByName(String name);
 
-  List<Instrument> getInstruments();
+    <T> List<T> findObjectByType(Class<T> type);
 
-  void removeObject(Object object);
+    Bird getBird(int birdId);
 
-  List<GraphicObject> findObjectsByName(Class<?> type, List<String> names);
+    List<Instrument> getInstruments();
 
-  List<GraphicObject> getInstrumentsByCategory(Instrument.Category category);
+    void removeObject(Object object);
 
-  void removeInstrumentSample(String instrumentName);
+    List<GraphicObject> findObjectsByName(Class<?> type, List<String> names);
+
+    List<GraphicObject> getInstrumentsByCategory(Instrument.Category category);
+
+    void removeInstrumentSample(String instrumentName);
 }
