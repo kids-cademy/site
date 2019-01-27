@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page>
+	<version>1</version>
+	<title>Object Form</title>
+	<description>Object form page.</description>
+	<scripts>
+		<script>lib/js-lib/js-lib.js</script>
+		<script>gen/com/kidscademy/AtlasService.js</script>
+		<script>script/com/kidscademy/page/Page.js</script>
+		<script>script/com/kidscademy/HiddenControl.js</script>
+		<script>script/com/kidscademy/ImageFormat.js</script>
+		<script>script/com/kidscademy/LinkIconFormat.js</script>
+		<script>script/com/kidscademy/Form.js</script>
+		<script>script/com/kidscademy/atlas/CropMask.js</script>
+		<script>script/com/kidscademy/atlas/GraphicAssets.js</script>
+		<script>script/com/kidscademy/atlas/AudioPlayer.js</script>
+		<script>script/com/kidscademy/atlas/AudioAssets.js</script>
+		<script>script/com/kidscademy/atlas/RelatedControl.js</script>
+		<script>script/com/kidscademy/atlas/LinksControl.js</script>
+		<script>script/com/kidscademy/atlas/AliasesControl.js</script>
+		<script>script/com/kidscademy/atlas/FactsControl.js</script>
+		<script>script/com/kidscademy/atlas/SpreadingControl.js</script>
+		<script>script/com/kidscademy/atlas/HDateControl.js</script>
+		<script>script/com/kidscademy/atlas/TextControl.js</script>
+		<script>script/com/kidscademy/atlas/FormPage.js</script>
+	</scripts>
+</page>

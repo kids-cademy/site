@@ -1,0 +1,197 @@
+<div w:template="template/admin#body" class="object-form" xmlns:w="js-lib.com/wood">
+	<form data-class="com.kidscademy.Form">
+		<fieldset id="identity">
+			<div class="header container">
+				<h2>Identity</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<div class="container">
+					<div>
+						<label>rank</label> <input name="rank" class="mini" />
+					</div>
+					<div>
+						<label>name</label> <input name="name" />
+					</div>
+					<div>
+						<label>display</label> <input name="display" class="optional" />
+					</div>
+					<div>
+						<label>aliases</label> <input name="aliases" class="optional" data-class="com.kidscademy.atlas.AliasesControl" />
+					</div>
+					<div>
+						<label>category</label> <select name="category" w:widget="compo/instrument-category-select"></select>
+					</div>
+					<div data-name="date" data-class="com.kidscademy.atlas.HDateControl">
+						<label>date</label><input name="value" class="mini optional" /><select name="format" class="optional">
+							<option selected="selected"></option>
+							<option value="0">DATE</option>
+							<option value="1">YEAR</option>
+							<option value="2">DECADE</option>
+							<option value="3">CENTURY</option>
+							<option value="4">MILLENNIA</option>
+							<option value="5">KYA</option>
+							<option value="6">MYA</option>
+							<option value="7">BYA</option>
+						</select> <select name="period" class="optional">
+							<option selected="selected"></option>
+							<option value="0">FULL</option>
+							<option value="256">BEGINNING</option>
+							<option value="512">MIDDLE</option>
+							<option value="768">END</option>
+						</select> <select name="era" class="optional">
+							<option selected="selected"></option>
+							<option value="0">CE</option>
+							<option value="65536">BCE</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset id="description">
+			<div class="header container">
+				<h2>Description</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<div class="container">
+					<div>
+						<textarea name="description" class="optional" data-class="com.kidscademy.atlas.TextControl"></textarea>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset id="graphic-assets" w:widget="atlas/form/graphic-assets"></fieldset>
+		<fieldset id="audio-assets" w:widget="atlas/form/audio-assets"></fieldset>
+
+		<fieldset id="facts" name="facts" data-class="com.kidscademy.atlas.FactsControl">
+			<div class="header container">
+				<h2>Facts</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<div class="container">
+					<dl class="facts-view" data-map=".">
+						<dt></dt>
+						<dd></dd>
+					</dl>
+					<div class="actions">
+						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="import" src="@image/action/import" title="@string/sample-tooltip" /> <img name="done" src="@image/action/done" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+					</div>
+					<div class="editor hidden">
+						<div>
+							<div>
+								<input name="term" maxlength="64" />
+							</div>
+							<div>
+								<textarea name="definition" class="mini"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset id="spreading" name="spreading" data-class="com.kidscademy.atlas.SpreadingControl">
+			<div class="header container">
+				<h2>Spreading</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<div class="container">
+					<ul class="regions-view" data-list=".">
+						<li><span data-text="area"></span> <span data-text="name"></span></li>
+					</ul>
+					<div class="actions">
+						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="import" src="@image/action/import" title="@string/sample-tooltip" /> <img name="done" src="@image/action/done" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+					</div>
+					<div class="editor hidden">
+						<div>
+							<div>
+								<label>Region</label><input name="region-name" class="medium" />
+							</div>
+							<div>
+								<label>Area</label><select name="area" w:widget="compo/region-select"></select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset id="related" name="related" data-class="com.kidscademy.atlas.RelatedControl">
+			<div class="header container">
+				<h2>Related</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<div class="container">
+					<ul class="list-view related" data-list=".">
+						<li data-id="id"><a data-href="href"><img data-src="icon-src" data-default="@image/default-icon" /></a>
+							<h4 data-text="display"></h4></li>
+					</ul>
+					<div class="actions">
+						<img name="edit" src="@image/action/edit" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+					</div>
+					<ul class="list-view collection hidden" data-list=".">
+						<li data-id="id"><img data-src="icon-src" data-default="@image/default-icon" />
+							<h4 data-text="display"></h4></li>
+					</ul>
+				</div>
+			</div>
+		</fieldset>
+
+		<fieldset id="links" name="links" data-class="com.kidscademy.atlas.LinksControl">
+			<div class="header container">
+				<h2>Links</h2>
+				<p>@string/sample-text</p>
+			</div>
+			<div class="content">
+				<div class="container">
+					<ul class="list-view" data-list=".">
+						<li data-id="id"><img data-src="iconPath" data-title="url" data-format="com.kidscademy.LinkIconFormat" />
+							<h4 data-text="name"></h4></li>
+					</ul>
+
+					<div class="actions">
+						<img name="add" src="@image/action/add" title="@string/sample-tooltip" /> <img name="browse" src="@image/action/browse" title="@string/sample-tooltip" /> <img name="done" src="@image/action/done" title="@string/sample-tooltip" /> <img name="remove" src="@image/action/remove" title="@string/sample-tooltip" /> <img name="close" src="@image/action/close" title="@string/sample-tooltip" class="rfloat" />
+					</div>
+
+					<div class="editor hidden">
+						<div>
+							<div>
+								<label>URL</label> <input name="url" data-value="url" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+</div>
+
+<div w:template="template/admin#side-bar" class="object-form" xmlns:w="js-lib.com/wood">
+	<h1 class="side-name"></h1>
+	<ul class="developers inline">
+		<li><img src="/media/home/ioana/icon.png" /></li>
+		<li><img src="/media/home/octavian/icon.png" /></li>
+		<li><img src="/media/home/lucian/icon.png" /></li>
+	</ul>
+	<ul class="side-menu quick-links">
+		<li data-name="identity"><img src="@image/action/identity" />Identity<span class="state"></span></li>
+		<li data-name="description"><img src="@image/action/description" />Description<span class="state"></span></li>
+		<li data-name="graphic-assets"><img src="@image/action/graphic-asset" />Graphic Assets<span class="state"></span></li>
+		<li data-name="audio-assets"><img src="@image/action/audio-asset" />Audio Assets<span class="state"></span></li>
+		<li data-name="facts"><img src="@image/action/facts" />Facts<span class="state"></span></li>
+		<li data-name="spreading"><img src="@image/action/spreading" />Spreading<span class="state"></span></li>
+		<li data-name="related"><img src="@image/action/related" />Related<span class="state"></span></li>
+		<li data-name="links"><img src="@image/action/link" />Links<span class="state"></span></li>
+	</ul>
+	<div class="container buttons-bar">
+		<button name="save">@string/save</button>
+		<button name="reset" class="inverse">@string/reset</button>
+		<button name="cancel" class="inverse">@string/cancel</button>
+	</div>
+</div>

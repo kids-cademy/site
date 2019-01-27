@@ -21,10 +21,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.kidscademy.AdminService;
+import com.kidscademy.AtlasService;
 import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.dao.AdminDao;
-import com.kidscademy.impl.AdminServiceImpl;
+import com.kidscademy.impl.AtlasServiceImpl;
 import com.kidscademy.media.AudioProcessor;
 import com.kidscademy.media.AudioSampleInfo;
 import com.kidscademy.media.ImageProcessor;
@@ -46,7 +46,7 @@ public class AdminServiceTest
   @Mock
   private ImageProcessor image;
 
-  private AdminService service;
+  private AtlasService service;
 
   @BeforeClass
   public static void beforeClass()
@@ -57,7 +57,7 @@ public class AdminServiceTest
   @Before
   public void beforeTest()
   {
-    service = new AdminServiceImpl(context, dao, audio, image);
+    service = new AtlasServiceImpl(context, dao, audio, image);
   }
 
   @Test
@@ -67,7 +67,7 @@ public class AdminServiceTest
     when(form.getValue("collection-name")).thenReturn("instrument");
     when(form.getValue("object-name")).thenReturn("test");
     File uploadFile = new File("fixture/upload.mp3");
-    Files.copy(new File("fixture/sample.mp3"), uploadFile);
+    Files.copy(new File("fixture/audio/sample.mp3"), uploadFile);
     when(form.getFile("file")).thenReturn(uploadFile);
 
     AudioSampleInfo info = new AudioSampleInfo();
@@ -92,7 +92,7 @@ public class AdminServiceTest
   @Test
   public void normalizeSample() throws IOException
   {
-    Files.copy(new File("fixture/sample.mp3"), file("sample.mp3"));
+    Files.copy(new File("fixture/audio/sample.mp3"), file("sample.mp3"));
 
     AudioSampleInfo info = new AudioSampleInfo();
     when(audio.getAudioFileInfo(any(File.class))).thenReturn(info);
@@ -119,7 +119,7 @@ public class AdminServiceTest
   @Test
   public void convertToMono() throws IOException
   {
-    Files.copy(new File("fixture/sample.mp3"), file("sample.mp3"));
+    Files.copy(new File("fixture/audio/sample.mp3"), file("sample.mp3"));
 
     AudioSampleInfo info = new AudioSampleInfo();
     when(audio.getAudioFileInfo(any(File.class))).thenReturn(info);
@@ -146,7 +146,7 @@ public class AdminServiceTest
   @Test
   public void trimSilence() throws IOException
   {
-    Files.copy(new File("fixture/sample.mp3"), file("sample.mp3"));
+    Files.copy(new File("fixture/audio/sample.mp3"), file("sample.mp3"));
 
     AudioSampleInfo info = new AudioSampleInfo();
     when(audio.getAudioFileInfo(any(File.class))).thenReturn(info);
@@ -173,7 +173,7 @@ public class AdminServiceTest
   @Test
   public void generateWaveform() throws IOException
   {
-    Files.copy(new File("fixture/sample.mp3"), file("sample.mp3"));
+    Files.copy(new File("fixture/audio/sample.mp3"), file("sample.mp3"));
 
     MediaSRC waveformSrc = service.generateWaveform("instrument", "test");
 
@@ -184,9 +184,9 @@ public class AdminServiceTest
   @Test
   public void undoMediaProcessing() throws IOException
   {
-    Files.copy(new File("fixture/sample.mp3"), file("sample.mp3"));
-    Files.copy(new File("fixture/sample.mp3"), file("sample_1.mp3"));
-    Files.copy(new File("fixture/sample.mp3"), file("sample_2.mp3"));
+    Files.copy(new File("fixture/audio/sample.mp3"), file("sample.mp3"));
+    Files.copy(new File("fixture/audio/sample.mp3"), file("sample_1.mp3"));
+    Files.copy(new File("fixture/audio/sample.mp3"), file("sample_2.mp3"));
 
 
     AudioSampleInfo info = new AudioSampleInfo();
@@ -209,9 +209,9 @@ public class AdminServiceTest
   @Test
   public void commitMediaProcessing() throws IOException
   {
-    Files.copy(new File("fixture/sample.mp3"), file("sample.mp3"));
-    Files.copy(new File("fixture/sample.mp3"), file("sample_1.mp3"));
-    Files.copy(new File("fixture/sample.mp3"), file("sample_2.mp3"));
+    Files.copy(new File("fixture/audio/sample.mp3"), file("sample.mp3"));
+    Files.copy(new File("fixture/audio/sample.mp3"), file("sample_1.mp3"));
+    Files.copy(new File("fixture/audio/sample.mp3"), file("sample_2.mp3"));
 
     AudioSampleInfo info = new AudioSampleInfo();
     when(audio.getAudioFileInfo(any(File.class))).thenReturn(info);
@@ -236,7 +236,7 @@ public class AdminServiceTest
   @Test
   public void removeInstrumentSample() throws IOException
   {
-    Files.copy(new File("fixture/sample.mp3"), file("sample.mp3"));
+    Files.copy(new File("fixture/audio/sample.mp3"), file("sample.mp3"));
     Files.copy(new File("fixture/waveform.png"), file("waveform.png"));
 
     service.removeObjectSample("instrument", "test");

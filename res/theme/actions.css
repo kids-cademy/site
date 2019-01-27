@@ -6,9 +6,10 @@
 
 .actions img {
 	display: inline-block;
-	width: 48px;
-	margin-right: 20px;
-	border: solid 1px #76be76;
+	width: @dimen/action-icon-size;
+	height: @dimen/action-icon-size;
+	margin-right: @dimen/action-margin;
+	border: solid 1px @color/border;
 	opacity: 0.2;
 	cursor: pointer;
 }
@@ -23,4 +24,11 @@
 
 .actions img:hover {
 	opacity: 0.6;
+}
+
+.actions .separator {
+	display: inline-block;
+	width: @dimen/action-icon-size;
+	height: @dimen/action-icon-size;
+	margin-right: @dimen/action-margin;
 }

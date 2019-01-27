@@ -5,7 +5,7 @@
 		
 		<service-controller interface="com.kidscademy.ServiceController" class="com.kidscademy.impl.ServiceControllerImpl" />
 		<site-controller interface="com.kidscademy.SiteController" class="com.kidscademy.impl.SiteControllerImpl" />
-		<admin-service interface="com.kidscademy.AdminService" class="com.kidscademy.impl.AdminServiceImpl" />
+		<atlas-service interface="com.kidscademy.AtlasService" class="com.kidscademy.impl.AtlasServiceImpl" />
 		<build-manager interface="com.kidscademy.BuildManager" class="com.kidscademy.impl.BuildManagerImpl" />
 
 		<entity-manager interface="javax.persistence.EntityManager" class="js.transaction.eclipselink.EntityManagerImpl" />

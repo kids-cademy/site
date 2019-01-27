@@ -27,4 +27,8 @@
 	<side-menu-item-height>48px</side-menu-item-height>
 	<side-menu-icon-size>32px</side-menu-icon-size>
 	<side-menu-bullet-size>20px</side-menu-bullet-size>
+	
+	<!-- actions -->
+	<action-icon-size>48px</action-icon-size>
+	<action-margin>20px</action-margin>
 </dimen>

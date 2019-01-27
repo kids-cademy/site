@@ -15,86 +15,86 @@
 }
 
 .icon.menu {
-	background-image: url(@image/menu-icon);
+	background-image: url(@image/icon/menu);
 }
 
 .icon.close {
-	background-image: url(@image/close-icon);
+	background-image: url(@image/icon/close);
 }
 
 .icon.play {
-	background-image: url(@image/play-icon);
+	background-image: url(@image/icon/play);
 }
 
 .icon.pause {
-	background-image: url(@image/pause-icon);
+	background-image: url(@image/icon/pause);
 }
 
 .icon.stop {
-	background-image: url(@image/stop-icon);
+	background-image: url(@image/icon/stop);
 }
 
 .icon.collapse {
-	background-image: url(@image/collapse-icon);
+	background-image: url(@image/icon/collapse);
 }
 
 .icon.expand {
-	background-image: url(@image/expand-icon);
+	background-image: url(@image/icon/expand);
 }
 
 .icon.plus {
-	background-image: url(@image/plus-icon);
+	background-image: url(@image/icon/plus);
 }
 
 .icon.minus {
-	background-image: url(@image/minus-icon);
+	background-image: url(@image/icon/minus);
 }
 
 .icon.share {
-	background-image: url(@image/share-icon);
+	background-image: url(@image/icon/share);
 	background-size: 38px 38px;
 }
 
 .icon.facebook {
 	background-color: rgba(53, 88, 158, 0.8);
-	background-image: url(@image/facebook-icon);
+	background-image: url(@image/icon/facebook);
 }
 
 .icon.twitter {
 	background-color: rgba(00, 171, 241, 0.8);
-	background-image: url(@image/twitter-icon);
+	background-image: url(@image/icon/twitter);
 }
 
 .icon.email {
-	background-image: url(@image/email-icon);
+	background-image: url(@image/icon/email);
 	background-size: 38px 38px;
 }
 
 .icon.tiles {
-	background-image: url(@image/tiles-icon);
+	background-image: url(@image/icon/tiles);
 }
 
 .icon.list {
-	background-image: url(@image/list-icon);
+	background-image: url(@image/icon/list);
 }
 
 .icon.grid {
-	background-image: url(@image/grid-icon);
+	background-image: url(@image/icon/grid);
 }
 
 .icon.large-grid {
-	background-image: url(@image/large-grid-icon);
+	background-image: url(@image/icon/large-grid);
 }
 
 .icon.search {
-	background-image: url(@image/search-icon);
+	background-image: url(@image/icon/search);
 }
 
 .icon.place {
-	background-image: url(@image/place-icon);
+	background-image: url(@image/icon/place);
 	background-size: 38px 38px;
 }
 
 .icon.link {
-	background-image: url(@image/link-icon);
+	background-image: url(@image/icon/link);
 }

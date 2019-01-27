@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import js.core.AppContext;
 import js.json.Json;
 import js.json.impl.JsonParserException;
 import js.lang.BugError;
+import js.lang.GType;
 import js.log.Log;
 import js.log.LogFactory;
 import js.util.Classes;
@@ -204,6 +206,11 @@ public class AudioProcessorImpl implements AudioProcessor {
     }
 
     @Override
+    public void deleteSegment(File audioFile, File targetFile, float start, float end) throws IOException {
+	exec("-i ${audioFile} -ss ${start} -to ${end} ${targetFile}", audioFile, start, end, targetFile);
+    }
+
+    @Override
     public void convertToMono(File audioFile, File targetFile) throws IOException {
 	// do not use ffmpeg down mix because it adjust levels, accordingly
 	// recommendations, with -3dB
@@ -226,6 +233,21 @@ public class AudioProcessorImpl implements AudioProcessor {
 	if (volume.getPeak() > 0 || volume.getPeak() < -0.4) {
 	    exec("-i ${audioFile} -af volume=${adjustment}dB ${targetFile}", audioFile, -volume.getPeak(), targetFile);
 	}
+    }
+
+    @Override
+    public void fadein(File audioFile, File targetFile, float duration) throws IOException {
+	exec("-i ${audioFile} -af afade=t=in:ss=0:d=${duration}:curve=tri ${targetFile}", audioFile, duration,
+		targetFile);
+    }
+
+    @Override
+    public void fadeout(File audioFile, File targetFile, float duration) throws IOException {
+	//Stream[] streams = probe(Stream[].class, "-show_streams ${audioFile}", audioFile);
+	Map<String, Stream[]> result = probe(new GType(Map.class, String.class, Stream[].class), "-show_streams ${audioFile}", audioFile);
+	double start = result.get("streams")[0].duration - duration;
+	exec("-i ${audioFile} -af afade=t=out:st=${start}:d=${duration}:curve=tri ${targetFile}", audioFile, start,
+		duration, targetFile);
     }
 
     // ----------------------------------------------------------------------------------------------
@@ -273,7 +295,7 @@ public class AudioProcessorImpl implements AudioProcessor {
 	return result;
     }
 
-    private static <T> T probe(final Class<T> resultClass, String format, Object... args) throws IOException {
+    private static <T> T probe(final Type resultClass, String format, Object... args) throws IOException {
 	List<String> command = Strings.split(format(format, args));
 	command.add(0, "json");
 	command.add(0, "-print_format");

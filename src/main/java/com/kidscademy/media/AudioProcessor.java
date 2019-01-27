@@ -33,6 +33,23 @@ public interface AudioProcessor {
      */
     void trimSilence(File audioFile, File targetFile) throws IOException;
 
+    /**
+     * Delete audio segment specified by requested interval, expressed in
+     * seconds with decimals.
+     * 
+     * @param audioFile
+     *            source audio file,
+     * @param targetFile
+     *            target file,
+     * @param start
+     *            interval start timestamp,
+     * @param end
+     *            interval end timestamp.
+     * @throws IOException
+     *             if processing fails.
+     */
+    void deleteSegment(File audioFile, File targetFile, float start, float end) throws IOException;
+
     void convertToMono(File audioFile, File targetFile) throws IOException;
 
     /**
@@ -46,4 +63,8 @@ public interface AudioProcessor {
      *             if processing fails.
      */
     void normalizeLevel(File audioFile, File targetFile) throws IOException;
+    
+    void fadein(File audioFile, File targetFile, float duration) throws IOException;
+    
+    void fadeout(File audioFile, File targetFile, float duration) throws IOException;
 }
