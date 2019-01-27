@@ -61,8 +61,8 @@ com.kidscademy.atlas.AudioAssets = class extends js.dom.Element {
 		this._sampleInfo.resetObject();
 
 		const data = new FormData();
-		data.append("collection-name", object.dtype);
-		data.append("object-name", object.name);
+		data.append("dtype", object.dtype);
+		data.append("name", object.name);
 		data.append("file", ev.target._node.files[0]);
 
 		const xhr = new js.net.XHR();
@@ -77,53 +77,43 @@ com.kidscademy.atlas.AudioAssets = class extends js.dom.Element {
 	}
 
 	_onCut() {
-		const object = this._formPage.getObject();
+		const object = this._getObject();
 		const start = this._audioPlayer.getSelectionStart();
 
 		this._audioPlayer.resetObject();
 		this._sampleInfo.resetObject();
 
-		AtlasService.cutAudioSample(object.dtype, object.name, start, this._onProcessingComplete, this);
+		AtlasService.cutAudioSample(object, start, this._onProcessingComplete, this);
 	}
 
 	_onAudioMono() {
 		this._audioPlayer.resetObject();
 		this._sampleInfo.resetObject();
-
-		const object = this._formPage.getObject();
-		AtlasService.convertToMono(object.dtype, object.name, this._onProcessingComplete, this);
+		AtlasService.convertAudioSampleToMono(this._getObject(), this._onProcessingComplete, this);
 	}
 
 	_onNormalize() {
 		this._audioPlayer.resetObject();
 		this._sampleInfo.resetObject();
-
-		const object = this._formPage.getObject();
-		AtlasService.normalizeSample(object.dtype, object.name, this._onProcessingComplete, this);
+		AtlasService.normalizeAudioSample(this._getObject(), this._onProcessingComplete, this);
 	}
 
 	_onTrim() {
 		this._audioPlayer.resetObject();
 		this._sampleInfo.resetObject();
-
-		const object = this._formPage.getObject();
-		AtlasService.trimSilence(object.dtype, object.name, this._onProcessingComplete, this);
+		AtlasService.trimAudioSampleSilence(this._getObject(), this._onProcessingComplete, this);
 	}
 
 	_onFadeIn() {
 		this._audioPlayer.resetObject();
 		this._sampleInfo.resetObject();
-
-		const object = this._formPage.getObject();
-		AtlasService.fadeInAudioSample(object.dtype, object.name, this._onProcessingComplete, this);
+		AtlasService.fadeInAudioSample(this._getObject(), this._onProcessingComplete, this);
 	}
 
 	_onFadeOut() {
 		this._audioPlayer.resetObject();
 		this._sampleInfo.resetObject();
-
-		const object = this._formPage.getObject();
-		AtlasService.fadeOutAudioSample(object.dtype, object.name, this._onProcessingComplete, this);
+		AtlasService.fadeOutAudioSample(this._getObject(), this._onProcessingComplete, this);
 	}
 
 	_onPlay() {
@@ -142,34 +132,38 @@ com.kidscademy.atlas.AudioAssets = class extends js.dom.Element {
 	}
 
 	_onUndo() {
-		if(this._audioPlayer.resetSelection()) {
+		if (this._audioPlayer.resetSelection()) {
 			return;
 		}
-		
+
 		this._audioPlayer.resetObject();
 		this._sampleInfo.resetObject();
-
-		const object = this._formPage.getObject();
-		AtlasService.undoMediaProcessing(object.dtype, object.name, this._onProcessingComplete, this);
+		AtlasService.undoAudioSampleProcessing(this._getObject(), this._onProcessingComplete, this);
 	}
 
 	_onDone() {
 		this._audioPlayer.resetObject();
 		this._sampleInfo.resetObject();
-
-		const object = this._formPage.getObject();
-		AtlasService.commitMediaProcessing(object.dtype, object.name, this._onProcessingComplete, this);
+		AtlasService.commitAudioSampleProcessing(this._getObject(), this._onProcessingComplete, this);
 	}
 
 	_onRemove() {
-		const object = this._formPage.getObject();
+		const object = this._getObject();
 		if (!object.name) {
 			return;
 		}
-		AtlasService.removeObjectSample(object.dtype, object.name, () => {
+		AtlasService.removeAudioSample(object, () => {
 			this._audioPlayer.resetObject(false);
 			this._sampleInfo.resetObject();
 		});
+	}
+
+	_getObject() {
+		const object = this._formPage.getObject();
+		return {
+			dtype: object.dtype,
+			name: object.name
+		}
 	}
 
 	/**

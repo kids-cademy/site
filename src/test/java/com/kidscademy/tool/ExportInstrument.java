@@ -7,8 +7,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import com.kidscademy.atlas.Instrument;
-import com.kidscademy.dao.AdminDao;
-import com.kidscademy.dao.AdminDaoImpl;
+import com.kidscademy.dao.AtlasDao;
+import com.kidscademy.dao.AtlasDaoImpl;
 
 import js.json.Json;
 import js.lang.ConfigException;
@@ -17,26 +17,24 @@ import js.transaction.eclipselink.TransactionFactoryImpl;
 import js.util.Classes;
 import js.util.Strings;
 
-public class ExportInstrument
-{
-  public static void main(String... args) throws IOException, ConfigException
-  {
-    Json json = Classes.loadService(Json.class);
+public class ExportInstrument {
+    public static void main(String... args) throws IOException, ConfigException {
+	Json json = Classes.loadService(Json.class);
 
-    TransactionFactory factory = new TransactionFactoryImpl("import");
-    AdminDao dao = factory.newInstance(AdminDaoImpl.class);
+	TransactionFactory factory = new TransactionFactoryImpl("import");
+	AtlasDao dao = factory.newInstance(AtlasDaoImpl.class);
 
-    ZipOutputStream zip = new ZipOutputStream(new FileOutputStream("d://tmp/instruments.zip"));
+	ZipOutputStream zip = new ZipOutputStream(new FileOutputStream("d://tmp/instruments.zip"));
 
-    List<Instrument> instruments = dao.findObjectByType(Instrument.class);
+	List<Instrument> instruments = dao.findObjectByType(Instrument.class);
 
-    for(Instrument instrument : instruments) {
-      ZipEntry entry = new ZipEntry(Strings.concat("collection/", instrument.getName(), "/instrument.json"));
-      zip.putNextEntry(entry);
-      zip.write(json.stringify(instrument).getBytes("UTF-8"));
-      zip.closeEntry();
+	for (Instrument instrument : instruments) {
+	    ZipEntry entry = new ZipEntry(Strings.concat("collection/", instrument.getName(), "/instrument.json"));
+	    zip.putNextEntry(entry);
+	    zip.write(json.stringify(instrument).getBytes("UTF-8"));
+	    zip.closeEntry();
+	}
+
+	zip.close();
     }
-
-    zip.close();
-  }
 }

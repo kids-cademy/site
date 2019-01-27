@@ -3,6 +3,8 @@ package com.kidscademy.media;
 import java.io.File;
 import java.io.IOException;
 
+import com.kidscademy.CT;
+
 /**
  * Process audio files.
  * 
@@ -34,8 +36,8 @@ public interface AudioProcessor {
     void trimSilence(File audioFile, File targetFile) throws IOException;
 
     /**
-     * Delete audio segment specified by requested interval, expressed in
-     * seconds with decimals.
+     * Extract audio segment specified by requested interval, expressed in seconds
+     * with decimals. Audio sample outside interval are removed.
      * 
      * @param audioFile
      *            source audio file,
@@ -48,8 +50,20 @@ public interface AudioProcessor {
      * @throws IOException
      *             if processing fails.
      */
-    void deleteSegment(File audioFile, File targetFile, float start, float end) throws IOException;
+    void cutSegment(File audioFile, File targetFile, double start, double end) throws IOException;
 
+    /**
+     * Convert audio file to mono, that is, a single channel. This method assume
+     * input is stereo, that is, has two channels. Before mixing both channels,
+     * level is reduced to half in order to avoid peak level trimming.
+     * <p>
+     * This method does nothing if audio file has already a single channel.
+     * 
+     * @param audioFile
+     * @param targetFile
+     * @throws IOException
+     *             if processing fails.
+     */
     void convertToMono(File audioFile, File targetFile) throws IOException;
 
     /**
@@ -63,8 +77,34 @@ public interface AudioProcessor {
      *             if processing fails.
      */
     void normalizeLevel(File audioFile, File targetFile) throws IOException;
-    
-    void fadein(File audioFile, File targetFile, float duration) throws IOException;
-    
-    void fadeout(File audioFile, File targetFile, float duration) throws IOException;
+
+    /**
+     * Add triangular fade-in effect of specified duration at the beginning of given
+     * audio file. Processed audio is saved into target file.
+     * 
+     * @param audioFile
+     *            source audio file,
+     * @param targetFile
+     *            target file.
+     * @param duration
+     *            fade-in effect duration, expressed as seconds with decimals.
+     * @throws IOException
+     *             if processing fails.
+     */
+    void fadeIn(File audioFile, File targetFile, double duration) throws IOException;
+
+    /**
+     * Add triangular fade-out effect of specified duration at the end of given
+     * audio file. Processed audio is saved into target file.
+     * 
+     * @param audioFile
+     *            source audio file,
+     * @param targetFile
+     *            target file.
+     * @param duration
+     *            fade-out effect duration, expressed as seconds with decimals.
+     * @throws IOException
+     *             if processing fails.
+     */
+    void fadeOut(File audioFile, File targetFile, double duration) throws IOException;
 }

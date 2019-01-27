@@ -195,14 +195,15 @@ com.kidscademy.atlas.AudioPlayer = class extends js.dom.Element {
 	}
 
 	/**
-	 * Event listener for waveform image loading error.
+	 * Event listener for waveform image loading error. This event may be triggered if waveform is missing from server. Takes
+	 * care to create a new one.
 	 * 
 	 * @param {js.event.Event} ev - error event. 
 	 */
 	_onMissingWaveform(ev) {
-		const object = this._formPage.getObject();
+		const object = this._getObject();
 		if (object.name) {
-			AdminService.generateWaveform(object.dtype, object.name, waveformSrc => this._updateWaveform(waveformSrc));
+			AdminService.generateWaveform(object, waveformSrc => this._updateWaveform(waveformSrc));
 		}
 	}
 
@@ -251,6 +252,14 @@ com.kidscademy.atlas.AudioPlayer = class extends js.dom.Element {
 		if (waveformSrc) {
 			this._waveformSrcInput.setValue(waveformSrc);
 			this._waveformImage.reload(waveformSrc);
+		}
+	}
+
+	_getObject() {
+		const object = this._formPage.getObject();
+		return {
+			dtype: object.dtype,
+			name: object.name
 		}
 	}
 

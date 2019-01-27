@@ -23,7 +23,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.kidscademy.AtlasService;
 import com.kidscademy.atlas.MediaSRC;
-import com.kidscademy.dao.AdminDao;
+import com.kidscademy.atlas.UIObject;
+import com.kidscademy.dao.AtlasDao;
 import com.kidscademy.impl.AtlasServiceImpl;
 import com.kidscademy.media.AudioProcessor;
 import com.kidscademy.media.AudioSampleInfo;
@@ -40,7 +41,7 @@ public class AdminServiceTest
   @Mock
   private AppContext context;
   @Mock
-  private AdminDao dao;
+  private AtlasDao dao;
   @Mock
   private AudioProcessor audio;
   @Mock
@@ -64,8 +65,8 @@ public class AdminServiceTest
   public void uploadAudioSample() throws IOException
   {
     Form form = Mockito.mock(Form.class);
-    when(form.getValue("collection-name")).thenReturn("instrument");
-    when(form.getValue("object-name")).thenReturn("test");
+    when(form.getValue("dtype")).thenReturn("instrument");
+    when(form.getValue("name")).thenReturn("test");
     File uploadFile = new File("fixture/upload.mp3");
     Files.copy(new File("fixture/audio/sample.mp3"), uploadFile);
     when(form.getFile("file")).thenReturn(uploadFile);
@@ -97,7 +98,7 @@ public class AdminServiceTest
     AudioSampleInfo info = new AudioSampleInfo();
     when(audio.getAudioFileInfo(any(File.class))).thenReturn(info);
 
-    info = service.normalizeSample("instrument", "test");
+    info = service.normalizeAudioSample(new UIObject("instrument", "test"));
 
     ArgumentCaptor<File> audioFile = ArgumentCaptor.forClass(File.class);
     ArgumentCaptor<File> targetFile = ArgumentCaptor.forClass(File.class);
@@ -124,7 +125,7 @@ public class AdminServiceTest
     AudioSampleInfo info = new AudioSampleInfo();
     when(audio.getAudioFileInfo(any(File.class))).thenReturn(info);
 
-    info = service.convertToMono("instrument", "test");
+    info = service.convertAudioSampleToMono(new UIObject("instrument", "test"));
 
     ArgumentCaptor<File> audioFile = ArgumentCaptor.forClass(File.class);
     ArgumentCaptor<File> targetFile = ArgumentCaptor.forClass(File.class);
@@ -151,7 +152,7 @@ public class AdminServiceTest
     AudioSampleInfo info = new AudioSampleInfo();
     when(audio.getAudioFileInfo(any(File.class))).thenReturn(info);
 
-    info = service.trimSilence("instrument", "test");
+    info = service.trimAudioSampleSilence(new UIObject("instrument", "test"));
 
     ArgumentCaptor<File> audioFile = ArgumentCaptor.forClass(File.class);
     ArgumentCaptor<File> targetFile = ArgumentCaptor.forClass(File.class);
@@ -175,7 +176,7 @@ public class AdminServiceTest
   {
     Files.copy(new File("fixture/audio/sample.mp3"), file("sample.mp3"));
 
-    MediaSRC waveformSrc = service.generateWaveform("instrument", "test");
+    MediaSRC waveformSrc = service.generateWaveform(new UIObject("instrument", "test"));
 
     assertThat(waveformSrc, notNullValue());
     assertThat(waveformSrc, equalTo(src("waveform.png")));
@@ -192,7 +193,7 @@ public class AdminServiceTest
     AudioSampleInfo info = new AudioSampleInfo();
     when(audio.getAudioFileInfo(any(File.class))).thenReturn(info);
 
-    info = service.undoMediaProcessing("instrument", "test");
+    info = service.undoAudioSampleProcessing(new UIObject("instrument", "test"));
 
     ArgumentCaptor<File> audioFile = ArgumentCaptor.forClass(File.class);
     ArgumentCaptor<File> waveformFile = ArgumentCaptor.forClass(File.class);
@@ -216,7 +217,7 @@ public class AdminServiceTest
     AudioSampleInfo info = new AudioSampleInfo();
     when(audio.getAudioFileInfo(any(File.class))).thenReturn(info);
 
-    info = service.commitMediaProcessing("instrument", "test");
+    info = service.commitAudioSampleProcessing(new UIObject("instrument", "test"));
     assertTrue(file("sample.mp3").exists());
     assertFalse(file("sample_1.mp3").exists());
     assertFalse(file("sample_2.mp3").exists());
@@ -239,7 +240,7 @@ public class AdminServiceTest
     Files.copy(new File("fixture/audio/sample.mp3"), file("sample.mp3"));
     Files.copy(new File("fixture/waveform.png"), file("waveform.png"));
 
-    service.removeObjectSample("instrument", "test");
+    service.removeAudioSample(new UIObject("instrument", "test"));
 
     assertFalse(file("sample.mp3").exists());
     assertFalse(file("waveform.png").exists());

@@ -1,103 +1,183 @@
 package com.kidscademy.unit;
 
-import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.io.FileMatchers.anExistingFile;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 
+import com.kidscademy.CT;
 import com.kidscademy.media.AudioProcessor;
 import com.kidscademy.media.AudioProcessorImpl;
 import com.kidscademy.media.AudioSampleInfo;
 import com.kidscademy.media.ImageProcessor;
-
-import js.core.AppContext;
+import com.kidscademy.media.MediaProcessor;
+import com.kidscademy.media.ProbeResult;
+import com.kidscademy.media.VolumeInfo;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AudioProcessorTest {
     @Mock
-    private AppContext context;
-    @Mock
     private ImageProcessor image;
+    @Mock
+    private MediaProcessor ffmpeg;
+    @Mock
+    private MediaProcessor ffprobe;
 
     private AudioProcessor audio;
 
     @Before
     public void beforeTest() throws IOException {
-	when(context.getAppFile(anyString())).thenAnswer(new Answer<File>() {
-	    @Override
-	    public File answer(InvocationOnMock invocation) throws Throwable {
-		return new File("fixture/audio/" + (String) invocation.getArguments()[0]);
-	    }
-	});
-
-	audio = new AudioProcessorImpl(context, image);
-    }
-
-    @After
-    public void afterTest() {
-	File targetFile = new File("fixture/audio/target.mp3");
-	targetFile.delete();
+	audio = new AudioProcessorImpl(image, ffmpeg, ffprobe);
     }
 
     @Test
     public void getAudioFileInfo() throws IOException {
-	File audioFile = new File("fixture/audio/sample.mp3");
+	File audioFile = new File("audio.mp3");
+
+	ProbeResult probeResult = new ProbeResult("audio.mp3", 12345, "MP3 Codec", 123.4, 2, 44100, 128000);
+	when(ffprobe.exec(eq(ProbeResult.class), anyString())).thenReturn(probeResult);
+
 	AudioSampleInfo info = audio.getAudioFileInfo(audioFile);
 
 	assertThat(info, notNullValue());
-	assertThat(info.getFileName(), equalTo("fixture\\audio\\sample.mp3"));
-	assertThat(info.getFileSize(), equalTo(3041906));
-	assertThat(info.getCodec(), equalTo("MP3 (MPEG audio layer 3)"));
-	assertThat(info.getDuration(), equalTo(190119));
+	assertThat(info.getFileName(), equalTo("audio.mp3"));
+	assertThat(info.getFileSize(), equalTo(12345));
+	assertThat(info.getCodec(), equalTo("MP3 Codec"));
+	assertThat(info.getDuration(), equalTo(123400));
 	assertThat(info.getChannels(), equalTo(2));
 	assertThat(info.getSampleRate(), equalTo(44100));
 	assertThat(info.getBitRate(), equalTo(128000));
     }
 
     @Test
-    public void trimSilence() throws IOException {
-	File audioFile = new File("fixture/audio/silence.mp3");
-	File targetFile = new File("fixture/audio/target.mp3");
+    public void generateWaveform() throws IOException {
+	File audioFile = new File("audio.mp3");
+	File waveformFile = new File("waveform.png");
+
+	audio.generateWaveform(audioFile, waveformFile);
+
+	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
+	verify(ffmpeg).exec(commandCaptor.capture());
+	assertThat(commandCaptor.getValue(), equalTo(
+		"-i audio.mp3 -filter_complex showwavespic=size=800x226:colors=#0000FF:scale=lin waveform.png"));
+
+	// TODO test waveform image processing
+    }
+
+    @Test
+    public void trimSilence_RegularFile() throws IOException {
+	File audioFile = new File("audio.mp3");
+	File targetFile = new File("target.mp3");
 
 	audio.trimSilence(audioFile, targetFile);
-	assertThat(targetFile, anExistingFile());
 
-	AudioSampleInfo info = audio.getAudioFileInfo(targetFile);
-	assertThat((double) info.getDuration(), closeTo(28000, 100));
+	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
+	verify(ffmpeg).exec(commandCaptor.capture());
+	assertThat(commandCaptor.getValue(), equalTo(
+		"-i audio.mp3 -af silenceremove=start_periods=1:start_duration=0.5:start_threshold=-60dB:detection=peak,aformat=dblp,areverse,silenceremove=start_periods=1:start_duration=0.5:start_threshold=-60dB:detection=peak,aformat=dblp,areverse target.mp3"));
+    }
+
+    @Test
+    public void trimSilence_LargeFile() throws IOException {
+	File audioFile = Mockito.mock(File.class);
+	File targetFile = new File("target.mp3");
+
+	when(audioFile.toString()).thenReturn("audio.mp3");
+	when(audioFile.length()).thenReturn(CT.MAX_TRIM_FILE_SIZE + 1L);
+
+	audio.trimSilence(audioFile, targetFile);
+
+	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
+	verify(ffmpeg).exec(commandCaptor.capture());
+	assertThat(commandCaptor.getValue(), equalTo(
+		"-i audio.mp3 -af silenceremove=start_periods=1:start_duration=0.5:start_threshold=-65dB:detection=peak,silenceremove=stop_periods=1:stop_duration=0.5:stop_threshold=-65dB:detection=peak target.mp3"));
+    }
+
+    @Test
+    public void cutSegment() throws IOException {
+	File audioFile = new File("audio.mp3");
+	File targetFile = new File("target.mp3");
+
+	audio.cutSegment(audioFile, targetFile, 12.3, 45.67);
+
+	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
+	verify(ffmpeg).exec(commandCaptor.capture());
+	assertThat(commandCaptor.getValue(), equalTo("-i audio.mp3 -ss 12.3 -to 45.67 target.mp3"));
     }
 
     @Test
     public void convertToMono() throws IOException {
-	File stereoFile = new File("fixture/audio/sample.mp3");
-	File monoFile = new File("fixture/audio/target.mp3");
+	File audioFile = new File("audio.mp3");
+	File targetFile = new File("target.mp3");
 
-	audio.convertToMono(stereoFile, monoFile);
-	assertThat(monoFile, anExistingFile());
+	audio.convertToMono(audioFile, targetFile);
 
-	assertThat(audio.getAudioFileInfo(stereoFile).getChannels(), equalTo(2));
-	assertThat(audio.getAudioFileInfo(monoFile).getChannels(), equalTo(1));
+	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
+	verify(ffmpeg).exec(commandCaptor.capture());
+	assertThat(commandCaptor.getValue(), equalTo("-i audio.mp3 -af pan=mono|c0=0.5*c0+0.5*c1 target.mp3"));
     }
 
     @Test
     public void normalizeLevel() throws IOException {
-	File audioFile = new File("fixture/audio/sample.mp3");
-	File targetFile = new File("fixture/audio/target.mp3");
+	File audioFile = new File("audio.mp3");
+	File targetFile = new File("target.mp3");
+
+	VolumeInfo info = new VolumeInfo(-16.5, -3.2);
+	when(ffmpeg.exec(eq(VolumeInfo.class), anyString())).thenReturn(info);
 
 	audio.normalizeLevel(audioFile, targetFile);
+
+	ArgumentCaptor<Type> typeCaptor = ArgumentCaptor.forClass(Type.class);
+	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
+
+	verify(ffmpeg).exec(typeCaptor.capture(), commandCaptor.capture());
+	assertThat(typeCaptor.getValue(), equalTo((Type) VolumeInfo.class));
+	assertThat(commandCaptor.getValue(), equalTo("-i audio.mp3 -af volumedetect -f null /dev/null"));
+
+	verify(ffmpeg).exec(commandCaptor.capture());
+	assertThat(commandCaptor.getValue(), equalTo("-i audio.mp3 -af volume=3.2dB target.mp3"));
+    }
+
+    @Test
+    public void fadeIn() throws IOException {
+	File audioFile = new File("audio.mp3");
+	File targetFile = new File("target.mp3");
+
+	audio.fadeIn(audioFile, targetFile, 12.345);
+
+	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
+	verify(ffmpeg).exec(commandCaptor.capture());
+	assertThat(commandCaptor.getValue(), equalTo("-i audio.mp3 -af afade=t=in:ss=0:d=12.345:curve=tri target.mp3"));
+    }
+
+    @Test
+    public void fadeOut() throws IOException {
+	File audioFile = new File("audio.mp3");
+	File targetFile = new File("target.mp3");
+
+	ProbeResult probeResult = new ProbeResult(23.1);
+	when(ffprobe.exec(eq(ProbeResult.class), anyString())).thenReturn(probeResult);
+
+	audio.fadeOut(audioFile, targetFile, 2.1);
+
+	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
+	verify(ffmpeg).exec(commandCaptor.capture());
+	assertThat(commandCaptor.getValue(),
+		equalTo("-i audio.mp3 -af afade=t=out:st=21.0:d=2.1:curve=tri target.mp3"));
     }
 }

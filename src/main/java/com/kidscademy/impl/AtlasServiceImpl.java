@@ -9,13 +9,13 @@ import org.im4java.process.ProcessStarter;
 
 import com.kidscademy.AtlasService;
 import com.kidscademy.CT;
-import com.kidscademy.atlas.GraphicObject;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
-import com.kidscademy.atlas.Login;
 import com.kidscademy.atlas.MediaSRC;
+import com.kidscademy.atlas.MediaWrapper;
+import com.kidscademy.atlas.UIObject;
 import com.kidscademy.atlas.User;
-import com.kidscademy.dao.AdminDao;
+import com.kidscademy.dao.AtlasDao;
 import com.kidscademy.media.AudioProcessor;
 import com.kidscademy.media.AudioSampleInfo;
 import com.kidscademy.media.ImageProcessor;
@@ -31,11 +31,11 @@ public class AtlasServiceImpl implements AtlasService {
     private static final Log log = LogFactory.getLog(AtlasServiceImpl.class);
 
     private final AppContext context;
-    private final AdminDao dao;
+    private final AtlasDao dao;
     private final AudioProcessor audio;
     private final ImageProcessor image;
 
-    public AtlasServiceImpl(AppContext context, AdminDao dao, AudioProcessor audio, ImageProcessor image) {
+    public AtlasServiceImpl(AppContext context, AtlasDao dao, AudioProcessor audio, ImageProcessor image) {
 	log.trace("AtlasServiceImpl(AppContext, AtlasDao)");
 	this.context = context;
 	this.dao = dao;
@@ -45,22 +45,7 @@ public class AtlasServiceImpl implements AtlasService {
     }
 
     @Override
-    public boolean login(Login login) {
-	User user = dao.getUser(login);
-	if (user != null) {
-	    context.login(user);
-	    return true;
-	}
-	return false;
-    }
-
-    @Override
-    public boolean isAuthenticated() {
-	return context.isAuthenticated();
-    }
-
-    @Override
-    public List<Instrument> getInstruments() {
+    public List<UIObject> getInstruments() {
 	return dao.getInstruments();
     }
 
@@ -95,13 +80,13 @@ public class AtlasServiceImpl implements AtlasService {
     }
 
     @Override
-    public List<GraphicObject> getRelatedInstruments(List<String> names) {
+    public List<UIObject> getRelatedInstruments(List<String> names) {
 	return dao.findObjectsByName(Instrument.class, names);
     }
 
     @Override
-    public List<GraphicObject> getAvailableInstruments(Instrument.Category category, List<GraphicObject> related) {
-	List<GraphicObject> instruments = dao.getInstrumentsByCategory(category);
+    public List<UIObject> getAvailableInstruments(Instrument.Category category, List<UIObject> related) {
+	List<UIObject> instruments = dao.getInstrumentsByCategory(category);
 	instruments.removeAll(related);
 	return instruments;
     }
@@ -147,7 +132,8 @@ public class AtlasServiceImpl implements AtlasService {
 
     @Override
     public MediaSRC createObjectIcon(String collectionName, String objectName) throws IOException {
-	File pictureFile = Files.mediaFile(collectionName, objectName, "picture.jpg");
+	UIObject object = new UIObject(collectionName, objectName);
+	File pictureFile = Files.mediaFile(object, "picture.jpg");
 
 	MediaSRC iconSrc = Files.mediaSrc(collectionName, objectName, "icon.jpg");
 	File iconFile = Files.mediaFile(iconSrc);
@@ -166,100 +152,97 @@ public class AtlasServiceImpl implements AtlasService {
 
     @Override
     public AudioSampleInfo uploadAudioSample(Form form) throws IOException {
-	String collectionName = form.getValue("collection-name");
-	String objectName = form.getValue("object-name");
-
-	MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
+	UIObject object = new UIObject(form.getValue("dtype"), form.getValue("name"));
+	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
 	handler.upload(form.getFile("file"));
-	return getAudioSampleInfo(collectionName, objectName, handler.source(), handler.sourceSrc());
+	return getAudioSampleInfo(object, handler.source(), handler.sourceSrc());
     }
 
     @Override
-    public AudioSampleInfo normalizeSample(String collectionName, String objectName) throws IOException {
-	MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
+    public AudioSampleInfo normalizeAudioSample(UIObject object) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
 	audio.normalizeLevel(handler.source(), handler.target());
-	return getAudioSampleInfo(collectionName, objectName, handler.target(), handler.targetSrc());
+	return getAudioSampleInfo(object, handler.target(), handler.targetSrc());
     }
 
     @Override
-    public AudioSampleInfo convertToMono(String collectionName, String objectName) throws IOException {
-	MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
+    public AudioSampleInfo convertAudioSampleToMono(UIObject object) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
 	audio.convertToMono(handler.source(), handler.target());
-	return getAudioSampleInfo(collectionName, objectName, handler.target(), handler.targetSrc());
+	return getAudioSampleInfo(object, handler.target(), handler.targetSrc());
     }
 
     @Override
-    public AudioSampleInfo trimSilence(String collectionName, String objectName) throws IOException {
-	MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
+    public AudioSampleInfo trimAudioSampleSilence(UIObject object) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
 	audio.trimSilence(handler.source(), handler.target());
-	return getAudioSampleInfo(collectionName, objectName, handler.target(), handler.targetSrc());
+	return getAudioSampleInfo(object, handler.target(), handler.targetSrc());
     }
 
     @Override
-    public AudioSampleInfo cutAudioSample(String collectionName, String objectName, float start) throws IOException {
-	MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
-	audio.deleteSegment(handler.source(), handler.target(), start, start + 30);
-	return getAudioSampleInfo(collectionName, objectName, handler.target(), handler.targetSrc());
+    public AudioSampleInfo cutAudioSample(UIObject object, float start) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
+	audio.cutSegment(handler.source(), handler.target(), start, start + 30);
+	return getAudioSampleInfo(object, handler.target(), handler.targetSrc());
     }
 
     @Override
-    public AudioSampleInfo fadeInAudioSample(String collectionName, String objectName) throws IOException {
-	MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
-	audio.fadein(handler.source(), handler.target(), 2.5F);
-	return getAudioSampleInfo(collectionName, objectName, handler.target(), handler.targetSrc());
+    public AudioSampleInfo fadeInAudioSample(UIObject object) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
+	audio.fadeIn(handler.source(), handler.target(), 2.5F);
+	return getAudioSampleInfo(object, handler.target(), handler.targetSrc());
     }
 
     @Override
-    public AudioSampleInfo fadeOutAudioSample(String collectionName, String objectName) throws IOException {
-	MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
-	audio.fadeout(handler.source(), handler.target(), 2.5F);
-	return getAudioSampleInfo(collectionName, objectName, handler.target(), handler.targetSrc());
+    public AudioSampleInfo fadeOutAudioSample(UIObject object) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
+	audio.fadeOut(handler.source(), handler.target(), 2.5F);
+	return getAudioSampleInfo(object, handler.target(), handler.targetSrc());
     }
 
     @Override
-    public MediaSRC generateWaveform(String collectionName, String objectName) throws IOException {
-	File sampleFile = Files.mediaFile(collectionName, objectName, "sample.mp3");
+    public MediaSRC generateWaveform(UIObject object) throws IOException {
+	File sampleFile = Files.mediaFile(object, "sample.mp3");
 	if (!sampleFile.exists()) {
 	    throw new BugError("Database not consistent. Missing sample file |%s|.", sampleFile);
 	}
-	return generateWaveform(collectionName, objectName, sampleFile);
+	return generateWaveform(object, sampleFile);
     }
 
     @Override
-    public AudioSampleInfo undoMediaProcessing(String collectionName, String objectName) throws IOException {
-	MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
+    public AudioSampleInfo undoAudioSampleProcessing(UIObject object) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
 	handler.rollback();
-	return getAudioSampleInfo(collectionName, objectName, handler.source(), handler.sourceSrc());
+	return getAudioSampleInfo(object, handler.source(), handler.sourceSrc());
     }
 
     @Override
-    public AudioSampleInfo commitMediaProcessing(String collectionName, String objectName) throws IOException {
-	MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
+    public AudioSampleInfo commitAudioSampleProcessing(UIObject object) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
 	handler.commit();
-	return getAudioSampleInfo(collectionName, objectName, handler.source(), handler.sourceSrc());
+	return getAudioSampleInfo(object, handler.source(), handler.sourceSrc());
     }
 
     @Override
-    public void removeObjectSample(String collectionName, String objectName) throws IOException {
-	MediaFileHandler handler = new MediaFileHandler(collectionName, objectName, "sample.mp3");
+    public void removeAudioSample(UIObject object) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
 	handler.delete();
-	dao.removeInstrumentSample(objectName);
-	Files.mediaFile(collectionName, objectName, "sample.mp3").delete();
-	Files.mediaFile(collectionName, objectName, "waveform.png").delete();
+	dao.removeInstrumentSample(object.getName());
+	Files.mediaFile(object, "sample.mp3").delete();
+	Files.mediaFile(object, "waveform.png").delete();
     }
 
     // ----------------------------------------------------------------------------------------------
 
-    private AudioSampleInfo getAudioSampleInfo(String collectionName, String objectName, File file, MediaSRC mediaSrc)
-	    throws IOException {
+    private AudioSampleInfo getAudioSampleInfo(MediaWrapper object, File file, MediaSRC mediaSrc) throws IOException {
 	AudioSampleInfo info = audio.getAudioFileInfo(file);
 	info.setSampleSrc(mediaSrc);
-	info.setWaveformSrc(generateWaveform(collectionName, objectName, file));
+	info.setWaveformSrc(generateWaveform(object, file));
 	return info;
     }
 
-    private MediaSRC generateWaveform(String collectionName, String objectName, File audioFile) throws IOException {
-	MediaSRC waveformSrc = Files.mediaSrc(collectionName, objectName, "waveform.png");
+    private MediaSRC generateWaveform(MediaWrapper object, File audioFile) throws IOException {
+	MediaSRC waveformSrc = Files.mediaSrc(object, "waveform.png");
 	File waveformFile = Files.mediaFile(waveformSrc);
 	audio.generateWaveform(audioFile, waveformFile);
 	return waveformSrc;

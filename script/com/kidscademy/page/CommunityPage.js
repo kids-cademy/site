@@ -42,7 +42,7 @@ com.kidscademy.page.CommunityPage = class extends com.kidscademy.page.Page {
 
 	_onForgotPassword(ev) {
 		if (this._forgotPasswordForm.isValid()) {
-			com.kidscademy.SiteController.forgetPassword(this._forgotPasswordForm.getObject().emailAddress, () => this._forgotPasswordSection.collapse());
+			SiteController.forgetPassword(this._forgotPasswordForm.getObject().emailAddress, () => this._forgotPasswordSection.collapse());
 		}
 	}
 

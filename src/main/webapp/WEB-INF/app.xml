@@ -5,12 +5,14 @@
 		
 		<service-controller interface="com.kidscademy.ServiceController" class="com.kidscademy.impl.ServiceControllerImpl" />
 		<site-controller interface="com.kidscademy.SiteController" class="com.kidscademy.impl.SiteControllerImpl" />
+		<admin-service interface="com.kidscademy.AdminService" class="com.kidscademy.impl.AdminServiceImpl" />
 		<atlas-service interface="com.kidscademy.AtlasService" class="com.kidscademy.impl.AtlasServiceImpl" />
 		<build-manager interface="com.kidscademy.BuildManager" class="com.kidscademy.impl.BuildManagerImpl" />
 
 		<entity-manager interface="javax.persistence.EntityManager" class="js.transaction.eclipselink.EntityManagerImpl" />
 		<dao interface="com.kidscademy.dao.Dao" class="com.kidscademy.dao.DaoImpl" type="PROXY" />
 		<admin-dao interface="com.kidscademy.dao.AdminDao" class="com.kidscademy.dao.AdminDaoImpl" type="PROXY" />
+		<atlas-dao interface="com.kidscademy.dao.AtlasDao" class="com.kidscademy.dao.AtlasDaoImpl" type="PROXY" />
 
 		<audio-processor interface="com.kidscademy.media.AudioProcessor" class="com.kidscademy.media.AudioProcessorImpl" />
 		<image-processor interface="com.kidscademy.media.ImageProcessor" class="com.kidscademy.media.ImageProcessorImpl" />

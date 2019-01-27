@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class AtlasObject
+public class AtlasObject implements MediaWrapper
 {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
