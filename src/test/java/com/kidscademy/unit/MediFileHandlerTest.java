@@ -155,7 +155,7 @@ public class MediFileHandlerTest {
 
 	MediaFileHandler handler = handler("media.ext");
 	assertThat(Strings.load(handler.source()), equalTo("media file 3"));
-	handler.rollback();
+	handler.undo();
 
 	File source = Classes.getFieldValue(handler, "source");
 	String target = Classes.getFieldValue(handler, "target");

@@ -5,8 +5,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.io.FileMatchers.anExistingFile;
 import static org.junit.Assert.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,37 +13,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 
 import com.kidscademy.media.AudioProcessor;
 import com.kidscademy.media.AudioProcessorImpl;
 import com.kidscademy.media.AudioSampleInfo;
-import com.kidscademy.media.ImageProcessor;
-
-import js.core.AppContext;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FFmpegProcessorTest {
-    @Mock
-    private AppContext context;
-    @Mock
-    private ImageProcessor image;
-
     private AudioProcessor audio;
 
     @Before
     public void beforeTest() throws IOException {
-	when(context.getAppFile(anyString())).thenAnswer(new Answer<File>() {
-	    @Override
-	    public File answer(InvocationOnMock invocation) throws Throwable {
-		return new File("fixture/audio/" + (String) invocation.getArguments()[0]);
-	    }
-	});
-
-	audio = new AudioProcessorImpl(context, image);
+	audio = new AudioProcessorImpl();
     }
 
     @After

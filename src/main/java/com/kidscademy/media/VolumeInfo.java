@@ -44,7 +44,7 @@ public class VolumeInfo implements ResultParser {
 	if (index == -1) {
 	    return false;
 	}
-	average = parseFloat(line.substring(index + LABEL_AVERAGE.length()));
+	average = parseDouble(line.substring(index + LABEL_AVERAGE.length()));
 	return true;
     }
 
@@ -53,12 +53,12 @@ public class VolumeInfo implements ResultParser {
 	if (index == -1) {
 	    return false;
 	}
-	peak = parseFloat(line.substring(index + LABEL_PEAK.length()));
+	peak = parseDouble(line.substring(index + LABEL_PEAK.length()));
 	return true;
     }
 
-    private static float parseFloat(String value) {
+    private static double parseDouble(String value) {
 	int unitsIndex = value.indexOf("dB");
-	return Float.parseFloat(value.substring(0, unitsIndex));
+	return Double.parseDouble(value.substring(0, unitsIndex));
     }
 }

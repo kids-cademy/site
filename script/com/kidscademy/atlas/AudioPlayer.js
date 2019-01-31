@@ -87,7 +87,10 @@ com.kidscademy.atlas.AudioPlayer = class extends js.dom.Element {
 		 * @type {number}
 		 */
 		this._progressOffset = 0;
-
+		
+		/**
+		 * 
+		 */
 		this._processing = this.getByCssClass("processing");
 
 		/**
@@ -203,7 +206,9 @@ com.kidscademy.atlas.AudioPlayer = class extends js.dom.Element {
 	_onMissingWaveform(ev) {
 		const object = this._getObject();
 		if (object.name) {
-			AdminService.generateWaveform(object, waveformSrc => this._updateWaveform(waveformSrc));
+			// allows only one request for waveform generation
+			this._waveformImage.un("error", this._onMissingWaveform);
+			AtlasService.generateWaveform(object, waveformSrc => this._updateWaveform(waveformSrc));
 		}
 	}
 

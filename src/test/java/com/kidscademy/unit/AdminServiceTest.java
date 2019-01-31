@@ -109,11 +109,11 @@ public class AdminServiceTest
     assertThat(targetFile.getValue(), equalTo(file("sample_1.mp3")));
 
     verify(audio).generateWaveform(targetFile.capture(), waveformFile.capture());
-    assertThat(targetFile.getValue(), equalTo(file("sample_1.mp3")));
+    assertThat(targetFile.getValue(), equalTo(file("sample.mp3")));
     assertThat(waveformFile.getValue(), equalTo(file("waveform.png")));
 
     assertThat(info, notNullValue());
-    assertThat(info.getSampleSrc(), equalTo(src("sample_1.mp3")));
+    assertThat(info.getSampleSrc(), equalTo(src("sample.mp3")));
     assertThat(info.getWaveformSrc(), equalTo(src("waveform.png")));
   }
 

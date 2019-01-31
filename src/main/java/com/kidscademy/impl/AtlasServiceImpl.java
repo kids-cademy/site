@@ -162,7 +162,10 @@ public class AtlasServiceImpl implements AtlasService {
     public AudioSampleInfo normalizeAudioSample(UIObject object) throws IOException {
 	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
 	audio.normalizeLevel(handler.source(), handler.target());
-	return getAudioSampleInfo(object, handler.target(), handler.targetSrc());
+	if (handler.target().exists()) {
+	    return getAudioSampleInfo(object, handler.target(), handler.targetSrc());
+	}
+	return getAudioSampleInfo(object, handler.source(), handler.sourceSrc());
     }
 
     @Override
@@ -189,14 +192,14 @@ public class AtlasServiceImpl implements AtlasService {
     @Override
     public AudioSampleInfo fadeInAudioSample(UIObject object) throws IOException {
 	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
-	audio.fadeIn(handler.source(), handler.target(), 2.5F);
+	audio.fadeIn(handler.source(), handler.target(), 1.5F);
 	return getAudioSampleInfo(object, handler.target(), handler.targetSrc());
     }
 
     @Override
     public AudioSampleInfo fadeOutAudioSample(UIObject object) throws IOException {
 	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
-	audio.fadeOut(handler.source(), handler.target(), 2.5F);
+	audio.fadeOut(handler.source(), handler.target(), 1.5F);
 	return getAudioSampleInfo(object, handler.target(), handler.targetSrc());
     }
 
@@ -212,7 +215,14 @@ public class AtlasServiceImpl implements AtlasService {
     @Override
     public AudioSampleInfo undoAudioSampleProcessing(UIObject object) throws IOException {
 	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
-	handler.rollback();
+	handler.undo();
+	return getAudioSampleInfo(object, handler.source(), handler.sourceSrc());
+    }
+
+    @Override
+    public AudioSampleInfo roolbackAudioSampleProcessing(UIObject object) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
+	handler.roolback();
 	return getAudioSampleInfo(object, handler.source(), handler.sourceSrc());
     }
 

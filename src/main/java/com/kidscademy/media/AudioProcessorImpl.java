@@ -6,46 +6,27 @@ import java.lang.reflect.Type;
 
 import com.kidscademy.CT;
 
-import js.core.AppContext;
+import js.annotation.Test;
 import js.lang.BugError;
 import js.log.Log;
 import js.log.LogFactory;
+import js.util.Files;
 
 public class AudioProcessorImpl implements AudioProcessor {
     private static final Log log = LogFactory.getLog(AudioProcessorImpl.class);
 
-    private static final int WAVEFORM_WIDTH = 800;
-    private static final int WAVEFORM_HEIGHT = 160;
-    private static final String WAVEFORM_COLOR = "#0000FF";
-    private static final String XAXIS_COLOR = "#FFFFFF";
-
     /** Duration of non-silence to stop audio silence processing. */
     private static final float SILENCE_DURATION = 0.5F;
 
-    private final File waveformXAxisFile;
-    private final File waveformGradientFile;
-
-    private final ImageProcessor image;
-
     private final MediaProcessor ffmpeg;
     private final MediaProcessor ffprobe;
+    private final Waveform waveform;
 
-    public AudioProcessorImpl(AppContext context, ImageProcessor image) throws IOException {
-	log.trace("AudioProcessorImpl(AppContext, ImageProcessor)");
-	this.image = image;
-
-	waveformXAxisFile = context.getAppFile("waveform-x-axis.png");
-	if (!waveformXAxisFile.exists()) {
-	    this.image.generateXAxis(waveformXAxisFile, WAVEFORM_WIDTH, WAVEFORM_HEIGHT, XAXIS_COLOR);
-	}
-
-	waveformGradientFile = context.getAppFile("waveform-gradient.png");
-	if (!waveformGradientFile.exists()) {
-	    this.image.generateRainbowGradient(waveformGradientFile, WAVEFORM_WIDTH, WAVEFORM_HEIGHT);
-	}
-
+    public AudioProcessorImpl() throws IOException {
+	log.trace("AudioProcessorImpl()");
 	ffmpeg = new FFmpegProcessor();
 	ffprobe = new FFprobeProcessor();
+	waveform = new Waveform();
     }
 
     /**
@@ -55,12 +36,11 @@ public class AudioProcessorImpl implements AudioProcessor {
      * @param ffmpeg
      * @param ffprobe
      */
-    public AudioProcessorImpl(ImageProcessor image, MediaProcessor ffmpeg, MediaProcessor ffprobe) {
-	this.waveformXAxisFile = null;
-	this.waveformGradientFile = null;
-	this.image = image;
+    @Test
+    public AudioProcessorImpl(MediaProcessor ffmpeg, MediaProcessor ffprobe, Waveform waveform) {
 	this.ffmpeg = ffmpeg;
 	this.ffprobe = ffprobe;
+	this.waveform = waveform;
     }
 
     @Override
@@ -82,55 +62,20 @@ public class AudioProcessorImpl implements AudioProcessor {
 
     @Override
     public void generateWaveform(File audioFile, File waveformFile) throws IOException {
-	// sample should be already mono
+	// uses ffmpeg to convert file from mp3 to .wav since waveform generator knows
+	// only wave format
 
-	// create waveform image with solid fill
-	// sample file should already be mono
-	// ffmpeg -i ${audio-file} -filter_complex
-	// "showwavespic=s=${width}x${height}:colors=${color}" ${waveform-file}
-
-	// if not add filter aformat=channel_layouts=mono to mix down channels
-	// ffmpeg -i ${audio-file} -filter_complex
-	// "aformat=channel_layouts=mono,showwavespic=s=${width}x${height}:colors=${color}"
-	// ${waveform-file}
-
-	// hard to believe but there is a bug on waveform generation when use linear
-	// scale, that is default
-	// generated waveform height is half of requested value
-	// work around is to create waveform with double height then crop to original,
-	// i.e. requested value
-
-	// c := height adjustment coefficient
-	// h := requested height
-	// H := canvas height for generated waveform
-	// o := vertical offset used to crop back to original height (h)
-
-	// c = 0.707
-	// h = H * c
-	//
-	// H = h / c
-	// o = h*(1-c)/(2*c)
-
-	float c = 0.707F;
-	float h = WAVEFORM_HEIGHT;
-	float H = h / c;
-	float o = h * (1 - c) / (2 * c);
-
-	// create waveform with double height to compensate ffmpeg bug
-	String filter = format("showwavespic=size=${width}x${height}:colors=${color}:scale=lin", WAVEFORM_WIDTH,
-		Math.round(H), WAVEFORM_COLOR);
-	exec("-i ${audioFile} -filter_complex ${filter} ${waveformFile}", audioFile, filter, waveformFile);
-
-	// crop waveform image to original height
-	image.crop(waveformFile, WAVEFORM_WIDTH, WAVEFORM_HEIGHT, 0, Math.round(o));
-
-	// replace waveform solid color with gradient
-	// SRC-IN alpha blending replace SRC solid color with gradient and leave SRC
-	// alpha as it is
-	image.compose(waveformFile, waveformGradientFile, ImageProcessor.Compose.SRCIN);
-
-	// overlap xaxis on waveform
-	image.overlap(waveformFile, waveformXAxisFile);
+	long timestamp = System.currentTimeMillis();
+	File wavFile = new File(audioFile.getParentFile(), Files.basename(audioFile) + ".wav");
+	try {
+	    exec("-i ${audioFile} ${wavFile}", audioFile, wavFile);
+	    waveform.generate(wavFile, waveformFile);
+	} finally {
+	    if (wavFile.exists() && !wavFile.delete()) {
+		throw new IOException(String.format("Fail to delete file |%s|.", wavFile));
+	    }
+	}
+	log.debug("Waveform generation time: %d msec.", System.currentTimeMillis() - timestamp);
     }
 
     @Override

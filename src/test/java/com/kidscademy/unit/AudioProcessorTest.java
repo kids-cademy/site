@@ -24,25 +24,25 @@ import com.kidscademy.CT;
 import com.kidscademy.media.AudioProcessor;
 import com.kidscademy.media.AudioProcessorImpl;
 import com.kidscademy.media.AudioSampleInfo;
-import com.kidscademy.media.ImageProcessor;
 import com.kidscademy.media.MediaProcessor;
 import com.kidscademy.media.ProbeResult;
 import com.kidscademy.media.VolumeInfo;
+import com.kidscademy.media.Waveform;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AudioProcessorTest {
     @Mock
-    private ImageProcessor image;
-    @Mock
     private MediaProcessor ffmpeg;
     @Mock
     private MediaProcessor ffprobe;
+    @Mock
+    private Waveform waveform;
 
     private AudioProcessor audio;
 
     @Before
     public void beforeTest() throws IOException {
-	audio = new AudioProcessorImpl(image, ffmpeg, ffprobe);
+	audio = new AudioProcessorImpl(ffmpeg, ffprobe, waveform);
     }
 
     @Test
@@ -73,10 +73,13 @@ public class AudioProcessorTest {
 
 	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
 	verify(ffmpeg).exec(commandCaptor.capture());
-	assertThat(commandCaptor.getValue(), equalTo(
-		"-i audio.mp3 -filter_complex showwavespic=size=800x226:colors=#0000FF:scale=lin waveform.png"));
+	assertThat(commandCaptor.getValue(), equalTo("-i audio.mp3 audio.wav"));
 
-	// TODO test waveform image processing
+	ArgumentCaptor<File> wavFileCaptor = ArgumentCaptor.forClass(File.class);
+	ArgumentCaptor<File> waveformFileCaptor = ArgumentCaptor.forClass(File.class);
+	verify(waveform).generate(wavFileCaptor.capture(), waveformFileCaptor.capture());
+	assertThat(wavFileCaptor.getValue(), equalTo(new File("audio.wav")));
+	assertThat(waveformFileCaptor.getValue(), equalTo(waveformFile));
     }
 
     @Test

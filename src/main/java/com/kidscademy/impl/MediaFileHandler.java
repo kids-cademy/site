@@ -289,7 +289,7 @@ public class MediaFileHandler {
      * @throws IOException
      *             if file remove operation fails.
      */
-    public void rollback() throws IOException {
+    public void undo() throws IOException {
 	if (version < 1) {
 	    return;
 	}
@@ -303,6 +303,33 @@ public class MediaFileHandler {
 	}
 
 	--version;
+	this.source = null;
+	this.target = null;
+    }
+
+    /**
+     * Remove all versioned files and leave only base.
+     * 
+     * @throws IOException
+     *             if clear operation fails.
+     */
+    public void roolback() throws IOException {
+	if (version < 1) {
+	    return;
+	}
+
+	File target = target();
+	if (target.exists() && !target.delete()) {
+	    throw new IOException(String.format("Unable to remove media target file with version |%d|.", version + 1));
+	}
+
+	for (; version > 0; --version) {
+	    if (!file(baseDir, basename, version, extension).delete()) {
+		throw new IOException(String.format("Unable to remove media file with version |%d|.", version));
+	    }
+	}
+
+	this.version = 0;
 	this.source = null;
 	this.target = null;
     }

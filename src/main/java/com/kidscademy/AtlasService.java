@@ -73,7 +73,8 @@ public interface AtlasService {
     AudioSampleInfo uploadAudioSample(Form form) throws IOException;
 
     /**
-     * Normalize object audio sample peak level to 0dB.
+     * Normalize object audio sample peak level to 0dB. If file level is already
+     * normalized this service does nothing and returns current info state.
      * 
      * @param object
      *            object owning audio sample.
@@ -178,6 +179,17 @@ public interface AtlasService {
      *             if processing fail.
      */
     AudioSampleInfo undoAudioSampleProcessing(UIObject object) throws IOException;
+
+    /**
+     * Clear all processing on object audio sample.
+     * 
+     * @param object
+     *            object owning audio sample.
+     * @return audio sample info with status after clear.
+     * @throws IOException
+     *             if processing fail.
+     */
+    AudioSampleInfo roolbackAudioSampleProcessing(UIObject object) throws IOException;
 
     /**
      * Commit processing on object audio sample. Audio processing on object sample
