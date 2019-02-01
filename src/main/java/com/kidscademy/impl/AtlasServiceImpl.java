@@ -74,9 +74,9 @@ public class AtlasServiceImpl implements AtlasService {
     }
 
     @Override
-    public int saveInstrument(Instrument instrument) {
+    public Instrument saveInstrument(Instrument instrument) {
 	dao.saveInstrument(instrument);
-	return instrument.getId();
+	return instrument;
     }
 
     @Override

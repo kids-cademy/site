@@ -75,7 +75,7 @@ com.kidscademy.atlas.RelatedControl = class extends js.dom.Control {
 			id: instrument.id
 		});
 
-		AdminService.getAvailableInstruments(instrument.category, instruments, collection => {
+		AtlasService.getAvailableInstruments(instrument.category, instruments, collection => {
 			this._collectionView.show();
 			this._collectionView.setObject(collection);
 		});

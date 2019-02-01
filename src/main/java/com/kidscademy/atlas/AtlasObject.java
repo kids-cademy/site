@@ -1,5 +1,6 @@
 package com.kidscademy.atlas;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,246 +15,234 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class AtlasObject implements MediaWrapper
-{
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  protected int id;
-  protected String dtype;
+public class AtlasObject implements MediaWrapper {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected int id;
+    protected String dtype;
 
-  @ManyToOne
-  protected User user;
+    @ManyToOne
+    protected User user;
 
-  protected State state;
-  protected int rank;
-  protected String name;
-  protected String display;
-  protected String description;
-  /**
-   * Media file name for object picture. This is a picture of the object in its natural context. It may contain the object and related contextual content; e.g.
-   * for a musical instrument it contains a player using the instrument. It has 16:9 aspect ration and usually is 902x560 pixels.
-   * <p>
-   * This fields contains only file name, including extension, but does not contain any path components. This is to avoid keeping path structure into database.
-   * Path components are added when object is loaded from persistence by a specialized hook, from every concrete object class. Media file name plus path
-   * components are a root-relative URL and is named media SRC; remember that root-relative URL is the URL path after server that starts from context.
-   */
-  protected String pictureName;
-  /**
-   * Media file name for object icon. Object icon has a small dimension and has 1:1 ratio; usually is 96x96 pixels. See {@link #pictureName} for details about
-   * media file name.
-   */
-  protected String iconName;
-  /**
-   * Media file name for object thumbnail. Object thumbnail is a featured picture that have transparent background. It has fixed width - usually 560 pixels, but
-   * variable height to accommodate picture content, hence aspect ratio is variable too. See {@link #pictureName} for details about media file name.
-   */
-  protected String thumbnailName;
+    /** Object state, for now only in development and published. */	
+    protected State state;
+    /** Last change timestamp. */
+    protected Date lastUpdated;
 
-  @ElementCollection
-  protected List<String> aliases;
+    protected int rank;
+    protected String name;
+    protected String display;
+    protected String description;
+    /**
+     * Media file name for object picture. This is a picture of the object in its
+     * natural context. It may contain the object and related contextual content;
+     * e.g. for a musical instrument it contains a player using the instrument. It
+     * has 16:9 aspect ration and usually is 902x560 pixels.
+     * <p>
+     * This fields contains only file name, including extension, but does not
+     * contain any path components. This is to avoid keeping path structure into
+     * database. Path components are added when object is loaded from persistence by
+     * a specialized hook, from every concrete object class. Media file name plus
+     * path components are a root-relative URL and is named media SRC; remember that
+     * root-relative URL is the URL path after server that starts from context.
+     */
+    protected String pictureName;
+    /**
+     * Media file name for object icon. Object icon has a small dimension and has
+     * 1:1 ratio; usually is 96x96 pixels. See {@link #pictureName} for details
+     * about media file name.
+     */
+    protected String iconName;
+    /**
+     * Media file name for object thumbnail. Object thumbnail is a featured picture
+     * that have transparent background. It has fixed width - usually 560 pixels,
+     * but variable height to accommodate picture content, hence aspect ratio is
+     * variable too. See {@link #pictureName} for details about media file name.
+     */
+    protected String thumbnailName;
 
-  /** Optional object spreading, empty list if not applicable. */
-  @ElementCollection
-  protected List<Region> spreading;
+    @ElementCollection
+    protected List<String> aliases;
 
-  @ElementCollection
-  protected Map<String, String> facts;
+    /** Optional object spreading, empty list if not applicable. */
+    @ElementCollection
+    protected List<Region> spreading;
 
-  @ElementCollection
-  protected List<Link> links;
+    @ElementCollection
+    protected Map<String, String> facts;
 
-  @ElementCollection
-  protected List<Related> related;
+    @ElementCollection
+    protected List<Link> links;
 
-  /**
-   * For testing
-   * 
-   * @param id
-   */
-  public void setId(Integer id)
-  {
-    this.id = id;
-  }
+    @ElementCollection
+    protected List<Related> related;
 
-  public Integer getId()
-  {
-    return id;
-  }
+    /**
+     * For testing
+     * 
+     * @param id
+     */
+    public void setId(Integer id) {
+	this.id = id;
+    }
 
-  public String getDtype()
-  {
-    return dtype;
-  }
+    public Integer getId() {
+	return id;
+    }
 
-  public State getState()
-  {
-    return state;
-  }
+    public String getDtype() {
+	return dtype;
+    }
 
-  public void setState(State state)
-  {
-    this.state = state;
-  }
+    public State getState() {
+	return state;
+    }
 
-  public int getRank()
-  {
-    return rank;
-  }
+    public void setState(State state) {
+	this.state = state;
+    }
 
-  public void setRank(int relevanceRank)
-  {
-    this.rank = relevanceRank;
-  }
+    public Date getLastUpdated() {
+	return lastUpdated;
+    }
 
-  public User getUser()
-  {
-    return user;
-  }
+    public void setLastUpdated(Date lastUpdated) {
+	this.lastUpdated = lastUpdated;
+    }
 
-  public void setUser(User user)
-  {
-    this.user = user;
-  }
+    public int getRank() {
+	return rank;
+    }
 
-  public String getName()
-  {
-    return name;
-  }
+    public void setRank(int relevanceRank) {
+	this.rank = relevanceRank;
+    }
 
-  public void setName(String name)
-  {
-    this.name = name;
-  }
+    public User getUser() {
+	return user;
+    }
 
-  public List<String> getAliases()
-  {
-    return aliases;
-  }
+    public void setUser(User user) {
+	this.user = user;
+    }
 
-  public void setAliases(List<String> aliases)
-  {
-    this.aliases = aliases;
-  }
+    public String getName() {
+	return name;
+    }
 
-  public String getDisplay()
-  {
-    return display;
-  }
+    public void setName(String name) {
+	this.name = name;
+    }
 
-  public void setDisplay(String display)
-  {
-    this.display = display;
-  }
+    public List<String> getAliases() {
+	return aliases;
+    }
 
-  public String getDescription()
-  {
-    return description;
-  }
+    public void setAliases(List<String> aliases) {
+	this.aliases = aliases;
+    }
 
-  public void setDescription(String description)
-  {
-    this.description = description;
-  }
+    public String getDisplay() {
+	return display;
+    }
 
-  public String getIconName()
-  {
-    return iconName;
-  }
+    public void setDisplay(String display) {
+	this.display = display;
+    }
 
-  public void setIconName(String iconName)
-  {
-    this.iconName = iconName;
-  }
+    public String getDescription() {
+	return description;
+    }
 
-  public String getThumbnailName()
-  {
-    return thumbnailName;
-  }
+    public void setDescription(String description) {
+	this.description = description;
+    }
 
-  public void setThumbnailName(String thumbnailName)
-  {
-    this.thumbnailName = thumbnailName;
-  }
+    public String getIconName() {
+	return iconName;
+    }
 
-  public String getPictureName()
-  {
-    return pictureName;
-  }
+    public void setIconName(String iconName) {
+	this.iconName = iconName;
+    }
 
-  public void setPictureName(String pictureName)
-  {
-    this.pictureName = pictureName;
-  }
+    public String getThumbnailName() {
+	return thumbnailName;
+    }
 
-  public List<Region> getSpreading()
-  {
-    return spreading;
-  }
+    public void setThumbnailName(String thumbnailName) {
+	this.thumbnailName = thumbnailName;
+    }
 
-  public void setSpreading(List<Region> spreading)
-  {
-    this.spreading = spreading;
-  }
+    public String getPictureName() {
+	return pictureName;
+    }
 
-  public Map<String, String> getFacts()
-  {
-    return facts;
-  }
+    public void setPictureName(String pictureName) {
+	this.pictureName = pictureName;
+    }
 
-  public void setFacts(Map<String, String> facts)
-  {
-    this.facts = facts;
-  }
+    public List<Region> getSpreading() {
+	return spreading;
+    }
 
-  public List<Link> getLinks()
-  {
-    return links;
-  }
+    public void setSpreading(List<Region> spreading) {
+	this.spreading = spreading;
+    }
 
-  public void setLinks(List<Link> links)
-  {
-    this.links = links;
-  }
+    public Map<String, String> getFacts() {
+	return facts;
+    }
 
-  public List<Related> getRelated()
-  {
-    return related;
-  }
+    public void setFacts(Map<String, String> facts) {
+	this.facts = facts;
+    }
 
-  public void setRelated(List<Related> related)
-  {
-    this.related = related;
-  }
+    public List<Link> getLinks() {
+	return links;
+    }
 
-  @Override
-  public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + id;
-    return result;
-  }
+    public void setLinks(List<Link> links) {
+	this.links = links;
+    }
 
-  @Override
-  public boolean equals(Object obj)
-  {
-    if(this == obj) return true;
-    if(obj == null) return false;
-    if(getClass() != obj.getClass()) return false;
-    AtlasObject other = (AtlasObject)obj;
-    if(id != other.id) return false;
-    return true;
-  }
+    public List<Related> getRelated() {
+	return related;
+    }
 
-  @Override
-  public String toString()
-  {
-    return name;
-  }
+    public void setRelated(List<Related> related) {
+	this.related = related;
+    }
 
-  public enum State
-  {
-    // ENUM('DEVELOPMENT','CREATED','PUBLISHED')
-    DEVELOPMENT, CREATED, PUBLISHED
-  }
+    @Override
+    public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = prime * result + id;
+	return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	AtlasObject other = (AtlasObject) obj;
+	if (id != other.id)
+	    return false;
+	return true;
+    }
+
+    @Override
+    public String toString() {
+	return name;
+    }
+
+    public enum State {
+	// ENUM('DEVELOPMENT','PUBLISHED')
+	DEVELOPMENT, PUBLISHED
+    }
 }

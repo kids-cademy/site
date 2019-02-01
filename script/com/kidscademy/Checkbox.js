@@ -18,6 +18,10 @@ com.kidscademy.Checkbox = class extends js.dom.Element {
 		this._checkbox = this.getByCssClass("control").on("click", this._onClick, this);
 	}
 
+	setObject(state) {
+		this._checkbox.addCssClass("checked", state === "PUBLISHED");
+	}
+	
 	/**
 	 * Check this checkbox. After this method execution {@link #checked} returns true.
 	 * 

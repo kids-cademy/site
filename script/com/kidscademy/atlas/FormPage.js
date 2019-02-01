@@ -15,13 +15,12 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 		this.CSS_INVALID = js.dom.Control.prototype.CSS_INVALID;
 
 		this._form = this.getByClass(com.kidscademy.Form);
-
+		this._sidebar = this.getByCss(".side-bar .header");
+		
 		this._graphicAssets = this.getByClass(com.kidscademy.atlas.GraphicAssets);
 		this._audioAssets = this.getByClass(com.kidscademy.atlas.AudioAssets);
 		this._relatedControl = this._form.getByClass(com.kidscademy.atlas.RelatedControl);
 		this._linksControl = this._form.getByClass(com.kidscademy.atlas.LinksControl);
-
-		this._sideNameView = this.getByCssClass("side-name");
 
 		const actions = this.getByCssClass("buttons-bar");
 		actions.on(this, {
@@ -38,11 +37,14 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 		const quickLinks = this.getByCssClass("quick-links");
 		quickLinks.on("click", this._onQuickLinks, this);
 
+		this._publishedCheckbox = this.getByCssClass("published-object");
+
 		this._loadObject();
 	}
 
 	getObject() {
 		this._form.getObject(this._object);
+		this._object.state = this._publishedCheckbox.checked()? "PUBLISHED": "DEVELOPMENT"; 
 		return this._object;
 	}
 
@@ -63,13 +65,12 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 
 		this._object = object;
 		this._form.setObject(object);
+		this._sidebar.setObject(object);
 
 		this._graphicAssets.onStart();
 		this._audioAssets.onStart();
 		this._relatedControl.onStart();
 		this._linksControl.onStart();
-
-		this._sideNameView.setText(object.display);
 	}
 
 	_onSave() {
@@ -82,10 +83,8 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 
 		const object = this.getObject();
 		if (this._form.isValid(updateQuickLink)) {
-			AtlasService.saveInstrument(object, id => this._object.id = id);
+			AtlasService.saveInstrument(object, this._onObjectLoaded, this);
 		}
-
-		this._sideNameView.setText(object.display);
 	}
 
 	_onReset() {

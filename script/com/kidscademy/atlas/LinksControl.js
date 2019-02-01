@@ -92,7 +92,7 @@ com.kidscademy.atlas.LinksControl = class extends js.dom.Control {
 
 		if (this._editIndex === -1) {
 			// edit index is not set therefore we are in append mode
-			AdminService.createLink(url, link => {
+			AtlasService.createLink(url, link => {
 				this._links.push(link);
 				this._updateView();
 			});
@@ -100,7 +100,7 @@ com.kidscademy.atlas.LinksControl = class extends js.dom.Control {
 		else {
 			// edit index is set therefore we are in edit mode
 			const editLink = this._links[this._editIndex];
-			AdminService.createLink(url, link => {
+			AtlasService.createLink(url, link => {
 				editLink.url = link.url;
 				editLink.name = link.name;
 				editLink.iconPath = link.iconPath;

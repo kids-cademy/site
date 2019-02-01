@@ -155,7 +155,7 @@ public class AtlasDaoTest {
 
 	assertThat(instruments, notNullValue());
 	assertThat(instruments, not(empty()));
-	assertThat(instruments, hasSize(1));
+	assertThat(instruments, hasSize(2));
 
 	assertInstrument(instruments.get(0));
     }
@@ -168,6 +168,7 @@ public class AtlasDaoTest {
 	assertThat(instrument.getUser().getEmailAddress(), equalTo("john.doe@email.com"));
 	assertThat(instrument.getUser().getPassword(), equalTo("secret"));
 	assertThat(instrument.getRank(), equalTo(1234));
+	assertThat(instrument.getState(), equalTo(AtlasObject.State.DEVELOPMENT));
 	assertThat(instrument.getName(), equalTo("accordion"));
 	assertThat(instrument.getName(), equalTo("accordion"));
 	assertThat(instrument.getDisplay(), equalTo("Accordion"));
@@ -321,7 +322,7 @@ public class AtlasDaoTest {
     public void getInstrumentsByCategory() {
 	List<UIObject> objects = dao.getInstrumentsByCategory(Instrument.Category.KEYBOARD);
 	assertThat(objects, notNullValue());
-	assertThat(objects, hasSize(1));
+	assertThat(objects, hasSize(2));
 
 	UIObject object = objects.get(0);
 	assertThat(object, notNullValue());
@@ -350,7 +351,16 @@ public class AtlasDaoTest {
 	assertThat(object.getIconName(), equalTo("icon.jpg"));
 	assertThat(object.getIconSrc(), equalTo(src("icon.jpg")));
     }
-    
+
+    @Test
+    public void objectState() {
+	Instrument instrument = dao.getInstrument(1);
+	assertThat(instrument.getState(), equalTo(AtlasObject.State.DEVELOPMENT));
+
+	instrument = dao.getInstrument(3);
+	assertThat(instrument.getState(), equalTo(AtlasObject.State.PUBLISHED));
+    }
+
     // ----------------------------------------------------------------------------------------------
 
     private static MediaSRC src(String mediaFile) {

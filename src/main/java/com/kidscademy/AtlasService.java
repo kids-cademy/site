@@ -30,7 +30,7 @@ public interface AtlasService {
 
     Instrument getInstrumentByName(String name);
 
-    int saveInstrument(Instrument instrument);
+    Instrument saveInstrument(Instrument instrument);
 
     List<UIObject> getRelatedInstruments(List<String> names);
 

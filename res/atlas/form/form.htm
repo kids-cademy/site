@@ -173,12 +173,21 @@
 </div>
 
 <div w:template="template/admin#side-bar" class="object-form" xmlns:w="js-lib.com/wood">
-	<h1 class="side-name"></h1>
-	<ul class="developers inline">
+	<div class="header">
+		<img data-src="icon-src" />
+		<h1 class="side-name" data-text="display"></h1>
+		<h2 class="last-updated" data-text="last-updated" data-format="js.format.StandardDateTime"></h2>
+		<h3 class="checkbox published-object" data-class="com.kidscademy.Checkbox" data-text="state">
+			<span class="control"></span><span>@string/published-object</span>
+		</h3>
+	</div>
+	
+	<ul class="developers inline hidden">
 		<li><img src="/media/home/ioana/icon.png" /></li>
 		<li><img src="/media/home/octavian/icon.png" /></li>
 		<li><img src="/media/home/lucian/icon.png" /></li>
 	</ul>
+	
 	<ul class="side-menu quick-links">
 		<li data-name="identity"><img src="@image/action/identity" />Identity<span class="state"></span></li>
 		<li data-name="description"><img src="@image/action/description" />Description<span class="state"></span></li>
@@ -189,6 +198,7 @@
 		<li data-name="related"><img src="@image/action/related" />Related<span class="state"></span></li>
 		<li data-name="links"><img src="@image/action/link" />Links<span class="state"></span></li>
 	</ul>
+	
 	<div class="container buttons-bar">
 		<button name="save">@string/save</button>
 		<button name="reset" class="inverse">@string/reset</button>
