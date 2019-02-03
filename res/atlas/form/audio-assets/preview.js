@@ -1,13 +1,13 @@
 WinMain.on("load", function() {
-	var audioAssets = WinMain.doc.getByClass(com.kidscademy.admin.AudioAssets);
+	var audioAssets = WinMain.doc.getByClass(com.kidscademy.atlas.AudioAssets);
 
 	const formPage = {
 		getObject : function() {
 			return {
 				name : "test",
 				sampleTitle : "Sample Title",
-				samplePath : "instruments/test/sample.mp3",
-				waveformPath : "instruments/test/waveform.png"
+				sampleSrc : "/media/atlas/instrument/test/sample.mp3",
+				waveformSrc : "/media/atlas/instrument/test/waveform.png"
 			};
 		}
 	};

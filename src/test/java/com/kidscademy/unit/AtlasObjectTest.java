@@ -12,6 +12,7 @@ import org.junit.Test;
 import com.kidscademy.atlas.HDate;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
+import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.atlas.Region;
 
 import js.json.Json;
@@ -47,8 +48,8 @@ public class AtlasObjectTest
     instrument.setSpreading(spreading);
 
     List<Link> links = new ArrayList<>();
-    links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", "wikipedia.png"));
-    links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", "wikipedia.png"));
+    links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", new MediaSRC("/media/link/wikipedia.png")));
+    links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", new MediaSRC("/media/link/wikipedia.png")));
     instrument.setLinks(links);
 
     Map<String, String> facts = new HashMap<>();

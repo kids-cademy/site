@@ -18,4 +18,13 @@
 	<message>Mesage for script variable.</message>
 	
 	<published-object>Published Object</published-object>
+	
+	<object-identity>Identity</object-identity>
+	<object-description>Description</object-description>
+	<graphic-assets>Graphic Assets</graphic-assets>
+	<audio-assets>Audio Assets</audio-assets>
+	<object-facts>Facts</object-facts>
+	<object-spreading>Spreading</object-spreading>
+	<object-related>Related</object-related>
+	<object-links>Links</object-links>
 </string>

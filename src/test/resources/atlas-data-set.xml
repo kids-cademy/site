@@ -81,7 +81,7 @@
 		<atlasobject_id>1</atlasobject_id>
 		<url>https://en.wikipedia.org/wiki/Accordion</url>
 		<name>Wikipedia</name>
-		<iconPath>icon.png</iconPath>
+		<iconName>wikipedia.png</iconName>
 	</atlasobject_links>
 
 	<atlasobject_spreading>

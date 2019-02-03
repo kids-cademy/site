@@ -19,11 +19,18 @@ com.kidscademy.PageHeader = class extends js.dom.Element {
 		this._topMenu = this.getByCssClass("top-menu");
 
 		this._topMenuButton = this.getByCssClass("top-menu-button");
-		this._topMenuButton.on("click", this._onTopMenuButton, this);
-
+		if(this._topMenuButton) {
+			this._topMenuButton.on("click", this._onTopMenuButton, this);
+		}
+		
 		const communityAction = this.getByCss(".community-action a");
 		if (communityAction) {
 			communityAction.on("click", this._onCommunityAction, this);
+		}
+
+		const logoutAction = this.getByCss(".logout-action");
+		if (logoutAction) {
+			logoutAction.on("click", this._onLogoutAction, this);
 		}
 
 		this._collapsed = true;
@@ -41,9 +48,13 @@ com.kidscademy.PageHeader = class extends js.dom.Element {
 	}
 
 	_onCommunityAction(ev) {
-		AdminService.isAuthenticated((authenticated) => WinMain.assign(authenticated ? "search.htm" : "community.htm"));
+		AdminService.isAuthenticated(authenticated => WinMain.assign(authenticated ? "collection.htm" : "community.htm"));
 	}
 
+	_onLogoutAction(ev) {
+		AdminService.logout(() => WinMain.assign("community.htm"));
+	}
+	
 	/**
 	 * Class string representation.
 	 * 

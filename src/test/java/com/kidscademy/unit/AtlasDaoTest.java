@@ -216,7 +216,8 @@ public class AtlasDaoTest {
 	assertThat(link, notNullValue());
 	assertThat(link.getId(), equalTo(1));
 	assertThat(link.getName(), equalTo("Wikipedia"));
-	assertThat(link.getIconPath(), equalTo("icon.png"));
+	assertThat(link.getIconName(), equalTo("wikipedia.png"));
+	assertThat(link.getIconSrc(), equalTo(new MediaSRC("/media/link/wikipedia.png")));
 	assertThat(link.getUrl(), equalTo(new URL("https://en.wikipedia.org/wiki/Accordion")));
 
 	assertThat(instrument.getRelated(), notNullValue());
@@ -264,8 +265,8 @@ public class AtlasDaoTest {
 	instrument.setSpreading(spreading);
 
 	List<Link> links = new ArrayList<>();
-	links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", "wikipedia.png"));
-	links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", "wikipedia.png"));
+	links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", new MediaSRC("/media/link/wikipedia.png")));
+	links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", new MediaSRC("/media/link/wikipedia.png")));
 	instrument.setLinks(links);
 
 	Map<String, String> facts = new HashMap<>();

@@ -5,7 +5,9 @@
 	<description>Manager for collections of objects.</description>
 	<scripts>
 		<script>lib/js-lib/js-lib.js</script>
+		<script>gen/com/kidscademy/AdminService.js</script>
 		<script>gen/com/kidscademy/AtlasService.js</script>
+		<script>script/com/kidscademy/PageHeader.js</script>
 		<script>script/com/kidscademy/ImageFormat.js</script>
 		<script>script/com/kidscademy/page/Page.js</script>
 		<script>script/com/kidscademy/atlas/CollectionPage.js</script>

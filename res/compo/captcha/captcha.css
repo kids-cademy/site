@@ -87,12 +87,6 @@
 	border: 0;
 }
 
-.compo.captcha .actions img {
-	width: 32px;
-	margin-right: 10px;
-	border: 0;
-}
-
 .compo.captcha .control.checked {
 	background-image: url(@image/check-icon);
 }

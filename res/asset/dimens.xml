@@ -9,7 +9,8 @@
 	
 	<section-margin>70px</section-margin>
 	<section-padding>50px</section-padding>
-	<section-icon-size>100px</section-icon-size>
+	<section-icon-size>80px</section-icon-size>
+	<section-icon-big-size>100px</section-icon-big-size>
 	
 	<buttons-margin-top>20px</buttons-margin-top>
 	<button-space>40px</button-space>

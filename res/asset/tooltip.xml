@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tip>
+	<actual-image>see actual image size</actual-image>
+	<close-editor>close editor</close-editor>
+	<image-upload>select image file from device</image-upload>
+	<picture-upload>upload object picture</picture-upload>
+	<icon-upload>upload object icon</icon-upload>
+	<thumbnail-upload>upload object thumbnail</thumbnail-upload>
+
+	<graphic-crop>crop image</graphic-crop>
+	<graphic-icon>create object icon from picture</graphic-icon>
+	<graphic-flip>flip image vertically</graphic-flip>
+	<graphic-invert>invert image colors</graphic-invert>
+	<graphic-done>accept crop selection</graphic-done>
+	<graphic-undo>undo last image processing</graphic-undo>
+	<graphic-save>save image processing</graphic-save>
+	<graphic-close>close image editor</graphic-close>
+
+	<audio-upload>upload audio sample</audio-upload>
+	<audio-cut>cut 30 seconds sample from current progress position</audio-cut>
+	<audio-mono>convert stereo to mono</audio-mono>
+	<audio-normalize>normalize audio sample level</audio-normalize>
+	<audio-trim>trim silence from start and end of audio sample</audio-trim>
+	<audio-fade-in>add fade-in effect of 1.5 seconds</audio-fade-in>
+	<audio-fade-out>add fade-out effect of 1.5 seconds</audio-fade-out>
+	<audio-play>play audio sample</audio-play>
+	<audio-undo>undo last audio sample processing</audio-undo>
+	<audio-clear>clear all audio sample processing</audio-clear>
+	<audio-done>commit all audio sample processing</audio-done>
+	<audio-remove>remove audio sample</audio-remove>
+
+	<facts-add>add new facts</facts-add>
+	<facts-import>import facts is not yet implemented</facts-import>
+	<facts-done>accept facts edits</facts-done>
+	<facts-remove>remove facts record</facts-remove>
+	<facts-close>close facts editor</facts-close>
+
+	<spreading-add>add new spreading</spreading-add>
+	<spreading-import>import spreading is not yet implemented</spreading-import>
+	<spreading-done>accept spreading edits</spreading-done>
+	<spreading-remove>remove spreading record</spreading-remove>
+	<spreading-close>close spreading editor</spreading-close>
+
+	<link-add>add source link</link-add>
+	<link-browse>browser source link</link-browse>
+	<link-done>save source link</link-done>
+	<link-remove>remove source link</link-remove>
+	<link-close>close source link editor</link-close>
+
+	<captcha-reload>reload images puzzle</captcha-reload>
+	<captcha-help>captcha help not yet implemented</captcha-help>
+</tip>

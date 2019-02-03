@@ -9,9 +9,9 @@
 	position:absolute;
 	display: block;
 	box-sizing: border-box;
-	width: @dimen/section-icon-size;
-	height: @dimen/section-icon-size;
-	border-radius: @eval(mul @dimen/section-icon-size 0.5);
+	width: @dimen/section-icon-big-size;
+	height: @dimen/section-icon-big-size;
+	border-radius: @eval(mul @dimen/section-icon-big-size 0.5);
 	background-color: red;
 	padding-top: 20px;
 	text-align: center;

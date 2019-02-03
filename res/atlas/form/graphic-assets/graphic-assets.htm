@@ -4,45 +4,49 @@
 	<input name="thumbnail-path" type="hidden" class="optional" data-class="com.kidscademy.HiddenControl" />
 	
 	<div class="header container">
-		<h2>Graphic Assets</h2>
+		<h2>@string/graphic-assets</h2>
 		<p>@string/sample-text</p>
 	</div>
 	
 	<div class="content">
+		<div class="section-icon padding">
+			<img src="@image/action/graphic-asset" />
+		</div>
 		<div class="container">
 			<div class="view">
 				<div class="item">
 					<div class="upload-image">
-						<img id="picture-path" /><input class="picture-file" type="file" title="@string/picture-upload-tip" accept="image/*" />
+						<img id="picture-path" /><input class="picture-file" type="file" title="@tip/picture-upload" accept="image/*" />
 					</div>
 					<h3>picture</h3>
 					<h3>920x560</h3>
 				</div>
 				<div class="item">
 					<div class="upload-image">
-						<img id="icon-path" /><input class="icon-file" type="file" title="@string/icon-upload-tip" accept="image/*" />
+						<img id="icon-path" /><input class="icon-file" type="file" title="@tip/icon-upload" accept="image/*" />
 					</div>
 					<h3>icon</h3>
 					<h3>96x96</h3>
 				</div>
 				<div class="item">
 					<div class="upload-image">
-						<img id="thumbnail-path" /><input class="thumbnail-file" type="file" title="@string/thumbnail-upload-tip" accept="image/*" />
+						<img id="thumbnail-path" /><input class="thumbnail-file" type="file" title="@tip/thumbnail-upload" accept="image/*" />
 					</div>
 					<h3>thumbnail</h3>
 					<h3>560x</h3>
 				</div>
 			</div>
 			
-			<div class="actions">
-				<img name="crop" src="@image/action/crop" title="@string/create-icon-tip" />
-				<img name="flip" src="@image/action/flip" title="@string/create-icon-tip" />
-				<img name="invert-mask" src="@image/action/invert-mask" title="@string/create-icon-tip" />
-				<img name="done" src="@image/action/done" title="@string/create-icon-tip" />
-				<img name="undo" src="@image/action/undo" title="@string/create-icon-tip" />
-				<img name="save" src="@image/action/save" title="@string/create-icon-tip" />
-				<img name="create-icon" src="@image/action/create-icon" title="@string/create-icon-tip" />
-				<img name="close" src="@image/action/close" title="@string/close-editor-tip" class="rfloat" />
+			<div class="actions" data-class="com.kidscademy.Actions">
+				<img name="crop" src="@image/action/crop" title="@tip/graphic-crop" />
+				<img name="icon" src="@image/action/create-icon" title="@tip/graphic-icon" />
+				<img name="flip" src="@image/action/flip" title="@tip/graphic-flip" />
+				<img name="invert" src="@image/action/invert" title="@tip/graphic-invert" />
+				<span class="separator"></span>
+				<img name="done" src="@image/action/done" title="@tip/graphic-done" />
+				<img name="undo" src="@image/action/undo" title="@tip/graphic-undo" />
+				<img name="save" src="@image/action/save" title="@tip/graphic-save" />
+				<img name="close" src="@image/action/close" title="@tip/graphic-close" class="rfloat" />
 			</div>
 			
 			<div class="editor hidden">

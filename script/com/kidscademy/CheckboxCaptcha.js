@@ -40,7 +40,7 @@ com.kidscademy.CheckboxCaptcha = class extends js.widget.Captcha {
 
 	_onCheckboxClick(ev) {
 		ev.halt();
-		this._loadChallenge(true);
+		this._loadChallenge();
 		this._checkbox.uncheck();
 		this._bodyView.show();
 	}
@@ -55,12 +55,6 @@ com.kidscademy.CheckboxCaptcha = class extends js.widget.Captcha {
 
 	_onHelp(ev) {
 		js.ua.System.alert("Help not yet implemented.");
-	}
-
-	_loadChallenge(enabled) {
-		if (enabled === true) {
-			super._loadChallenge();
-		}
 	}
 
 	/**

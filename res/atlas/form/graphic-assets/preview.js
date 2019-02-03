@@ -1,13 +1,13 @@
 WinMain.on("load", function() {
-	var graphicAssets = WinMain.doc.getByClass(com.kidscademy.admin.GraphicAssets);
+	var graphicAssets = WinMain.doc.getByClass(com.kidscademy.atlas.GraphicAssets);
 
 	graphicAssets.onCreate({
 		getObject : function() {
 			return {
 				name : "test",
-				picturePath : "instruments/test/picture.jpg",
-				iconPath : "instruments/test/icon.jpg",
-				thumbnailPath : "instruments/test/thumbnail.png"
+				pictureSrc : "/media/atlas/instrument/test/picture.jpg",
+				iconSrc : "/media/atlas/instrument/test/icon.jpg",
+				thumbnailSrc : "/media/atlas/instrument/test/thumbnail.png"
 			};
 		}
 	});

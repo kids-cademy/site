@@ -12,4 +12,6 @@ public interface AdminService {
 
     @Public
     boolean isAuthenticated();
+    
+    void logout();
 }

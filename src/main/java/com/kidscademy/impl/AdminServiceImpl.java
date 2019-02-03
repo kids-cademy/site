@@ -30,4 +30,9 @@ public class AdminServiceImpl implements AdminService {
     public boolean isAuthenticated() {
 	return context.isAuthenticated();
     }
+
+    @Override
+    public void logout() {
+	context.logout();
+    }
 }

@@ -5,7 +5,8 @@
 	<description>Object links field set from object form.</description>
 	<scripts>
 		<script>lib/js-lib/js-lib.js</script>
-		<script>script/com/kidscademy/page/Page.js</script>
-		<script>script/com/kidscademy/atlas/ExportPage.js</script>
+		<script>gen/com/kidscademy/AtlasService.js</script>
+		<script>script/com/kidscademy/Actions.js</script>
+		<script>script/com/kidscademy/atlas/LinksControl.js</script>
 	</scripts>
 </page>

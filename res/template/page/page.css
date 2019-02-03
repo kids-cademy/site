@@ -68,27 +68,6 @@ body {
 	padding-top:  @eval(add @dimen/page-header-height @dimen/section-padding);
 }
 
-.section-icon {
-	position: relative;
-	width: 0;
-	height: 0;
-	left: 80%;
-	top: -@eval(add (mul @dimen/section-icon-size 0.5) @dimen/section-padding);
-}
-
-.section-icon.bottom {
-	top: 0;
-	bottom: @eval(add (mul @dimen/section-icon-size 0.5) @dimen/section-padding);
-}
-
-.section-icon img {
-	width: @dimen/section-icon-size;
-	height: @dimen/section-icon-size;
-	background-color: white;
-	border-radius: 100px;
-	box-shadow: 0 0 15px #408080;
-}
-
 .page .captcha {
 	margin-top: 20px;
 }

@@ -6,8 +6,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 
     	/**
     	 * Parent form page.
-    	 * 
-    	 * @type com.kidscademy.atlas.FormPage
+    	 * @type {com.kidscademy.atlas.FormPage}
     	 */
 		this._formPage = null;
 
@@ -33,14 +32,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 
 		this._aspectRatio = 0;
 
-		const actions = this.getByCssClass("actions");
-		actions.on(this, {
-			"&crop": this._onCrop,
-			"&create-icon": this._onCreateIcon,
-			"&done": this._onDone,
-			"&save": this._onSave,
-			"&close": this._onClose
-		});
+		this._actions = this.getByClass(com.kidscademy.Actions).bind(this);
 	}
 
 	onCreate(formPage) {
@@ -64,6 +56,102 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		}
 	}
 
+	// --------------------------------------------------------------------------------------------
+	// ACTION HANDLERS
+
+	_onCrop() {
+		this._cropEditor.open({
+			width: this._previewImage._node.width,
+			height: this._previewImage._node.height,
+			naturalWidth: this._previewImage._node.naturalWidth,
+			naturalHeight: this._previewImage._node.naturalHeight,
+			aspectRatio: this._aspectRatio
+		}, this._onCropUpdate, this);
+	}
+
+	_onCropUpdate(cropInfo) {
+		this._cropView.setObject(cropInfo)
+	}
+
+	_onIcon() {
+		this._iconImage.removeCssClass("invalid");
+		const object = this._formPage.getObject();
+		if (!object.name) {
+			js.ua.System.alert("Missing object name.");
+			return;
+		}
+		AtlasService.createObjectIcon(object.dtype, object.name, (iconPath) => {
+			this._iconControl.setValue(iconPath);
+			this._iconImage.setSrc(iconPath);
+		}, this);
+	}
+
+	_onFlip() {
+		js.ua.System.alert("Vertical flip not yet implemented.");
+	}
+	
+	_onInvert() {
+		js.ua.System.alert("Invert not yet implemented.");
+	}
+
+	_onDone() {
+		const crop = this._cropEditor.getCropArea();
+		this._cropEditor.hide();
+
+		const canvas = this.getByTag("canvas")._node;
+		canvas.width = crop.cx;
+		canvas.height = crop.cy;
+
+		const context = canvas.getContext("2d");
+		context.drawImage(this._previewImage._node, crop.x, crop.y, crop.cx, crop.cy, 0, 0, crop.cx, crop.cy);
+
+		this._previewImage.setSrc(canvas.toDataURL());
+		this._canvasUpdated = true;
+	}
+
+	_onUndo() {
+		js.ua.System.alert("Undo not yet implemented.");
+	}
+
+	_onSave() {
+		if (!this._canvasUpdated) {
+			const canvas = this.getByTag("canvas")._node;
+			canvas.width = this._previewImage._node.naturalWidth;
+			canvas.height = this._previewImage._node.naturalHeight;
+
+			const context = canvas.getContext("2d");
+			context.drawImage(this._previewImage._node, 0, 0);
+		}
+
+		switch (this._aspectRatio) {
+			case 0:
+				this._upload("upload-thumbnail-file", thumbnailPath => {
+					this._thumbnailControl.setValue(thumbnailPath);
+					this._thumbnailImage.reload(thumbnailPath);
+				});
+				break;
+
+			case 1:
+				this._upload("upload-icon-file", iconPath => {
+					this._iconControl.setValue(iconPath);
+					this._iconImage.reload(iconPath);
+				});
+				break;
+
+			default:
+				this._upload("upload-picture-file", picturePath => {
+					this._pictureControl.setValue(picturePath);
+					this._pictureImage.reload(picturePath);
+				});
+		}
+	}
+
+	_onClose() {
+		this._imageEditor.hide();
+	}
+
+	// --------------------------------------------------------------------------------------------
+	
 	_onPictureFileSelected(ev) {
 		this._pictureImage.removeCssClass("invalid");
 		this._aspectRatio = 16 / 9;
@@ -119,85 +207,6 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		this._imageFile.width = this._previewImage._node.naturalWidth;
 		this._imageFile.height = this._previewImage._node.naturalHeight;
 		this._fileView.setObject(this._imageFile);
-	}
-
-	_onCrop() {
-		this._cropEditor.open({
-			width: this._previewImage._node.width,
-			height: this._previewImage._node.height,
-			naturalWidth: this._previewImage._node.naturalWidth,
-			naturalHeight: this._previewImage._node.naturalHeight,
-			aspectRatio: this._aspectRatio
-		}, this._onCropUpdate, this);
-	}
-
-	_onCropUpdate(cropInfo) {
-		this._cropView.setObject(cropInfo)
-	}
-
-	_onCreateIcon() {
-		this._iconImage.removeCssClass("invalid");
-		const object = this._formPage.getObject();
-		if (!object.name) {
-			js.ua.System.alert("Missing object name.");
-			return;
-		}
-		AdminService.createObjectIcon(object.dtype, object.name, (iconPath) => {
-			this._iconControl.setValue(iconPath);
-			this._iconImage.setSrc(iconPath);
-		}, this);
-	}
-
-	_onDone() {
-		const crop = this._cropEditor.getCropArea();
-		this._cropEditor.hide();
-
-		const canvas = this.getByTag("canvas")._node;
-		canvas.width = crop.cx;
-		canvas.height = crop.cy;
-
-		const context = canvas.getContext("2d");
-		context.drawImage(this._previewImage._node, crop.x, crop.y, crop.cx, crop.cy, 0, 0, crop.cx, crop.cy);
-
-		this._previewImage.setSrc(canvas.toDataURL());
-		this._canvasUpdated = true;
-	}
-
-	_onSave() {
-		if (!this._canvasUpdated) {
-			const canvas = this.getByTag("canvas")._node;
-			canvas.width = this._previewImage._node.naturalWidth;
-			canvas.height = this._previewImage._node.naturalHeight;
-
-			const context = canvas.getContext("2d");
-			context.drawImage(this._previewImage._node, 0, 0);
-		}
-
-		switch (this._aspectRatio) {
-			case 0:
-				this._upload("upload-thumbnail-file", thumbnailPath => {
-					this._thumbnailControl.setValue(thumbnailPath);
-					this._thumbnailImage.reload(thumbnailPath);
-				});
-				break;
-
-			case 1:
-				this._upload("upload-icon-file", iconPath => {
-					this._iconControl.setValue(iconPath);
-					this._iconImage.reload(iconPath);
-				});
-				break;
-
-			default:
-				this._upload("upload-picture-file", picturePath => {
-					this._pictureControl.setValue(picturePath);
-					this._pictureImage.reload(picturePath);
-				});
-		}
-	}
-
-	_onClose() {
-		this._imageEditor.hide();
 	}
 
     /**

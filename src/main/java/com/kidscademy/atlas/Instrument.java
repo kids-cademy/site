@@ -107,6 +107,13 @@ public class Instrument extends AtlasObject implements Serializable {
 	thumbnailName = source.thumbnailSrc != null ? source.thumbnailSrc.fileName() : null;
 	sampleName = source.sampleSrc != null ? source.sampleSrc.fileName() : null;
 	waveformName = source.waveformSrc != null ? source.waveformSrc.fileName() : null;
+
+	if (links != null) {
+	    for(int i = 0; i < links.size(); ++i) {
+		final MediaSRC iconSrc = source.links.get(i).getIconSrc();
+		links.get(i).setIconName(iconSrc != null ? iconSrc.fileName() : null);
+	    }
+	}
     }
 
     /**
@@ -139,6 +146,10 @@ public class Instrument extends AtlasObject implements Serializable {
 	thumbnailSrc = Files.mediaSrc(this, thumbnailName);
 	sampleSrc = Files.mediaSrc(this, sampleName);
 	waveformSrc = Files.mediaSrc(this, waveformName);
+
+	for (Link link : links) {
+	    link.setIconSrc(Files.linkSrc(link.getIconName()));
+	}
     }
 
     public Category getCategory() {

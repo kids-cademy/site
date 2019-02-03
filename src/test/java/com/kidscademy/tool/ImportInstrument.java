@@ -14,6 +14,7 @@ import com.kidscademy.atlas.HDate;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Instrument.Category;
 import com.kidscademy.atlas.Link;
+import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.atlas.Region;
 import com.kidscademy.dao.AtlasDao;
 import com.kidscademy.dao.AtlasDaoImpl;
@@ -73,7 +74,7 @@ public class ImportInstrument {
 
 	    List<Link> links = new ArrayList<>();
 	    for (ExternalSource source : object.sources) {
-		links.add(new Link(source.url, source.name, "links/" + source.icon.getName()));
+		links.add(new Link(source.url, source.name, new MediaSRC("/media/link/" + source.icon.getName())));
 	    }
 	    instrument.setLinks(links);
 

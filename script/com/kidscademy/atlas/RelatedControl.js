@@ -6,8 +6,7 @@ com.kidscademy.atlas.RelatedControl = class extends js.dom.Control {
 
 		/**
 		 * Parent form page.
-		 * 
-		 * @type com.kidscademy.atlas.FormPage
+		 * @type {com.kidscademy.atlas.FormPage}
 		 */
 		this._formPage = null;
 
@@ -21,13 +20,7 @@ com.kidscademy.atlas.RelatedControl = class extends js.dom.Control {
 		this._collectionView.on("dragover", this._onDragOver, this);
 		this._collectionView.on("drop", this._onCollectionViewDrop, this);
 
-		const actions = this.getByCssClass("actions");
-		this._editAction = actions.getByName("edit");
-		this._closeAction = actions.getByName("close");
-
-		this._editAction.on("click", this._onEdit, this);
-		this._closeAction.on("click", this._onClose, this);
-		this._closeAction.hide();
+		this._actions = this.getByClass(com.kidscademy.Actions).bind(this).hide("close");
 	}
 
 	onCreate(formPage) {
@@ -36,6 +29,9 @@ com.kidscademy.atlas.RelatedControl = class extends js.dom.Control {
 
 	onStart() {
 	}
+
+	// --------------------------------------------------------------------------------------------
+	// CONTROL INTERFACE
 
 	setValue(related) {
 		const names = related.map(object => object.name);
@@ -60,8 +56,11 @@ com.kidscademy.atlas.RelatedControl = class extends js.dom.Control {
 		return true;
 	}
 
+	// --------------------------------------------------------------------------------------------
+	// ACTION HANDLERS
+
 	_onEdit() {
-		this._closeAction.show();
+		this._actions.show("close");
 		const instrument = this._formPage.getObject();
 		if (!instrument.category) {
 			js.ua.System.alert("Pleae select category.");
@@ -83,9 +82,12 @@ com.kidscademy.atlas.RelatedControl = class extends js.dom.Control {
 
 	_onClose() {
 		this._collectionView.hide();
-		this._closeAction.hide();
+		this._actions.hide("close");
 	}
 
+	// --------------------------------------------------------------------------------------------
+	// DRAG AND DROP
+	
 	_onDragStart(ev) {
 		const li = ev.target.getParentByTag("li");
 		ev.setData("index", li.getChildIndex());

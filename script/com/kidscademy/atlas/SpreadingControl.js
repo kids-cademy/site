@@ -27,20 +27,13 @@ com.kidscademy.atlas.SpreadingControl = class extends js.dom.Control {
 		this._areaSelect = this._editor.getByName("area");
 		this._editingRegionIndex = -1;
 
-		var actions = this.getByCssClass("actions");
-		this._addAction = actions.getByName("add");
-		this._importAction = actions.getByName("import");
-		this._doneAction = actions.getByName("done");
-		this._removeAction = actions.getByName("remove");
-		this._closeAction = actions.getByName("close");
-
-		this._addAction.on("click", this._onAdd, this);
-		this._doneAction.on("click", this._onDone, this);
-		this._removeAction.on("click", this._onRemove, this);
-		this._closeAction.on("click", this._onClose, this);
+		this._actions = this.getByClass(com.kidscademy.Actions).bind(this);
 
 		this._showEditor(false);
 	}
+
+	// --------------------------------------------------------------------------------------------
+	// CONTROL INTERFACE
 
 	setValue(regions) {
 		this._regions = regions;
@@ -55,11 +48,18 @@ com.kidscademy.atlas.SpreadingControl = class extends js.dom.Control {
 		return true;
 	}
 
+	// --------------------------------------------------------------------------------------------
+	// ACTION HANDLERS
+
 	_onAdd(ev) {
 		this._editingRegionIndex = -1;
 		this._showEditor(true);
 		this._regionNameInput.reset();
 		this._areaSelect.reset();
+	}
+
+	_onImport() {
+		js.ua.System.alert("Import not yet implemented.");
 	}
 
 	_onDone(ev) {
@@ -91,6 +91,8 @@ com.kidscademy.atlas.SpreadingControl = class extends js.dom.Control {
 		this._showEditor(false);
 	}
 
+	// --------------------------------------------------------------------------------------------
+	
 	_onRegionsViewClick(ev) {
 		const li = ev.target.getParentByTag("li");
 		if (li) {
@@ -108,11 +110,8 @@ com.kidscademy.atlas.SpreadingControl = class extends js.dom.Control {
 	}
 
 	_showEditor(show) {
-		this._doneAction.show(show);
-		this._removeAction.show(show);
-		this._closeAction.show(show);
+		this._actions.show(show, "done", "remove", "close");
 		this._editor.show(show);
-
 		if (show) {
 			this._regionNameInput.focus();
 		}

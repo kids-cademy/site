@@ -5,9 +5,9 @@ com.kidscademy.atlas.FactsControl = class extends js.dom.Control {
 		super(ownerDoc, node);
 
 		/**
-		 * Facts collection.
+		 * Facts dictionary.
 		 * 
-		 * @type Object
+		 * @type {Object}
 		 */
 		this._facts = null;
 
@@ -19,20 +19,13 @@ com.kidscademy.atlas.FactsControl = class extends js.dom.Control {
 		this._definitionInput = this._editor.getByName("definition");
 		this._termOnEdit = null;
 
-		var actions = this.getByCssClass("actions");
-		this._addAction = actions.getByName("add");
-		this._importAction = actions.getByName("import");
-		this._doneAction = actions.getByName("done");
-		this._removeAction = actions.getByName("remove");
-		this._closeAction = actions.getByName("close");
-
-		this._addAction.on("click", this._onAdd, this);
-		this._doneAction.on("click", this._onDone, this);
-		this._removeAction.on("click", this._onRemove, this);
-		this._closeAction.on("click", this._onClose, this);
+		this._actions = this.getByClass(com.kidscademy.Actions).bind(this);
 
 		this._showEditor(false);
 	}
+
+	// --------------------------------------------------------------------------------------------
+	// CONTROL INTERFACE
 
 	setValue(facts) {
 		function empty(object) {
@@ -58,12 +51,19 @@ com.kidscademy.atlas.FactsControl = class extends js.dom.Control {
 		return true;
 	}
 
+	// --------------------------------------------------------------------------------------------
+	// ACTION HANDLERS
+
 	_onAdd(ev) {
 		this._showEditor(true);
 		this._termInput.reset();
 		this._definitionInput.reset();
 	}
 
+	_onImport() {
+		js.ua.System.alert("Import not yet implemented.");
+	}
+	
 	_onDone(ev) {
 		if (this._termOnEdit) {
 			delete this._facts[this._termOnEdit];
@@ -86,6 +86,8 @@ com.kidscademy.atlas.FactsControl = class extends js.dom.Control {
 		this._showEditor(false);
 	}
 
+	// --------------------------------------------------------------------------------------------
+
 	_onFactsClick(ev) {
 		if (ev.target.getTag() === "dt") {
 			this._showEditor(true);
@@ -96,11 +98,8 @@ com.kidscademy.atlas.FactsControl = class extends js.dom.Control {
 	}
 
 	_showEditor(show) {
-		this._doneAction.show(show);
-		this._removeAction.show(show);
-		this._closeAction.show(show);
+		this._actions.show(show, "done", "remove", "close");
 		this._editor.show(show);
-
 		if (show) {
 			this._termInput.focus();
 		}
