@@ -24,20 +24,20 @@ com.kidscademy.Actions = class extends js.dom.Element {
 			return "_on" + name.charAt(0).toUpperCase() + name.substr(1);
 		}
 		
-		this.getChildren().forEach(action => {
-			const name = action.getName();
+		this.getChildren().forEach(child => {
+			const name = child.getName();
 			if(name == null) {
-				throw `Action with missing name: ${action.dump()} `;
+				return;
 			}
 			
 			const handler = container[handlerName(name)];
 			if(typeof handler !== "function") {
-				throw `Missing handler for ${name}.`;
+				throw `Missing handler for action ${name}.`;
 			}
-
-			action.on("click", handler, container);
 			
-			const key = action.getAttr("data-key");
+			child.on("click", handler, container);
+			
+			const key = child.getAttr("data-key");
 			if(key !== null) {
 				this._keymap[js.event.Key[key]] = handler.bind(container);
 			}

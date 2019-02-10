@@ -144,5 +144,3 @@ com.kidscademy.atlas.LinksControl = class extends js.dom.Control {
 		return "com.kidscademy.atlas.LinksControl";
 	}
 };
-
-$preload(com.kidscademy.atlas.LinksControl);

@@ -183,5 +183,3 @@ com.kidscademy.atlas.AudioAssets = class extends js.dom.Element {
 		return "com.kidscademy.atlas.AudioAssets";
 	}
 };
-
-$preload(com.kidscademy.atlas.AudioAssets);

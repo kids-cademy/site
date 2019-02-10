@@ -1,8 +1,4 @@
 <fieldset class="graphic-assets" data-class="com.kidscademy.atlas.GraphicAssets">
-	<input name="picture-path" type="hidden" class="optional" data-class="com.kidscademy.HiddenControl" />
-	<input name="icon-path" type="hidden" class="optional" data-class="com.kidscademy.HiddenControl" />
-	<input name="thumbnail-path" type="hidden" class="optional" data-class="com.kidscademy.HiddenControl" />
-	
 	<div class="header container">
 		<h2>@string/graphic-assets</h2>
 		<p>@string/sample-text</p>
@@ -16,21 +12,24 @@
 			<div class="view">
 				<div class="item">
 					<div class="upload-image">
-						<img id="picture-path" /><input class="picture-file" type="file" title="@tip/picture-upload" accept="image/*" />
+						<img name="picture-src" class="optional" data-class="js.dom.ImageControl" />
+						<input class="picture-file" type="file" title="@tip/picture-upload" accept="image/*" />
 					</div>
 					<h3>picture</h3>
 					<h3>920x560</h3>
 				</div>
 				<div class="item">
 					<div class="upload-image">
-						<img id="icon-path" /><input class="icon-file" type="file" title="@tip/icon-upload" accept="image/*" />
+						<img name="icon-src" class="optional" data-class="js.dom.ImageControl" />
+						<input class="icon-file" type="file" title="@tip/icon-upload" accept="image/*" />
 					</div>
 					<h3>icon</h3>
 					<h3>96x96</h3>
 				</div>
 				<div class="item">
 					<div class="upload-image">
-						<img id="thumbnail-path" /><input class="thumbnail-file" type="file" title="@tip/thumbnail-upload" accept="image/*" />
+						<img name="thumbnail-src" class="optional" data-class="js.dom.ImageControl" />
+						<input class="thumbnail-file" type="file" title="@tip/thumbnail-upload" accept="image/*" />
 					</div>
 					<h3>thumbnail</h3>
 					<h3>560x</h3>

@@ -116,5 +116,3 @@ com.kidscademy.atlas.RelatedControl = class extends js.dom.Control {
 		return "com.kidscademy.atlas.RelatedControl";
 	}
 };
-
-$preload(com.kidscademy.atlas.RelatedControl);

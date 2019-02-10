@@ -34,7 +34,10 @@
 	margin: 0;
 	padding: 0;
 	text-align: center;
-	letter-spacing: 10px;
+	xletter-spacing: 10px;
+	color: black;
+	font-weight: lighter;
+	font-size: 1.8rem;
 }
 
 .audio-assets .sample-info {

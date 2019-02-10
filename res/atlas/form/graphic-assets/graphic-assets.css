@@ -13,10 +13,11 @@
 	height: 96px;
 	margin-right: 20px;
 	padding: 1px;
+	xborder: solid 1px #76be76;
 }
 
 .graphic-assets .view img:not([src]) {
-	min-width: 128px;
+	min-width: 96px;
 	cursor: pointer;
 	border: solid 1px #76be76;
 }

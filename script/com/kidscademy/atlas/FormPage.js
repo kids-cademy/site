@@ -54,8 +54,7 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 			AtlasService.getInstrument(id, this._onObjectLoaded, this);
 		}
 		else {
-			// for development preview
-			AtlasService.getInstrumentByName("cajon", this._onObjectLoaded, this);
+			this._object = {};
 		}
 	}
 

@@ -23,9 +23,9 @@ import com.kidscademy.util.Files;
 
 import js.core.AppContext;
 import js.http.form.Form;
-import js.lang.BugError;
 import js.log.Log;
 import js.log.LogFactory;
+import js.util.Params;
 
 public class AtlasServiceImpl implements AtlasService {
     private static final Log log = LogFactory.getLog(AtlasServiceImpl.class);
@@ -205,9 +205,14 @@ public class AtlasServiceImpl implements AtlasService {
 
     @Override
     public MediaSRC generateWaveform(UIObject object) throws IOException {
+	Params.notZero(object.getId(), "Object ID");
+	
 	File sampleFile = Files.mediaFile(object, "sample.mp3");
 	if (!sampleFile.exists()) {
-	    throw new BugError("Database not consistent. Missing sample file |%s|.", sampleFile);
+	    log.error("Database not consistent. Missing sample file |%s|. Reset sample and waveform for object |%s|.",
+		    sampleFile, object.getName());
+	    dao.resetObjectSample(object.getDtype(), object.getId());
+	    return null;
 	}
 	return generateWaveform(object, sampleFile);
     }
@@ -237,7 +242,7 @@ public class AtlasServiceImpl implements AtlasService {
     public void removeAudioSample(UIObject object) throws IOException {
 	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
 	handler.delete();
-	dao.removeInstrumentSample(object.getName());
+	dao.resetObjectSample(object.getDtype(), object.getId());
 	Files.mediaFile(object, "sample.mp3").delete();
 	Files.mediaFile(object, "waveform.png").delete();
     }

@@ -263,6 +263,7 @@ com.kidscademy.atlas.AudioPlayer = class extends js.dom.Element {
 	_getObject() {
 		const object = this._formPage.getObject();
 		return {
+			id: object.id,
 			dtype: object.dtype,
 			name: object.name
 		}

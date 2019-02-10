@@ -10,13 +10,9 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
     	 */
 		this._formPage = null;
 
-		this._pictureControl = this.getByName("picture-path");
-		this._iconControl = this.getByName("icon-path");
-		this._thumbnailControl = this.getByName("thumbnail-path");
-
-		this._pictureImage = ownerDoc.getById("picture-path");
-		this._iconImage = ownerDoc.getById("icon-path");
-		this._thumbnailImage = ownerDoc.getById("thumbnail-path");
+		this._pictureImage = this.getByName("picture-src");
+		this._iconImage = this.getByName("icon-src");
+		this._thumbnailImage = this.getByName("thumbnail-src");
 
 		this.getByCssClass("picture-file").on("change", this._onPictureFileSelected, this);
 		this.getByCssClass("icon-file").on("change", this._onIconFileSelected, this);
@@ -41,19 +37,6 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 
 	onStart() {
 		const object = this._formPage.getObject();
-		this._pictureControl.setValue(object.picturePath);
-		this._iconControl.setValue(object.iconPath);
-		this._thumbnailControl.setValue(object.thumbnailPath);
-
-		if (object.pictureSrc) {
-			this._pictureImage.setSrc(object.pictureSrc);
-		}
-		if (object.iconSrc) {
-			this._iconImage.setSrc(object.iconSrc);
-		}
-		if (object.thumbnailSrc) {
-			this._thumbnailImage.setSrc(object.thumbnailSrc);
-		}
 	}
 
 	// --------------------------------------------------------------------------------------------
@@ -80,10 +63,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 			js.ua.System.alert("Missing object name.");
 			return;
 		}
-		AtlasService.createObjectIcon(object.dtype, object.name, (iconPath) => {
-			this._iconControl.setValue(iconPath);
-			this._iconImage.setSrc(iconPath);
-		}, this);
+		AtlasService.createObjectIcon(object.dtype, object.name, (iconSrc) => this._iconImage.setValue(iconSrc));
 	}
 
 	_onFlip() {
@@ -125,24 +105,15 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 
 		switch (this._aspectRatio) {
 			case 0:
-				this._upload("upload-thumbnail-file", thumbnailPath => {
-					this._thumbnailControl.setValue(thumbnailPath);
-					this._thumbnailImage.reload(thumbnailPath);
-				});
+				this._upload("upload-thumbnail-file", thumbnailSrc => this._thumbnailImage.setValue(thumbnailSrc));
 				break;
 
 			case 1:
-				this._upload("upload-icon-file", iconPath => {
-					this._iconControl.setValue(iconPath);
-					this._iconImage.reload(iconPath);
-				});
+				this._upload("upload-icon-file", iconSrc => this._iconImage.setValue(iconSrc));
 				break;
 
 			default:
-				this._upload("upload-picture-file", picturePath => {
-					this._pictureControl.setValue(picturePath);
-					this._pictureImage.reload(picturePath);
-				});
+				this._upload("upload-picture-file", pictureSrc => this._pictureImage.setValue(pictureSrc));
 		}
 	}
 
@@ -218,5 +189,3 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		return "com.kidscademy.atlas.GraphicAssets";
 	}
 }
-
-$preload(com.kidscademy.atlas.GraphicAssets);

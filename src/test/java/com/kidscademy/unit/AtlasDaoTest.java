@@ -38,13 +38,13 @@ import com.kidscademy.atlas.UIObject;
 import com.kidscademy.atlas.User;
 import com.kidscademy.dao.AtlasDao;
 import com.kidscademy.dao.AtlasDaoImpl;
+import com.kidscademy.util.Files;
 
 import js.json.Json;
 import js.transaction.TransactionFactory;
 import js.transaction.eclipselink.TransactionFactoryImpl;
 import js.unit.db.Database;
 import js.util.Classes;
-import js.util.Strings;
 
 public class AtlasDaoTest {
     private static Database database;
@@ -142,11 +142,11 @@ public class AtlasDaoTest {
     @Test
     public void postLoadInstrument() {
 	Instrument instrument = dao.getInstrument(1);
-	assertThat(instrument.getIconSrc(), equalTo(src("icon.jpg")));
-	assertThat(instrument.getThumbnailSrc(), equalTo(src("thumbnail.png")));
-	assertThat(instrument.getPictureSrc(), equalTo(src("picture.jpg")));
-	assertThat(instrument.getSampleSrc(), equalTo(src("sample.mp3")));
-	assertThat(instrument.getWaveformSrc(), equalTo(src("waveform.png")));
+	assertThat(instrument.getIconSrc(), equalTo(src("accordion", "icon.jpg")));
+	assertThat(instrument.getThumbnailSrc(), equalTo(src("accordion", "thumbnail.png")));
+	assertThat(instrument.getPictureSrc(), equalTo(src("accordion", "picture.jpg")));
+	assertThat(instrument.getSampleSrc(), equalTo(src("accordion", "sample.mp3")));
+	assertThat(instrument.getWaveformSrc(), equalTo(src("accordion", "waveform.png")));
     }
 
     @Test
@@ -177,16 +177,16 @@ public class AtlasDaoTest {
 	assertThat(instrument.getIconName(), equalTo("icon.jpg"));
 	assertThat(instrument.getThumbnailName(), equalTo("thumbnail.png"));
 	assertThat(instrument.getPictureName(), equalTo("picture.jpg"));
-	assertThat(instrument.getIconSrc(), equalTo(src("icon.jpg")));
-	assertThat(instrument.getThumbnailSrc(), equalTo(src("thumbnail.png")));
-	assertThat(instrument.getPictureSrc(), equalTo(src("picture.jpg")));
+	assertThat(instrument.getIconSrc(), equalTo(src("accordion", "icon.jpg")));
+	assertThat(instrument.getThumbnailSrc(), equalTo(src("accordion", "thumbnail.png")));
+	assertThat(instrument.getPictureSrc(), equalTo(src("accordion", "picture.jpg")));
 
 	assertThat(instrument.getCategory(), equalTo(Category.KEYBOARD));
 	assertThat(instrument.getSampleTitle(), equalTo("Sample"));
 	assertThat(instrument.getSampleName(), equalTo("sample.mp3"));
 	assertThat(instrument.getWaveformName(), equalTo("waveform.png"));
-	assertThat(instrument.getSampleSrc(), equalTo(src("sample.mp3")));
-	assertThat(instrument.getWaveformSrc(), equalTo(src("waveform.png")));
+	assertThat(instrument.getSampleSrc(), equalTo(src("accordion", "sample.mp3")));
+	assertThat(instrument.getWaveformSrc(), equalTo(src("accordion", "waveform.png")));
 
 	assertThat(instrument.getDate().getValue(), equalTo(1234567890L));
 	assertThat(instrument.getDate().getFormat(), equalTo(HDate.Format.DATE));
@@ -265,8 +265,10 @@ public class AtlasDaoTest {
 	instrument.setSpreading(spreading);
 
 	List<Link> links = new ArrayList<>();
-	links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", new MediaSRC("/media/link/wikipedia.png")));
-	links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", new MediaSRC("/media/link/wikipedia.png")));
+	links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx",
+		new MediaSRC("/media/link/wikipedia.png")));
+	links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www",
+		new MediaSRC("/media/link/wikipedia.png")));
 	instrument.setLinks(links);
 
 	Map<String, String> facts = new HashMap<>();
@@ -316,7 +318,7 @@ public class AtlasDaoTest {
 	assertThat(object.getName(), equalTo("accordion"));
 	assertThat(object.getDisplay(), equalTo("Accordion"));
 	assertThat(object.getIconName(), equalTo("icon.jpg"));
-	assertThat(object.getIconSrc(), equalTo(src("icon.jpg")));
+	assertThat(object.getIconSrc(), equalTo(src("accordion", "icon.jpg")));
     }
 
     @Test
@@ -333,7 +335,7 @@ public class AtlasDaoTest {
 	assertThat(object.getName(), equalTo("accordion"));
 	assertThat(object.getDisplay(), equalTo("Accordion"));
 	assertThat(object.getIconName(), equalTo("icon.jpg"));
-	assertThat(object.getIconSrc(), equalTo(src("icon.jpg")));
+	assertThat(object.getIconSrc(), equalTo(src("accordion", "icon.jpg")));
     }
 
     @Test
@@ -350,7 +352,7 @@ public class AtlasDaoTest {
 	assertThat(object.getName(), equalTo("accordion"));
 	assertThat(object.getDisplay(), equalTo("Accordion"));
 	assertThat(object.getIconName(), equalTo("icon.jpg"));
-	assertThat(object.getIconSrc(), equalTo(src("icon.jpg")));
+	assertThat(object.getIconSrc(), equalTo(src("accordion", "icon.jpg")));
     }
 
     @Test
@@ -362,13 +364,21 @@ public class AtlasDaoTest {
 	assertThat(instrument.getState(), equalTo(AtlasObject.State.PUBLISHED));
     }
 
-    // ----------------------------------------------------------------------------------------------
+    @Test
+    public void resetObjectSample() {
+	dao.resetObjectSample("instrument", 1);
 
-    private static MediaSRC src(String mediaFile) {
-	return src("accordion", mediaFile);
+	Instrument instrument = dao.getInstrument(1);
+	assertThat(instrument.getSampleTitle(), nullValue());
+	assertThat(instrument.getSampleName(), nullValue());
+	assertThat(instrument.getSampleSrc(), nullValue());
+	assertThat(instrument.getWaveformName(), nullValue());
+	assertThat(instrument.getWaveformSrc(), nullValue());
     }
 
+    // ----------------------------------------------------------------------------------------------
+
     private static MediaSRC src(String objectName, String mediaFile) {
-	return new MediaSRC(Strings.concat("/media/atlas/instrument/", objectName, '/', mediaFile));
+	return Files.mediaSrc("instrument", objectName, mediaFile);
     }
 }

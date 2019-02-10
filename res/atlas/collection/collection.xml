@@ -8,7 +8,6 @@
 		<script>gen/com/kidscademy/AdminService.js</script>
 		<script>gen/com/kidscademy/AtlasService.js</script>
 		<script>script/com/kidscademy/PageHeader.js</script>
-		<script>script/com/kidscademy/ImageFormat.js</script>
 		<script>script/com/kidscademy/page/Page.js</script>
 		<script>script/com/kidscademy/atlas/CollectionPage.js</script>
 	</scripts>

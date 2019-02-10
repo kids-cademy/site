@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 
 import com.kidscademy.media.AudioProcessor;
 import com.kidscademy.media.AudioSampleInfo;
+import com.kidscademy.util.Classes;
 import com.kidscademy.util.Files;
 
 /**
@@ -87,7 +88,7 @@ public class Instrument extends AtlasObject implements Serializable {
     private MediaSRC waveformSrc;
 
     public Instrument() {
-	dtype = getClass().getSimpleName().toLowerCase();
+	dtype = Classes.dtype(getClass());
     }
 
     /**
@@ -109,7 +110,7 @@ public class Instrument extends AtlasObject implements Serializable {
 	waveformName = source.waveformSrc != null ? source.waveformSrc.fileName() : null;
 
 	if (links != null) {
-	    for(int i = 0; i < links.size(); ++i) {
+	    for (int i = 0; i < links.size(); ++i) {
 		final MediaSRC iconSrc = source.links.get(i).getIconSrc();
 		links.get(i).setIconName(iconSrc != null ? iconSrc.fileName() : null);
 	    }
@@ -262,7 +263,7 @@ public class Instrument extends AtlasObject implements Serializable {
 
     public static Instrument create(User user) {
 	Instrument instrument = new Instrument();
-	instrument.dtype = Instrument.class.getSimpleName();
+	instrument.dtype = Classes.dtype(Instrument.class);
 	instrument.user = user;
 	instrument.state = AtlasObject.State.DEVELOPMENT;
 	instrument.aliases = Collections.emptyList();

@@ -8,6 +8,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 
+import com.kidscademy.atlas.AtlasObject;
 import com.kidscademy.atlas.Bird;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.UIObject;
@@ -38,7 +39,7 @@ public interface AtlasDao {
 
     Instrument getInstrumentByName(String name);
 
-    <T> List<T> findObjectByType(Class<T> type);
+    <T extends AtlasObject> List<T> findObjectByType(Class<T> type);
 
     Bird getBird(int birdId);
 
@@ -46,9 +47,9 @@ public interface AtlasDao {
 
     void removeObject(Object object);
 
-    List<UIObject> findObjectsByName(Class<?> type, List<String> names);
+    List<UIObject> findObjectsByName(Class<? extends AtlasObject> type, List<String> names);
 
     List<UIObject> getInstrumentsByCategory(Instrument.Category category);
 
-    void removeInstrumentSample(String instrumentName);
+    void resetObjectSample(String dtype, int id);
 }

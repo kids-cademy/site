@@ -5,14 +5,18 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import com.kidscademy.atlas.AtlasObject;
 import com.kidscademy.atlas.Bird;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.UIObject;
+import com.kidscademy.util.Classes;
 
 import js.transaction.Immutable;
+import js.transaction.Mutable;
 import js.transaction.Transactional;
 
 @Transactional
+@Immutable
 public class AtlasDaoImpl implements AtlasDao {
     private final EntityManager em;
 
@@ -21,6 +25,7 @@ public class AtlasDaoImpl implements AtlasDao {
     }
 
     @Override
+    @Mutable
     public void saveInstrument(Instrument instrument) {
 	if (instrument.getId() == 0) {
 	    em.persist(instrument);
@@ -47,18 +52,18 @@ public class AtlasDaoImpl implements AtlasDao {
     }
 
     @Override
-    public <T> List<T> findObjectByType(Class<T> type) {
+    public <T extends AtlasObject> List<T> findObjectByType(Class<T> type) {
 	return em.createQuery("select o from AtlasObject o where o.dtype=:dtype", type)
-		.setParameter("dtype", type.getSimpleName().toLowerCase()).getResultList();
+		.setParameter("dtype", Classes.dtype(type)).getResultList();
     }
 
     @Override
-    @Immutable
     public Bird getBird(int birdId) {
 	return em.find(Bird.class, birdId);
     }
 
     @Override
+    @Mutable
     public void removeObject(Object object) {
 	if (!em.contains(object)) {
 	    object = em.merge(object);
@@ -67,12 +72,12 @@ public class AtlasDaoImpl implements AtlasDao {
     }
 
     @Override
-    public List<UIObject> findObjectsByName(Class<?> type, List<String> names) {
+    public List<UIObject> findObjectsByName(Class<? extends AtlasObject> type, List<String> names) {
 	if (names.isEmpty()) {
 	    return Collections.emptyList();
 	}
 	String jpql = "select o from UIObject o where o.dtype=:dtype and o.name in :names";
-	return em.createQuery(jpql, UIObject.class).setParameter("dtype", type.getSimpleName().toLowerCase())
+	return em.createQuery(jpql, UIObject.class).setParameter("dtype", Classes.dtype(type))
 		.setParameter("names", names).getResultList();
     }
 
@@ -83,8 +88,12 @@ public class AtlasDaoImpl implements AtlasDao {
     }
 
     @Override
-    public void removeInstrumentSample(String instrumentName) {
-	String jpql = "update Instrument i set i.sampleTitle=null,i.sampleName=null,i.waveformName=null where i.name=:name";
-	em.createQuery(jpql).setParameter("name", instrumentName).executeUpdate();
+    @Mutable
+    public void resetObjectSample(String dtype, int id) {
+	// by convention sample entity name is base entity plus 'Sample' suffix
+	String jpql = String.format(
+		"update %sSample o set o.sampleTitle=null,o.sampleName=null,o.waveformName=null where o.id=:id",
+		Classes.entityName(dtype));
+	em.createQuery(jpql).setParameter("id", id).executeUpdate();
     }
 }

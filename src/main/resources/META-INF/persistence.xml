@@ -9,6 +9,9 @@
 		<class>com.kidscademy.dao.DislikeReasonConverter</class>
 		<class>com.kidscademy.dao.AtlasObjectStateConverter</class>
 
+		<!-- support entities -->
+		<class>com.kidscademy.dao.InstrumentSample</class>
+
 		<!-- embeddables -->
 		<class>com.kidscademy.atlas.Bird</class>
 		<class>com.kidscademy.atlas.Link</class>
@@ -67,16 +70,14 @@
 	</persistence-unit>
 
 	<persistence-unit name="test" transaction-type="RESOURCE_LOCAL">
-
 		<class>com.kidscademy.dao.UrlConverter</class>
 		<class>com.kidscademy.dao.DislikeReasonConverter</class>
 		<class>com.kidscademy.dao.AtlasObjectStateConverter</class>
+		<class>com.kidscademy.dao.InstrumentSample</class>
 
-		<!-- embeddables -->
 		<class>com.kidscademy.atlas.Bird</class>
 		<class>com.kidscademy.atlas.Link</class>
 
-		<!-- entities -->
 		<class>com.kidscademy.model.App</class>
 		<class>com.kidscademy.model.Model</class>
 		<class>com.kidscademy.model.Device</class>
