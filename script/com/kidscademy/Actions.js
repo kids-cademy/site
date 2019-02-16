@@ -15,47 +15,47 @@ com.kidscademy.Actions = class extends js.dom.Element {
 	 */
 	constructor(ownerDoc, node) {
 		super(ownerDoc, node);
-		
+
 		this._keymap = {};
 	}
 
 	bind(container, input) {
 		function handlerName(name) {
-			return "_on" + name.charAt(0).toUpperCase() + name.substr(1);
+			return "_on" + name.replace(/(?:^|\-)(\w)/g, (match, capture) => capture.toUpperCase());
 		}
-		
+
 		this.getChildren().forEach(child => {
 			const name = child.getName();
-			if(name == null) {
+			if (name == null) {
 				return;
 			}
-			
+
 			const handler = container[handlerName(name)];
-			if(typeof handler !== "function") {
+			if (typeof handler !== "function") {
 				throw `Missing handler for action ${name}.`;
 			}
-			
+
 			child.on("click", handler, container);
-			
+
 			const key = child.getAttr("data-key");
-			if(key !== null) {
+			if (key !== null) {
 				this._keymap[js.event.Key[key]] = handler.bind(container);
 			}
 		});
-		
-		if(input) {
+
+		if (input) {
 			input.on("keypress", this._onKey, this);
 		}
 		return this;
 	}
-	
+
 	show(...args) {
-		if(args.length === 0) {
+		if (args.length === 0) {
 			return;
 		}
-		
+
 		var show, names;
-		if(js.lang.Types.isBoolean(args[0])) {
+		if (js.lang.Types.isBoolean(args[0])) {
 			show = args[0];
 			names = args.slice(1);
 		}
@@ -67,20 +67,20 @@ com.kidscademy.Actions = class extends js.dom.Element {
 		names.forEach(name => this.getByName(name).show(show));
 		return this;
 	}
-	
+
 	hide(...names) {
 		names.forEach(name => this.getByName(name).hide());
 		return this;
 	}
-	
+
 	_onKey(ev) {
 		const handler = this._keymap[ev.key];
-		if(handler) {
+		if (handler) {
 			ev.halt();
 			handler();
 		}
 	}
-	
+
 	/**
 	 * Class string representation.
 	 * 

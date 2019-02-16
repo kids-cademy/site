@@ -14,9 +14,7 @@
 			</div>
 			<div id="sample-src" class="waveform" data-class="com.kidscademy.atlas.AudioPlayer">
 				<input name="sample-src" type="hidden" class="optional" />
-				<input name="waveform-src" type="hidden" class="optional" />
-				
-				<img data-src="waveform-src" data-default="@image/waveform" />
+				<img name="waveform-src" class="optional" data-class="js.dom.ImageControl" data-default="@image/waveform" />
 				<div class="progress"></div>
 				<h1 class="processing hidden">processing... please wait</h1>
 			</div>
@@ -40,7 +38,7 @@
 				</dl>
 			</div>
 			
-			<div class="actions">
+			<div class="actions" data-class="com.kidscademy.Actions">
 				<span class="upload-icon">
 					<img src="@image/action/upload" />
 					<input class="sample-file" type="file" accept="audio/*" title="@tip/audio-upload" />
@@ -55,7 +53,6 @@
 				<img name="play" src="@image/action/play" title="@tip/audio-play" />
 				<img name="undo" src="@image/action/undo" title="@tip/audio-undo" />
 				<img name="clear" src="@image/action/clear" title="@tip/audio-clear" />
-				<img name="done" src="@image/action/done" title="@tip/audio-done" />
 				<img name="remove" src="@image/action/remove" title="@tip/audio-remove" />
 			</div>
 		</div>

@@ -13,8 +13,8 @@ import js.util.Classes;
 import js.util.Strings;
 import js.util.Types;
 
-public class FFmpegProcessor extends AbstractMediaProcessor {
-    private static final Log log = LogFactory.getLog(FFmpegProcessor.class);
+public class FFmpegProcess extends AbstractMediaProcess {
+    private static final Log log = LogFactory.getLog(FFmpegProcess.class);
 
     @Override
     public <T> T exec(Type resultClass, String command) throws IOException {

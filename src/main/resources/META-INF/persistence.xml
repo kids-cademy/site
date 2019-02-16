@@ -66,6 +66,7 @@
 			<property name="javax.persistence.jdbc.password" value="kids_cademy" />
 
 			<property name="eclipselink.logging.level.sql" value="FINE" />
+			<property name="eclipselink.cache.shared.default" value="true" />
 		</properties>
 	</persistence-unit>
 
@@ -101,6 +102,8 @@
 			<property name="javax.persistence.jdbc.password" value="kids_cademy" />
 
 			<property name="eclipselink.logging.level.sql" value="FINE" />
+			<!-- disable cache on tests since create dependencies between test cases -->
+			<property name="eclipselink.cache.shared.default" value="false" />
 		</properties>
 	</persistence-unit>
 </persistence>

@@ -58,6 +58,7 @@ public class UIObject implements MediaWrapper {
      * @param name
      */
     public UIObject(String dtype, String name) {
+	this.id = 1;
 	this.dtype = dtype;
 	this.name = name;
     }

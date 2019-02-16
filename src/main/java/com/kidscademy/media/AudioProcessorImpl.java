@@ -1,5 +1,7 @@
 package com.kidscademy.media;
 
+import static com.kidscademy.media.AbstractMediaProcess.format;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -7,7 +9,6 @@ import java.lang.reflect.Type;
 import com.kidscademy.CT;
 
 import js.annotation.Test;
-import js.lang.BugError;
 import js.log.Log;
 import js.log.LogFactory;
 import js.util.Files;
@@ -18,14 +19,14 @@ public class AudioProcessorImpl implements AudioProcessor {
     /** Duration of non-silence to stop audio silence processing. */
     private static final float SILENCE_DURATION = 0.5F;
 
-    private final MediaProcessor ffmpeg;
-    private final MediaProcessor ffprobe;
+    private final MediaProcess ffmpeg;
+    private final MediaProcess ffprobe;
     private final Waveform waveform;
 
     public AudioProcessorImpl() throws IOException {
 	log.trace("AudioProcessorImpl()");
-	ffmpeg = new FFmpegProcessor();
-	ffprobe = new FFprobeProcessor();
+	ffmpeg = new FFmpegProcess();
+	ffprobe = new FFprobeProcess();
 	waveform = new Waveform();
     }
 
@@ -37,7 +38,7 @@ public class AudioProcessorImpl implements AudioProcessor {
      * @param ffprobe
      */
     @Test
-    public AudioProcessorImpl(MediaProcessor ffmpeg, MediaProcessor ffprobe, Waveform waveform) {
+    public AudioProcessorImpl(MediaProcess ffmpeg, MediaProcess ffprobe, Waveform waveform) {
 	this.ffmpeg = ffmpeg;
 	this.ffprobe = ffprobe;
 	this.waveform = waveform;
@@ -48,7 +49,7 @@ public class AudioProcessorImpl implements AudioProcessor {
 	ProbeResult result = probe("-show_format -show_streams ${audioFile}", audioFile);
 
 	AudioSampleInfo info = new AudioSampleInfo();
-	info.setFileName(result.format.filename);
+	info.setFileName(new File(result.format.filename).getName());
 	info.setFileSize(result.format.size);
 
 	ProbeResult.Stream stream = result.streams[0];
@@ -175,45 +176,4 @@ public class AudioProcessorImpl implements AudioProcessor {
     private ProbeResult probe(String format, Object... args) throws IOException {
 	return ffprobe.exec(ProbeResult.class, format(format, args));
     }
-
-    private static String format(String format, Object... args) {
-	// 0: NONE
-	// 1: APPEND
-	// 2: WAIT_OPEN_BRACE
-	// 3: VARIABLE
-	int state = 1;
-
-	StringBuilder valueBuilder = new StringBuilder();
-	for (int charIndex = 0, argIndex = 0; charIndex < format.length(); ++charIndex) {
-	    char c = format.charAt(charIndex);
-	    switch (state) {
-	    case 1:
-		if (c == '$') {
-		    state = 2;
-		    break;
-		}
-		valueBuilder.append(c);
-		break;
-
-	    case 2:
-		if (c != '{') {
-		    throw new BugError("Invalid command format...");
-		}
-		state = 3;
-
-	    case 3:
-		if (c == '}') {
-		    if (argIndex == args.length) {
-			throw new BugError("Arguments overflow...");
-		    }
-		    valueBuilder.append(args[argIndex]);
-		    ++argIndex;
-		    state = 1;
-		}
-		break;
-	    }
-	}
-	return valueBuilder.toString();
-    }
-
 }

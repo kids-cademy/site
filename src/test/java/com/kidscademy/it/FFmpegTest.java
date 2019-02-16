@@ -20,7 +20,7 @@ import com.kidscademy.media.AudioProcessorImpl;
 import com.kidscademy.media.AudioSampleInfo;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FFmpegProcessorTest {
+public class FFmpegTest {
     private AudioProcessor audio;
 
     @Before
@@ -40,7 +40,7 @@ public class FFmpegProcessorTest {
 	AudioSampleInfo info = audio.getAudioFileInfo(audioFile);
 
 	assertThat(info, notNullValue());
-	assertThat(info.getFileName(), equalTo("fixture\\audio\\sample.mp3"));
+	assertThat(info.getFileName(), equalTo("sample.mp3"));
 	assertThat(info.getFileSize(), equalTo(3041906));
 	assertThat(info.getCodec(), equalTo("MP3 (MPEG audio layer 3)"));
 	assertThat(info.getDuration(), equalTo(190119));

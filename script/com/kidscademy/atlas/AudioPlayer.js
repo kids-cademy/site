@@ -31,12 +31,6 @@ com.kidscademy.atlas.AudioPlayer = class extends js.dom.Element {
 		this._sampleSrcInput = this.getByName("sample-src");
 
 		/**
-		 * Hidden input that stores root-relative media SRC for waveform image. It is scanned by parent form for validity and value.
-		 * @type {js.dom.Control}
-		 */
-		this._waveformSrcInput = this.getByName("waveform-src");
-
-		/**
 		 * Audio media player provided by browser. Current implementation does not use <code>timeupdate</code> Audio event for
 		 * progress update because of not satisfactory UI update rate; it uses instead periodic time, see {@link #_timer}.
 		 * @type {Audio}
@@ -59,7 +53,7 @@ com.kidscademy.atlas.AudioPlayer = class extends js.dom.Element {
 		 * Image element for audio sample waveform preview.
 		 * @type {js.dom.Image}
 		 */
-		this._waveformImage = this.getByTag("img");
+		this._waveformImage = this.getByName("waveform-src");
 		this._waveformImage.on("error", this._onMissingWaveform, this);
 
 		/**
@@ -87,7 +81,7 @@ com.kidscademy.atlas.AudioPlayer = class extends js.dom.Element {
 		 * @type {number}
 		 */
 		this._progressOffset = 0;
-		
+
 		/**
 		 * 
 		 */
@@ -121,7 +115,7 @@ com.kidscademy.atlas.AudioPlayer = class extends js.dom.Element {
 	setObject(object) {
 		this._processing.hide();
 		this._updatePlayer(object.sampleSrc);
-		this._updateWaveform(object.waveformSrc);
+		this._waveformImage.setValue(object.waveformSrc)
 	}
 
 	/** 
@@ -133,11 +127,11 @@ com.kidscademy.atlas.AudioPlayer = class extends js.dom.Element {
 	resetObject(processing = true) {
 		this._progressOffset = 0;
 		this._updatePlayer(null);
-		this._updateWaveform(null);
 		this._player.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAVFYAAFRWAAABAAgAZGF0YQAAAAA=';
 		if (processing) {
 			this._processing.show();
 		}
+		this._waveformImage.reset()
 	}
 
 	/**
@@ -208,7 +202,7 @@ com.kidscademy.atlas.AudioPlayer = class extends js.dom.Element {
 		if (object.name) {
 			// allows only one request for waveform generation
 			this._waveformImage.un("error", this._onMissingWaveform);
-			AtlasService.generateWaveform(object, waveformSrc => this._updateWaveform(waveformSrc));
+			AtlasService.generateWaveform(object, waveformSrc => this._waveformImage.setValue(waveformSrc));
 		}
 	}
 
@@ -237,26 +231,11 @@ com.kidscademy.atlas.AudioPlayer = class extends js.dom.Element {
 	 * @see #_sampleSrcInput
 	 */
 	_updatePlayer(sampleSrc) {
-		this._sampleSrcInput.reset();
+		this._sampleSrcInput.setValue("");
 		this.stop();
 		if (sampleSrc) {
 			this._sampleSrcInput.setValue(sampleSrc);
 			this._player.src = sampleSrc + '?' + Date.now();
-		}
-	}
-
-	/**
-	 * Update waveform image and its associated waveform SRC input. If given waveform SRC is null this method just reset waveform 
-	 * SRC input and image.
-	 *  
-	 * @param {string} waveformSrc - root-relative SRC for sample waveform.
-	 */
-	_updateWaveform(waveformSrc) {
-		this._waveformSrcInput.reset();
-		this._waveformImage.reset();
-		if (waveformSrc) {
-			this._waveformSrcInput.setValue(waveformSrc);
-			this._waveformImage.reload(waveformSrc);
 		}
 	}
 

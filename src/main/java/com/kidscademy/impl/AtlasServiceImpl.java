@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-import org.im4java.process.ProcessStarter;
-
 import com.kidscademy.AtlasService;
-import com.kidscademy.CT;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.MediaSRC;
@@ -18,6 +15,7 @@ import com.kidscademy.atlas.User;
 import com.kidscademy.dao.AtlasDao;
 import com.kidscademy.media.AudioProcessor;
 import com.kidscademy.media.AudioSampleInfo;
+import com.kidscademy.media.ImageInfo;
 import com.kidscademy.media.ImageProcessor;
 import com.kidscademy.util.Files;
 
@@ -41,7 +39,6 @@ public class AtlasServiceImpl implements AtlasService {
 	this.dao = dao;
 	this.audio = audio;
 	this.image = image;
-	ProcessStarter.setGlobalSearchPath(CT.imageMagickPath());
     }
 
     @Override
@@ -74,7 +71,14 @@ public class AtlasServiceImpl implements AtlasService {
     }
 
     @Override
-    public Instrument saveInstrument(Instrument instrument) {
+    public Instrument saveInstrument(Instrument instrument) throws IOException {
+	if (instrument.getSampleSrc() != null) {
+	    MediaFileHandler handler = new MediaFileHandler(instrument, "sample.mp3");
+	    handler.commit();
+	    instrument.setSampleSrc(handler.sourceSrc());
+	    instrument.setWaveformSrc(generateWaveform(instrument, handler.source()));
+	}
+
 	dao.saveInstrument(instrument);
 	return instrument;
     }
@@ -92,9 +96,23 @@ public class AtlasServiceImpl implements AtlasService {
     }
 
     @Override
+    public Link createLink(URL url) {
+	return Link.create(url);
+    }
+
+    // ----------------------------------------------------------------------------------------------
+    // OBJECT IMAGE SERVICES
+
+    @Override
+    public ImageInfo getImageInfo(UIObject object, String imageName) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, imageName);
+	return image.getImageInfo(handler.source());
+    }
+
+    @Override
     public MediaSRC uploadPictureFile(Form form) throws IOException {
-	String collectionName = form.getValue("collection-name");
-	String objectName = form.getValue("object-name");
+	String collectionName = form.getValue("dtype");
+	String objectName = form.getValue("name");
 
 	MediaSRC pictureSrc = Files.mediaSrc(collectionName, objectName, "picture.jpg");
 	File pictureFile = Files.mediaFile(pictureSrc);
@@ -106,8 +124,8 @@ public class AtlasServiceImpl implements AtlasService {
 
     @Override
     public MediaSRC uploadThumbnailFile(Form form) throws IOException {
-	String collectionName = form.getValue("collection-name");
-	String objectName = form.getValue("object-name");
+	String collectionName = form.getValue("dtype");
+	String objectName = form.getValue("name");
 
 	MediaSRC thumbnailSrc = Files.mediaSrc(collectionName, objectName, "thumbnail.png");
 	File thumbnailFile = Files.mediaFile(thumbnailSrc);
@@ -119,8 +137,8 @@ public class AtlasServiceImpl implements AtlasService {
 
     @Override
     public MediaSRC uploadIconFile(Form form) throws IOException {
-	String collectionName = form.getValue("collection-name");
-	String objectName = form.getValue("object-name");
+	String collectionName = form.getValue("dtype");
+	String objectName = form.getValue("name");
 
 	MediaSRC iconSrc = Files.mediaSrc(collectionName, objectName, "icon.jpg");
 	File iconFile = Files.mediaFile(iconSrc);
@@ -143,12 +161,15 @@ public class AtlasServiceImpl implements AtlasService {
     }
 
     @Override
-    public Link createLink(URL url) {
-	return Link.create(url);
+    public MediaSRC cropObjectImage(UIObject object, String imageName, int width, int height, int xoffset, int yoffset)
+	    throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, imageName);
+	image.crop(handler.source(), handler.target(), width, height, xoffset, yoffset);
+	return handler.targetSrc();
     }
 
     // ----------------------------------------------------------------------------------------------
-    // Object Audio Sample Services
+    // OBJECT AUDIO SAMPLE SERVICES
 
     @Override
     public AudioSampleInfo uploadAudioSample(Form form) throws IOException {
@@ -206,7 +227,7 @@ public class AtlasServiceImpl implements AtlasService {
     @Override
     public MediaSRC generateWaveform(UIObject object) throws IOException {
 	Params.notZero(object.getId(), "Object ID");
-	
+
 	File sampleFile = Files.mediaFile(object, "sample.mp3");
 	if (!sampleFile.exists()) {
 	    log.error("Database not consistent. Missing sample file |%s|. Reset sample and waveform for object |%s|.",
@@ -232,14 +253,9 @@ public class AtlasServiceImpl implements AtlasService {
     }
 
     @Override
-    public AudioSampleInfo commitAudioSampleProcessing(UIObject object) throws IOException {
-	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
-	handler.commit();
-	return getAudioSampleInfo(object, handler.source(), handler.sourceSrc());
-    }
-
-    @Override
     public void removeAudioSample(UIObject object) throws IOException {
+	Params.notZero(object.getId(), "Object ID");
+
 	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
 	handler.delete();
 	dao.resetObjectSample(object.getDtype(), object.getId());

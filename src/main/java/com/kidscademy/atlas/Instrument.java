@@ -237,6 +237,10 @@ public class Instrument extends AtlasObject implements Serializable {
 	this.date = date;
     }
 
+    public AudioSampleInfo getSampleInfo() {
+        return sampleInfo;
+    }
+
     @Override
     public String toString() {
 	// toString is used by Audit to print instrument; leave it as it is

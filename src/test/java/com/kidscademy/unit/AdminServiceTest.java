@@ -22,6 +22,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.kidscademy.AtlasService;
+import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.atlas.UIObject;
 import com.kidscademy.dao.AtlasDao;
@@ -59,6 +60,9 @@ public class AdminServiceTest
   public void beforeTest()
   {
     service = new AtlasServiceImpl(context, dao, audio, image);
+    file("sample.mp3").delete();
+    file("sample_1.mp3").delete();
+    file("sample_2.mp3").delete();
   }
 
   @Test
@@ -208,16 +212,24 @@ public class AdminServiceTest
   }
 
   @Test
-  public void commitMediaProcessing() throws IOException
+  public void saveInstrument() throws IOException
   {
     Files.copy(new File("fixture/audio/sample.mp3"), file("sample.mp3"));
     Files.copy(new File("fixture/audio/sample.mp3"), file("sample_1.mp3"));
     Files.copy(new File("fixture/audio/sample.mp3"), file("sample_2.mp3"));
 
     AudioSampleInfo info = new AudioSampleInfo();
-    when(audio.getAudioFileInfo(any(File.class))).thenReturn(info);
+    info.setSampleSrc(src("sample.mp3"));
+    info.setWaveformSrc(src("waveform.png"));
 
-    info = service.commitAudioSampleProcessing(new UIObject("instrument", "test"));
+    Instrument instrument = new Instrument();
+    instrument.setName("test");
+    instrument.setSampleSrc(src("sample.mp3"));
+    instrument.setSampleInfo(info);
+    
+    instrument = service.saveInstrument(instrument);    
+    info = instrument.getSampleInfo();
+    
     assertTrue(file("sample.mp3").exists());
     assertFalse(file("sample_1.mp3").exists());
     assertFalse(file("sample_2.mp3").exists());
@@ -238,7 +250,7 @@ public class AdminServiceTest
   public void removeInstrumentSample() throws IOException
   {
     Files.copy(new File("fixture/audio/sample.mp3"), file("sample.mp3"));
-    Files.copy(new File("fixture/waveform.png"), file("waveform.png"));
+    Files.copy(new File("fixture/image/waveform.png"), file("waveform.png"));
 
     service.removeAudioSample(new UIObject("instrument", "test"));
 

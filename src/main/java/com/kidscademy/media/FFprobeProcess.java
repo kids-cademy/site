@@ -13,8 +13,8 @@ import js.log.LogFactory;
 import js.util.Classes;
 import js.util.Strings;
 
-public class FFprobeProcessor extends AbstractMediaProcessor {
-    private static final Log log = LogFactory.getLog(FFprobeProcessor.class);
+public class FFprobeProcess extends AbstractMediaProcess {
+    private static final Log log = LogFactory.getLog(FFprobeProcess.class);
 
     @Override
     public <T> T exec(final Type resultType, String command) throws IOException {

@@ -12,6 +12,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +27,7 @@ import com.kidscademy.CT;
 import com.kidscademy.media.AudioProcessor;
 import com.kidscademy.media.AudioProcessorImpl;
 import com.kidscademy.media.AudioSampleInfo;
-import com.kidscademy.media.MediaProcessor;
+import com.kidscademy.media.MediaProcess;
 import com.kidscademy.media.ProbeResult;
 import com.kidscademy.media.VolumeInfo;
 import com.kidscademy.media.Waveform;
@@ -32,9 +35,9 @@ import com.kidscademy.media.Waveform;
 @RunWith(MockitoJUnitRunner.class)
 public class AudioProcessorTest {
     @Mock
-    private MediaProcessor ffmpeg;
+    private MediaProcess ffmpeg;
     @Mock
-    private MediaProcessor ffprobe;
+    private MediaProcess ffprobe;
     @Mock
     private Waveform waveform;
 
@@ -73,7 +76,7 @@ public class AudioProcessorTest {
 
 	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
 	verify(ffmpeg).exec(commandCaptor.capture());
-	assertThat(commandCaptor.getValue(), equalTo("-i audio.mp3 audio.wav"));
+	assertThat(commandCaptor.getValue(), equalToFormat("-i %s %s", audioFile, new File("audio.wav")));
 
 	ArgumentCaptor<File> wavFileCaptor = ArgumentCaptor.forClass(File.class);
 	ArgumentCaptor<File> waveformFileCaptor = ArgumentCaptor.forClass(File.class);
@@ -91,8 +94,9 @@ public class AudioProcessorTest {
 
 	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
 	verify(ffmpeg).exec(commandCaptor.capture());
-	assertThat(commandCaptor.getValue(), equalTo(
-		"-i audio.mp3 -af silenceremove=start_periods=1:start_duration=0.5:start_threshold=-60dB:detection=peak,aformat=dblp,areverse,silenceremove=start_periods=1:start_duration=0.5:start_threshold=-60dB:detection=peak,aformat=dblp,areverse target.mp3"));
+	assertThat(commandCaptor.getValue(), equalToFormat(
+		"-i %s -af silenceremove=start_periods=1:start_duration=0.5:start_threshold=-60dB:detection=peak,aformat=dblp,areverse,silenceremove=start_periods=1:start_duration=0.5:start_threshold=-60dB:detection=peak,aformat=dblp,areverse %s",
+		audioFile, targetFile));
     }
 
     @Test
@@ -100,15 +104,15 @@ public class AudioProcessorTest {
 	File audioFile = Mockito.mock(File.class);
 	File targetFile = new File("target.mp3");
 
-	when(audioFile.toString()).thenReturn("audio.mp3");
 	when(audioFile.length()).thenReturn(CT.MAX_TRIM_FILE_SIZE + 1L);
 
 	audio.trimSilence(audioFile, targetFile);
 
 	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
 	verify(ffmpeg).exec(commandCaptor.capture());
-	assertThat(commandCaptor.getValue(), equalTo(
-		"-i audio.mp3 -af silenceremove=start_periods=1:start_duration=0.5:start_threshold=-65dB:detection=peak,silenceremove=stop_periods=1:stop_duration=0.5:stop_threshold=-65dB:detection=peak target.mp3"));
+	assertThat(commandCaptor.getValue(), equalToFormat(
+		"-i %s -af silenceremove=start_periods=1:start_duration=0.5:start_threshold=-65dB:detection=peak,silenceremove=stop_periods=1:stop_duration=0.5:stop_threshold=-65dB:detection=peak %s",
+		audioFile, targetFile));
     }
 
     @Test
@@ -120,7 +124,7 @@ public class AudioProcessorTest {
 
 	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
 	verify(ffmpeg).exec(commandCaptor.capture());
-	assertThat(commandCaptor.getValue(), equalTo("-i audio.mp3 -ss 12.3 -to 45.67 target.mp3"));
+	assertThat(commandCaptor.getValue(), equalToFormat("-i %s -ss 12.3 -to 45.67 %s", audioFile, targetFile));
     }
 
     @Test
@@ -132,7 +136,7 @@ public class AudioProcessorTest {
 
 	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
 	verify(ffmpeg).exec(commandCaptor.capture());
-	assertThat(commandCaptor.getValue(), equalTo("-i audio.mp3 -af pan=mono|c0=0.5*c0+0.5*c1 target.mp3"));
+	assertThat(commandCaptor.getValue(), equalToFormat("-i %s -af pan=mono|c0=0.5*c0+0.5*c1 %s", audioFile, targetFile));
     }
 
     @Test
@@ -150,10 +154,10 @@ public class AudioProcessorTest {
 
 	verify(ffmpeg).exec(typeCaptor.capture(), commandCaptor.capture());
 	assertThat(typeCaptor.getValue(), equalTo((Type) VolumeInfo.class));
-	assertThat(commandCaptor.getValue(), equalTo("-i audio.mp3 -af volumedetect -f null /dev/null"));
+	assertThat(commandCaptor.getValue(), equalToFormat("-i %s -af volumedetect -f null /dev/null", audioFile));
 
 	verify(ffmpeg).exec(commandCaptor.capture());
-	assertThat(commandCaptor.getValue(), equalTo("-i audio.mp3 -af volume=3.2dB target.mp3"));
+	assertThat(commandCaptor.getValue(), equalToFormat("-i %s -af volume=3.2dB %s", audioFile, targetFile));
     }
 
     @Test
@@ -165,7 +169,8 @@ public class AudioProcessorTest {
 
 	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
 	verify(ffmpeg).exec(commandCaptor.capture());
-	assertThat(commandCaptor.getValue(), equalTo("-i audio.mp3 -af afade=t=in:ss=0:d=12.345:curve=tri target.mp3"));
+	assertThat(commandCaptor.getValue(),
+		equalToFormat("-i %s -af afade=t=in:ss=0:d=12.345:curve=tri %s", audioFile, targetFile));
     }
 
     @Test
@@ -181,6 +186,35 @@ public class AudioProcessorTest {
 	ArgumentCaptor<String> commandCaptor = ArgumentCaptor.forClass(String.class);
 	verify(ffmpeg).exec(commandCaptor.capture());
 	assertThat(commandCaptor.getValue(),
-		equalTo("-i audio.mp3 -af afade=t=out:st=21.0:d=2.1:curve=tri target.mp3"));
+		equalToFormat("-i %s -af afade=t=out:st=21.0:d=2.1:curve=tri %s", audioFile, targetFile));
+    }
+
+    // --------------------------------------------------------------------------------------------
+
+    private static Matcher<String> equalToFormat(String format, Object... args) {
+	class FormatToMatcher extends TypeSafeMatcher<String> {
+	    private String expected;
+
+	    public FormatToMatcher(String format, Object... args) {
+		for (int i = 0; i < args.length; ++i) {
+		    if (args[i] instanceof File) {
+			args[i] = ((File) args[i]).getAbsolutePath();
+		    }
+		}
+		this.expected = String.format(format, args);
+	    }
+
+	    @Override
+	    public void describeTo(Description description) {
+		description.appendText(expected);
+	    }
+
+	    @Override
+	    protected boolean matchesSafely(String item) {
+		return expected.equals(item);
+	    }
+	}
+
+	return new FormatToMatcher(format, args);
     }
 }

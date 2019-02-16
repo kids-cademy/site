@@ -14,9 +14,9 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		this._iconImage = this.getByName("icon-src");
 		this._thumbnailImage = this.getByName("thumbnail-src");
 
-		this.getByCssClass("picture-file").on("change", this._onPictureFileSelected, this);
-		this.getByCssClass("icon-file").on("change", this._onIconFileSelected, this);
-		this.getByCssClass("thumbnail-file").on("change", this._onThumbnailFileSelected, this);
+		this.getByCssClass("picture-file").on("change", this._onPictureUpload, this);
+		this.getByCssClass("icon-file").on("change", this._onIconUpload, this);
+		this.getByCssClass("thumbnail-file").on("change", this._onThumbnailUpload, this);
 
 		this._fileView = this.getByCssClass("file-view");
 		this._cropView = this.getByCssClass("crop-view");
@@ -78,6 +78,17 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		const crop = this._cropEditor.getCropArea();
 		this._cropEditor.hide();
 
+		const object = this._getObject();
+		const imageName = "picture.jpg";
+		AtlasService.cropObjectImage(object, imageName, crop.cx, crop.cy, crop.x, crop.y, function(imageSrc) {
+			this._previewImage.setSrc(imageSrc);
+		}, this);
+	}
+
+	_onDoneOnCanvas() {
+		const crop = this._cropEditor.getCropArea();
+		this._cropEditor.hide();
+
 		const canvas = this.getByTag("canvas")._node;
 		canvas.width = crop.cx;
 		canvas.height = crop.cy;
@@ -88,7 +99,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		this._previewImage.setSrc(canvas.toDataURL());
 		this._canvasUpdated = true;
 	}
-
+	
 	_onUndo() {
 		js.ua.System.alert("Undo not yet implemented.");
 	}
@@ -123,19 +134,19 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 
 	// --------------------------------------------------------------------------------------------
 	
-	_onPictureFileSelected(ev) {
+	_onPictureUpload(ev) {
 		this._pictureImage.removeCssClass("invalid");
 		this._aspectRatio = 16 / 9;
 		this._onImageFileSelected(ev);
 	}
 
-	_onIconFileSelected(ev) {
+	_onIconUpload(ev) {
 		this._iconImage.removeCssClass("invalid");
 		this._aspectRatio = 1;
 		this._onImageFileSelected(ev);
 	}
 
-	_onThumbnailFileSelected(ev) {
+	_onThumbnailUpload(ev) {
 		this._thumbnailImage.removeCssClass("invalid");
 		this._aspectRatio = 0;
 		this._onImageFileSelected(ev);
@@ -155,8 +166,8 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		const canvas = this.getByTag("canvas")._node;
 		canvas.toBlob((file) => {
 			const data = new FormData();
-			data.append("collection-name", object.dtype);
-			data.append("object-name", object.name);
+			data.append("dtype", object.dtype);
+			data.append("name", object.name);
 			data.append("file", file);
 
 			xhr.send(data);
@@ -178,6 +189,15 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		this._imageFile.width = this._previewImage._node.naturalWidth;
 		this._imageFile.height = this._previewImage._node.naturalHeight;
 		this._fileView.setObject(this._imageFile);
+	}
+
+	_getObject() {
+		const object = this._formPage.getObject();
+		return {
+			id: object.id,
+			dtype: object.dtype,
+			name: object.name
+		}
 	}
 
     /**

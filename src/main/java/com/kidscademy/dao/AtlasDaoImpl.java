@@ -92,7 +92,7 @@ public class AtlasDaoImpl implements AtlasDao {
     public void resetObjectSample(String dtype, int id) {
 	// by convention sample entity name is base entity plus 'Sample' suffix
 	String jpql = String.format(
-		"update %sSample o set o.sampleTitle=null,o.sampleName=null,o.waveformName=null where o.id=:id",
+		"update %s o set o.sampleTitle=null,o.sampleName=null,o.waveformName=null where o.id=:id",
 		Classes.entityName(dtype));
 	em.createQuery(jpql).setParameter("id", id).executeUpdate();
     }

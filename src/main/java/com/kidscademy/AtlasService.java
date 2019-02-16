@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-import org.im4java.core.IM4JavaException;
-
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.atlas.UIObject;
 import com.kidscademy.media.AudioSampleInfo;
+import com.kidscademy.media.ImageInfo;
 
 import js.annotation.Service;
 import js.http.form.Form;
@@ -30,17 +29,24 @@ public interface AtlasService {
 
     Instrument getInstrumentByName(String name);
 
-    Instrument saveInstrument(Instrument instrument);
+    Instrument saveInstrument(Instrument instrument) throws IOException;
 
     List<UIObject> getRelatedInstruments(List<String> names);
 
     List<UIObject> getAvailableInstruments(Instrument.Category category, List<UIObject> related);
 
-    MediaSRC uploadPictureFile(Form form) throws IOException, InterruptedException, IM4JavaException;
+    Link createLink(URL url);
 
-    MediaSRC uploadIconFile(Form form) throws IOException, InterruptedException, IM4JavaException;
+    // ----------------------------------------------------------------------------------------------
+    // OBJECT IMAGE SERVICES
 
-    MediaSRC uploadThumbnailFile(Form form) throws IOException, InterruptedException, IM4JavaException;
+    ImageInfo getImageInfo(UIObject object, String imageName) throws IOException;
+
+    MediaSRC uploadPictureFile(Form form) throws IOException;
+
+    MediaSRC uploadIconFile(Form form) throws IOException;
+
+    MediaSRC uploadThumbnailFile(Form form) throws IOException;
 
     /**
      * Create object icon from picture.
@@ -52,10 +58,11 @@ public interface AtlasService {
      */
     MediaSRC createObjectIcon(String collectionName, String objectName) throws IOException;
 
-    Link createLink(URL url);
+    MediaSRC cropObjectImage(UIObject object, String imageName, int width, int height, int xoffset, int yoffset)
+	    throws IOException;
 
     // ----------------------------------------------------------------------------------------------
-    // Object Audio Sample Services
+    // OBJECT AUDIO SAMPLE SERVICES
 
     /**
      * Upload audio sample. Form should have <code>dtype</code> and
@@ -192,20 +199,8 @@ public interface AtlasService {
     AudioSampleInfo roolbackAudioSampleProcessing(UIObject object) throws IOException;
 
     /**
-     * Commit processing on object audio sample. Audio processing on object sample
-     * is performed in sequence, saving previous state. On commit all intermediate
-     * saved files are removed and all changes are copied to base sample file.
-     * 
-     * @param object
-     *            object owning audio sample.
-     * @return audio sample info with status after processing.
-     * @throws IOException
-     *             if processing fail.
-     */
-    AudioSampleInfo commitAudioSampleProcessing(UIObject object) throws IOException;
-
-    /**
-     * Remove object audio sample.
+     * Remove object audio sample from media repository and update database record.
+     * If there are not commited audio transforms they are also removed.
      * 
      * @param object
      *            object owning audio sample.
