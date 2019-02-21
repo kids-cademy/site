@@ -46,7 +46,7 @@ public class Link {
     }
 
     public void setIconName(String iconName) {
-        this.iconName = iconName;
+	this.iconName = iconName;
     }
 
     public void setIconSrc(MediaSRC iconSrc) {
@@ -70,7 +70,13 @@ public class Link {
     }
 
     public MediaSRC getIconSrc() {
-        return iconSrc;
+	return iconSrc;
+    }
+
+    public String getFileName() {
+	String path = url.getPath();
+	int lastPathseparator = path.lastIndexOf('/') + 1;
+	return path.substring(lastPathseparator);
     }
 
     @Override

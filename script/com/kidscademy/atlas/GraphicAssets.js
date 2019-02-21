@@ -78,7 +78,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		const crop = this._cropEditor.getCropArea();
 		this._cropEditor.hide();
 
-		const object = this._getObject();
+		const object = this._formPage.getUIObject();
 		const imageName = "picture.jpg";
 		AtlasService.cropObjectImage(object, imageName, crop.cx, crop.cy, crop.x, crop.y, function(imageSrc) {
 			this._previewImage.setSrc(imageSrc);
@@ -189,15 +189,6 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		this._imageFile.width = this._previewImage._node.naturalWidth;
 		this._imageFile.height = this._previewImage._node.naturalHeight;
 		this._fileView.setObject(this._imageFile);
-	}
-
-	_getObject() {
-		const object = this._formPage.getObject();
-		return {
-			id: object.id,
-			dtype: object.dtype,
-			name: object.name
-		}
 	}
 
     /**

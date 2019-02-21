@@ -11,6 +11,7 @@ import javax.persistence.Transient;
 import com.kidscademy.atlas.AtlasObject;
 import com.kidscademy.atlas.Bird;
 import com.kidscademy.atlas.Instrument;
+import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.UIObject;
 
 public interface AtlasDao {
@@ -52,4 +53,6 @@ public interface AtlasDao {
     List<UIObject> getInstrumentsByCategory(Instrument.Category category);
 
     void resetObjectSample(String dtype, int id);
+
+    List<Link> getObjectLinks(UIObject object);
 }

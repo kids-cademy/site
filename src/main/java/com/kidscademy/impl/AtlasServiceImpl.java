@@ -3,7 +3,9 @@ package com.kidscademy.impl;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.kidscademy.AtlasService;
 import com.kidscademy.atlas.Instrument;
@@ -18,12 +20,16 @@ import com.kidscademy.media.AudioSampleInfo;
 import com.kidscademy.media.ImageInfo;
 import com.kidscademy.media.ImageProcessor;
 import com.kidscademy.util.Files;
+import com.kidscademy.www.SoftSchools;
+import com.kidscademy.www.Wikipedia;
+import com.kidscademy.www.WikipediaPageSummary;
 
 import js.core.AppContext;
 import js.http.form.Form;
 import js.log.Log;
 import js.log.LogFactory;
 import js.util.Params;
+import js.util.Strings;
 
 public class AtlasServiceImpl implements AtlasService {
     private static final Log log = LogFactory.getLog(AtlasServiceImpl.class);
@@ -32,13 +38,18 @@ public class AtlasServiceImpl implements AtlasService {
     private final AtlasDao dao;
     private final AudioProcessor audio;
     private final ImageProcessor image;
+    private final Wikipedia wikipedia;
+    private final SoftSchools softSchools;
 
-    public AtlasServiceImpl(AppContext context, AtlasDao dao, AudioProcessor audio, ImageProcessor image) {
-	log.trace("AtlasServiceImpl(AppContext, AtlasDao)");
+    public AtlasServiceImpl(AppContext context, AtlasDao dao, AudioProcessor audio, ImageProcessor image,
+	    Wikipedia wikipedia, SoftSchools softSchools) {
+	log.trace("AtlasServiceImpl(AppContext, AtlasDao, AudioProcessor, ImageProcessor, Wikipedia, SoftSchools)");
 	this.context = context;
 	this.dao = dao;
 	this.audio = audio;
 	this.image = image;
+	this.wikipedia = wikipedia;
+	this.softSchools = softSchools;
     }
 
     @Override
@@ -98,6 +109,57 @@ public class AtlasServiceImpl implements AtlasService {
     @Override
     public Link createLink(URL url) {
 	return Link.create(url);
+    }
+
+    @Override
+    public String importObjectDescription(UIObject object) {
+	List<Link> links = dao.getObjectLinks(object);
+	if (links.isEmpty()) {
+	    return null;
+	}
+
+	for (Link link : links) {
+	    if ("Soft Schools".equals(link.getName())) {
+		// http://www.softschools.com/facts/music_instruments/accordion_facts/3037/
+		// TODO magic number
+		String path = link.getUrl().getPath().substring(6);
+		return "<p>" + softSchools.getFacts(path).getDescription().replaceAll("\\. ", ".</p><p>") + "</p>";
+	    }
+//	    if ("Wikipedia".equals(link.getName())) {
+//		WikipediaPageSummary summary = wikipedia.getPageSummary(link.getFileName());
+//		return summary != null ? summary.getExtract() : null;
+//	    }
+	}
+
+	return null;
+    }
+
+    @Override
+    public Map<String, String> importObjectsFacts(UIObject object) {
+	List<Link> links = dao.getObjectLinks(object);
+	if (links.isEmpty()) {
+	    return null;
+	}
+
+	for (Link link : links) {
+	    if ("Soft Schools".equals(link.getName())) {
+		// http://www.softschools.com/facts/music_instruments/accordion_facts/3037/
+		// TODO magic number
+		String path = link.getUrl().getPath().substring(6);
+
+		Map<String, String> facts = new HashMap<>();
+		for (String fact : softSchools.getFacts(path).getFacts()) {
+		    int firstPuctuationIndex = Strings.indexOneOf(fact, ',', ';', '.');
+		    if (firstPuctuationIndex == -1) {
+			firstPuctuationIndex = fact.length();
+		    }
+		    facts.put(fact.substring(0, Math.min(firstPuctuationIndex, 64)), fact);
+		}
+		return facts;
+	    }
+	}
+
+	return null;
     }
 
     // ----------------------------------------------------------------------------------------------

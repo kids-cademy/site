@@ -24,6 +24,13 @@ com.kidscademy.atlas.FactsControl = class extends js.dom.Control {
 		this._showEditor(false);
 	}
 
+	onCreate(formPage) {
+		this._formPage = formPage;
+	}
+
+	onStart() {
+	}
+
 	// --------------------------------------------------------------------------------------------
 	// CONTROL INTERFACE
 
@@ -54,16 +61,16 @@ com.kidscademy.atlas.FactsControl = class extends js.dom.Control {
 	// --------------------------------------------------------------------------------------------
 	// ACTION HANDLERS
 
+	_onImport() {
+		AtlasService.importObjectsFacts(this._formPage.getUIObject(), facts => this.setValue(facts));
+	}
+	
 	_onAdd(ev) {
 		this._showEditor(true);
 		this._termInput.reset();
 		this._definitionInput.reset();
 	}
 
-	_onImport() {
-		js.ua.System.alert("Import not yet implemented.");
-	}
-	
 	_onDone(ev) {
 		if (this._termOnEdit) {
 			delete this._facts[this._termOnEdit];

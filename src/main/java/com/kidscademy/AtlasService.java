@@ -3,6 +3,7 @@ package com.kidscademy;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
@@ -36,6 +37,10 @@ public interface AtlasService {
     List<UIObject> getAvailableInstruments(Instrument.Category category, List<UIObject> related);
 
     Link createLink(URL url);
+
+    String importObjectDescription(UIObject object);
+    
+    Map<String, String> importObjectsFacts(UIObject object);
 
     // ----------------------------------------------------------------------------------------------
     // OBJECT IMAGE SERVICES

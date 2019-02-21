@@ -1,4 +1,4 @@
-<fieldset class="description">
+<fieldset name="description" class="description" data-class="com.kidscademy.atlas.DescriptionControl">
 	<div class="header container">
 		<h2>@string/object-description</h2>
 		<p>@string/sample-text</p>
@@ -9,7 +9,10 @@
 		</div>
 		<div class="container">
 			<div>
-				<textarea name="description" class="optional" data-class="com.kidscademy.atlas.TextControl"></textarea>
+				<textarea class="optional"></textarea>
+			</div>
+			<div class="actions" data-class="com.kidscademy.Actions">
+				<img name="import" src="@image/action/upload" title="@tip/description-import" />
 			</div>
 		</div>
 	</div>

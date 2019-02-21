@@ -31,6 +31,8 @@ import com.kidscademy.media.AudioProcessor;
 import com.kidscademy.media.AudioSampleInfo;
 import com.kidscademy.media.ImageProcessor;
 import com.kidscademy.util.Files;
+import com.kidscademy.www.SoftSchools;
+import com.kidscademy.www.Wikipedia;
 
 import js.core.AppContext;
 import js.http.form.Form;
@@ -47,7 +49,11 @@ public class AdminServiceTest
   private AudioProcessor audio;
   @Mock
   private ImageProcessor image;
-
+  @Mock
+  private Wikipedia wikipedia;
+  @Mock
+  private SoftSchools softSchools;
+  
   private AtlasService service;
 
   @BeforeClass
@@ -59,7 +65,7 @@ public class AdminServiceTest
   @Before
   public void beforeTest()
   {
-    service = new AtlasServiceImpl(context, dao, audio, image);
+    service = new AtlasServiceImpl(context, dao, audio, image, wikipedia, softSchools);
     file("sample.mp3").delete();
     file("sample_1.mp3").delete();
     file("sample_2.mp3").delete();

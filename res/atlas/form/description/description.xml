@@ -5,6 +5,7 @@
 	<description>Description field set from object form.</description>
 	<scripts>
 		<script>lib/js-lib/js-lib.js</script>
-		<script>script/com/kidscademy/atlas/TextControl.js</script>
+		<script>script/com/kidscademy/Actions.js</script>
+		<script>script/com/kidscademy/atlas/DescriptionControl.js</script>
 	</scripts>
 </page>

@@ -17,8 +17,10 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 		this._form = this.getByClass(com.kidscademy.Form);
 		this._sidebar = this.getByCss(".side-bar .header");
 		
+		this._descriptionControl = this.getByClass(com.kidscademy.atlas.DescriptionControl);
 		this._graphicAssets = this.getByClass(com.kidscademy.atlas.GraphicAssets);
 		this._audioAssets = this.getByClass(com.kidscademy.atlas.AudioAssets);
+		this._factsControl = this.getByClass(com.kidscademy.atlas.FactsControl);
 		this._relatedControl = this._form.getByClass(com.kidscademy.atlas.RelatedControl);
 		this._linksControl = this._form.getByClass(com.kidscademy.atlas.LinksControl);
 
@@ -29,8 +31,10 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 			"&cancel": this._onCancel
 		});
 
+		this._descriptionControl.onCreate(this);
 		this._graphicAssets.onCreate(this);
 		this._audioAssets.onCreate(this);
+		this._factsControl.onCreate(this);
 		this._relatedControl.onCreate(this);
 		this._linksControl.onCreate(this);
 
@@ -46,6 +50,15 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 		this._form.getObject(this._object);
 		this._object.state = this._publishedCheckbox.checked()? "PUBLISHED": "DEVELOPMENT"; 
 		return this._object;
+	}
+
+	getUIObject() {
+		const object = this.getObject();
+		return {
+			id: object.id,
+			dtype: object.dtype,
+			name: object.name
+		}
 	}
 
 	_loadObject() {
@@ -66,8 +79,10 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 		this._form.setObject(object);
 		this._sidebar.setObject(object);
 
+		this._descriptionControl.onStart();
 		this._graphicAssets.onStart();
 		this._audioAssets.onStart();
+		this._factsControl.onStart();
 		this._relatedControl.onStart();
 		this._linksControl.onStart();
 	}

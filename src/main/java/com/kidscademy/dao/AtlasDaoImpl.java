@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import com.kidscademy.atlas.AtlasObject;
 import com.kidscademy.atlas.Bird;
 import com.kidscademy.atlas.Instrument;
+import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.UIObject;
 import com.kidscademy.util.Classes;
 
@@ -49,6 +50,12 @@ public class AtlasDaoImpl implements AtlasDao {
     public Instrument getInstrumentByName(String name) {
 	return em.createQuery("select i from Instrument i where i.name=:name", Instrument.class)
 		.setParameter("name", name).getSingleResult();
+    }
+
+    @Override
+    public List<Link> getObjectLinks(UIObject object) {
+	return em.createQuery("select o.links from AtlasObject o where o.dtype=:dtype and o.name=:name", Link.class)
+		.setParameter("dtype", object.getDtype()).setParameter("name", object.getName()).getResultList();
     }
 
     @Override

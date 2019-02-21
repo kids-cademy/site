@@ -16,6 +16,9 @@
 
 		<audio-processor interface="com.kidscademy.media.AudioProcessor" class="com.kidscademy.media.AudioProcessorImpl" />
 		<image-processor interface="com.kidscademy.media.ImageProcessor" class="com.kidscademy.media.ImageProcessorImpl" />
+		
+		<wikipedia interface="com.kidscademy.www.Wikipedia" type="REMOTE" url="https:rest://en.wikipedia.org/api/rest_v1/" />
+		<softschools interface="com.kidscademy.www.SoftSchools" type="REMOTE" url="http:xpath://www.softschools.com/" />
 	</managed-classes>
 	<observer period="60000" />
 	<views>

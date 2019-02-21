@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tip>
-	<actual-image>see actual image size</actual-image>
-	<close-editor>close editor</close-editor>
-	<image-upload>select image file from device</image-upload>
-	<picture-upload>upload object picture</picture-upload>
-	<icon-upload>upload object icon</icon-upload>
-	<thumbnail-upload>upload object thumbnail</thumbnail-upload>
-
+	<description-import>import object description</description-import>
+	
+	<graphic-picture>upload object picture</graphic-picture>
+	<graphic-icon>upload object icon</graphic-icon>
+	<graphic-thumbnail>upload object thumbnail</graphic-thumbnail>
 	<graphic-crop>crop image</graphic-crop>
 	<graphic-icon>create object icon from picture</graphic-icon>
 	<graphic-flip>flip image vertically</graphic-flip>
