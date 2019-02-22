@@ -1,4 +1,4 @@
-package com.kidscademy.media;
+package com.kidscademy.tool;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

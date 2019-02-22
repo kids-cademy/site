@@ -1,4 +1,4 @@
-package com.kidscademy.media;
+package com.kidscademy.tool;
 
 public class VolumeInfo implements ResultParser {
     private static final String LABEL_AVERAGE = "mean_volume:";

@@ -1,4 +1,4 @@
-package com.kidscademy.media;
+package com.kidscademy.tool;
 
 import java.util.Map;
 

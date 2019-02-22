@@ -1,6 +1,6 @@
-package com.kidscademy.media;
+package com.kidscademy.tool;
 
-import static com.kidscademy.media.AbstractMediaProcess.format;
+import static com.kidscademy.tool.AbstractToolProcess.format;
 
 import java.io.File;
 import java.io.IOException;

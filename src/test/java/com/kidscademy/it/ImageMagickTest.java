@@ -16,13 +16,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.kidscademy.media.ConvertProcess;
-import com.kidscademy.media.IdentifyProcess;
-import com.kidscademy.media.ImageCompose;
-import com.kidscademy.media.ImageInfo;
-import com.kidscademy.media.ImageProcessor;
-import com.kidscademy.media.ImageProcessorImpl;
-import com.kidscademy.media.MediaType;
+import com.kidscademy.tool.ConvertProcess;
+import com.kidscademy.tool.IdentifyProcess;
+import com.kidscademy.tool.ImageCompose;
+import com.kidscademy.tool.ImageInfo;
+import com.kidscademy.tool.ImageProcessor;
+import com.kidscademy.tool.ImageProcessorImpl;
+import com.kidscademy.tool.MediaType;
 
 import js.util.Classes;
 import js.util.Files;

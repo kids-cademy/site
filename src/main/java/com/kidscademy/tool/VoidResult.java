@@ -1,4 +1,4 @@
-package com.kidscademy.media;
+package com.kidscademy.tool;
 
 public class VoidResult implements ResultParser {
     @Override

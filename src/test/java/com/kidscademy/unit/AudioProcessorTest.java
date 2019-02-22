@@ -24,20 +24,20 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.kidscademy.CT;
-import com.kidscademy.media.AudioProcessor;
-import com.kidscademy.media.AudioProcessorImpl;
-import com.kidscademy.media.AudioSampleInfo;
-import com.kidscademy.media.MediaProcess;
-import com.kidscademy.media.ProbeResult;
-import com.kidscademy.media.VolumeInfo;
-import com.kidscademy.media.Waveform;
+import com.kidscademy.tool.AudioProcessor;
+import com.kidscademy.tool.AudioProcessorImpl;
+import com.kidscademy.tool.AudioSampleInfo;
+import com.kidscademy.tool.ToolProcess;
+import com.kidscademy.tool.ProbeResult;
+import com.kidscademy.tool.VolumeInfo;
+import com.kidscademy.tool.Waveform;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AudioProcessorTest {
     @Mock
-    private MediaProcess ffmpeg;
+    private ToolProcess ffmpeg;
     @Mock
-    private MediaProcess ffprobe;
+    private ToolProcess ffprobe;
     @Mock
     private Waveform waveform;
 

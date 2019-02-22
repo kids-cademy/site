@@ -1,4 +1,4 @@
-package com.kidscademy.media;
+package com.kidscademy.tool;
 
 import java.io.BufferedInputStream;
 import java.io.Closeable;

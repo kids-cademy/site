@@ -15,9 +15,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.kidscademy.media.AudioProcessor;
-import com.kidscademy.media.AudioProcessorImpl;
-import com.kidscademy.media.AudioSampleInfo;
+import com.kidscademy.tool.AudioProcessor;
+import com.kidscademy.tool.AudioProcessorImpl;
+import com.kidscademy.tool.AudioSampleInfo;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FFmpegTest {

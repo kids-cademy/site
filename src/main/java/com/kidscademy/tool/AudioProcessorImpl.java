@@ -1,6 +1,6 @@
-package com.kidscademy.media;
+package com.kidscademy.tool;
 
-import static com.kidscademy.media.AbstractMediaProcess.format;
+import static com.kidscademy.tool.AbstractToolProcess.format;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,8 +19,8 @@ public class AudioProcessorImpl implements AudioProcessor {
     /** Duration of non-silence to stop audio silence processing. */
     private static final float SILENCE_DURATION = 0.5F;
 
-    private final MediaProcess ffmpeg;
-    private final MediaProcess ffprobe;
+    private final ToolProcess ffmpeg;
+    private final ToolProcess ffprobe;
     private final Waveform waveform;
 
     public AudioProcessorImpl() throws IOException {
@@ -38,7 +38,7 @@ public class AudioProcessorImpl implements AudioProcessor {
      * @param ffprobe
      */
     @Test
-    public AudioProcessorImpl(MediaProcess ffmpeg, MediaProcess ffprobe, Waveform waveform) {
+    public AudioProcessorImpl(ToolProcess ffmpeg, ToolProcess ffprobe, Waveform waveform) {
 	this.ffmpeg = ffmpeg;
 	this.ffprobe = ffprobe;
 	this.waveform = waveform;

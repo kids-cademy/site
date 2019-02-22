@@ -1,4 +1,4 @@
-package com.kidscademy.media;
+package com.kidscademy.tool;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,18 +13,18 @@ import js.util.Classes;
 import js.util.Strings;
 import js.util.Types;
 
-public class FFmpegProcess extends AbstractMediaProcess {
+public class FFmpegProcess extends AbstractToolProcess {
     private static final Log log = LogFactory.getLog(FFmpegProcess.class);
 
     @Override
-    public <T> T exec(Type resultClass, String command) throws IOException {
-	if (!Types.isKindOf(resultClass, ResultParser.class)) {
+    public <T> T exec(Type resultType, String command) throws IOException {
+	if (!Types.isKindOf(resultType, ResultParser.class)) {
 	    throw new BugError("FFmpeg processor requires result parser class.");
 	}
 
 	List<String> args = Strings.split("ffmpeg -y " + command);
 	final Process process = start(args);
-	final T result = Classes.newInstance(resultClass);
+	final T result = Classes.newInstance(resultType);
 
 	final Object lock = new Object();
 	// create process standard output reader and wait process printout

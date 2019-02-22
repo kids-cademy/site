@@ -1,4 +1,4 @@
-package com.kidscademy.media;
+package com.kidscademy.tool;
 
 import js.annotation.ContextParam;
 import js.util.Strings;

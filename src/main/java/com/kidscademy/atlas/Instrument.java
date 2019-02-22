@@ -14,8 +14,8 @@ import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 
-import com.kidscademy.media.AudioProcessor;
-import com.kidscademy.media.AudioSampleInfo;
+import com.kidscademy.tool.AudioProcessor;
+import com.kidscademy.tool.AudioSampleInfo;
 import com.kidscademy.util.Classes;
 import com.kidscademy.util.Files;
 

@@ -1,4 +1,4 @@
-package com.kidscademy.media;
+package com.kidscademy.tool;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,8 +10,8 @@ import js.log.Log;
 import js.log.LogFactory;
 import js.util.Strings;
 
-public abstract class AbstractMediaProcess implements MediaProcess {
-    private static final Log log = LogFactory.getLog(AbstractMediaProcess.class);
+public abstract class AbstractToolProcess implements ToolProcess {
+    private static final Log log = LogFactory.getLog(AbstractToolProcess.class);
 
     private static final long FFMPEG_TIMEOUT = 16000L;
 

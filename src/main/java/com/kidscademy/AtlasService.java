@@ -9,8 +9,8 @@ import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.atlas.UIObject;
-import com.kidscademy.media.AudioSampleInfo;
-import com.kidscademy.media.ImageInfo;
+import com.kidscademy.tool.AudioSampleInfo;
+import com.kidscademy.tool.ImageInfo;
 
 import js.annotation.Service;
 import js.http.form.Form;

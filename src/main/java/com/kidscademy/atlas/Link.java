@@ -2,6 +2,7 @@ package com.kidscademy.atlas;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,6 +24,7 @@ public class Link {
     private URL url;
     private String name;
     private String iconName;
+    private List<Feature> features;
 
     /** Root-relative media SRC for link icon. */
     @Transient
@@ -111,5 +113,9 @@ public class Link {
 	link.iconName = Strings.concat(basedomain, ".png");
 	link.iconSrc = Files.linkSrc(link.iconName);
 	return link;
+    }
+    
+    public enum Feature {
+	IDENITY, DESCRIPTION, GRAPHIC, AUDIO, FACTS, SPREADING
     }
 }
