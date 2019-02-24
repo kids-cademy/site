@@ -80,8 +80,10 @@
 		<id>1</id>
 		<atlasobject_id>1</atlasobject_id>
 		<url>https://en.wikipedia.org/wiki/Accordion</url>
-		<name>Wikipedia</name>
+		<domain>wikipedia.org</domain>
+		<display>Wikipedia</display>
 		<iconName>wikipedia.png</iconName>
+		<features>description</features>
 	</atlasobject_links>
 
 	<atlasobject_spreading>

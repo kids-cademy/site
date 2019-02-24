@@ -20,6 +20,7 @@ import com.kidscademy.tool.AudioSampleInfo;
 import com.kidscademy.tool.ImageInfo;
 import com.kidscademy.tool.ImageProcessor;
 import com.kidscademy.util.Files;
+import com.kidscademy.util.Strings;
 import com.kidscademy.www.SoftSchools;
 import com.kidscademy.www.Wikipedia;
 import com.kidscademy.www.WikipediaPageSummary;
@@ -29,7 +30,6 @@ import js.http.form.Form;
 import js.log.Log;
 import js.log.LogFactory;
 import js.util.Params;
-import js.util.Strings;
 
 public class AtlasServiceImpl implements AtlasService {
     private static final Log log = LogFactory.getLog(AtlasServiceImpl.class);
@@ -112,54 +112,36 @@ public class AtlasServiceImpl implements AtlasService {
     }
 
     @Override
-    public String importObjectDescription(UIObject object) {
-	List<Link> links = dao.getObjectLinks(object);
-	if (links.isEmpty()) {
+    public String importObjectDescription(Link link) {
+	switch (link.getDomain()) {
+	case "softschools.com":
+	    // http://www.softschools.com/facts/music_instruments/accordion_facts/3037/
+	    // url_path := /facts/music_instruments/accordion_facts/3037/
+	    // path := music_instruments/accordion_facts/3037/
+	    String path = Strings.substringAfter(link.getUrl().getPath(), "/facts/");
+	    return Strings.html(softSchools.getFacts(path).getDescription());
+
+	case "wikipedia.org":
+	    WikipediaPageSummary summary = wikipedia.getPageSummary(link.getFileName());
+	    return summary != null ? Strings.html(summary.getExtract()) : null;
+
+	default:
 	    return null;
 	}
-
-	for (Link link : links) {
-	    if ("Soft Schools".equals(link.getName())) {
-		// http://www.softschools.com/facts/music_instruments/accordion_facts/3037/
-		// TODO magic number
-		String path = link.getUrl().getPath().substring(6);
-		return "<p>" + softSchools.getFacts(path).getDescription().replaceAll("\\. ", ".</p><p>") + "</p>";
-	    }
-//	    if ("Wikipedia".equals(link.getName())) {
-//		WikipediaPageSummary summary = wikipedia.getPageSummary(link.getFileName());
-//		return summary != null ? summary.getExtract() : null;
-//	    }
-	}
-
-	return null;
     }
 
     @Override
-    public Map<String, String> importObjectsFacts(UIObject object) {
-	List<Link> links = dao.getObjectLinks(object);
-	if (links.isEmpty()) {
-	    return null;
+    public Map<String, String> importObjectsFacts(Link link) {
+	// http://www.softschools.com/facts/music_instruments/accordion_facts/3037/
+	// url_path := /facts/music_instruments/accordion_facts/3037/
+	// path := music_instruments/accordion_facts/3037/
+	String path = Strings.substringAfter(link.getUrl().getPath(), "/facts/");
+
+	Map<String, String> facts = new HashMap<>();
+	for (String fact : softSchools.getFacts(path).getFacts()) {
+	    facts.put(Strings.excerpt(fact), fact);
 	}
-
-	for (Link link : links) {
-	    if ("Soft Schools".equals(link.getName())) {
-		// http://www.softschools.com/facts/music_instruments/accordion_facts/3037/
-		// TODO magic number
-		String path = link.getUrl().getPath().substring(6);
-
-		Map<String, String> facts = new HashMap<>();
-		for (String fact : softSchools.getFacts(path).getFacts()) {
-		    int firstPuctuationIndex = Strings.indexOneOf(fact, ',', ';', '.');
-		    if (firstPuctuationIndex == -1) {
-			firstPuctuationIndex = fact.length();
-		    }
-		    facts.put(fact.substring(0, Math.min(firstPuctuationIndex, 64)), fact);
-		}
-		return facts;
-	    }
-	}
-
-	return null;
+	return facts;
     }
 
     // ----------------------------------------------------------------------------------------------

@@ -77,7 +77,7 @@ CREATE TABLE `atlasobject` (
   `lastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `rank` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
-  `display` varchar(45) DEFAULT NULL,
+  `display` varchar(45) NOT NULL,
   `description` text,
   `iconName` varchar(45) DEFAULT NULL,
   `thumbnailName` varchar(45) DEFAULT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE `atlasobject` (
   UNIQUE KEY `uq_atlasobject_name` (`name`,`dtype`),
   KEY `fk_atlasobject_user1_idx` (`user_id`),
   CONSTRAINT `fk_atlasobject_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=410 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=413 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +122,7 @@ CREATE TABLE `atlasobject_facts` (
   UNIQUE KEY `uq_atlasobject_facts_key` (`atlasobject_id`,`facts_key`),
   KEY `id_atlasobject_facts_object_id` (`atlasobject_id`),
   CONSTRAINT `fk_fact_object1` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=321 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=359 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,13 +136,15 @@ CREATE TABLE `atlasobject_links` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `atlasobject_id` int(11) NOT NULL,
   `url` varchar(128) NOT NULL,
-  `name` varchar(45) NOT NULL,
+  `domain` varchar(45) NOT NULL,
+  `display` varchar(45) NOT NULL,
   `iconName` varchar(45) NOT NULL,
+  `features` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_link_url` (`url`,`atlasobject_id`),
   KEY `idx_link_atlasobject_id` (`atlasobject_id`),
   CONSTRAINT `fk_link_atlasobject_id` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=824 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=829 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,7 +182,7 @@ CREATE TABLE `atlasobject_spreading` (
   UNIQUE KEY `uq_region_area` (`atlasobject_id`,`name`,`area`),
   KEY `idx_region_atlasobject_id` (`atlasobject_id`),
   CONSTRAINT `fk_region_atlasobject_id` FOREIGN KEY (`atlasobject_id`) REFERENCES `atlasobject` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -353,6 +355,34 @@ CREATE TABLE `instrument` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Temporary table structure for view `instrument_object`
+--
+
+DROP TABLE IF EXISTS `instrument_object`;
+/*!50001 DROP VIEW IF EXISTS `instrument_object`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `instrument_object` (
+  `id` tinyint NOT NULL,
+  `state` tinyint NOT NULL,
+  `lastUpdated` tinyint NOT NULL,
+  `rank` tinyint NOT NULL,
+  `category` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `display` tinyint NOT NULL,
+  `description` tinyint NOT NULL,
+  `iconName` tinyint NOT NULL,
+  `thumbnailName` tinyint NOT NULL,
+  `pictureName` tinyint NOT NULL,
+  `sampleTitle` tinyint NOT NULL,
+  `sampleName` tinyint NOT NULL,
+  `waveformName` tinyint NOT NULL,
+  `date_value` tinyint NOT NULL,
+  `date_mask` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `keyword`
 --
 
@@ -486,6 +516,25 @@ CREATE TABLE `user` (
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `instrument_object`
+--
+
+/*!50001 DROP TABLE IF EXISTS `instrument_object`*/;
+/*!50001 DROP VIEW IF EXISTS `instrument_object`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `instrument_object` AS select `i`.`id` AS `id`,`o`.`state` AS `state`,`o`.`lastUpdated` AS `lastUpdated`,`o`.`rank` AS `rank`,`i`.`category` AS `category`,`o`.`name` AS `name`,`o`.`display` AS `display`,`o`.`description` AS `description`,`o`.`iconName` AS `iconName`,`o`.`thumbnailName` AS `thumbnailName`,`o`.`pictureName` AS `pictureName`,`i`.`sampleTitle` AS `sampleTitle`,`i`.`sampleName` AS `sampleName`,`i`.`waveformName` AS `waveformName`,`i`.`date_value` AS `date_value`,`i`.`date_mask` AS `date_mask` from (`instrument` `i` join `atlasobject` `o` on((`i`.`id` = `o`.`id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -496,4 +545,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-03 10:07:26
+-- Dump completed on 2019-02-23 10:04:32

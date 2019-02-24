@@ -16,7 +16,7 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 
 		this._form = this.getByClass(com.kidscademy.Form);
 		this._sidebar = this.getByCss(".side-bar .header");
-		
+
 		this._descriptionControl = this.getByClass(com.kidscademy.atlas.DescriptionControl);
 		this._graphicAssets = this.getByClass(com.kidscademy.atlas.GraphicAssets);
 		this._audioAssets = this.getByClass(com.kidscademy.atlas.AudioAssets);
@@ -48,7 +48,7 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 
 	getObject() {
 		this._form.getObject(this._object);
-		this._object.state = this._publishedCheckbox.checked()? "PUBLISHED": "DEVELOPMENT"; 
+		this._object.state = this._publishedCheckbox.checked() ? "PUBLISHED" : "DEVELOPMENT";
 		return this._object;
 	}
 
@@ -59,6 +59,14 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 			dtype: object.dtype,
 			name: object.name
 		}
+	}
+
+	getLinks(feature) {
+		const object = this.getObject();
+		if (!object.links) {
+			return [];
+		}
+		return object.links.filter(link => link.features.indexOf(feature) !== -1);
 	}
 
 	_loadObject() {

@@ -2,7 +2,6 @@ package com.kidscademy.atlas;
 
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,9 +21,10 @@ public class Link {
 
     private int id;
     private URL url;
-    private String name;
+    private String domain;
+    private String display;
     private String iconName;
-    private List<Feature> features;
+    private String features;
 
     /** Root-relative media SRC for link icon. */
     @Transient
@@ -38,13 +38,15 @@ public class Link {
      * 
      * @param objectId
      * @param url
-     * @param name
+     * @param display
      * @param iconName
      */
-    public Link(URL url, String name, MediaSRC iconSrc) {
+    public Link(URL url, String display, MediaSRC iconSrc) {
 	this.url = url;
-	this.name = name;
+	this.domain = domain(url);
+	this.display = display;
 	this.iconSrc = iconSrc;
+	this.features = "description";
     }
 
     public void setIconName(String iconName) {
@@ -63,8 +65,12 @@ public class Link {
 	return url;
     }
 
-    public String getName() {
-	return name;
+    public String getDomain() {
+	return domain;
+    }
+
+    public String getDisplay() {
+	return display;
     }
 
     public String getIconName() {
@@ -81,41 +87,55 @@ public class Link {
 	return path.substring(lastPathseparator);
     }
 
+    public String getFeatures() {
+	return features;
+    }
+
     @Override
     public String toString() {
 	return url != null ? url.toExternalForm() : "null";
     }
 
-    private static final Pattern DOMAIN_PATTERN = Pattern.compile("^(?:[^.]+\\.)*([^.]+)\\..+$");
-
-    private static final Map<String, String> DOMAIN_NAMES = new HashMap<>();
+    private static final Map<String, String[]> DOMAINS = new HashMap<>();
     static {
-	DOMAIN_NAMES.put("wikipedia", "Wikipedia");
-	DOMAIN_NAMES.put("softschools", "Soft Schools");
-	DOMAIN_NAMES.put("kiddle", "Kiddle");
-	DOMAIN_NAMES.put("kids-cademy", "kids (a)cademy");
+	DOMAINS.put("wikipedia.org", new String[] { "Wikipedia", "description" });
+	DOMAINS.put("softschools.com", new String[] { "Soft Schools", "description,facts" });
+	DOMAINS.put("kiddle.co", new String[] { "Kiddle", "description" });
+	DOMAINS.put("kids-cademy.com", new String[] { "kids (a)cademy", "description" });
     }
 
     public static Link create(URL url) {
-	Matcher matcher = DOMAIN_PATTERN.matcher(url.getHost());
-	matcher.find();
-	String basedomain = matcher.group(1);
+	String domain = domain(url);
 
 	Link link = new Link();
 	link.url = url;
+	link.domain = domain;
 
-	link.name = DOMAIN_NAMES.get(basedomain);
-	if (link.name == null) {
-	    log.warn("Not registered display name for base doamin |%s|.", basedomain);
-	    link.name = basedomain;
+	link.display = DOMAINS.get(domain)[0];
+	if (link.display == null) {
+	    log.warn("Not registered display name for base doamin |%s|.", domain);
+	    link.display = domain;
 	}
 
-	link.iconName = Strings.concat(basedomain, ".png");
+	link.iconName = Strings.concat(basedomain(url), ".png");
 	link.iconSrc = Files.linkSrc(link.iconName);
+	link.features = DOMAINS.get(domain)[1];
 	return link;
     }
-    
-    public enum Feature {
-	IDENITY, DESCRIPTION, GRAPHIC, AUDIO, FACTS, SPREADING
+
+    private static final Pattern DOMAIN_PATTERN = Pattern.compile("^(?:[^.]+\\.)*([^.]+\\.[^.]+)$");
+
+    private static String domain(URL url) {
+	Matcher matcher = DOMAIN_PATTERN.matcher(url.getHost());
+	matcher.find();
+	return matcher.group(1);
+    }
+
+    private static final Pattern BASEDOMAIN_PATTERN = Pattern.compile("^(?:[^.]+\\.)*([^.]+)\\..+$");
+
+    private static String basedomain(URL url) {
+	Matcher matcher = BASEDOMAIN_PATTERN.matcher(url.getHost());
+	matcher.find();
+	return matcher.group(1);
     }
 }

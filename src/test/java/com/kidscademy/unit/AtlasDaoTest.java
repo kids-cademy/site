@@ -82,6 +82,7 @@ public class AtlasDaoTest {
 	instrument.setRank(9999);
 	instrument.setCategory(Instrument.Category.STRINGS);
 	instrument.setName("banjo");
+	instrument.setDisplay("Banjo");
 
 	instrument.setIconSrc(src("banjo", "icon.jpg"));
 	instrument.setThumbnailSrc(src("banjo", "thumbnail.png"));
@@ -113,6 +114,7 @@ public class AtlasDaoTest {
 	uiInstrument.setRank(9999);
 	uiInstrument.setCategory(Instrument.Category.STRINGS);
 	uiInstrument.setName("banjo");
+	uiInstrument.setDisplay("Banjo");
 	dao.saveInstrument(uiInstrument);
 
 	Instrument dbInstrument = dao.getInstrument(uiInstrument.getId());
@@ -215,7 +217,7 @@ public class AtlasDaoTest {
 	Link link = instrument.getLinks().get(0);
 	assertThat(link, notNullValue());
 	assertThat(link.getId(), equalTo(1));
-	assertThat(link.getName(), equalTo("Wikipedia"));
+	assertThat(link.getDisplay(), equalTo("Wikipedia"));
 	assertThat(link.getIconName(), equalTo("wikipedia.png"));
 	assertThat(link.getIconSrc(), equalTo(new MediaSRC("/media/link/wikipedia.png")));
 	assertThat(link.getUrl(), equalTo(new URL("https://en.wikipedia.org/wiki/Accordion")));

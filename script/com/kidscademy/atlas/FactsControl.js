@@ -62,16 +62,23 @@ com.kidscademy.atlas.FactsControl = class extends js.dom.Control {
 	// ACTION HANDLERS
 
 	_onImport() {
-		AtlasService.importObjectsFacts(this._formPage.getUIObject(), facts => this.setValue(facts));
+		const object = this._formPage.getObject();
+		if (!object.links) {
+			return;
+		}
+		const link = object.links.find(link => link.features.match(/facts/i));
+		if (link) {
+			AtlasService.importObjectsFacts(link, facts => this.setValue(facts));
+		}
 	}
-	
-	_onAdd(ev) {
+
+	_onAdd() {
 		this._showEditor(true);
 		this._termInput.reset();
 		this._definitionInput.reset();
 	}
 
-	_onDone(ev) {
+	_onDone() {
 		if (this._termOnEdit) {
 			delete this._facts[this._termOnEdit];
 			this._termOnEdit = null;
@@ -82,14 +89,20 @@ com.kidscademy.atlas.FactsControl = class extends js.dom.Control {
 		this._showEditor(false);
 	}
 
-	_onRemove(ev) {
+	_onRemove() {
 		delete this._facts[this._termInput.getValue()];
 		this._termOnEdit = null;
 		this._factsView.setObject(this._facts);
 		this._showEditor(false);
 	}
 
-	_onClose(ev) {
+	_onRemoveAll() {
+		const object = this._formPage.getObject();
+		object.links = [];
+		this._factsView.resetObject();
+	}
+
+	_onClose() {
 		this._showEditor(false);
 	}
 

@@ -36,14 +36,14 @@ public class SoftSchoolsTest {
 
     @Test
     public void getDescription() {
-	String description = softSchools.getDescription("animals/lion_facts/2");
+	String description = softSchools.getDescription("animals/lion_facts/2/");
 	assertThat(description, notNullValue());
 	assertThat(description, startsWith("Lions are one of the largest cats in the world."));
     }
 
     @Test
     public void getFacts() {
-	SoftSchoolsFacts facts = softSchools.getFacts("animals/lion_facts/2");
+	SoftSchoolsFacts facts = softSchools.getFacts("animals/lion_facts/2/");
 	assertThat(facts, notNullValue());
 	assertThat(facts.getTitle(), notNullValue());
 	assertThat(facts.getTitle(), equalTo("Lion Facts"));

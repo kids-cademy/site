@@ -8,11 +8,11 @@ import javax.ws.rs.PathParam;
 import js.xpath.client.XPath;
 
 public interface SoftSchools {
-    @Path("facts/{path}/")
+    @Path("facts/{path}")
     @XPath("//*[@class='factsmaintbl']/*/TD")
     String getDescription(@PathParam("path") String path);
 
-    @Path("facts/{path}/")
+    @Path("facts/{path}")
     SoftSchoolsFacts getFacts(@PathParam("path") String path);
 
     @Path("facts/{category}")

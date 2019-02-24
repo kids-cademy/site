@@ -38,9 +38,9 @@ public interface AtlasService {
 
     Link createLink(URL url);
 
-    String importObjectDescription(UIObject object);
+    String importObjectDescription(Link link);
     
-    Map<String, String> importObjectsFacts(UIObject object);
+    Map<String, String> importObjectsFacts(Link link);
 
     // ----------------------------------------------------------------------------------------------
     // OBJECT IMAGE SERVICES
