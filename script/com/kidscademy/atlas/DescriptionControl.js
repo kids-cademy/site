@@ -12,7 +12,7 @@ com.kidscademy.atlas.DescriptionControl = class extends js.dom.Control {
 
 		this._textarea = this.getByTag("textarea");
 
-		this._linksView = this.getByClass(com.kidscademy.atlas.DescriptionLinksView);
+		this._linksSelect = this.getByClass(com.kidscademy.atlas.LinkSelect);
 
 		/**
 		 * Actions manager.
@@ -87,7 +87,7 @@ com.kidscademy.atlas.DescriptionControl = class extends js.dom.Control {
 				break;
 
 			default:
-				this._linksView.open(links, load);
+				this._linksSelect.open(links, load);
 		}
 	}
 
@@ -96,7 +96,7 @@ com.kidscademy.atlas.DescriptionControl = class extends js.dom.Control {
 	}
 
 	_onClose() {
-		this._linksView.hide();
+		this._linksSelect.close();
 	}
 
 	// --------------------------------------------------------------------------------------------
@@ -108,30 +108,5 @@ com.kidscademy.atlas.DescriptionControl = class extends js.dom.Control {
 	 */
 	toString() {
 		return "com.kidscademy.atlas.DescriptionControl";
-	}
-};
-
-com.kidscademy.atlas.DescriptionLinksView = class extends js.dom.Element {
-	constructor(ownerDoc, node) {
-		super(ownerDoc, node);
-		this.on("click", this._onClick, this);
-	}
-
-	open(links, callback) {
-		super.setObject(links);
-		this._callback = callback;
-		this.show();
-	}
-
-	_onClick(ev) {
-		const li = ev.target.getParentByTag("li");
-		if (li) {
-			this._callback(li.getUserData());
-			this.hide();
-		}
-	}
-
-	toString() {
-		return "com.kidscademy.atlas.DescriptionLinksView";
 	}
 };

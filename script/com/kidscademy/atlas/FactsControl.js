@@ -19,6 +19,8 @@ com.kidscademy.atlas.FactsControl = class extends js.dom.Control {
 		this._definitionInput = this._editor.getByName("definition");
 		this._termOnEdit = null;
 
+		this._linkSelect = this.getByClass(com.kidscademy.atlas.LinkSelect);
+
 		this._actions = this.getByClass(com.kidscademy.Actions).bind(this);
 
 		this._showEditor(false);
@@ -62,13 +64,21 @@ com.kidscademy.atlas.FactsControl = class extends js.dom.Control {
 	// ACTION HANDLERS
 
 	_onImport() {
-		const object = this._formPage.getObject();
-		if (!object.links) {
-			return;
-		}
-		const link = object.links.find(link => link.features.match(/facts/i));
-		if (link) {
-			AtlasService.importObjectsFacts(link, facts => this.setValue(facts));
+		const load = (link) => AtlasService.importObjectsFacts(link, facts => this.setValue(facts));
+
+		const links = this._formPage.getLinks("facts");
+		switch (links.length) {
+			case 0:
+				js.ua.System.alert("No provider link for facts.");
+				break;
+
+			case 1:
+				load(links[0]);
+				break;
+
+			default:
+				this._linkSelect.open(links, load);
+				this._actions.show("close");
 		}
 	}
 
@@ -104,6 +114,7 @@ com.kidscademy.atlas.FactsControl = class extends js.dom.Control {
 
 	_onClose() {
 		this._showEditor(false);
+		this._linkSelect.close();
 	}
 
 	// --------------------------------------------------------------------------------------------

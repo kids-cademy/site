@@ -115,11 +115,7 @@ public class AtlasServiceImpl implements AtlasService {
     public String importObjectDescription(Link link) {
 	switch (link.getDomain()) {
 	case "softschools.com":
-	    // http://www.softschools.com/facts/music_instruments/accordion_facts/3037/
-	    // url_path := /facts/music_instruments/accordion_facts/3037/
-	    // path := music_instruments/accordion_facts/3037/
-	    String path = Strings.substringAfter(link.getUrl().getPath(), "/facts/");
-	    return Strings.html(softSchools.getFacts(path).getDescription());
+	    return Strings.html(softSchools.getFacts(link.getPath()).getDescription());
 
 	case "wikipedia.org":
 	    WikipediaPageSummary summary = wikipedia.getPageSummary(link.getFileName());
@@ -132,16 +128,17 @@ public class AtlasServiceImpl implements AtlasService {
 
     @Override
     public Map<String, String> importObjectsFacts(Link link) {
-	// http://www.softschools.com/facts/music_instruments/accordion_facts/3037/
-	// url_path := /facts/music_instruments/accordion_facts/3037/
-	// path := music_instruments/accordion_facts/3037/
-	String path = Strings.substringAfter(link.getUrl().getPath(), "/facts/");
+	switch (link.getDomain()) {
+	case "softschools.com":
+	    Map<String, String> facts = new HashMap<>();
+	    for (String fact : softSchools.getFacts(link.getPath()).getFacts()) {
+		facts.put(Strings.excerpt(fact), fact);
+	    }
+	    return facts;
 
-	Map<String, String> facts = new HashMap<>();
-	for (String fact : softSchools.getFacts(path).getFacts()) {
-	    facts.put(Strings.excerpt(fact), fact);
+	default:
+	    return null;
 	}
-	return facts;
     }
 
     // ----------------------------------------------------------------------------------------------
