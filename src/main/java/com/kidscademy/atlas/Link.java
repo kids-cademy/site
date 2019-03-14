@@ -17,6 +17,7 @@ import js.util.Strings;
 
 @Embeddable
 public class Link {
+    /** Class logger. */
     private static final Log log = LogFactory.getLog(Link.class);
 
     /** Database primary key. */

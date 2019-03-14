@@ -93,11 +93,15 @@ public class PerceptualHashResult implements ResultParser {
 	}
 
 	String[] tuplu = line.substring(valuesPosition).split(",");
-	values.append(tuplu[0].trim());
-	values.append(tuplu[1].trim());
+	values.append(value(tuplu[0]));
+	values.append(value(tuplu[1]));
 	++index;
     }
 
+    private static String value(String numericValue) {
+	double value = Double.parseDouble(numericValue.trim());
+	return String.format("%.1f", value);
+    }
     // --------------------------------------------------------------------------------------------
 
     private enum State {

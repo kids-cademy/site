@@ -68,6 +68,18 @@ com.kidscademy.Actions = class extends js.dom.Element {
 		return this;
 	}
 
+	showOnly(...names) {
+		this.getChildren().forEach(action => {
+			action.show(names.includes(action.getName()));
+		});
+	}
+
+	showAll() {
+		this.getChildren().forEach(action => {
+			action.show();
+		});
+	}
+
 	hide(...names) {
 		names.forEach(name => this.getByName(name).hide());
 		return this;

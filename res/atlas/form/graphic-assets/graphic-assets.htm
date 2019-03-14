@@ -10,62 +10,82 @@
 		</div>
 		<div class="container">
 			<div class="view">
-				<div class="item">
-					<div class="upload-image">
-						<img name="picture-src" class="optional" data-class="js.dom.ImageControl" />
-						<input class="picture-file" type="file" title="@tip/graphic-picture" accept="image/*" />
-					</div>
-					<h3>picture</h3>
-					<h3>920x560</h3>
-				</div>
-				<div class="item">
-					<div class="upload-image">
-						<img name="icon-src" class="optional" data-class="js.dom.ImageControl" />
-						<input class="icon-file" type="file" title="@tip/graphic-icon" accept="image/*" />
-					</div>
-					<h3>icon</h3>
-					<h3>96x96</h3>
-				</div>
-				<div class="item">
-					<div class="upload-image">
-						<img name="thumbnail-src" class="optional" data-class="js.dom.ImageControl" />
-						<input class="thumbnail-file" type="file" title="@tip/graphic-thumbnail" accept="image/*" />
-					</div>
-					<h3>thumbnail</h3>
-					<h3>560x</h3>
-				</div>
+				<ul data-name="pictures" class="inline hidden" data-class="com.kidscademy.atlas.PicturesControl">
+					<li data-id="id" class="item">
+						<img data-src="src" />
+						<h4 data-text="fileName"></h4>
+						<h4><span data-text="width"></span> x <span data-text="height"></span></h4>
+						<h4 data-text="fileSize" data-format="js.format.FileSize"></h4>
+					</li>
+				</ul>
 			</div>
 			
-			<div class="actions" data-class="com.kidscademy.Actions">
+			<div class="actions exclude" data-class="com.kidscademy.Actions">
+				<img name="add" src="@image/action/add" title="@tip/graphic-add" />
+				<span data-name="upload" class="upload-icon">
+					<img src="@image/action/upload" />
+					<input name="upload-file" type="file" title="@tip/graphic-upload" accept="image/*" />
+				</span>
+				<img name="search" src="@image/action/search" title="@tip/graphic-search" />
+				<img name="edit" src="@image/action/edit" title="@tip/graphic-edit" />
+				<span class="separator"></span>
 				<img name="crop" src="@image/action/crop" title="@tip/graphic-crop" />
-				<img name="icon" src="@image/action/create-icon" title="@tip/graphic-icon" />
+				<img name="trim" src="@image/action/image-trim" title="@tip/graphic-trim" />
+				<img name="flop" src="@image/action/flop" title="@tip/graphic-flop" />
 				<img name="flip" src="@image/action/flip" title="@tip/graphic-flip" />
-				<img name="invert" src="@image/action/invert" title="@tip/graphic-invert" />
 				<span class="separator"></span>
 				<img name="done" src="@image/action/done" title="@tip/graphic-done" />
 				<img name="undo" src="@image/action/undo" title="@tip/graphic-undo" />
-				<img name="save" src="@image/action/save" title="@tip/graphic-save" />
-				<img name="close" src="@image/action/close" title="@tip/graphic-close" class="rfloat" />
+				<img name="close" src="@image/action/close" title="@tip/graphic-close" />
+				<img name="remove" src="@image/action/remove" title="@tip/graphic-remove" />
 			</div>
-			
-			<div class="editor hidden">
+
+			<div class="meta exclude hidden" data-class="com.kidscademy.FormData">
+				<div>
+					<label>kind</label> <select name="media-kind">
+						<option></option>
+						<option>icon</option>
+						<option>featured</option>
+						<option>contextual</option>
+					</select>
+				</div>
+				<div>
+					<label>name</label> <input name="media-file-name" />
+				</div>
+				<div class="hidden">
+					<label>description</label> <input name="media-description" class="optional" />
+				</div>
+				<div>
+					<label>source</label> <input name="media-source" class="large optional" />
+				</div>
+				<div class="hidden">
+					<label>license</label> <select name="media-license" class="optional">
+						<option>Original Work</option>
+						<option>Fair Use License</option>
+						<option>Creative Commons license</option>
+						<option>Apache License Version 2.0</option>
+					</select>
+				</div>
+			</div>			
+
+			<div class="image-editor hidden">
 				<div class="info">
-					<div class="file-view">
-						<h3 data-text="name"></h3>
+					<div class="file-info">
+						<h3 data-text="fileName"></h3>
 						<dl class="inline">
 							<dt>Type</dt>
-							<dd data-text="type"></dd>
+							<dd data-text="kind"></dd>
 							<dt>Size</dt>
-							<dd data-text="size" data-format="js.format.FileSize"></dd>
+							<dd data-text="fileSize" data-format="js.format.FileSize"></dd>
 							<dt>Date</dt>
-							<dd data-text="lastModified" data-format="js.format.StandardDate"></dd>
+							<dd data-text="uploadDate" data-format="js.format.StandardDate"></dd>
 							<dt>Width</dt>
 							<dd data-text="width"></dd>
 							<dt>Height</dt>
 							<dd data-text="height"></dd>
 						</dl>
 					</div>
-					<dl class="crop-view inline">
+					<dl class="crop-info inline hidden">
 						<dt>Left</dt>
 						<dd data-text="left"></dd>
 						<dt>Top</dt>
@@ -78,8 +98,6 @@
 				</div>
 				<div class="preview">
 					<img />
-					<!-- hidden canvas for image processing -->
-					<canvas></canvas>
 					<div class="crop-mask hidden" data-class="com.kidscademy.atlas.CropMask">
 						<div class="x-offset outer"></div>
 						<div class="crop-column">

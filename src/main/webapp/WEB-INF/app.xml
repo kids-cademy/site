@@ -16,6 +16,8 @@
 
 		<audio-processor interface="com.kidscademy.tool.AudioProcessor" class="com.kidscademy.tool.AudioProcessorImpl" />
 		<image-processor interface="com.kidscademy.tool.ImageProcessor" class="com.kidscademy.tool.ImageProcessorImpl" />
+		<identify-process class="com.kidscademy.tool.IdentifyProcess" />
+		<convert-process class="com.kidscademy.tool.ConvertProcess" />
 		
 		<wikipedia interface="com.kidscademy.www.Wikipedia" type="REMOTE" url="https:rest://en.wikipedia.org/api/rest_v1/" />
 		<softschools interface="com.kidscademy.www.SoftSchools" type="REMOTE" url="http:xpath://www.softschools.com/" />

@@ -10,25 +10,68 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
     	 */
 		this._formPage = null;
 
-		this._pictureImage = this.getByName("picture-src");
-		this._iconImage = this.getByName("icon-src");
-		this._thumbnailImage = this.getByName("thumbnail-src");
+		/**
+		 * List control for pictures.
+		 * @type {com.kidscademy.atlas.PicturesControl}
+		 */
+		this._picturesControl = this.getByClass(com.kidscademy.atlas.PicturesControl);
+		this._picturesControl.on("picture-selected", this._onPictureSelected, this);
 
-		this.getByCssClass("picture-file").on("change", this._onPictureUpload, this);
-		this.getByCssClass("icon-file").on("change", this._onIconUpload, this);
-		this.getByCssClass("thumbnail-file").on("change", this._onThumbnailUpload, this);
+		/**
+		 * Form data that holds meta about image, like kind, name and source.
+		 * @type {com.kidscademy.FormData}
+		 */
+		this._metaFormData = this.getByCssClass("meta");
 
-		this._fileView = this.getByCssClass("file-view");
-		this._cropView = this.getByCssClass("crop-view");
+		/**
+		 * Image editor has two sections: info view - both file and crop area info, and image preview with 
+		 * crop mask. It control visibility of its children.
+		 * @type {js.dom.Editor}
+		 */
+		this._imageEditor = this.getByCssClass("image-editor");
+
+		/**
+		 * File info view display information about image file. It is a child of {@link #_imageEditor}.
+		 * @type {js.dom.Element}
+		 */
+		this._fileInfoView = this.getByCssClass("file-info");
+
+		/**
+		 * Crop info view display information about crop area, e.g. position and dimmensions. It is a child of {@link #_imageEditor}.
+		 * @type {js.dom.Element}
+		 */
+		this._cropInfoView = this.getByCssClass("crop-info");
+
+		/**
+		 * Image element that display the actual image preview.
+		 * @type {js.dom.Image}
+		 */
 		this._previewImage = this.getByCss(".preview img");
 		this._previewImage.on("load", this._onPreviewImageLoad, this);
 
-		this._imageEditor = this.getByCssClass("editor");
-		this._cropEditor = this.getByCssClass("crop-mask");
+		/**
+		 * Crop mask is used by user to select crop area. It is overlayed on {@link #_previewImage}.
+		 * @type {com.kidscademy.atlas.CropMask}
+		 */
+		this._cropMask = this.getByClass(com.kidscademy.atlas.CropMask);
 
-		this._aspectRatio = 0;
+		/**
+		 * Picture object currently on image editor. This object contain information about file and meta about content.
+		 * @type {Object}
+		 */
+		this._currentPicture = null;
+
+		/**
+		 * Number for transforms perfomed on current picture per current working session. This value is incremented for each 
+		 * transform and decresed on undo.
+		 * @type {Number}
+		 */
+		this._transformsCount = 0;
 
 		this._actions = this.getByClass(com.kidscademy.Actions).bind(this);
+		this._actions.showOnly("add");
+		// register event for hidden input of type file to trigger image loading from host OS
+		this.getByName("upload-file").on("change", this._onUploadFile, this);
 	}
 
 	onCreate(formPage) {
@@ -42,160 +85,198 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 	// --------------------------------------------------------------------------------------------
 	// ACTION HANDLERS
 
+	_onAdd() {
+		this._actions.show("upload", "search");
+		this._imageEditor.hide();
+		this._metaFormData.show();
+	}
+
+	_onUpload(ev) {
+		const object = this._formPage.getObject();
+		if (!object.name) {
+			js.ua.System.alert("Missing object name.");
+			ev.halt();
+			return;
+		}
+
+		if (!this._metaFormData.isValid()) {
+			// stop bubbling and default behavior for click event
+			// by doing this 'change' event for inner file input is not longer fired
+			// and next _onUploadFile is not invoked
+			ev.halt();
+			return;
+		}
+
+		// here object name exists and meta form data is valid, so we can upload media file
+		// after this click handler exit, 'change' event for inner file input is fired
+		// and next _onUploadFile is executed
+
+		this._metaFormData.hide();
+	}
+
+	_onUploadFile(ev) {
+		const formData = this._metaFormData.getObject();
+		const object = this._formPage.getObject();
+
+		formData.append("object-dtype", object.dtype);
+		formData.append("object-name", object.name);
+		formData.append("media-file", ev.target._node.files[0]);
+
+		AtlasService.uploadPicture(formData, picture => {
+			this._currentPicture = picture;
+			this._picturesControl.addPicture(picture);
+			this._previewImage.setSrc(picture.src);
+		});
+	}
+
+	_onSearch() {
+		alert('search')
+	}
+
+	_onEdit() {
+		this._metaFormData.show(!this._metaFormData.isVisible());
+	}
+
 	_onCrop() {
-		this._cropEditor.open({
+		var aspectRatio = 0;
+		switch (this._currentPicture.kind) {
+			case "icon":
+				aspectRatio = 1;
+				break;
+
+			case "contextual":
+				aspectRatio = 16 / 9;
+				break;
+		}
+
+		this._cropMask.open({
 			width: this._previewImage._node.width,
 			height: this._previewImage._node.height,
 			naturalWidth: this._previewImage._node.naturalWidth,
 			naturalHeight: this._previewImage._node.naturalHeight,
-			aspectRatio: this._aspectRatio
+			aspectRatio: aspectRatio
 		}, this._onCropUpdate, this);
 	}
 
+	/**
+	 * Invoked in real time when user changes crop area. It gets data about crop area position and dimensions
+	 * and display it on {@link #_cropInfoView}.
+	 * 
+	 * @param {Object} cropInfo crop area info. 
+	 */
 	_onCropUpdate(cropInfo) {
-		this._cropView.setObject(cropInfo)
+		this._cropInfoView.setObject(cropInfo);
 	}
 
-	_onIcon() {
-		this._iconImage.removeCssClass("invalid");
-		const object = this._formPage.getObject();
-		if (!object.name) {
-			js.ua.System.alert("Missing object name.");
-			return;
-		}
-		AtlasService.createObjectIcon(object.dtype, object.name, (iconSrc) => this._iconImage.setValue(iconSrc));
+	_onTrim() {
+		AtlasService.trimPicture(this._formPage.getUIObject(), this._currentPicture, this._onProcessingDone, this);
+	}
+
+	_onFlop() {
+		AtlasService.flopPicture(this._formPage.getUIObject(), this._currentPicture, this._onProcessingDone, this);
 	}
 
 	_onFlip() {
-		js.ua.System.alert("Vertical flip not yet implemented.");
-	}
-	
-	_onInvert() {
-		js.ua.System.alert("Invert not yet implemented.");
+		AtlasService.flipPicture(this._formPage.getUIObject(), this._currentPicture, this._onProcessingDone, this);
 	}
 
 	_onDone() {
-		const crop = this._cropEditor.getCropArea();
-		this._cropEditor.hide();
-
-		const object = this._formPage.getUIObject();
-		const imageName = "picture.jpg";
-		AtlasService.cropObjectImage(object, imageName, crop.cx, crop.cy, crop.x, crop.y, function(imageSrc) {
-			this._previewImage.setSrc(imageSrc);
-		}, this);
-	}
-
-	_onDoneOnCanvas() {
-		const crop = this._cropEditor.getCropArea();
-		this._cropEditor.hide();
-
-		const canvas = this.getByTag("canvas")._node;
-		canvas.width = crop.cx;
-		canvas.height = crop.cy;
-
-		const context = canvas.getContext("2d");
-		context.drawImage(this._previewImage._node, crop.x, crop.y, crop.cx, crop.cy, 0, 0, crop.cx, crop.cy);
-
-		this._previewImage.setSrc(canvas.toDataURL());
-		this._canvasUpdated = true;
-	}
-	
-	_onUndo() {
-		js.ua.System.alert("Undo not yet implemented.");
-	}
-
-	_onSave() {
-		if (!this._canvasUpdated) {
-			const canvas = this.getByTag("canvas")._node;
-			canvas.width = this._previewImage._node.naturalWidth;
-			canvas.height = this._previewImage._node.naturalHeight;
-
-			const context = canvas.getContext("2d");
-			context.drawImage(this._previewImage._node, 0, 0);
-		}
-
-		switch (this._aspectRatio) {
-			case 0:
-				this._upload("upload-thumbnail-file", thumbnailSrc => this._thumbnailImage.setValue(thumbnailSrc));
-				break;
-
-			case 1:
-				this._upload("upload-icon-file", iconSrc => this._iconImage.setValue(iconSrc));
-				break;
-
-			default:
-				this._upload("upload-picture-file", pictureSrc => this._pictureImage.setValue(pictureSrc));
-		}
-	}
-
-	_onClose() {
-		this._imageEditor.hide();
-	}
-
-	// --------------------------------------------------------------------------------------------
-	
-	_onPictureUpload(ev) {
-		this._pictureImage.removeCssClass("invalid");
-		this._aspectRatio = 16 / 9;
-		this._onImageFileSelected(ev);
-	}
-
-	_onIconUpload(ev) {
-		this._iconImage.removeCssClass("invalid");
-		this._aspectRatio = 1;
-		this._onImageFileSelected(ev);
-	}
-
-	_onThumbnailUpload(ev) {
-		this._thumbnailImage.removeCssClass("invalid");
-		this._aspectRatio = 0;
-		this._onImageFileSelected(ev);
-	}
-
-	_upload(method, callback) {
-		const object = this._formPage.getObject();
-		if (!object.name) {
-			js.ua.System.alert("Missing object name.");
+		if (!this._cropMask.isVisible()) {
+			AtlasService.commitPicture(this._formPage.getUIObject(), this._currentPicture, picture => {
+				this._closeImageEditor();
+				this._picturesControl.updatePicture(picture);
+			})
 			return;
 		}
 
-		const xhr = new js.net.XHR();
-		xhr.on("load", callback, this);
-		xhr.open("POST", "rest/" + method);
+		const crop = this._cropMask.getCropArea();
+		this._cropMask.hide();
 
-		const canvas = this.getByTag("canvas")._node;
-		canvas.toBlob((file) => {
-			const data = new FormData();
-			data.append("dtype", object.dtype);
-			data.append("name", object.name);
-			data.append("file", file);
-
-			xhr.send(data);
-		}, this._imageFile.type);
+		const object = this._formPage.getUIObject();
+		AtlasService.cropPicture(object, this._currentPicture, crop.cx, crop.cy, crop.x, crop.y, this._onProcessingDone, this);
 	}
 
-	_onImageFileSelected(ev) {
-		this._canvasUpdated = false;
+	_onUndo() {
+		AtlasService.undoPicture(this._formPage.getUIObject(), this._currentPicture, picture => {
+			--this._transformsCount;
+			this._currentPicture = picture;
+			this._previewImage.reload(picture.src);
+		});
+	}
 
-		this._imageFile = ev.target._node.files[0];
-		const reader = new FileReader();
-		reader.onload = () => this._previewImage.setSrc(reader.result);
-		reader.readAsDataURL(this._imageFile);
+	_onClose() {
+		if (this._transformsCount === 0) {
+			this._metaFormData.hide();
+			this._closeImageEditor();
+			return;
+		}
+		js.ua.System.confirm("@string/confirm-picture-rollback", answer => {
+			if (answer === true) {
+				AtlasService.rollbackPicture(this._formPage.getUIObject(), this._currentPicture, this._closeImageEditor, this);
+			}
+		});
+	}
+
+	_onRemove() {
+		js.ua.System.confirm("@string/confirm-picture-remove", answer => {
+			if (answer === true) {
+				AtlasService.removePicture(this._formPage.getUIObject(), this._currentPicture, () => {
+					this._closeImageEditor();
+					this._picturesControl.removePicture(this._currentPicture);
+				});
+			}
+		});
+	}
+
+	// --------------------------------------------------------------------------------------------
+
+	_closeImageEditor() {
+		this._actions.showOnly("add");
+		this._imageEditor.hide();
+	}
+
+	/**
+	 * Callback invoked when server picture processing is complete.
+	 * 
+	 * @param {Object} picture picture returned by server.
+	 */
+	_onProcessingDone(picture) {
+		++this._transformsCount;
+		this._currentPicture = picture;
+		this._previewImage.reload(picture.src);
 	}
 
 	_onPreviewImageLoad(ev) {
-		this._cropEditor.hide();
+		this._transformsCount = 0;
+		this._actions.showAll();
+		this._cropMask.hide();
 		this._imageEditor.show();
-		this._imageFile.width = this._previewImage._node.naturalWidth;
-		this._imageFile.height = this._previewImage._node.naturalHeight;
-		this._fileView.setObject(this._imageFile);
+		this._fileInfoView.setObject(this._currentPicture);
 	}
 
-    /**
-     * Class string representation.
-     * 
-     * @return this class string representation.
-     */
+	_onPictureSelected(picture) {
+		this._actions.show("remove");
+		this._currentPicture = picture;
+		this._previewImage.setSrc(picture.src);
+	}
+
+	_getMeta() {
+		var valid = this._pictureNameInput.isValid();
+		valid = this._pictureTypeSelect.isValid() && valid;
+		if (!valid) {
+			return null;
+		}
+		return {
+			name: this._pictureNameInput.getValue(),
+			type: this._pictureTypeSelect.getValue()
+		}
+	}
+
+	/**
+	* Class string representation.
+	* 
+	* @return this class string representation.
+	*/
 	toString() {
 		return "com.kidscademy.atlas.GraphicAssets";
 	}

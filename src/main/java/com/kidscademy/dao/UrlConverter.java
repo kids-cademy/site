@@ -6,25 +6,29 @@ import java.net.URL;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-@Converter(autoApply = true)
-public class UrlConverter implements AttributeConverter<URL, String>
-{
-  @Override
-  public String convertToDatabaseColumn(URL url)
-  {
-    return url.toExternalForm();
-  }
+import js.log.Log;
+import js.log.LogFactory;
 
-  @Override
-  public URL convertToEntityAttribute(String value)
-  {
-    try {
-      return new URL(value);
+@Converter(autoApply = true)
+public class UrlConverter implements AttributeConverter<URL, String> {
+    private static final Log log = LogFactory.getLog(UrlConverter.class);
+
+    @Override
+    public String convertToDatabaseColumn(URL url) {
+	return url != null ? url.toExternalForm() : null;
     }
-    catch(MalformedURLException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+
+    @Override
+    public URL convertToEntityAttribute(String value) {
+	if (value == null) {
+	    return null;
+	}
+
+	try {
+	    return new URL(value);
+	} catch (MalformedURLException e) {
+	    log.error(e);
+	}
+	return null;
     }
-    return null;
-  }
 }

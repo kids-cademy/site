@@ -58,11 +58,11 @@ public class Instrument extends AtlasObject implements Serializable {
 
     @Transient
     private AudioSampleInfo sampleInfo;
+
     /**
-     * Root-relative URL, aka media SRC for object picture. It contains
-     * root-relative path from repository context to media file and always starts
-     * with path separator, e.g.
-     * <code>/media/atlas/instrument/accordion/picture.jpg</code>.
+     * Root-relative media SRC for object audio sample. It contains root-relative
+     * path from repository context to media file and always starts with path
+     * separator, e.g. <code>/media/atlas/instrument/accordion/sample.mp3</code>.
      * <p>
      * This field is used by user interface to actually render media file and is not
      * persisted. It is initialized by {@link #postLoad()} immediately after this
@@ -71,18 +71,10 @@ public class Instrument extends AtlasObject implements Serializable {
      * {@link #postMerge(Instrument)}.
      */
     @Transient
-    private MediaSRC pictureSrc;
-    /** Root-relative media SRC for object icon. See {@link #pictureSrc}. */
-    @Transient
-    private MediaSRC iconSrc;
-    /** Root-relative media SRC for object thumbnail. See {@link #pictureSrc}. */
-    @Transient
-    private MediaSRC thumbnailSrc;
-    /** Root-relative media SRC for object audio sample. See {@link #pictureSrc}. */
-    @Transient
     private MediaSRC sampleSrc;
+
     /**
-     * Root-relative media SRC for object audio waveform. See {@link #pictureSrc}.
+     * Root-relative media SRC for object audio waveform. See {@link #sampleSrc}.
      */
     @Transient
     private MediaSRC waveformSrc;
@@ -102,19 +94,12 @@ public class Instrument extends AtlasObject implements Serializable {
      *            unmanaged source instrument.
      * @see Instrument
      */
-    public void postMerge(Instrument source) {
-	pictureName = source.pictureSrc != null ? source.pictureSrc.fileName() : null;
-	iconName = source.iconSrc != null ? source.iconSrc.fileName() : null;
-	thumbnailName = source.thumbnailSrc != null ? source.thumbnailSrc.fileName() : null;
+    @Override
+    public void postMerge(AtlasObject object) {
+	super.postMerge(object);
+	Instrument source = (Instrument)object;
 	sampleName = source.sampleSrc != null ? source.sampleSrc.fileName() : null;
 	waveformName = source.waveformSrc != null ? source.waveformSrc.fileName() : null;
-
-	if (links != null) {
-	    for (int i = 0; i < links.size(); ++i) {
-		final MediaSRC iconSrc = source.links.get(i).getIconSrc();
-		links.get(i).setIconName(iconSrc != null ? iconSrc.fileName() : null);
-	    }
-	}
     }
 
     /**
@@ -142,9 +127,10 @@ public class Instrument extends AtlasObject implements Serializable {
     public void postLoad() {
 	// database contains only media file names; convert to root-relative URLs, aka
 	// SRC
-	pictureSrc = Files.mediaSrc(this, pictureName);
-	iconSrc = Files.mediaSrc(this, iconName);
-	thumbnailSrc = Files.mediaSrc(this, thumbnailName);
+	for (Picture picture : pictures) {
+	    picture.postLoad(this);
+	}
+
 	sampleSrc = Files.mediaSrc(this, sampleName);
 	waveformSrc = Files.mediaSrc(this, waveformName);
 
@@ -185,30 +171,6 @@ public class Instrument extends AtlasObject implements Serializable {
 	this.waveformName = waveformPath;
     }
 
-    public MediaSRC getPictureSrc() {
-	return pictureSrc;
-    }
-
-    public void setPictureSrc(MediaSRC pictureSrc) {
-	this.pictureSrc = pictureSrc;
-    }
-
-    public MediaSRC getIconSrc() {
-	return iconSrc;
-    }
-
-    public void setIconSrc(MediaSRC iconSrc) {
-	this.iconSrc = iconSrc;
-    }
-
-    public MediaSRC getThumbnailSrc() {
-	return thumbnailSrc;
-    }
-
-    public void setThumbnailSrc(MediaSRC thumbnailSrc) {
-	this.thumbnailSrc = thumbnailSrc;
-    }
-
     public MediaSRC getSampleSrc() {
 	return sampleSrc;
     }
@@ -238,7 +200,7 @@ public class Instrument extends AtlasObject implements Serializable {
     }
 
     public AudioSampleInfo getSampleInfo() {
-        return sampleInfo;
+	return sampleInfo;
     }
 
     @Override

@@ -97,97 +97,13 @@ public class ImageMagickTest {
     }
 
     @Test
-    public void saveObjectPicture() throws IOException {
-	File uploadFile = new File("fixture/image/picture_hq.jpg");
-	File pictureFile = new File("fixture/image/picture.jpg");
-	pictureFile.delete();
-
-	image.saveObjectPicture(uploadFile, pictureFile);
-	assertThat(pictureFile, anExistingFile());
-	assertThat(image.perceptualHash(pictureFile), equalTo("89D05D533D55E75F9EC6181A1A9D772B"));
-
-	ImageInfo imageInfo = image.getImageInfo(pictureFile);
-	assertThat(imageInfo, notNullValue());
-	assertThat(imageInfo.getFileName(), equalTo(pictureFile.getAbsolutePath()));
-	assertThat(imageInfo.getFileSize(), equalTo(96946));
-	assertThat(imageInfo.getType(), equalTo(MediaType.JPEG));
-	assertThat(imageInfo.getWidth(), equalTo(920));
-	assertThat(imageInfo.getHeight(), equalTo(560));
-
-	pictureFile.delete();
-    }
-
-    @Test
-    public void saveObjectIcon() throws IOException {
-	File uploadFile = new File("fixture/image/icon_hq.jpg");
-	File iconFile = new File("fixture/image/icon.jpg");
-	iconFile.delete();
-
-	image.saveObjectIcon(uploadFile, iconFile);
-	assertThat(iconFile, anExistingFile());
-	assertThat(image.perceptualHash(iconFile), equalTo("A92380F88E80B8E57FF64CF043925AE2"));
-
-	ImageInfo imageInfo = image.getImageInfo(iconFile);
-	assertThat(imageInfo, notNullValue());
-	assertThat(imageInfo.getFileName(), equalTo(iconFile.getAbsolutePath()));
-	assertThat(imageInfo.getFileSize(), equalTo(38935));
-	assertThat(imageInfo.getType(), equalTo(MediaType.JPEG));
-	assertThat(imageInfo.getWidth(), equalTo(96));
-	assertThat(imageInfo.getHeight(), equalTo(96));
-
-	iconFile.delete();
-    }
-
-    @Test
-    public void saveObjectThumbnail() throws IOException {
-	File uploadFile = new File("fixture/image/picture_hq.jpg");
-	File thumbnailFile = new File("fixture/image/thumbnail.png");
-	thumbnailFile.delete();
-
-	image.saveObjectThumbnail(uploadFile, thumbnailFile);
-	assertThat(thumbnailFile, anExistingFile());
-	assertThat(image.perceptualHash(thumbnailFile), equalTo("9568BC2EDD8B899E4C4ECD55FEF50626"));
-
-	ImageInfo imageInfo = image.getImageInfo(thumbnailFile);
-	assertThat(imageInfo, notNullValue());
-	assertThat(imageInfo.getFileName(), equalTo(thumbnailFile.getAbsolutePath()));
-	assertThat(imageInfo.getFileSize(), equalTo(390921));
-	assertThat(imageInfo.getType(), equalTo(MediaType.PNG));
-	assertThat(imageInfo.getWidth(), equalTo(560));
-	assertThat(imageInfo.getHeight(), equalTo(341));
-
-	thumbnailFile.delete();
-    }
-
-    @Test
-    public void createObjectIcon() throws IOException {
-	File pictureFile = new File("fixture/image/picture_hq.jpg");
-	File iconFile = new File("fixture/image/icon.jpg");
-	iconFile.delete();
-
-	image.createObjectIcon(pictureFile, iconFile);
-	assertThat(iconFile, anExistingFile());
-	assertThat(image.perceptualHash(iconFile), equalTo("07E823157FDE9A46B51300D87B6B4091"));
-
-	ImageInfo imageInfo = image.getImageInfo(iconFile);
-	assertThat(imageInfo, notNullValue());
-	assertThat(imageInfo.getFileName(), equalTo(iconFile.getAbsolutePath()));
-	assertThat(imageInfo.getFileSize(), equalTo(29899));
-	assertThat(imageInfo.getType(), equalTo(MediaType.JPEG));
-	assertThat(imageInfo.getWidth(), equalTo(96));
-	assertThat(imageInfo.getHeight(), equalTo(96));
-
-	iconFile.delete();
-    }
-
-    @Test
     public void generateXAxis() throws IOException {
 	File imageFile = new File("fixture/image/image.png");
 	imageFile.delete();
 
 	image.generateXAxis(imageFile, 800, 140, "black");
 	assertThat(imageFile, anExistingFile());
-	assertThat(image.perceptualHash(imageFile), equalTo("5BC07977FB90464853310EA80CA8D694"));
+	assertThat(image.perceptualHash(imageFile), equalTo("3BFE6B8FF8483A58910D7833CEBE7BCC"));
 
 	ImageInfo imageInfo = image.getImageInfo(imageFile);
 	assertThat(imageInfo, notNullValue());
@@ -207,7 +123,7 @@ public class ImageMagickTest {
 
 	image.generateRainbowGradient(imageFile, 800, 140);
 	assertThat(imageFile, anExistingFile());
-	assertThat(image.perceptualHash(imageFile), equalTo("95DA5B4BEB426916957AC6F41DDB7E15"));
+	assertThat(image.perceptualHash(imageFile), equalTo("BDEF3863DB801D8837C3EBC226E29ABB"));
 
 	ImageInfo imageInfo = image.getImageInfo(imageFile);
 	assertThat(imageInfo, notNullValue());
@@ -230,7 +146,7 @@ public class ImageMagickTest {
 
 	image.crop(imageFile, targetFile, 96, 128, 0, 0);
 	assertThat(targetFile, anExistingFile());
-	assertThat(image.perceptualHash(imageFile), equalTo("241022BD35F2CBDB0791E2AC871BC991"));
+	assertThat(image.perceptualHash(imageFile), equalTo("951C04938E96E00052A0FFF8B0D7E70F"));
 
 	ImageInfo imageInfo = image.getImageInfo(targetFile);
 	assertThat(imageInfo, notNullValue());
@@ -251,10 +167,10 @@ public class ImageMagickTest {
 	File waveformFile = new File("fixture/image/waveform.png");
 	File imageFile = new File("fixture/image/image.png");
 	Files.copy(waveformFile, imageFile);
-	
+
 	image.compose(imageFile, maskFile, ImageCompose.SRCIN);
 	assertThat(imageFile, anExistingFile());
-	assertThat(image.perceptualHash(imageFile), equalTo("D64708411C8E66015A23FE4199553EB4"));
+	assertThat(image.perceptualHash(imageFile), equalTo("7418287F34FC1576EB6828E52A837EA4"));
 
 	ImageInfo imageInfo = image.getImageInfo(imageFile);
 	assertThat(imageInfo, notNullValue());
@@ -263,8 +179,45 @@ public class ImageMagickTest {
 	assertThat(imageInfo.getType(), equalTo(MediaType.PNG));
 	assertThat(imageInfo.getWidth(), equalTo(960));
 	assertThat(imageInfo.getHeight(), equalTo(140));
-	
+
 	maskFile.delete();
 	imageFile.delete();
+    }
+
+    @Test
+    public void perceptualHash() throws IOException {
+	File imageFile = new File("fixture/image/picture_hq.jpg");
+	File hashFile1 = new File("fixture/image/hash_1.jpg");
+	File hashFile2 = new File("fixture/image/hash_2.png");
+
+	image.convert(imageFile, hashFile1);
+	image.convert(imageFile, hashFile2);
+
+	String hash1 = image.perceptualHash(hashFile1);
+	String hash2 = image.perceptualHash(hashFile2);
+
+	assertThat(hash1, equalTo(hash2));
+
+	hashFile1.delete();
+	hashFile2.delete();
+    }
+
+    @Test
+    public void info() throws IOException {
+	File imageFile = new File("fixture/image/picture_hq.jpg");
+	assertThat(image.info(imageFile, "basename", String.class), equalTo("picture_hq"));
+	assertThat(image.info(imageFile, "bit-depth", int.class), equalTo(8));
+	assertThat(image.info(imageFile, "colors", int.class), equalTo(68152));
+	assertThat(image.info(imageFile, "colorspace", String.class), equalTo("sRGB"));
+	assertThat(image.info(imageFile, "compression", String.class), equalTo("JPEG"));
+	assertThat(image.info(imageFile, "depth", int.class), equalTo(8));
+	assertThat(image.info(imageFile, "opaque", boolean.class), equalTo(true));
+	assertThat(image.info(imageFile, "size", String.class), equalTo("178854B"));
+    }
+
+    @Test
+    public void isOpaque() throws IOException {
+	File imageFile = new File("fixture/image/picture_hq.jpg");
+	assertThat(image.isOpaque(imageFile), equalTo(true));
     }
 }

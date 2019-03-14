@@ -5,13 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PostLoad;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.kidscademy.util.Files;
 
 @Entity
-@Table(name = "atlasobject")
 public class UIObject implements MediaWrapper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +20,7 @@ public class UIObject implements MediaWrapper {
     private String display;
     /**
      * Media file name for object icon. Object icon has a small dimension and has
-     * 1:1 ratio; usually is 96x96 pixels. See {@link #pictureName} for details
-     * about media file name.
+     * 1:1 ratio; usually is 96x96 pixels. This field is optional and can be null.
      */
     private String iconName;
 
@@ -31,24 +28,6 @@ public class UIObject implements MediaWrapper {
     private MediaSRC iconSrc;
 
     public UIObject() {
-    }
-
-    /**
-     * Constructor for DTO projection.
-     * 
-     * @param id
-     * @param dtype
-     * @param name
-     * @param display
-     * @param iconName
-     */
-    public UIObject(int id, String dtype, String name, String display, String iconName) {
-	this.id = id;
-	this.dtype = dtype;
-	this.name = name;
-	this.display = display;
-	this.iconName = iconName;
-	this.iconSrc = Files.mediaSrc(dtype, name, iconName);
     }
 
     /**

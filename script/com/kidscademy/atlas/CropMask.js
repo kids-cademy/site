@@ -12,8 +12,8 @@ com.kidscademy.atlas.CropMask = class extends js.dom.Element {
 
 		this._x = 0;
 		this._y = 0;
-		this._cx = 400;
-		this._cy = 300;
+		this._cx = 0;
+		this._cy = 0;
 
 		this._moveType = null;
 
@@ -32,17 +32,20 @@ com.kidscademy.atlas.CropMask = class extends js.dom.Element {
 
 		/**
 		 * Frame request callback for box rendering while moving.
-		 * 
-		 * @type Function
+		 * @type {Function}
 		 */
 		this._FRAME_REQUEST_CALLBACK = this._updateSelectArea.bind(this);
 	}
 
-	open(imageConfig, callback, scope) {
-		this._imageConfig = imageConfig;
-		this._px = this._imageConfig.naturalWidth / this._imageConfig.width;
-		this._py = this._imageConfig.naturalHeight / this._imageConfig.height;
-		this._aspectRatio = imageConfig.aspectRatio;
+	open(config, callback, scope) {
+		this._imageWidth = config.width;
+		this._imageHeight = config.height;
+		this._px = config.naturalWidth / config.width;
+		this._py = config.naturalHeight / config.height;
+		this._aspectRatio = config.aspectRatio;
+
+		this._cy = 300;
+		this._cx = this._aspectRatio ? this._aspectRatio * this._cy : 400;
 
 		this._callback = callback;
 		this._scope = scope;
@@ -98,8 +101,8 @@ com.kidscademy.atlas.CropMask = class extends js.dom.Element {
 
 		switch (this._moveType) {
 			case this._MOVE:
-				this._x = Math.max(this._x + dx, 0);
-				this._y = Math.max(this._y + dy, 0);
+				this._x = Math.min(Math.max(this._x + dx, 0), this._imageWidth - this._cx);
+				this._y = Math.min(Math.max(this._y + dy, 0), this._imageHeight - this._cy);
 				break;
 
 			case this._RESIZE_W:
@@ -139,6 +142,9 @@ com.kidscademy.atlas.CropMask = class extends js.dom.Element {
 
 			case this._RESIZE_S:
 				this._cy += dy;
+				if (this._cy > this._imageHeight) {
+					this._cy = this._imageHeight;
+				}
 				if (this._aspectRatio) {
 					this._cx = this._cy * this._aspectRatio;
 				}

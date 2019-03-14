@@ -8,12 +8,13 @@ import java.util.Map;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.MediaSRC;
+import com.kidscademy.atlas.Picture;
 import com.kidscademy.atlas.UIObject;
 import com.kidscademy.tool.AudioSampleInfo;
-import com.kidscademy.tool.ImageInfo;
 
 import js.annotation.Service;
 import js.http.form.Form;
+import js.rmi.BusinessException;
 
 @Service
 public interface AtlasService {
@@ -39,32 +40,39 @@ public interface AtlasService {
     Link createLink(URL url);
 
     String importObjectDescription(Link link);
-    
+
     Map<String, String> importObjectsFacts(Link link);
 
     // ----------------------------------------------------------------------------------------------
     // OBJECT IMAGE SERVICES
 
-    ImageInfo getImageInfo(UIObject object, String imageName) throws IOException;
+    Picture uploadPicture(Form form) throws IOException, BusinessException;
 
-    MediaSRC uploadPictureFile(Form form) throws IOException;
+    Picture trimPicture(UIObject object, Picture picture) throws IOException;
 
-    MediaSRC uploadIconFile(Form form) throws IOException;
+    Picture flopPicture(UIObject object, Picture picture) throws IOException;
 
-    MediaSRC uploadThumbnailFile(Form form) throws IOException;
+    Picture flipPicture(UIObject object, Picture picture) throws IOException;
+
+    Picture cropPicture(UIObject object, Picture picture, int width, int height, int xoffset, int yoffset)
+	    throws IOException;
 
     /**
-     * Create object icon from picture.
-     *
-     * @param collectionName
-     * @param objectName
-     * @return
+     * Remove object picture from media repository and from database.
+     * 
+     * @param object
+     * @param picture
+     * @throws NullPointerException
+     *             if picture instance is null.
      * @throws IOException
      */
-    MediaSRC createObjectIcon(String collectionName, String objectName) throws IOException;
+    void removePicture(UIObject object, Picture picture) throws IOException;
 
-    MediaSRC cropObjectImage(UIObject object, String imageName, int width, int height, int xoffset, int yoffset)
-	    throws IOException;
+    Picture undoPicture(UIObject object, Picture picture) throws IOException;
+
+    Picture commitPicture(UIObject object, Picture picture) throws IOException;
+
+    void rollbackPicture(UIObject object, Picture picture) throws IOException;
 
     // ----------------------------------------------------------------------------------------------
     // OBJECT AUDIO SAMPLE SERVICES
@@ -201,7 +209,7 @@ public interface AtlasService {
      * @throws IOException
      *             if processing fail.
      */
-    AudioSampleInfo roolbackAudioSampleProcessing(UIObject object) throws IOException;
+    AudioSampleInfo rollbackAudioSampleProcessing(UIObject object) throws IOException;
 
     /**
      * Remove object audio sample from media repository and update database record.

@@ -1,5 +1,9 @@
 $package("com.kidscademy.atlas");
 
+/**
+ * Control for related objects. It has two sections: currently selected related objects and a collection with
+ * available, not yet selected, objects. Moving from one section to another is performed via drag and drop.
+ */
 com.kidscademy.atlas.RelatedControl = class extends js.dom.Control {
 	constructor(ownerDoc, node) {
 		super(ownerDoc, node);

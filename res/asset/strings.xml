@@ -2,12 +2,12 @@
 <string>
 	<logo-type>kids (a)cademy</logo-type>
 	<slogan>learn by playing</slogan>
-	
+
 	<collection>collection</collection>
 	<account>account</account>
 	<media>media</media>
 	<logout>Logout</logout>
-	
+
 	<submit>Submit</submit>
 	<join>Join</join>
 	<ok>OK</ok>
@@ -16,9 +16,11 @@
 	<cancel>Cancel</cancel>
 	<three-no>3xNO</three-no>
 	<message>Mesage for script variable.</message>
-	
+	<confirm-picture-remove>Please confirm object picture remove.</confirm-picture-remove>
+	<confirm-picture-rollback>Please confirm object picture rollback.</confirm-picture-rollback>
+
 	<published-object>Published Object</published-object>
-	
+
 	<object-identity>Identity</object-identity>
 	<object-description>Description</object-description>
 	<graphic-assets>Graphic Assets</graphic-assets>

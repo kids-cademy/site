@@ -1,6 +1,8 @@
 package com.kidscademy.util;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.atlas.MediaWrapper;
@@ -41,5 +43,16 @@ public final class Files extends js.util.Files {
 	// repository dir := ${catalina.base}/webapps
 	// path := /media/atlas/instrument/object/file
 	return new File(REPOSIOTRY_DIR, Files.mediaSrc(object, mediaFileName).value());
+    }
+
+    private static final Map<String, String> MEDIA_TYPES = new HashMap<>();
+    static {
+	MEDIA_TYPES.put("jpg", "image/jpeg");
+	MEDIA_TYPES.put("jpeg", "image/jpeg");
+	MEDIA_TYPES.put("png", "image/png");
+    }
+
+    public static String probeContentType(String path) {
+	return MEDIA_TYPES.get(getExtension(path));
     }
 }

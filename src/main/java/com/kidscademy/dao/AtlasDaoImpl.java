@@ -9,6 +9,7 @@ import com.kidscademy.atlas.AtlasObject;
 import com.kidscademy.atlas.Bird;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
+import com.kidscademy.atlas.Picture;
 import com.kidscademy.atlas.UIObject;
 import com.kidscademy.util.Classes;
 
@@ -90,8 +91,11 @@ public class AtlasDaoImpl implements AtlasDao {
 
     @Override
     public List<UIObject> getInstrumentsByCategory(Instrument.Category category) {
-	String jpql = "select new com.kidscademy.atlas.UIObject(i.id,i.dtype,i.name,i.display,i.iconName) from Instrument i where i.category=:category";
-	return em.createQuery(jpql, UIObject.class).setParameter("category", category).getResultList();
+	String jpql = "select i.id from Instrument i where i.category=:category";
+	List<Integer> ids = em.createQuery(jpql, Integer.class).setParameter("category", category).getResultList();
+
+	jpql = "select o from UIObject o where o.id in :ids";
+	return em.createQuery(jpql, UIObject.class).setParameter("ids", ids).getResultList();
     }
 
     @Override
@@ -102,5 +106,29 @@ public class AtlasDaoImpl implements AtlasDao {
 		"update %s o set o.sampleTitle=null,o.sampleName=null,o.waveformName=null where o.id=:id",
 		Classes.entityName(dtype));
 	em.createQuery(jpql).setParameter("id", id).executeUpdate();
+    }
+
+    @Override
+    public AtlasObject getAtlasObject(int id) {
+	return (AtlasObject) em.createQuery("select o from AtlasObject o where o.id=:id").setParameter("id", id)
+		.getSingleResult();
+    }
+
+    @Override
+    @Mutable
+    public void saveAtlasObject(AtlasObject object) {
+	if (object.getId() == 0) {
+	    em.persist(object);
+	} else {
+	    em.merge(object).postMerge(object);
+	}
+    }
+
+    @Override
+    @Mutable
+    public void removeObjectPicture(int objectId, Picture picture) {
+	AtlasObject object = (AtlasObject) em.createQuery("select o from AtlasObject o where o.id=:id")
+		.setParameter("id", objectId).getSingleResult();
+	object.getPictures().remove(picture);
     }
 }

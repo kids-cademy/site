@@ -3,15 +3,18 @@ package com.kidscademy.impl;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.kidscademy.AtlasService;
+import com.kidscademy.BusinessRules;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.MediaSRC;
 import com.kidscademy.atlas.MediaWrapper;
+import com.kidscademy.atlas.Picture;
 import com.kidscademy.atlas.UIObject;
 import com.kidscademy.atlas.User;
 import com.kidscademy.dao.AtlasDao;
@@ -27,8 +30,10 @@ import com.kidscademy.www.WikipediaPageSummary;
 
 import js.core.AppContext;
 import js.http.form.Form;
+import js.http.form.UploadedFile;
 import js.log.Log;
 import js.log.LogFactory;
+import js.rmi.BusinessException;
 import js.util.Params;
 
 public class AtlasServiceImpl implements AtlasService {
@@ -90,6 +95,13 @@ public class AtlasServiceImpl implements AtlasService {
 	    instrument.setWaveformSrc(generateWaveform(instrument, handler.source()));
 	}
 
+	if (instrument.getPictures() != null) {
+	    for (Picture picture : instrument.getPictures()) {
+		MediaFileHandler handler = new MediaFileHandler(instrument, picture.getFileName());
+		handler.commit();
+	    }
+	}
+
 	dao.saveInstrument(instrument);
 	return instrument;
     }
@@ -145,68 +157,110 @@ public class AtlasServiceImpl implements AtlasService {
     // OBJECT IMAGE SERVICES
 
     @Override
-    public ImageInfo getImageInfo(UIObject object, String imageName) throws IOException {
-	MediaFileHandler handler = new MediaFileHandler(object, imageName);
-	return image.getImageInfo(handler.source());
+    public Picture uploadPicture(Form form) throws IOException, BusinessException {
+	UIObject object = new UIObject(form.getValue("object-dtype"), form.getValue("object-name"));
+
+	String kind = form.getValue("media-kind");
+	UploadedFile uploadedFile = form.getUploadedFile("media-file");
+	String fileName = Strings.concat(form.getValue("media-file-name"), '.',
+		Files.getExtension(uploadedFile.getFileName()));
+
+	BusinessRules.transparentFeaturedPicture(kind, uploadedFile.getFile());
+
+	File targetFile = Files.mediaFile(object, fileName);
+	// ensure parent directory is created and that target file does not actually
+	// exist
+	targetFile.getParentFile().mkdirs();
+	targetFile.delete();
+	if (!uploadedFile.getFile().renameTo(targetFile)) {
+	    throw new IOException("Unable to upload " + targetFile.getName());
+	}
+
+	Picture picture = new Picture();
+	picture.setKind(kind);
+	picture.setUploadDate(new Date());
+	picture.setSource(form.getValue("media-source"));
+	picture.setFileName(fileName);
+
+	ImageInfo imageInfo = image.getImageInfo(targetFile);
+	picture.setFileSize(imageInfo.getFileSize());
+	picture.setWidth(imageInfo.getWidth());
+	picture.setHeight(imageInfo.getHeight());
+
+	picture.setSrc(Files.mediaSrc(object, fileName));
+	return picture;
     }
 
     @Override
-    public MediaSRC uploadPictureFile(Form form) throws IOException {
-	String collectionName = form.getValue("dtype");
-	String objectName = form.getValue("name");
-
-	MediaSRC pictureSrc = Files.mediaSrc(collectionName, objectName, "picture.jpg");
-	File pictureFile = Files.mediaFile(pictureSrc);
-	pictureFile.getParentFile().mkdirs();
-
-	image.saveObjectPicture(form.getUploadedFile("file").getFile(), pictureFile);
-	return pictureSrc;
+    public Picture trimPicture(UIObject object, Picture picture) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, picture.getFileName());
+	image.trim(handler.source(), handler.target());
+	updatePicture(picture, handler.target(), handler.targetSrc());
+	return picture;
     }
 
     @Override
-    public MediaSRC uploadThumbnailFile(Form form) throws IOException {
-	String collectionName = form.getValue("dtype");
-	String objectName = form.getValue("name");
-
-	MediaSRC thumbnailSrc = Files.mediaSrc(collectionName, objectName, "thumbnail.png");
-	File thumbnailFile = Files.mediaFile(thumbnailSrc);
-	thumbnailFile.getParentFile().mkdirs();
-
-	image.saveObjectThumbnail(form.getUploadedFile("file").getFile(), thumbnailFile);
-	return thumbnailSrc;
+    public Picture flopPicture(UIObject object, Picture picture) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, picture.getFileName());
+	image.flop(handler.source(), handler.target());
+	updatePicture(picture, handler.target(), handler.targetSrc());
+	return picture;
     }
 
     @Override
-    public MediaSRC uploadIconFile(Form form) throws IOException {
-	String collectionName = form.getValue("dtype");
-	String objectName = form.getValue("name");
-
-	MediaSRC iconSrc = Files.mediaSrc(collectionName, objectName, "icon.jpg");
-	File iconFile = Files.mediaFile(iconSrc);
-	iconFile.getParentFile().mkdirs();
-
-	image.saveObjectIcon(form.getUploadedFile("file").getFile(), iconFile);
-	return iconSrc;
+    public Picture flipPicture(UIObject object, Picture picture) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, picture.getFileName());
+	image.flip(handler.source(), handler.target());
+	updatePicture(picture, handler.target(), handler.targetSrc());
+	return picture;
     }
 
     @Override
-    public MediaSRC createObjectIcon(String collectionName, String objectName) throws IOException {
-	UIObject object = new UIObject(collectionName, objectName);
-	File pictureFile = Files.mediaFile(object, "picture.jpg");
-
-	MediaSRC iconSrc = Files.mediaSrc(collectionName, objectName, "icon.jpg");
-	File iconFile = Files.mediaFile(iconSrc);
-
-	image.createObjectIcon(pictureFile, iconFile);
-	return iconSrc;
-    }
-
-    @Override
-    public MediaSRC cropObjectImage(UIObject object, String imageName, int width, int height, int xoffset, int yoffset)
+    public Picture cropPicture(UIObject object, Picture picture, int width, int height, int xoffset, int yoffset)
 	    throws IOException {
-	MediaFileHandler handler = new MediaFileHandler(object, imageName);
+	MediaFileHandler handler = new MediaFileHandler(object, picture.getFileName());
 	image.crop(handler.source(), handler.target(), width, height, xoffset, yoffset);
-	return handler.targetSrc();
+	updatePicture(picture, handler.target(), handler.targetSrc());
+	return picture;
+    }
+
+    @Override
+    public void removePicture(UIObject object, Picture picture) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, picture.getFileName());
+	handler.delete();
+	if (picture.isPersisted()) {
+	    dao.removeObjectPicture(object.getId(), picture);
+	}
+    }
+
+    @Override
+    public Picture commitPicture(UIObject object, Picture picture) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, picture.getFileName());
+	handler.commit();
+	updatePicture(picture, handler.source(), handler.sourceSrc());
+	return picture;
+    }
+
+    @Override
+    public void rollbackPicture(UIObject object, Picture picture) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, picture.getFileName());
+	handler.rollback();
+    }
+
+    @Override
+    public Picture undoPicture(UIObject object, Picture picture) throws IOException {
+	MediaFileHandler handler = new MediaFileHandler(object, picture.getFileName());
+	handler.undo();
+	updatePicture(picture, handler.source(), handler.sourceSrc());
+	return picture;
+    }
+
+    private void updatePicture(Picture picture, File file, MediaSRC src) throws IOException {
+	ImageInfo info = image.getImageInfo(file);
+	picture.setFileSize(info.getFileSize());
+	picture.setWidth(info.getWidth());
+	picture.setHeight(info.getHeight());
+	picture.setSrc(src);
     }
 
     // ----------------------------------------------------------------------------------------------
@@ -287,9 +341,9 @@ public class AtlasServiceImpl implements AtlasService {
     }
 
     @Override
-    public AudioSampleInfo roolbackAudioSampleProcessing(UIObject object) throws IOException {
+    public AudioSampleInfo rollbackAudioSampleProcessing(UIObject object) throws IOException {
 	MediaFileHandler handler = new MediaFileHandler(object, "sample.mp3");
-	handler.roolback();
+	handler.rollback();
 	return getAudioSampleInfo(object, handler.source(), handler.sourceSrc());
     }
 

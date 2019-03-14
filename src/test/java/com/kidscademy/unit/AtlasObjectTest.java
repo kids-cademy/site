@@ -30,13 +30,12 @@ public class AtlasObjectTest
     instrument.setName("banjo");
     instrument.setDisplay("Banjo");
     instrument.setDescription("Banjo description.");
-    instrument.setIconName("icon.png");
-    instrument.setThumbnailName("thumbnail.png");
-    instrument.setPictureName("picture.jpg");
     instrument.setSampleTitle("Banjo solo");
     instrument.setSampleName("sample.mp3");
     instrument.setDate(new HDate(1821, HDate.Format.YEAR, HDate.Period.MIDDLE));
 
+    // TODO: add pictures
+    
     List<String> aliases = new ArrayList<String>();
     aliases.add("Banjo Alias #1");
     aliases.add("Banjo Alias #2");

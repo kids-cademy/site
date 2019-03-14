@@ -5,17 +5,9 @@ import static com.kidscademy.tool.AbstractToolProcess.format;
 import java.io.File;
 import java.io.IOException;
 
+import js.annotation.Test;
+
 public class ImageProcessorImpl implements ImageProcessor {
-    private static final int PICTURE_WIDTH = 920;
-    private static final int PICTURE_HEIGHT = 560;
-    private static final double PICTURE_QUALITY = 40;
-
-    private static final int ICON_SIZE = 96;
-    private static final double ICON_QUALITY = 80;
-
-    // thumbnail has restriction only on width, height is allowed to scale
-    private static final int THUMBNAIL_WIDTH = 560;
-
     private final ImageMagickProcess convert;
     private final ImageMagickProcess identify;
 
@@ -24,38 +16,32 @@ public class ImageProcessorImpl implements ImageProcessor {
 	this.identify = new IdentifyProcess();
     }
 
+    @Test
+    public ImageProcessorImpl(ImageMagickProcess convert, ImageMagickProcess identify) {
+	this.convert = convert;
+	this.identify = identify;
+    }
+
+    @Override
+    public void convert(File imageFile, File targetFile, int... quality) throws IOException {
+	if (quality.length == 1) {
+	    exec("${imageFile} -quality ${quality} ${targetFile}", imageFile, quality[0], targetFile);
+	} else {
+	    exec("${imageFile} ${targetFile}", imageFile, targetFile);
+	}
+    }
+
+    @Override
+    public void resize(File imageFile, File targetFile, int width, int height) throws IOException {
+	String w = width != 0 ? Integer.toString(width) : "";
+	String h = height != 0 ? Integer.toString(height) : "";
+	exec("${imageFile} -resize ${width}x${height} ${targetFile}", imageFile, w, h, targetFile);
+    }
+
     @Override
     public ImageInfo getImageInfo(File imageFile) throws IOException {
 	ImageInfoResult result = identify.exec(ImageInfoResult.class, imageFile.getAbsolutePath());
 	return result.getImageInfo();
-    }
-
-    @Override
-    public void saveObjectPicture(File uploadFile, File pictureFile) throws IOException {
-	exec("${uploadFile} -resize ${width}x${height} -quality ${quality} ${pictureFile}", uploadFile, PICTURE_WIDTH,
-		PICTURE_HEIGHT, PICTURE_QUALITY, pictureFile);
-    }
-
-    @Override
-    public void saveObjectIcon(File uploadFile, File iconFile) throws IOException {
-	exec("${uploadFile} -resize ${width}x${height} -quality ${quality} ${iconFile}", uploadFile, ICON_SIZE,
-		ICON_SIZE, ICON_QUALITY, iconFile);
-    }
-
-    @Override
-    public void saveObjectThumbnail(File uploadFile, File thumbnailFile) throws IOException {
-	exec("${uploadFile} -resize ${width} ${thumbnailFile}", uploadFile, THUMBNAIL_WIDTH, thumbnailFile);
-    }
-
-    @Override
-    public void createObjectIcon(File pictureFile, File iconFile) throws IOException {
-	int width = PICTURE_HEIGHT;
-	int height = PICTURE_HEIGHT;
-	int xoffset = (PICTURE_WIDTH - PICTURE_HEIGHT) / 2;
-	int yoffset = 0;
-
-	exec("${pictureFile} -crop ${width}x${height}+${xoffset}+${yoffset} -resize ${size}x${size} -quality ${quality} ${iconFile}",
-		pictureFile, width, height, xoffset, yoffset, ICON_SIZE, ICON_SIZE, ICON_QUALITY, iconFile);
     }
 
     @Override
@@ -70,6 +56,21 @@ public class ImageProcessorImpl implements ImageProcessor {
 	// reverse order of width and height because of -rotate 90
 	exec("-size ${canvasHeight}x${canvasWidth} xc:red -colorspace HSB gradient: -compose CopyRed -composite -colorspace RGB -rotate 90.0 ${imageFile}",
 		canvasHeight, canvasWidth, imageFile);
+    }
+
+    @Override
+    public void trim(File imageFile, File targetFile) throws IOException {
+	exec("${imageFile} -fuzz 1% -trim +repage ${targetFile}", imageFile, targetFile);
+    }
+
+    @Override
+    public void flop(File imageFile, File targetFile) throws IOException {
+	exec("${imageFile} -flop ${targetFile}", imageFile, targetFile);
+    }
+
+    @Override
+    public void flip(File imageFile, File targetFile) throws IOException {
+	exec("${imageFile} -flip ${targetFile}", imageFile, targetFile);
     }
 
     @Override
@@ -93,8 +94,21 @@ public class ImageProcessorImpl implements ImageProcessor {
 
     @Override
     public String perceptualHash(File imageFile) throws IOException {
-	PerceptualHashResult result = identify.exec(PerceptualHashResult.class, format("-verbose -define identify:moments ${imageFile}", imageFile));
+	PerceptualHashResult result = identify.exec(PerceptualHashResult.class,
+		format("-verbose -define identify:moments ${imageFile}", imageFile));
 	return result.getHash();
+    }
+
+    @Override
+    public <T> T info(File imageFile, String attribute, Class<T> type) throws IOException {
+	String command = format("${imageFile} -format %[${attribute}] info:", imageFile, attribute);
+	ValueResult<T> result = convert.exec(ValueResult.class, command);
+	return result.getValue(type);
+    }
+
+    @Override
+    public boolean isOpaque(File imageFile) throws IOException {
+	return info(imageFile, "opaque", boolean.class);
     }
 
     // --------------------------------------------------------------------------------------------

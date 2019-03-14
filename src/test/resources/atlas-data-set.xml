@@ -5,7 +5,7 @@
 		<emailAddress>john.doe@email.com</emailAddress>
 		<password>secret</password>
 	</user>
-	
+
 	<atlasobject>
 		<id>1</id>
 		<dtype>instrument</dtype>
@@ -16,9 +16,6 @@
 		<name>accordion</name>
 		<display>Accordion</display>
 		<description>Accordion description.</description>
-		<iconName>icon.jpg</iconName>
-		<thumbnailName>thumbnail.png</thumbnailName>
-		<pictureName>picture.jpg</pictureName>
 	</atlasobject>
 	<atlasobject>
 		<id>2</id>
@@ -30,9 +27,6 @@
 		<name>eagle</name>
 		<display>Eagle</display>
 		<description>Eagle description.</description>
-		<iconName>icon.jpg</iconName>
-		<thumbnailName>thumbnail.png</thumbnailName>
-		<pictureName>picture.jpg</pictureName>
 	</atlasobject>
 	<atlasobject>
 		<id>3</id>
@@ -44,9 +38,6 @@
 		<name>bandoneon</name>
 		<display>Bandoneon</display>
 		<description>Bandonenon description.</description>
-		<iconName>icon.jpg</iconName>
-		<thumbnailName>thumbnail.png</thumbnailName>
-		<pictureName>picture.jpg</pictureName>
 	</atlasobject>
 	<atlasobject>
 		<id>4</id>
@@ -58,9 +49,6 @@
 		<name>cimbalom</name>
 		<display>Cimbalom</display>
 		<description>Cimbalom description.</description>
-		<iconName>icon.jpg</iconName>
-		<thumbnailName>thumbnail.png</thumbnailName>
-		<pictureName>picture.jpg</pictureName>
 	</atlasobject>
 
 	<atlasobject_aliases>
@@ -68,6 +56,55 @@
 		<atlasobject_id>1</atlasobject_id>
 		<aliases>Squeezebox</aliases>
 	</atlasobject_aliases>
+
+	<atlasobject_pictures>
+		<id>1</id>
+		<atlasobject_id>1</atlasobject_id>
+		<order_column>0</order_column>
+		<kind>icon</kind>
+		<uploadDate>2019-03-10 21:11:00</uploadDate>
+		<source>https://upload.wikimedia.org/wikipedia/commons/f/f5/Paris_-_Accordion_Player_-_0956.jpg</source>
+		<fileName>icon.jpg</fileName>
+		<fileSize>12345</fileSize>
+		<width>96</width>
+		<height>96</height>
+	</atlasobject_pictures>
+	<atlasobject_pictures>
+		<id>2</id>
+		<atlasobject_id>1</atlasobject_id>
+		<order_column>1</order_column>
+		<kind>featured</kind>
+		<uploadDate>2019-03-10 21:11:00</uploadDate>
+		<source></source>
+		<fileName>piano-accordion.png</fileName>
+		<fileSize>12345</fileSize>
+		<width>560</width>
+		<height>400</height>
+	</atlasobject_pictures>
+	<atlasobject_pictures>
+		<id>3</id>
+		<atlasobject_id>1</atlasobject_id>
+		<order_column>2</order_column>
+		<kind>featured</kind>
+		<uploadDate>2019-03-10 21:11:00</uploadDate>
+		<source></source>
+		<fileName>button-accordion.png</fileName>
+		<fileSize>12345</fileSize>
+		<width>560</width>
+		<height>400</height>
+	</atlasobject_pictures>
+	<atlasobject_pictures>
+		<id>4</id>
+		<atlasobject_id>1</atlasobject_id>
+		<order_column>3</order_column>
+		<kind>contextual</kind>
+		<uploadDate>2019-03-10 21:11:00</uploadDate>
+		<source>https://upload.wikimedia.org/wikipedia/commons/f/f5/Paris_-_Accordion_Player_-_0956.jpg</source>
+		<fileName>picture.jpg</fileName>
+		<fileSize>12345</fileSize>
+		<width>920</width>
+		<height>560</height>
+	</atlasobject_pictures>
 
 	<atlasobject_facts>
 		<id>1</id>

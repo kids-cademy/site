@@ -91,6 +91,10 @@ com.kidscademy.atlas.DescriptionControl = class extends js.dom.Control {
 		}
 	}
 
+	_onInsertPicture() {
+
+	}
+
 	_onRemove() {
 		this._textarea.reset();
 	}

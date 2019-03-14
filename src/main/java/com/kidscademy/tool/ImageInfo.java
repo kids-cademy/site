@@ -1,5 +1,7 @@
 package com.kidscademy.tool;
 
+import com.kidscademy.atlas.MediaSRC;
+
 public class ImageInfo {
     /** Sample file name. */
     private String fileName;
@@ -10,6 +12,8 @@ public class ImageInfo {
     private int width;
     private int height;
 
+    private MediaSRC src;
+    
     public String getFileName() {
 	return fileName;
     }
@@ -48,5 +52,13 @@ public class ImageInfo {
 
     public void setHeight(int height) {
 	this.height = height;
+    }
+
+    public MediaSRC getSrc() {
+        return src;
+    }
+
+    public void setSrc(MediaSRC src) {
+        this.src = src;
     }
 }

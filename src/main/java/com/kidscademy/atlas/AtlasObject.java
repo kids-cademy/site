@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderColumn;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -19,47 +20,59 @@ public class AtlasObject implements MediaWrapper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
+    /**
+     * Discriminator type identify object class. Its value is derived from simple
+     * class name to lower case.
+     */
     protected String dtype;
 
     @ManyToOne
     protected User user;
 
-    /** Object state, for now only in development and published. */	
+    /** Object state, for now only in development and published. */
     protected State state;
+
     /** Last change timestamp. */
     protected Date lastUpdated;
 
     protected int rank;
+    /**
+     * Object name unique per dtype. This value is used internally and is not meant
+     * to be displayed to user.
+     */
     protected String name;
+
+    /**
+     * Object name as displayed on user interface. It is subject to
+     * internationalization.
+     */
     protected String display;
+
+    /**
+     * Object description is rich text, that is, it can contains images, links and
+     * text formatting. It is stored as HTML.
+     */
     protected String description;
+
     /**
-     * Media file name for object picture. This is a picture of the object in its
-     * natural context. It may contain the object and related contextual content;
-     * e.g. for a musical instrument it contains a player using the instrument. It
-     * has 16:9 aspect ration and usually is 902x560 pixels.
+     * Pictures associated with this object. There are three kinds of pictures:
+     * object icon, one about object itself and one with object in its natural
+     * context.
      * <p>
-     * This fields contains only file name, including extension, but does not
-     * contain any path components. This is to avoid keeping path structure into
-     * database. Path components are added when object is loaded from persistence by
-     * a specialized hook, from every concrete object class. Media file name plus
-     * path components are a root-relative URL and is named media SRC; remember that
-     * root-relative URL is the URL path after server that starts from context.
+     * Object icon has a small dimension and has 1:1 ratio; usually is 96x96 pixels.
+     * <p>
+     * Object picture focused on object only and has transparent background. For
+     * this reason it is of PNG type. It has fixed width - usually 560 pixels, but
+     * variable height to accommodate picture content, hence aspect ratio is
+     * variable too.
+     * <p>
+     * Contextual picture present object in its context, e.g. for a musical
+     * instrument it contains a player using the instrument. It has 16:9 aspect
+     * ration and usually is 920x560 pixels.
      */
-    protected String pictureName;
-    /**
-     * Media file name for object icon. Object icon has a small dimension and has
-     * 1:1 ratio; usually is 96x96 pixels. See {@link #pictureName} for details
-     * about media file name.
-     */
-    protected String iconName;
-    /**
-     * Media file name for object thumbnail. Object thumbnail is a featured picture
-     * that have transparent background. It has fixed width - usually 560 pixels,
-     * but variable height to accommodate picture content, hence aspect ratio is
-     * variable too. See {@link #pictureName} for details about media file name.
-     */
-    protected String thumbnailName;
+    @ElementCollection
+    @OrderColumn(name = "order_column")
+    protected List<Picture> pictures;
 
     @ElementCollection
     protected List<String> aliases;
@@ -76,6 +89,21 @@ public class AtlasObject implements MediaWrapper {
 
     @ElementCollection
     protected List<Related> related;
+
+    public void postMerge(AtlasObject source) {
+	if (pictures != null) {
+	    for (int i = 0; i < pictures.size(); ++i) {
+		pictures.get(i).postMerge(source.getPictures().get(i));
+	    }
+	}
+
+	if (links != null) {
+	    for (int i = 0; i < links.size(); ++i) {
+		final MediaSRC iconSrc = source.links.get(i).getIconSrc();
+		links.get(i).setIconName(iconSrc != null ? iconSrc.fileName() : null);
+	    }
+	}
+    }
 
     /**
      * For testing
@@ -134,6 +162,14 @@ public class AtlasObject implements MediaWrapper {
 	this.name = name;
     }
 
+    public List<Picture> getPictures() {
+	return pictures;
+    }
+
+    public void setPictures(List<Picture> pictures) {
+	this.pictures = pictures;
+    }
+
     public List<String> getAliases() {
 	return aliases;
     }
@@ -156,30 +192,6 @@ public class AtlasObject implements MediaWrapper {
 
     public void setDescription(String description) {
 	this.description = description;
-    }
-
-    public String getIconName() {
-	return iconName;
-    }
-
-    public void setIconName(String iconName) {
-	this.iconName = iconName;
-    }
-
-    public String getThumbnailName() {
-	return thumbnailName;
-    }
-
-    public void setThumbnailName(String thumbnailName) {
-	this.thumbnailName = thumbnailName;
-    }
-
-    public String getPictureName() {
-	return pictureName;
-    }
-
-    public void setPictureName(String pictureName) {
-	this.pictureName = pictureName;
     }
 
     public List<Region> getSpreading() {

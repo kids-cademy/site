@@ -12,6 +12,7 @@ import com.kidscademy.atlas.AtlasObject;
 import com.kidscademy.atlas.Bird;
 import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
+import com.kidscademy.atlas.Picture;
 import com.kidscademy.atlas.UIObject;
 
 public interface AtlasDao {
@@ -55,4 +56,17 @@ public interface AtlasDao {
     void resetObjectSample(String dtype, int id);
 
     List<Link> getObjectLinks(UIObject object);
+
+    /**
+     * Get polymorphic object. JPA uses discriminator dtype to instantiate the right
+     * type.
+     * 
+     * @param id
+     * @return
+     */
+    AtlasObject getAtlasObject(int id);
+
+    void saveAtlasObject(AtlasObject object);
+
+    void removeObjectPicture(int objectId, Picture picture);
 }

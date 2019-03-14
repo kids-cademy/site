@@ -55,10 +55,9 @@ public class ImportInstrument {
 	    instrument.setName(object.name);
 	    instrument.setDisplay(object.title);
 	    instrument.setDescription(object.description);
-	    instrument.setIconName(object.iconPath.replace("collection", "instruments"));
-	    instrument.setThumbnailName(object.thumbnailPath.replace("collection", "instruments"));
-	    instrument.setPictureName(object.picturePath.replace("collection", "instruments"));
 
+	    // TODO: add pictures
+	    
 	    instrument.setCategory(object.category);
 	    instrument.setSampleTitle(object.sampleTitle);
 	    instrument.setSampleName(object.samplePath);

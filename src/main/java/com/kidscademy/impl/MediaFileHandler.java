@@ -313,7 +313,7 @@ public class MediaFileHandler {
      * @throws IOException
      *             if clear operation fails.
      */
-    public void roolback() throws IOException {
+    public void rollback() throws IOException {
 	if (version < 1) {
 	    return;
 	}
