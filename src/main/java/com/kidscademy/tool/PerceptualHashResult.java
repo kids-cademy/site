@@ -2,6 +2,9 @@ package com.kidscademy.tool;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -14,7 +17,7 @@ public class PerceptualHashResult implements ResultParser {
     private static final String BLUE_HEADER = "    Blue, Luma:";
 
     private State state = State.WAIT_PH_HEADER;
-    private StringBuilder values = new StringBuilder();
+    private List<Double> values = new ArrayList<>(42);
     private int index;
 
     @Override
@@ -76,10 +79,18 @@ public class PerceptualHashResult implements ResultParser {
 	}
     }
 
+    public List<Double> getValues() {
+	return Collections.unmodifiableList(values);
+    }
+
     public String getHash() {
+	StringBuilder builder = new StringBuilder();
+	for (Double value : values) {
+	    builder.append(String.format("%.1f", value));
+	}
 	try {
 	    MessageDigest digest = MessageDigest.getInstance("MD5");
-	    digest.update(values.toString().getBytes());
+	    digest.update(builder.toString().getBytes());
 	    return DatatypeConverter.printHexBinary(digest.digest()).toUpperCase();
 	} catch (NoSuchAlgorithmException e) {
 	    throw new BugError("Java runtime without MD5 support.");
@@ -93,15 +104,11 @@ public class PerceptualHashResult implements ResultParser {
 	}
 
 	String[] tuplu = line.substring(valuesPosition).split(",");
-	values.append(value(tuplu[0]));
-	values.append(value(tuplu[1]));
+	values.add(Double.parseDouble(tuplu[0].trim()));
+	values.add(Double.parseDouble(tuplu[1].trim()));
 	++index;
     }
 
-    private static String value(String numericValue) {
-	double value = Double.parseDouble(numericValue.trim());
-	return String.format("%.1f", value);
-    }
     // --------------------------------------------------------------------------------------------
 
     private enum State {

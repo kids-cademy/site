@@ -73,6 +73,36 @@ public interface ImageProcessor {
      */
     String perceptualHash(File imageFile) throws IOException;
 
+    /**
+     * Compute perceptual distance between two images. Returned value is zero for
+     * identical images and greater than 30 for completely different images. This
+     * distance is not based on image content similarities but on perceptual hash.
+     * <p>
+     * Used algorithm consider those 42 double values from perceptual hash as
+     * coordinates in a space with 42 dimensions and compute Euclidean distance
+     * between points.
+     * <p>
+     * Some results using a JPG image as first file and various second file:
+     * <ul>
+     * <li>converted to PNG - 0.0
+     * <li>resized about 8 times - 0.8
+     * <li>low quality of 20 - 0.7
+     * <li>completely different - 31.2
+     * </ul>
+     * As one can see, the same content, no mater codec, size and quality has
+     * distance less than 1 whereas very different images has distance larger than
+     * 30.
+     * 
+     * @param imageFile1
+     *            first image,
+     * @param imageFile2
+     *            second image.
+     * @return perceptual distance between images.
+     * @throws IOException
+     *             if images read operation fails.
+     */
+    double perceptualDistance(File imageFile1, File imageFile2) throws IOException;
+
     <T> T info(File imageFile, String attribute, Class<T> type) throws IOException;
 
     boolean isOpaque(File imageFile) throws IOException;

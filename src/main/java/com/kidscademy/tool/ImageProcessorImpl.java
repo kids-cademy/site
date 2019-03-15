@@ -4,6 +4,7 @@ import static com.kidscademy.tool.AbstractToolProcess.format;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import js.annotation.Test;
 
@@ -97,6 +98,23 @@ public class ImageProcessorImpl implements ImageProcessor {
 	PerceptualHashResult result = identify.exec(PerceptualHashResult.class,
 		format("-verbose -define identify:moments ${imageFile}", imageFile));
 	return result.getHash();
+    }
+
+    @Override
+    public double perceptualDistance(File imageFile1, File imageFile2) throws IOException {
+	String command1 = format("-verbose -define identify:moments ${imageFile}", imageFile1);
+	PerceptualHashResult result1 = identify.exec(PerceptualHashResult.class, command1);
+	List<Double> values1 = result1.getValues();
+
+	String command2 = format("-verbose -define identify:moments ${imageFile}", imageFile2);
+	PerceptualHashResult result2 = identify.exec(PerceptualHashResult.class, command2);
+	List<Double> values2 = result2.getValues();
+
+	double sum = 0.0;
+	for (int i = 0; i < values1.size(); ++i) {
+	    sum += Math.pow(values1.get(i) - values2.get(i), 2);
+	}
+	return Math.sqrt(sum);
     }
 
     @Override

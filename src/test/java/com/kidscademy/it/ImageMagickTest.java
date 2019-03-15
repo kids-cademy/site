@@ -1,6 +1,9 @@
 package com.kidscademy.it;
 
+import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.io.FileMatchers.anExistingFile;
@@ -200,6 +203,35 @@ public class ImageMagickTest {
 
 	hashFile1.delete();
 	hashFile2.delete();
+    }
+
+    @Test
+    public void perceptualDistance() throws IOException {
+	File jpgImage = new File("fixture/image/picture_hq.jpg");
+	File waveform = new File("fixture/image/waveform.png");
+
+	File pngImage = new File("fixture/image/picture_hq.png");
+	File resizedImage = new File("fixture/image/resized-image.jpg");
+	File lowQualityImage = new File("fixture/image/low-quality-image.jpg");
+
+	image.convert(jpgImage, pngImage);
+	image.resize(jpgImage, resizedImage, 100, 0);
+	image.convert(jpgImage, lowQualityImage, 20);
+
+	// PNG is identical - distance is 0
+	assertThat(image.perceptualDistance(jpgImage, pngImage), equalTo(0.0));
+
+	// resized and low quality images are pretty close to original - distance is
+	// about 0.75
+	assertThat(image.perceptualDistance(jpgImage, resizedImage), is(closeTo(0.75, 0.25)));
+	assertThat(image.perceptualDistance(jpgImage, lowQualityImage), is(closeTo(0.75, 0.25)));
+
+	// waveform is far for original - distance is greater than 30.75
+	assertThat(image.perceptualDistance(jpgImage, waveform), is(greaterThan(30.75)));
+
+	pngImage.delete();
+	resizedImage.delete();
+	lowQualityImage.delete();
     }
 
     @Test
