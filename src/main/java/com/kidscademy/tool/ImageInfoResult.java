@@ -20,7 +20,7 @@ public class ImageInfoResult implements ResultParser {
     // image.png PNG 800x140 800x140+0+0 16-bit Grayscale Gray 720B 0.000u 0:00.000
     // picture.png PNG 1200x733 1200x733+0+0 8-bit sRGB 989.227KiB 0.000u 0:00.000
     private static final Pattern FORMAT = Pattern.compile(
-	    "^(.+\\.(?i:jpg|png)) (JPEG|PNG) (\\d+)x(\\d+) (\\d+)x(\\d+)\\+(\\d+)\\+(\\d+) (8|16)-bit (sRGB|Grayscale Gray) (\\d+(?:\\.\\d+)?)(B|KiB|MiB) .+$");
+	    "^(\\S+) (JPEG|PNG) (\\d+)x(\\d+) (\\d+)x(\\d+)\\+(\\d+)\\+(\\d+) (8|16)-bit (sRGB|Grayscale Gray) (\\d+(?:\\.\\d+)?)(B|KiB|MiB) .+$");
 
     @Override
     public void parse(String line) {

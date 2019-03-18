@@ -27,6 +27,7 @@
 					<input name="upload-file" type="file" title="@tip/graphic-upload" accept="image/*" />
 				</span>
 				<img name="search" src="@image/action/search" title="@tip/graphic-search" />
+				<img name="link" src="@image/action/link" title="@tip/graphic-link" />
 				<img name="edit" src="@image/action/edit" title="@tip/graphic-edit" />
 				<span class="separator"></span>
 				<img name="crop" src="@image/action/crop" title="@tip/graphic-crop" />
@@ -42,7 +43,7 @@
 
 			<div class="meta exclude hidden" data-class="com.kidscademy.FormData">
 				<div>
-					<label>kind</label> <select name="media-kind">
+					<label>kind</label> <select name="kind">
 						<option></option>
 						<option>icon</option>
 						<option>featured</option>
@@ -50,16 +51,16 @@
 					</select>
 				</div>
 				<div>
-					<label>name</label> <input name="media-file-name" />
+					<label>name</label> <input name="file-name" />
 				</div>
 				<div class="hidden">
-					<label>description</label> <input name="media-description" class="optional" />
+					<label>description</label> <input name="description" class="optional" />
 				</div>
 				<div>
-					<label>source</label> <input name="media-source" class="large optional" />
+					<label>source</label> <input name="source" class="large optional" />
 				</div>
 				<div class="hidden">
-					<label>license</label> <select name="media-license" class="optional">
+					<label>license</label> <select name="license" class="optional">
 						<option>Original Work</option>
 						<option>Fair Use License</option>
 						<option>Creative Commons license</option>

@@ -119,6 +119,7 @@ public class ImageProcessorImpl implements ImageProcessor {
 
     @Override
     public <T> T info(File imageFile, String attribute, Class<T> type) throws IOException {
+	// https://imagemagick.org/script/escape.php
 	String command = format("${imageFile} -format %[${attribute}] info:", imageFile, attribute);
 	ValueResult<T> result = convert.exec(ValueResult.class, command);
 	return result.getValue(type);

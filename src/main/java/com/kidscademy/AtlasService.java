@@ -48,6 +48,16 @@ public interface AtlasService {
 
     Picture uploadPicture(Form form) throws IOException, BusinessException;
 
+    /**
+     * Upload picture, identified by its URL, from third party server.
+     * 
+     * @param form
+     * @return
+     * @throws IOException
+     * @throws BusinessException
+     */
+    Picture uploadPictureBySource(Form form) throws IOException, BusinessException;
+
     Picture trimPicture(UIObject object, Picture picture) throws IOException;
 
     Picture flopPicture(UIObject object, Picture picture) throws IOException;

@@ -335,7 +335,7 @@ public class AtlasDaoTest {
 	assertThat(object.getName(), equalTo("accordion"));
 	assertThat(object.getDisplay(), equalTo("Accordion"));
 	assertThat(object.getIconName(), equalTo("icon.jpg"));
-	assertThat(object.getIconSrc(), equalTo(src("accordion", "icon.jpg")));
+	assertThat(object.getIconSrc(), equalTo(src("accordion", "icon_96x96.jpg")));
     }
 
     @Test
@@ -352,7 +352,7 @@ public class AtlasDaoTest {
 	assertThat(object.getName(), equalTo("accordion"));
 	assertThat(object.getDisplay(), equalTo("Accordion"));
 	assertThat(object.getIconName(), equalTo("icon.jpg"));
-	assertThat(object.getIconSrc(), equalTo(src("accordion", "icon.jpg")));
+	assertThat(object.getIconSrc(), equalTo(src("accordion", "icon_96x96.jpg")));
     }
 
     @Test
@@ -369,7 +369,7 @@ public class AtlasDaoTest {
 	assertThat(object.getName(), equalTo("accordion"));
 	assertThat(object.getDisplay(), equalTo("Accordion"));
 	assertThat(object.getIconName(), equalTo("icon.jpg"));
-	assertThat(object.getIconSrc(), equalTo(src("accordion", "icon.jpg")));
+	assertThat(object.getIconSrc(), equalTo(src("accordion", "icon_96x96.jpg")));
     }
 
     @Test

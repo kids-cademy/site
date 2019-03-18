@@ -1,5 +1,6 @@
 package com.kidscademy.atlas;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +11,7 @@ import javax.persistence.Transient;
 import com.kidscademy.util.Files;
 
 @Entity
+@Cacheable(false)
 public class UIObject implements MediaWrapper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +46,9 @@ public class UIObject implements MediaWrapper {
 
     @PostLoad
     public void postLoad() {
-	iconSrc = Files.mediaSrc(this, iconName);
+	if (iconName != null) {
+	    iconSrc = Files.mediaSrc(this, iconName, "96x96");
+	}
     }
 
     public int getId() {

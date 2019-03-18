@@ -23,20 +23,56 @@ com.kidscademy.FormData = class extends js.dom.Element {
 		this._iterable = new js.dom.ControlsIterable(this);
 	}
 
+	open() {
+		this.reset();
+		this.show();
+	}
+
 	isValid() {
 		var valid = true;
 		this._iterable.forEach(control => valid = control.isValid() && valid);
 		return valid;
 	}
 
-	getObject() {
+	getFormData() {
 		const formData = new FormData();
 		this._iterable.forEach(control => formData.append(control.getName(), control.getValue()));
 		return formData;
 	}
 
-	setObject(object) {
+	getObject(object) {
+		if (typeof object === "undefined") {
+			object = {};
+		}
+		this._iterable.forEach(control => {
+			const opp = this._getOPPath(control);
+			if (opp !== null) {
+				js.lang.OPP.set(object, opp, control.getValue());
+			}
+		});
+		return object;
+	}
 
+	setObject(object) {
+		this._iterable.forEach(control => {
+			const opp = this._getOPPath(control);
+			if (opp !== null) {
+				const value = js.lang.OPP.get(object, opp);
+				if (typeof value !== "undefined") {
+					control.setValue(value);
+				}
+			}
+		});
+	}
+
+	reset() {
+		this._iterable.forEach(control => control.reset());
+		return this.focus();
+	}
+
+	_getOPPath(control) {
+		const name = control.getName();
+		return name !== null ? js.util.Strings.toScriptCase(name) : null;
 	}
 
 	/**

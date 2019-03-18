@@ -86,9 +86,9 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 	// ACTION HANDLERS
 
 	_onAdd() {
-		this._actions.show("upload", "search");
+		this._actions.show("upload", "search", "link");
 		this._imageEditor.hide();
-		this._metaFormData.show();
+		this._metaFormData.open();
 	}
 
 	_onUpload(ev) {
@@ -115,7 +115,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 	}
 
 	_onUploadFile(ev) {
-		const formData = this._metaFormData.getObject();
+		const formData = this._metaFormData.getFormData();
 		const object = this._formPage.getObject();
 
 		formData.append("object-dtype", object.dtype);
@@ -131,6 +131,20 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 
 	_onSearch() {
 		alert('search')
+	}
+
+	_onLink() {
+		const formData = this._metaFormData.getFormData();
+		const object = this._formPage.getObject();
+
+		formData.append("object-dtype", object.dtype);
+		formData.append("object-name", object.name);
+
+		AtlasService.uploadPictureBySource(formData, picture => {
+			this._currentPicture = picture;
+			this._picturesControl.addPicture(picture);
+			this._previewImage.setSrc(picture.src);
+		});
 	}
 
 	_onEdit() {
@@ -182,7 +196,9 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 
 	_onDone() {
 		if (!this._cropMask.isVisible()) {
+			this._metaFormData.getObject(this._currentPicture);
 			AtlasService.commitPicture(this._formPage.getUIObject(), this._currentPicture, picture => {
+				this._metaFormData.hide();
 				this._closeImageEditor();
 				this._picturesControl.updatePicture(picture);
 			})
@@ -251,6 +267,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		this._actions.showAll();
 		this._cropMask.hide();
 		this._imageEditor.show();
+		this._metaFormData.setObject(this._currentPicture);
 		this._fileInfoView.setObject(this._currentPicture);
 	}
 
@@ -258,18 +275,6 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		this._actions.show("remove");
 		this._currentPicture = picture;
 		this._previewImage.setSrc(picture.src);
-	}
-
-	_getMeta() {
-		var valid = this._pictureNameInput.isValid();
-		valid = this._pictureTypeSelect.isValid() && valid;
-		if (!valid) {
-			return null;
-		}
-		return {
-			name: this._pictureNameInput.getValue(),
-			type: this._pictureTypeSelect.getValue()
-		}
 	}
 
 	/**

@@ -18,6 +18,12 @@ public final class Files extends js.util.Files {
 	return mediaSrc(object.getDtype(), object.getName(), mediaFile);
     }
 
+    public static MediaSRC mediaSrc(MediaWrapper object, String mediaFile, String annotation) {
+	String basepath = Files.removeExtension(mediaFile);
+	String extension = Files.getExtension(mediaFile);
+	return mediaSrc(object.getDtype(), object.getName(), Strings.concat(basepath, '_', annotation, '.', extension));
+    }
+
     public static MediaSRC mediaSrc(String collectionName, String objectName, String mediaFile) {
 	Params.notNullOrEmpty(collectionName, "Collection name");
 	Params.notNullOrEmpty(objectName, "Object name");

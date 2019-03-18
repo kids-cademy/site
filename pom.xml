@@ -4,8 +4,8 @@
 	<artifactId>site</artifactId>
 	<version>0.0.1</version>
 	<packaging>war</packaging>
-	<name>Site for kids (a)cademy</name>
-	<description>Site for kids (a)cademy.</description>
+	<name>kids (a)cademy Site</name>
+	<description>Site for kids (a)cademy platform.</description>
 
 	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>

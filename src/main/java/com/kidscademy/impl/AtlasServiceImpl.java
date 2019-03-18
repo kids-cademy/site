@@ -158,36 +158,44 @@ public class AtlasServiceImpl implements AtlasService {
 
     @Override
     public Picture uploadPicture(Form form) throws IOException, BusinessException {
-	UIObject object = new UIObject(form.getValue("object-dtype"), form.getValue("object-name"));
-
-	String kind = form.getValue("media-kind");
 	UploadedFile uploadedFile = form.getUploadedFile("media-file");
-	String fileName = Strings.concat(form.getValue("media-file-name"), '.',
-		Files.getExtension(uploadedFile.getFileName()));
+	return upload(form, uploadedFile.getFile());
+    }
 
-	BusinessRules.transparentFeaturedPicture(kind, uploadedFile.getFile());
+    @Override
+    public Picture uploadPictureBySource(Form form) throws IOException, BusinessException {
+	Params.notNull(form.getValue("source"), "Picture source");
+	URL url = new URL(form.getValue("source"));
+	return upload(form, Files.copy(url));
+    }
 
-	File targetFile = Files.mediaFile(object, fileName);
-	// ensure parent directory is created and that target file does not actually
-	// exist
+    private Picture upload(Form form, File file) throws IOException, BusinessException {
+	BusinessRules.transparentFeaturedPicture(form.getValue("kind"), file);
+
+	ImageInfo imageInfo = image.getImageInfo(file);
+
+	UIObject object = new UIObject(form.getValue("object-dtype"), form.getValue("object-name"));
+	File targetFile = Files.mediaFile(object,
+		Strings.concat(form.getValue("file-name"), '.', imageInfo.getType().extension()));
 	targetFile.getParentFile().mkdirs();
 	targetFile.delete();
-	if (!uploadedFile.getFile().renameTo(targetFile)) {
-	    throw new IOException("Unable to upload " + targetFile.getName());
+
+	if (!file.renameTo(targetFile)) {
+	    throw new IOException("Unable to upload " + targetFile);
 	}
 
 	Picture picture = new Picture();
-	picture.setKind(kind);
+	picture.setKind(form.getValue("kind"));
 	picture.setUploadDate(new Date());
-	picture.setSource(form.getValue("media-source"));
-	picture.setFileName(fileName);
+	picture.setSource(form.getValue("source"));
+	picture.setFileName(targetFile.getName());
 
-	ImageInfo imageInfo = image.getImageInfo(targetFile);
 	picture.setFileSize(imageInfo.getFileSize());
 	picture.setWidth(imageInfo.getWidth());
 	picture.setHeight(imageInfo.getHeight());
 
-	picture.setSrc(Files.mediaSrc(object, fileName));
+	picture.setSrc(Files.mediaSrc(object, targetFile.getName()));
+
 	return picture;
     }
 
