@@ -9,9 +9,6 @@ import com.kidscademy.util.Files;
 
 @Embeddable
 public class Picture {
-    /** Database primary key. */
-    private int id;
-
     private String kind;
 
     private Date uploadDate;
@@ -109,20 +106,12 @@ public class Picture {
 	this.height = height;
     }
 
-    public int getId() {
-	return id;
-    }
-
     public void setSrc(MediaSRC src) {
 	this.src = src;
     }
 
     public MediaSRC getSrc() {
 	return src;
-    }
-
-    public boolean isPersisted() {
-	return id != 0;
     }
 
     public void postLoad(AtlasObject object) {
@@ -137,7 +126,7 @@ public class Picture {
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
-	result = prime * result + id;
+	result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
 	return result;
     }
 
@@ -150,7 +139,10 @@ public class Picture {
 	if (getClass() != obj.getClass())
 	    return false;
 	Picture other = (Picture) obj;
-	if (id != other.id)
+	if (fileName == null) {
+	    if (other.fileName != null)
+		return false;
+	} else if (!fileName.equals(other.fileName))
 	    return false;
 	return true;
     }

@@ -170,6 +170,10 @@ public class AtlasServiceImpl implements AtlasService {
     }
 
     private Picture upload(Form form, File file) throws IOException, BusinessException {
+	int objectId = Integer.parseInt(form.getValue("object-id"));
+	Params.notZero(objectId, "Object ID");
+	
+	BusinessRules.uniquePictureFileName(objectId, form.getValue("file-name"));
 	BusinessRules.transparentFeaturedPicture(form.getValue("kind"), file);
 
 	ImageInfo imageInfo = image.getImageInfo(file);
@@ -194,8 +198,9 @@ public class AtlasServiceImpl implements AtlasService {
 	picture.setWidth(imageInfo.getWidth());
 	picture.setHeight(imageInfo.getHeight());
 
+	dao.addObjectPicture(objectId, picture);
+	
 	picture.setSrc(Files.mediaSrc(object, targetFile.getName()));
-
 	return picture;
     }
 
@@ -236,9 +241,7 @@ public class AtlasServiceImpl implements AtlasService {
     public void removePicture(UIObject object, Picture picture) throws IOException {
 	MediaFileHandler handler = new MediaFileHandler(object, picture.getFileName());
 	handler.delete();
-	if (picture.isPersisted()) {
-	    dao.removeObjectPicture(object.getId(), picture);
-	}
+	dao.removeObjectPicture(object.getId(), picture);
     }
 
     @Override

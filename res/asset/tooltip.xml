@@ -6,7 +6,7 @@
 	<graphic-add>add new picture to object</graphic-add>
 	<graphic-upload>upload picture from local storage</graphic-upload>
 	<graphic-search>search for object picture</graphic-search>
-	<graphic-link>upload image from internet</graphic-link>
+	<graphic-link>upload object picture from internet</graphic-link>
 	<graphic-edit>edit meta-data for object picture</graphic-edit>
 	<graphic-trim>trim unused space from image</graphic-trim>
 	<graphic-crop>crop image</graphic-crop>

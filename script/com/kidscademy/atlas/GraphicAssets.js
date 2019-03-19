@@ -118,6 +118,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		const formData = this._metaFormData.getFormData();
 		const object = this._formPage.getObject();
 
+		formData.append("object-id", object.id);
 		formData.append("object-dtype", object.dtype);
 		formData.append("object-name", object.name);
 		formData.append("media-file", ev.target._node.files[0]);
@@ -137,6 +138,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		const formData = this._metaFormData.getFormData();
 		const object = this._formPage.getObject();
 
+		formData.append("object-id", object.id);
 		formData.append("object-dtype", object.dtype);
 		formData.append("object-name", object.name);
 

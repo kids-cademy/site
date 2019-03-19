@@ -69,4 +69,8 @@ public interface AtlasDao {
     void saveAtlasObject(AtlasObject object);
 
     void removeObjectPicture(int objectId, Picture picture);
+
+    void addObjectPicture(int objectId, Picture picture);
+
+    Picture getPictureByFileName(int objectId, String fileName);
 }

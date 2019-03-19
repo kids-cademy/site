@@ -220,7 +220,6 @@ public class AtlasDaoTest {
 	assertThat(instrument.getSpreading(), notNullValue());
 	assertThat(instrument.getSpreading(), hasSize(1));
 	assertThat(instrument.getSpreading().get(0), notNullValue());
-	assertThat(instrument.getSpreading().get(0).getId(), equalTo(1));
 	assertThat(instrument.getSpreading().get(0).getName(), equalTo("RO"));
 	assertThat(instrument.getSpreading().get(0).getArea(), equalTo(Region.Area.CENTRAL));
 
@@ -234,7 +233,6 @@ public class AtlasDaoTest {
 
 	Link link = instrument.getLinks().get(0);
 	assertThat(link, notNullValue());
-	assertThat(link.getId(), equalTo(1));
 	assertThat(link.getDisplay(), equalTo("Wikipedia"));
 	assertThat(link.getIconName(), equalTo("wikipedia.png"));
 	assertThat(link.getIconSrc(), equalTo(new MediaSRC("/media/link/wikipedia.png")));
@@ -391,6 +389,18 @@ public class AtlasDaoTest {
 	assertThat(instrument.getSampleSrc(), nullValue());
 	assertThat(instrument.getWaveformName(), nullValue());
 	assertThat(instrument.getWaveformSrc(), nullValue());
+    }
+
+    @Test
+    public void getPictureByFileName() {
+	Picture picture = dao.getPictureByFileName(1, "icon.jpg");
+	assertThat(picture, notNullValue());
+	assertThat(picture.getKind(), equalTo("icon"));
+	assertThat(picture.getSource(), equalTo("https://upload.wikimedia.org/wikipedia/commons/f/f5/Paris_-_Accordion_Player_-_0956.jpg"));
+	assertThat(picture.getFileName(), equalTo("icon.jpg"));
+	assertThat(picture.getFileSize(), equalTo(12345));
+	assertThat(picture.getWidth(), equalTo(96));
+	assertThat(picture.getHeight(), equalTo(96));
     }
 
     // ----------------------------------------------------------------------------------------------

@@ -3,16 +3,20 @@ package com.kidscademy;
 import java.io.File;
 import java.io.IOException;
 
+import com.kidscademy.dao.AtlasDao;
 import com.kidscademy.tool.ImageProcessor;
 
 import js.core.Factory;
 import js.rmi.BusinessException;
 
 public class BusinessRules {
-    private static final int NOT_TRANSPARENT_FEATURED_PICTURE = 0x0001;
+    private static final int NOT_UNIQUE_PICTURE_FILE_NAME = 0x0001;
+    private static final int NOT_TRANSPARENT_FEATURED_PICTURE = 0x0002;
 
+    private static final AtlasDao dao;
     private static final ImageProcessor image;
     static {
+	dao = Factory.getInstance(AtlasDao.class);
 	image = Factory.getInstance(ImageProcessor.class);
     }
 
@@ -20,6 +24,12 @@ public class BusinessRules {
 	    throws BusinessException, IOException {
 	if (imageKind.contentEquals("featured") && image.isOpaque(imageFile)) {
 	    throw new BusinessException(NOT_TRANSPARENT_FEATURED_PICTURE);
+	}
+    }
+
+    public static void uniquePictureFileName(int objectId, String fileName) throws BusinessException {
+	if (dao.getPictureByFileName(objectId, fileName) != null) {
+	    throw new BusinessException(NOT_UNIQUE_PICTURE_FILE_NAME);
 	}
     }
 }

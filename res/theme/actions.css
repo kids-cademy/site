@@ -10,6 +10,7 @@
 	height: @dimen/action-icon-size;
 	margin-right: @dimen/action-margin;
 	border: solid 1px @color/border;
+	background-color: white;
 	opacity: 0.2;
 	cursor: pointer;
 }

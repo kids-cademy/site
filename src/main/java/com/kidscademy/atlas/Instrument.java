@@ -97,7 +97,7 @@ public class Instrument extends AtlasObject implements Serializable {
     @Override
     public void postMerge(AtlasObject object) {
 	super.postMerge(object);
-	Instrument source = (Instrument)object;
+	Instrument source = (Instrument) object;
 	sampleName = source.sampleSrc != null ? source.sampleSrc.fileName() : null;
 	waveformName = source.waveformSrc != null ? source.waveformSrc.fileName() : null;
     }
