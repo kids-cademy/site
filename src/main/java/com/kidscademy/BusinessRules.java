@@ -27,8 +27,8 @@ public class BusinessRules {
 	}
     }
 
-    public static void uniquePictureFileName(int objectId, String fileName) throws BusinessException {
-	if (dao.getPictureByFileName(objectId, fileName) != null) {
+    public static void uniquePictureName(int objectId, String name) throws BusinessException {
+	if (dao.getPictureByName(objectId, name) != null) {
 	    throw new BusinessException(NOT_UNIQUE_PICTURE_FILE_NAME);
 	}
     }

@@ -9,6 +9,9 @@ import com.kidscademy.util.Files;
 
 @Embeddable
 public class Picture {
+    /** Picture name, unique per atlas object. */
+    private String name;
+
     private String kind;
 
     private Date uploadDate;
@@ -47,7 +50,16 @@ public class Picture {
     public Picture(MediaSRC src) {
 	this.src = src;
 	this.kind = Files.basename(src.fileName());
+	this.name = Files.basename(src.fileName());
 	this.uploadDate = new Date();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getKind() {
@@ -126,7 +138,7 @@ public class Picture {
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
-	result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
+	result = prime * result + ((name == null) ? 0 : name.hashCode());
 	return result;
     }
 
@@ -139,10 +151,10 @@ public class Picture {
 	if (getClass() != obj.getClass())
 	    return false;
 	Picture other = (Picture) obj;
-	if (fileName == null) {
-	    if (other.fileName != null)
+	if (name == null) {
+	    if (other.name != null)
 		return false;
-	} else if (!fileName.equals(other.fileName))
+	} else if (!name.equals(other.name))
 	    return false;
 	return true;
     }

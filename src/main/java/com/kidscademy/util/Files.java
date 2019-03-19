@@ -51,6 +51,29 @@ public final class Files extends js.util.Files {
 	return new File(REPOSIOTRY_DIR, Files.mediaSrc(object, mediaFileName).value());
     }
 
+    /**
+     * Get unique media file path with given base name and extension. This method
+     * takes care to create unique file names using and index appended to given base
+     * name.
+     * 
+     * @param object
+     *            object owning requested media file,
+     * @param basename
+     *            base name for media file,
+     * @param extension
+     *            media file extension.
+     * @return media file path.
+     */
+    public static File mediaFile(MediaWrapper object, String basename, String extension) {
+	int index = 0;
+	File file;
+	do {
+	    String fileName = Strings.concat(basename, '-', index++, '.', extension);
+	    file = new File(REPOSIOTRY_DIR, Files.mediaSrc(object, fileName).value());
+	} while (file.exists());
+	return file;
+    }
+
     private static final Map<String, String> MEDIA_TYPES = new HashMap<>();
     static {
 	MEDIA_TYPES.put("jpg", "image/jpeg");

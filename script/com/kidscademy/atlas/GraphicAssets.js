@@ -250,6 +250,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 
 	_closeImageEditor() {
 		this._actions.showOnly("add");
+		this._metaFormData.hide();
 		this._imageEditor.hide();
 	}
 

@@ -72,5 +72,5 @@ public interface AtlasDao {
 
     void addObjectPicture(int objectId, Picture picture);
 
-    Picture getPictureByFileName(int objectId, String fileName);
+    Picture getPictureByName(int objectId, String name);
 }

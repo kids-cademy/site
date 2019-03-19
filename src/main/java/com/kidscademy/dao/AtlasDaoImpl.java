@@ -147,10 +147,10 @@ public class AtlasDaoImpl implements AtlasDao, ManagedPreDestroy {
     }
 
     @Override
-    public Picture getPictureByFileName(int objectId, String fileName) {
-	String jpql = "select p from AtlasObject o join o.pictures p where o.id=:id and p.fileName=:fileName";
+    public Picture getPictureByName(int objectId, String name) {
+	String jpql = "select p from AtlasObject o join o.pictures p where o.id=:id and p.name=:name";
 	List<Picture> pictures = em.createQuery(jpql, Picture.class).setParameter("id", objectId)
-		.setParameter("fileName", fileName).getResultList();
+		.setParameter("name", name).getResultList();
 	return pictures.isEmpty() ? null : pictures.get(0);
     }
 }

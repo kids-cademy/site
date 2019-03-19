@@ -171,16 +171,20 @@ public class AtlasServiceImpl implements AtlasService {
 
     private Picture upload(Form form, File file) throws IOException, BusinessException {
 	int objectId = Integer.parseInt(form.getValue("object-id"));
+	String pictureName = form.getValue("name");
+	String pictureKind = form.getValue("kind");
+
 	Params.notZero(objectId, "Object ID");
-	
-	BusinessRules.uniquePictureFileName(objectId, form.getValue("file-name"));
-	BusinessRules.transparentFeaturedPicture(form.getValue("kind"), file);
+	Params.notNullOrEmpty(pictureName, "Picture name");
+	Params.notNullOrEmpty(pictureKind, "Picture kind");
+
+	BusinessRules.uniquePictureName(objectId, pictureName);
+	BusinessRules.transparentFeaturedPicture(pictureKind, file);
 
 	ImageInfo imageInfo = image.getImageInfo(file);
 
 	UIObject object = new UIObject(form.getValue("object-dtype"), form.getValue("object-name"));
-	File targetFile = Files.mediaFile(object,
-		Strings.concat(form.getValue("file-name"), '.', imageInfo.getType().extension()));
+	File targetFile = Files.mediaFile(object, pictureKind, imageInfo.getType().extension());
 	targetFile.getParentFile().mkdirs();
 	targetFile.delete();
 
@@ -189,7 +193,8 @@ public class AtlasServiceImpl implements AtlasService {
 	}
 
 	Picture picture = new Picture();
-	picture.setKind(form.getValue("kind"));
+	picture.setName(pictureName);
+	picture.setKind(pictureKind);
 	picture.setUploadDate(new Date());
 	picture.setSource(form.getValue("source"));
 	picture.setFileName(targetFile.getName());
@@ -199,7 +204,7 @@ public class AtlasServiceImpl implements AtlasService {
 	picture.setHeight(imageInfo.getHeight());
 
 	dao.addObjectPicture(objectId, picture);
-	
+
 	picture.setSrc(Files.mediaSrc(object, targetFile.getName()));
 	return picture;
     }

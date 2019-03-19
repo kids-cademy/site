@@ -186,7 +186,7 @@ public class AdminServiceTest
   {
     Files.copy(new File("fixture/audio/sample.mp3"), file("sample.mp3"));
 
-    MediaSRC waveformSrc = service.generateWaveform(new UIObject("instrument", "test"));
+    MediaSRC waveformSrc = service.generateWaveform(new UIObject(1, "instrument", "test"));
 
     assertThat(waveformSrc, notNullValue());
     assertThat(waveformSrc, equalTo(src("waveform.png")));
@@ -258,7 +258,7 @@ public class AdminServiceTest
     Files.copy(new File("fixture/audio/sample.mp3"), file("sample.mp3"));
     Files.copy(new File("fixture/image/waveform.png"), file("waveform.png"));
 
-    service.removeAudioSample(new UIObject("instrument", "test"));
+    service.removeAudioSample(new UIObject(1, "instrument", "test"));
 
     assertFalse(file("sample.mp3").exists());
     assertFalse(file("waveform.png").exists());

@@ -37,6 +37,19 @@ public class UIObject implements MediaWrapper {
 	this.name = name;
     }
 
+    /**
+     * Test constructor.
+     * 
+     * @param id
+     * @param dtype
+     * @param name
+     */
+    public UIObject(int id, String dtype, String name) {
+	this.id = id;
+	this.dtype = dtype;
+	this.name = name;
+    }
+
     @PostLoad
     public void postLoad() {
 	if (iconName != null) {

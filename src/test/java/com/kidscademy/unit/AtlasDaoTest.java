@@ -393,8 +393,9 @@ public class AtlasDaoTest {
 
     @Test
     public void getPictureByFileName() {
-	Picture picture = dao.getPictureByFileName(1, "icon.jpg");
+	Picture picture = dao.getPictureByName(1, "icon");
 	assertThat(picture, notNullValue());
+	assertThat(picture.getName(), equalTo("icon"));
 	assertThat(picture.getKind(), equalTo("icon"));
 	assertThat(picture.getSource(), equalTo("https://upload.wikimedia.org/wikipedia/commons/f/f5/Paris_-_Accordion_Player_-_0956.jpg"));
 	assertThat(picture.getFileName(), equalTo("icon.jpg"));
