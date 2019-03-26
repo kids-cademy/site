@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
@@ -26,6 +27,7 @@ import com.kidscademy.util.Files;
  */
 @Entity
 @DiscriminatorValue("instrument")
+@Cacheable
 public class Instrument extends AtlasObject implements Serializable {
     private static final long serialVersionUID = -3922363759020705548L;
 

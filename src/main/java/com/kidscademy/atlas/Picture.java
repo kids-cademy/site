@@ -2,13 +2,22 @@ package com.kidscademy.atlas;
 
 import java.util.Date;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Cacheable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.kidscademy.util.Files;
 
-@Embeddable
+@Entity
+@Cacheable
 public class Picture {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    
     /** Picture name, unique per atlas object. */
     private String name;
 
@@ -16,7 +25,7 @@ public class Picture {
 
     private Date uploadDate;
 
-    private String source;
+    private String source = "";
 
     /**
      * Picture file name.
@@ -55,11 +64,11 @@ public class Picture {
     }
 
     public String getName() {
-        return name;
+	return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+	this.name = name;
     }
 
     public String getKind() {
@@ -157,5 +166,10 @@ public class Picture {
 	} else if (!name.equals(other.name))
 	    return false;
 	return true;
+    }
+
+    @Override
+    public String toString() {
+	return name;
     }
 }

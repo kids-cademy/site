@@ -1,6 +1,5 @@
 package com.kidscademy.atlas;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +10,6 @@ import javax.persistence.Transient;
 import com.kidscademy.util.Files;
 
 @Entity
-@Cacheable(false)
 public class UIObject implements MediaWrapper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

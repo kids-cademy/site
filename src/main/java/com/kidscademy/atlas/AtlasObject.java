@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 
 @Entity
@@ -70,8 +73,9 @@ public class AtlasObject implements MediaWrapper {
      * instrument it contains a player using the instrument. It has 16:9 aspect
      * ration and usually is 920x560 pixels.
      */
-    @ElementCollection
-    @OrderColumn(name = "order_column")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn
+    @OrderColumn
     protected List<Picture> pictures;
 
     @ElementCollection

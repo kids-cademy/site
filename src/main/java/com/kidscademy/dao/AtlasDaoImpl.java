@@ -13,23 +13,17 @@ import com.kidscademy.atlas.Picture;
 import com.kidscademy.atlas.UIObject;
 import com.kidscademy.util.Classes;
 
-import js.lang.ManagedPreDestroy;
 import js.transaction.Immutable;
 import js.transaction.Mutable;
 import js.transaction.Transactional;
 
 @Transactional
 @Immutable
-public class AtlasDaoImpl implements AtlasDao, ManagedPreDestroy {
+public class AtlasDaoImpl implements AtlasDao {
     private final EntityManager em;
 
     public AtlasDaoImpl(EntityManager em) {
 	this.em = em;
-    }
-
-    @Override
-    public void preDestroy() throws Exception {
-	// em.close();
     }
 
     @Override

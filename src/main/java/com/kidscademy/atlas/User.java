@@ -2,6 +2,7 @@ package com.kidscademy.atlas;
 
 import java.security.Principal;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import javax.security.auth.Subject;
 
 @Entity
+@Cacheable
 public class User implements Principal
 {
   @Id

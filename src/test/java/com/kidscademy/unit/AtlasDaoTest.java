@@ -15,6 +15,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -269,6 +270,12 @@ public class AtlasDaoTest {
 	instrument.setWaveformName("waveform.png");
 	instrument.setDate(new HDate(1821, HDate.Format.YEAR, HDate.Period.MIDDLE));
 
+	List<Picture> pictures = new ArrayList<>();
+	instrument.setPictures(pictures);
+	pictures.add(new Picture(src("banjo", "icon.jpg")));
+	pictures.add(new Picture(src("banjo", "thumbnail.png")));
+	pictures.add(new Picture(src("banjo", "picture.jpg")));
+
 	List<String> aliases = new ArrayList<String>();
 	aliases.add("Banjo Alias #1");
 	aliases.add("Banjo Alias #2");
@@ -397,11 +404,40 @@ public class AtlasDaoTest {
 	assertThat(picture, notNullValue());
 	assertThat(picture.getName(), equalTo("icon"));
 	assertThat(picture.getKind(), equalTo("icon"));
-	assertThat(picture.getSource(), equalTo("https://upload.wikimedia.org/wikipedia/commons/f/f5/Paris_-_Accordion_Player_-_0956.jpg"));
+	assertThat(picture.getSource(),
+		equalTo("https://upload.wikimedia.org/wikipedia/commons/f/f5/Paris_-_Accordion_Player_-_0956.jpg"));
 	assertThat(picture.getFileName(), equalTo("icon.jpg"));
 	assertThat(picture.getFileSize(), equalTo(12345));
 	assertThat(picture.getWidth(), equalTo(96));
 	assertThat(picture.getHeight(), equalTo(96));
+    }
+
+    @Test
+    public void pictureReoder() {
+	Instrument instrument = dao.getInstrument(1);
+	assertThat(instrument, notNullValue());
+
+	List<Picture> pictures = instrument.getPictures();
+	assertThat(pictures, notNullValue());
+	assertThat(pictures.size(), equalTo(4));
+	assertThat(pictures.get(0).getName(), equalTo("icon"));
+	assertThat(pictures.get(1).getName(), equalTo("piano-accordion"));
+	assertThat(pictures.get(2).getName(), equalTo("button-accordion"));
+	assertThat(pictures.get(3).getName(), equalTo("picture"));
+
+	Collections.swap(pictures, 0, 2);
+	dao.saveInstrument(instrument);
+
+	instrument = dao.getInstrument(1);
+	assertThat(instrument, notNullValue());
+
+	pictures = instrument.getPictures();
+	assertThat(pictures, notNullValue());
+	assertThat(pictures.size(), equalTo(4));
+	assertThat(pictures.get(0).getName(), equalTo("button-accordion"));
+	assertThat(pictures.get(1).getName(), equalTo("piano-accordion"));
+	assertThat(pictures.get(2).getName(), equalTo("icon"));
+	assertThat(pictures.get(3).getName(), equalTo("picture"));
     }
 
     // ----------------------------------------------------------------------------------------------

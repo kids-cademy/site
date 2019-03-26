@@ -57,10 +57,10 @@
 		<aliases>Squeezebox</aliases>
 	</atlasobject_aliases>
 
-	<atlasobject_pictures>
+	<picture>
 		<id>1</id>
-		<atlasobject_id>1</atlasobject_id>
-		<order_column>0</order_column>
+		<pictures_id>1</pictures_id>
+		<pictures_order>0</pictures_order>
 		<name>icon</name>
 		<kind>icon</kind>
 		<uploadDate>2019-03-10 21:11:00</uploadDate>
@@ -69,37 +69,37 @@
 		<fileSize>12345</fileSize>
 		<width>96</width>
 		<height>96</height>
-	</atlasobject_pictures>
-	<atlasobject_pictures>
+	</picture>
+	<picture>
 		<id>2</id>
-		<atlasobject_id>1</atlasobject_id>
-		<order_column>1</order_column>
+		<pictures_id>1</pictures_id>
+		<pictures_order>1</pictures_order>
 		<name>piano-accordion</name>
 		<kind>featured</kind>
 		<uploadDate>2019-03-10 21:11:00</uploadDate>
-		<source></source>
+		<source> </source>
 		<fileName>piano-accordion.png</fileName>
 		<fileSize>12345</fileSize>
 		<width>560</width>
 		<height>400</height>
-	</atlasobject_pictures>
-	<atlasobject_pictures>
+	</picture>
+	<picture>
 		<id>3</id>
-		<atlasobject_id>1</atlasobject_id>
-		<order_column>2</order_column>
+		<pictures_id>1</pictures_id>
+		<pictures_order>2</pictures_order>
 		<name>button-accordion</name>
 		<kind>featured</kind>
 		<uploadDate>2019-03-10 21:11:00</uploadDate>
-		<source></source>
+		<source> </source>
 		<fileName>button-accordion.png</fileName>
 		<fileSize>12345</fileSize>
 		<width>560</width>
 		<height>400</height>
-	</atlasobject_pictures>
-	<atlasobject_pictures>
+	</picture>
+	<picture>
 		<id>4</id>
-		<atlasobject_id>1</atlasobject_id>
-		<order_column>3</order_column>
+		<pictures_id>1</pictures_id>
+		<pictures_order>3</pictures_order>
 		<name>picture</name>
 		<kind>contextual</kind>
 		<uploadDate>2019-03-10 21:11:00</uploadDate>
@@ -108,7 +108,7 @@
 		<fileSize>12345</fileSize>
 		<width>920</width>
 		<height>560</height>
-	</atlasobject_pictures>
+	</picture>
 
 	<atlasobject_facts>
 		<id>1</id>

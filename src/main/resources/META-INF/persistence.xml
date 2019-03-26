@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd" version="2.2" xmlns="http://java.sun.com/xml/ns/persistence">
 	<persistence-unit name="app" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<non-jta-data-source>java:comp/env/jdbc/kids-cademy</non-jta-data-source>
+		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 
 		<!-- attribute converters -->
 		<class>com.kidscademy.dao.UrlConverter</class>
@@ -30,17 +31,19 @@
 		<class>com.kidscademy.atlas.UIObject</class>
 		<class>com.kidscademy.atlas.AtlasObject</class>
 		<class>com.kidscademy.atlas.Instrument</class>
+		<class>com.kidscademy.atlas.Picture</class>
 		<class>com.kidscademy.atlas.MediaFile</class>
 		<class>com.kidscademy.atlas.Region</class>
 		<class>com.kidscademy.atlas.HDate</class>
 
 		<properties>
 			<property name="eclipselink.logging.level.sql" value="FINE" />
-			<property name="eclipselink.cache.shared.default" value="true" />
 		</properties>
 	</persistence-unit>
 
 	<persistence-unit name="import" transaction-type="RESOURCE_LOCAL">
+		<shared-cache-mode>ALL</shared-cache-mode>
+
 		<class>com.kidscademy.dao.UrlConverter</class>
 
 		<class>com.kidscademy.model.App</class>
@@ -68,11 +71,13 @@
 			<property name="javax.persistence.jdbc.password" value="kids_cademy" />
 
 			<property name="eclipselink.logging.level.sql" value="FINE" />
-			<property name="eclipselink.cache.shared.default" value="true" />
 		</properties>
 	</persistence-unit>
 
 	<persistence-unit name="test" transaction-type="RESOURCE_LOCAL">
+		<!-- disable cache on tests since create dependencies between test cases -->
+		<shared-cache-mode>NONE</shared-cache-mode>
+
 		<class>com.kidscademy.dao.UrlConverter</class>
 		<class>com.kidscademy.dao.DislikeReasonConverter</class>
 		<class>com.kidscademy.dao.AtlasObjectStateConverter</class>
@@ -94,6 +99,7 @@
 		<class>com.kidscademy.atlas.UIObject</class>
 		<class>com.kidscademy.atlas.AtlasObject</class>
 		<class>com.kidscademy.atlas.Instrument</class>
+		<class>com.kidscademy.atlas.Picture</class>
 		<class>com.kidscademy.atlas.MediaFile</class>
 		<class>com.kidscademy.atlas.Region</class>
 		<class>com.kidscademy.atlas.HDate</class>
@@ -103,10 +109,25 @@
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/kids_cademy_test" />
 			<property name="javax.persistence.jdbc.user" value="kids_cademy" />
 			<property name="javax.persistence.jdbc.password" value="kids_cademy" />
+			<property name="javax.persistence.jdbc.show_sql" value="true" />
 
 			<property name="eclipselink.logging.level.sql" value="FINE" />
-			<!-- disable cache on tests since create dependencies between test cases -->
-			<property name="eclipselink.cache.shared.default" value="false" />
 		</properties>
 	</persistence-unit>
+
+	<persistence-unit name="api" transaction-type="RESOURCE_LOCAL">
+		<shared-cache-mode>NONE</shared-cache-mode>
+
+		<class>com.kidscademy.api.Parent</class>
+
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/kids_cademy_poc" />
+			<property name="javax.persistence.jdbc.user" value="kids_cademy" />
+			<property name="javax.persistence.jdbc.password" value="kids_cademy" />
+
+			<property name="eclipselink.logging.level.sql" value="FINE" />
+		</properties>
+	</persistence-unit>
+
 </persistence>
