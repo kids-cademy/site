@@ -135,6 +135,9 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 	}
 
 	_onLink() {
+		if(!this._metaFormData.isValid(true)) {
+			return;
+		}
 		const formData = this._metaFormData.getFormData();
 		const object = this._formPage.getObject();
 

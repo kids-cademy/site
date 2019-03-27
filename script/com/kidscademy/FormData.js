@@ -28,9 +28,9 @@ com.kidscademy.FormData = class extends js.dom.Element {
 		this.show();
 	}
 
-	isValid() {
+	isValid(includeOptional = false) {
 		var valid = true;
-		this._iterable.forEach(control => valid = control.isValid() && valid);
+		this._iterable.forEach(control => valid = control.isValid(includeOptional) && valid);
 		return valid;
 	}
 
