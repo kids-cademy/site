@@ -17,6 +17,15 @@ com.kidscademy.Actions = class extends js.dom.Element {
 		super(ownerDoc, node);
 
 		this._keymap = {};
+
+		/**
+		 * Name of the action executed previous to current one, possible null if no operation was invoked yet. This value is updated
+		 * after every action handler invocation.
+		 * This value is returned by {@link this.getPreviousAction()} and can be used by container when current action handler depends
+		 * on previous action.
+		 * @type {String} 
+		 */
+		this._previousAction = null;
 	}
 
 	bind(container, input) {
@@ -30,16 +39,24 @@ com.kidscademy.Actions = class extends js.dom.Element {
 				return;
 			}
 
-			const handler = container[handlerName(name)];
-			if (typeof handler !== "function") {
+			const containerHandler = container[handlerName(name)];
+			if (typeof containerHandler !== "function") {
 				throw `Missing handler for action ${name}.`;
 			}
 
-			child.on("click", handler, container);
+			// create a closure to keep action handler state that include current action name
+			// container handler can obtain current action via this._actions.getCurrentAction()
+			const actions = this;
+			const actionHandler = function () {
+				containerHandler.apply(container, arguments);
+				actions._previousAction = name;
+			}.bind(container);
+
+			child.on("click", actionHandler, container);
 
 			const key = child.getAttr("data-key");
 			if (key !== null) {
-				this._keymap[js.event.Key[key]] = handler.bind(container);
+				this._keymap[js.event.Key[key]] = actionHandler;
 			}
 		});
 
@@ -83,6 +100,10 @@ com.kidscademy.Actions = class extends js.dom.Element {
 	hide(...names) {
 		names.forEach(name => this.getByName(name).hide());
 		return this;
+	}
+
+	getPreviousAction() {
+		return this._previousAction;
 	}
 
 	_onKey(ev) {

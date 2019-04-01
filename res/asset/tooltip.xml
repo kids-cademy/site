@@ -7,13 +7,14 @@
 	<graphic-upload>upload picture from local storage</graphic-upload>
 	<graphic-search>search for object picture</graphic-search>
 	<graphic-link>upload object picture from internet</graphic-link>
+	<graphic-duplicate>duplicate object picture</graphic-duplicate>
 	<graphic-edit>edit meta-data for object picture</graphic-edit>
 	<graphic-trim>trim unused space from image</graphic-trim>
 	<graphic-crop>crop image</graphic-crop>
 	<graphic-icon>create object icon from picture</graphic-icon>
 	<graphic-flop>flop, mirror image vertically</graphic-flop>
 	<graphic-flip>flip, mirror image horizontally</graphic-flip>
-	<graphic-done>accept crop selection</graphic-done>
+	<graphic-done>commit current operation</graphic-done>
 	<graphic-undo>undo last image processing</graphic-undo>
 	<graphic-close>close image editor and cancel all picture transforms</graphic-close>
 	<graphic-remove>remove picture</graphic-remove>

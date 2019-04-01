@@ -89,6 +89,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		this._actions.show("upload", "search", "link");
 		this._imageEditor.hide();
 		this._metaFormData.open();
+		this._metaFormData.enable("kind");
 	}
 
 	_onUpload(ev) {
@@ -135,7 +136,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 	}
 
 	_onLink() {
-		if(!this._metaFormData.isValid(true)) {
+		if (!this._metaFormData.isValid(true)) {
 			return;
 		}
 		const formData = this._metaFormData.getFormData();
@@ -150,6 +151,11 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 			this._picturesControl.addPicture(picture);
 			this._previewImage.setSrc(picture.src);
 		});
+	}
+
+	_onDuplicate() {
+		this._metaFormData.enable("kind");
+		this._metaFormData.show();
 	}
 
 	_onEdit() {
@@ -199,22 +205,38 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		AtlasService.flipPicture(this._formPage.getUIObject(), this._currentPicture, this._onProcessingDone, this);
 	}
 
+	/**
+	 * Commit current operation. Done button action depends on context. If current operation is <code>duplicate</code> this
+	 * handler execute it on server.
+	 */
 	_onDone() {
-		if (!this._cropMask.isVisible()) {
-			this._metaFormData.getObject(this._currentPicture);
-			AtlasService.commitPicture(this._formPage.getUIObject(), this._currentPicture, picture => {
-				this._metaFormData.hide();
-				this._closeImageEditor();
-				this._picturesControl.updatePicture(picture);
-			})
-			return;
+		switch (this._actions.getPreviousAction()) {
+			case "duplicate":
+				const duplicatePicture = this._metaFormData.getObject();
+				duplicatePicture.fileName = this._currentPicture.fileName;
+				duplicatePicture.src = this._currentPicture.src;
+				AtlasService.duplicatePicture(this._formPage.getUIObject(), duplicatePicture, picture => {
+					this._currentPicture = picture;
+					this._picturesControl.addPicture(picture);
+					this._metaFormData.hide();
+					this._closeImageEditor();
+				});
+				break;
+
+			case "crop":
+				const crop = this._cropMask.getCropArea();
+				this._cropMask.hide();
+				AtlasService.cropPicture(this._formPage.getUIObject(), this._currentPicture, crop.cx, crop.cy, crop.x, crop.y, this._onProcessingDone, this);
+				break;
+
+			default:
+				this._metaFormData.getObject(this._currentPicture);
+				AtlasService.commitPicture(this._formPage.getUIObject(), this._currentPicture, picture => {
+					this._metaFormData.hide();
+					this._closeImageEditor();
+					this._picturesControl.updatePicture(picture);
+				})
 		}
-
-		const crop = this._cropMask.getCropArea();
-		this._cropMask.hide();
-
-		const object = this._formPage.getUIObject();
-		AtlasService.cropPicture(object, this._currentPicture, crop.cx, crop.cy, crop.x, crop.y, this._onProcessingDone, this);
 	}
 
 	_onUndo() {
@@ -279,6 +301,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 
 	_onPictureSelected(picture) {
 		this._actions.show("remove");
+		this._metaFormData.disable("kind");
 		this._currentPicture = picture;
 		this._previewImage.setSrc(picture.src);
 	}

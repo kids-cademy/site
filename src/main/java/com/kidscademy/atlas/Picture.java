@@ -1,5 +1,7 @@
 package com.kidscademy.atlas;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 import javax.persistence.Cacheable;
@@ -9,7 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.kidscademy.tool.ImageProcessor;
 import com.kidscademy.util.Files;
+
+import js.core.Factory;
 
 @Entity
 @Cacheable
@@ -17,7 +22,7 @@ public class Picture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     /** Picture name, unique per atlas object. */
     private String name;
 
@@ -141,6 +146,33 @@ public class Picture {
 
     public void postMerge(Picture source) {
 	fileName = source.src != null ? source.src.fileName() : null;
+    }
+
+    public void updateIcon(UIObject object) throws IOException {
+	if (kind.equals("icon")) {
+	    File pictureFile = Files.mediaFile(object, fileName);
+	    File iconFile = icon(object, fileName);
+	    ImageProcessor image = Factory.getInstance(ImageProcessor.class);
+	    image.resize(pictureFile, iconFile, 96, 96);
+	}
+    }
+
+    public void removeIcon(UIObject object) throws IOException {
+	if (kind.equals("icon")) {
+	    File icon = icon(object, fileName);
+	    if (icon.exists() && !icon.delete()) {
+		throw new IOException(String.format("Unable to remove icon file |%s|.", icon.getName()));
+	    }
+	}
+    }
+
+    private static File icon(UIObject object, String fileName) {
+	StringBuilder iconName = new StringBuilder();
+	iconName.append(Files.basename(fileName));
+	iconName.append("_96x96");
+	iconName.append('.');
+	iconName.append(Files.getExtension(fileName));
+	return Files.mediaFile(object, iconName.toString());
     }
 
     @Override

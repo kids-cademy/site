@@ -58,6 +58,8 @@ public interface AtlasService {
      */
     Picture uploadPictureBySource(Form form) throws IOException, BusinessException;
 
+    Picture duplicatePicture(UIObject object, Picture picture) throws IOException;
+    
     Picture trimPicture(UIObject object, Picture picture) throws IOException;
 
     Picture flopPicture(UIObject object, Picture picture) throws IOException;

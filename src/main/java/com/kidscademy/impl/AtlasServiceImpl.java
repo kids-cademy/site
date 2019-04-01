@@ -210,6 +210,22 @@ public class AtlasServiceImpl implements AtlasService {
     }
 
     @Override
+    public Picture duplicatePicture(UIObject object, Picture picture) throws IOException {
+	File targetFile = Files.mediaFile(object, picture.getKind(), Files.getExtension(picture.getFileName()));
+	targetFile.getParentFile().mkdirs();
+	targetFile.delete();
+
+	Files.copy(Files.mediaFile(picture.getSrc()), targetFile);
+
+	picture.setUploadDate(new Date());
+	picture.setFileName(targetFile.getName());
+	dao.addObjectPicture(object.getId(), picture);
+
+	updatePicture(picture, targetFile, Files.mediaSrc(object, targetFile.getName()));
+	return picture;
+    }
+
+    @Override
     public Picture trimPicture(UIObject object, Picture picture) throws IOException {
 	MediaFileHandler handler = new MediaFileHandler(object, picture.getFileName());
 	image.trim(handler.source(), handler.target());
@@ -246,6 +262,7 @@ public class AtlasServiceImpl implements AtlasService {
     public void removePicture(UIObject object, Picture picture) throws IOException {
 	MediaFileHandler handler = new MediaFileHandler(object, picture.getFileName());
 	handler.delete();
+	picture.removeIcon(object);
 	dao.removeObjectPicture(object.getId(), picture);
     }
 
@@ -253,6 +270,7 @@ public class AtlasServiceImpl implements AtlasService {
     public Picture commitPicture(UIObject object, Picture picture) throws IOException {
 	MediaFileHandler handler = new MediaFileHandler(object, picture.getFileName());
 	handler.commit();
+	picture.updateIcon(object);
 	updatePicture(picture, handler.source(), handler.sourceSrc());
 	return picture;
     }

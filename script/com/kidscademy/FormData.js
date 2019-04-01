@@ -70,6 +70,14 @@ com.kidscademy.FormData = class extends js.dom.Element {
 		return this.focus();
 	}
 
+	disable(controlName) {
+		this.getByName(controlName).disable();
+	}
+
+	enable(controlName) {
+		this.getByName(controlName).enable();
+	}
+
 	_getOPPath(control) {
 		const name = control.getName();
 		return name !== null ? js.util.Strings.toScriptCase(name) : null;
