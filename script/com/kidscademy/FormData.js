@@ -65,6 +65,13 @@ com.kidscademy.FormData = class extends js.dom.Element {
 		});
 	}
 
+	setValue(controlName, value) {
+		const control = this.getByName(controlName);
+		$assert(control != null, "com.kidscademy.FormData#setValue", "Missing control |%s|.", controlName);
+		control.setValue(value);
+		return this;
+	}
+
 	reset() {
 		this._iterable.forEach(control => control.reset());
 		return this.focus();

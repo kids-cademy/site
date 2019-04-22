@@ -42,6 +42,8 @@ com.kidscademy.atlas.AudioAssets = class extends js.dom.Element {
 	// --------------------------------------------------------------------------------------------
 	// ACTION HANDLERS
 
+	_onUpload() { }
+
 	_onSampleUpload(ev) {
 		this._audioPlayer.resetObject();
 		const object = this._formPage.getObject();

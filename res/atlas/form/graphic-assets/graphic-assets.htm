@@ -1,4 +1,4 @@
-<fieldset class="graphic-assets" data-class="com.kidscademy.atlas.GraphicAssets">
+<fieldset class="graphic-assets" data-class="com.kidscademy.atlas.GraphicAssets" xmlns:w="js-lib.com/wood">
 	<div class="header container">
 		<h2>@string/graphic-assets</h2>
 		<p>@string/sample-text</p>
@@ -54,13 +54,13 @@
 				<div>
 					<label>name</label> <input name="name" />
 				</div>
-				<div class="hidden">
+				<div class="exclude hidden">
 					<label>description</label> <input name="description" class="optional" />
 				</div>
 				<div>
 					<label>source</label> <input name="source" class="large optional" />
 				</div>
-				<div class="hidden">
+				<div class="exclude hidden">
 					<label>license</label> <select name="license" class="optional">
 						<option>Original Work</option>
 						<option>Fair Use License</option>
@@ -116,6 +116,8 @@
 					</div>
 				</div>
 			</div>
+			
+			<div w:widget="atlas/form/graphic-assets/image-search"></div>
 		</div>
 	</div>
 </fieldset>

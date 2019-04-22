@@ -68,6 +68,13 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		 */
 		this._transformsCount = 0;
 
+		/**
+		 * Images search and its result list view.
+		 * @type {js.dom.Element}
+		 */
+		this._imageSearch = this.getByClass(com.kidscademy.atlas.ImageSearch);
+		this._imageSearch.on("selected", this._onSearchSelected, this);
+
 		this._actions = this.getByClass(com.kidscademy.Actions).bind(this);
 		this._actions.showOnly("add");
 		// register event for hidden input of type file to trigger image loading from host OS
@@ -132,7 +139,12 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 	}
 
 	_onSearch() {
-		alert('search')
+		if (this._metaFormData.isValid()) {
+			this._imageSearch.open(result => {
+				this._metaFormData.setValue("source", result.source);
+				this._onLink();
+			});
+		}
 	}
 
 	_onLink() {
@@ -292,7 +304,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 
 	_onPreviewImageLoad(ev) {
 		this._transformsCount = 0;
-		this._actions.showAll();
+		this._actions.showAll().hide("add", "upload", "search", "link");
 		this._cropMask.hide();
 		this._imageEditor.show();
 		this._metaFormData.setObject(this._currentPicture);

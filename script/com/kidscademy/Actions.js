@@ -34,10 +34,11 @@ com.kidscademy.Actions = class extends js.dom.Element {
 		}
 
 		this.getChildren().forEach(child => {
-			const name = child.getName();
-			if (name == null) {
+			if (!this._isAction(child)) {
 				return;
 			}
+			const name = child.getName();
+			$assert(name != null, "com.kidscademy.Actions#bind", "Action element without name.");
 
 			const containerHandler = container[handlerName(name)];
 			if (typeof containerHandler !== "function") {
@@ -89,17 +90,26 @@ com.kidscademy.Actions = class extends js.dom.Element {
 		this.getChildren().forEach(action => {
 			action.show(names.includes(action.getName()));
 		});
+		return this;
 	}
 
 	showAll() {
-		this.getChildren().forEach(action => {
-			action.show();
+		this.getChildren().forEach(child => {
+			child.show();
 		});
+		return this;
 	}
 
 	hide(...names) {
 		names.forEach(name => this.getByName(name).hide());
 		return this;
+	}
+
+	getControl(name) {
+		const control = this.getByName(name);
+		$assert(control != null, "com.kidscademy.Actions#getValue", "Missing control |%s| from actions bar.", name);
+		$assert(control.hasCssClass("control"), "com.kidscademy.Actions#getValue", "Actions bar child |%s| is not a control.");
+		return control;
 	}
 
 	getPreviousAction() {
@@ -112,6 +122,10 @@ com.kidscademy.Actions = class extends js.dom.Element {
 			ev.halt();
 			handler();
 		}
+	}
+
+	_isAction(child) {
+		return !child.hasCssClass("control") && !child.hasCssClass("separator");
 	}
 
 	/**

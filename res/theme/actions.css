@@ -33,3 +33,8 @@
 	height: @dimen/action-icon-size;
 	margin-right: @dimen/action-margin;
 }
+
+.actions input {
+	vertical-align: bottom;
+	margin-top: 0;
+}
