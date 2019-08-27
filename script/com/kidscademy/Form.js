@@ -28,6 +28,7 @@ com.kidscademy.Form = class extends js.dom.Form {
 		this._iterable.forEach(control => {
 			valid = control.isValid() && valid;
 			if (callback && !control.isValid()) {
+				$debug("com.kidscademy.Form#isValid", "Invalid control |%s|.", control);
 				callback(control);
 			}
 		});

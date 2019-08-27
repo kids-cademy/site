@@ -17,6 +17,7 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 		this._form = this.getByClass(com.kidscademy.Form);
 		this._sidebar = this.getByCss(".side-bar .header");
 
+		this._definitionControl = this.getByClass(com.kidscademy.atlas.DefinitionControl);
 		this._descriptionControl = this.getByClass(com.kidscademy.atlas.DescriptionControl);
 		this._graphicAssets = this.getByClass(com.kidscademy.atlas.GraphicAssets);
 		this._audioAssets = this.getByClass(com.kidscademy.atlas.AudioAssets);
@@ -31,6 +32,7 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 			"&cancel": this._onCancel
 		});
 
+		this._definitionControl.onCreate(this);
 		this._descriptionControl.onCreate(this);
 		this._graphicAssets.onCreate(this);
 		this._audioAssets.onCreate(this);
@@ -87,6 +89,7 @@ com.kidscademy.atlas.FormPage = class extends com.kidscademy.page.Page {
 		this._form.setObject(object);
 		this._sidebar.setObject(object);
 
+		this._definitionControl.onStart();
 		this._descriptionControl.onStart();
 		this._graphicAssets.onStart();
 		this._audioAssets.onStart();

@@ -40,6 +40,18 @@ com.kidscademy.FormData = class extends js.dom.Element {
 		return formData;
 	}
 
+	setObject(object) {
+		this._iterable.forEach(control => {
+			const opp = this._getOPPath(control);
+			if (opp !== null) {
+				const value = js.lang.OPP.get(object, opp);
+				if (typeof value !== "undefined") {
+					control.setValue(value);
+				}
+			}
+		});
+	}
+
 	getObject(object) {
 		if (typeof object === "undefined") {
 			object = {};
@@ -53,23 +65,17 @@ com.kidscademy.FormData = class extends js.dom.Element {
 		return object;
 	}
 
-	setObject(object) {
-		this._iterable.forEach(control => {
-			const opp = this._getOPPath(control);
-			if (opp !== null) {
-				const value = js.lang.OPP.get(object, opp);
-				if (typeof value !== "undefined") {
-					control.setValue(value);
-				}
-			}
-		});
-	}
-
 	setValue(controlName, value) {
 		const control = this.getByName(controlName);
 		$assert(control != null, "com.kidscademy.FormData#setValue", "Missing control |%s|.", controlName);
 		control.setValue(value);
 		return this;
+	}
+
+	getValue(controlName) {
+		const control = this.getByName(controlName);
+		$assert(control != null, "com.kidscademy.FormData#setValue", "Missing control |%s|.", controlName);
+		return control.getValue();
 	}
 
 	reset() {
@@ -79,10 +85,20 @@ com.kidscademy.FormData = class extends js.dom.Element {
 
 	disable(controlName) {
 		this.getByName(controlName).disable();
+		return this;
 	}
 
 	enable(controlName) {
 		this.getByName(controlName).enable();
+		return this;
+	}
+
+	focus(controlName) {
+		if(typeof controlName === "undefined") {
+			return super.focus();
+		}
+		this.getByName(controlName).focus();
+		return this;
 	}
 
 	_getOPPath(control) {
