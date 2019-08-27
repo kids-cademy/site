@@ -24,7 +24,9 @@ import com.kidscademy.tool.ImageInfo;
 import com.kidscademy.tool.ImageProcessor;
 import com.kidscademy.util.Files;
 import com.kidscademy.util.Strings;
+import com.kidscademy.www.CambridgeDictionary;
 import com.kidscademy.www.SoftSchools;
+import com.kidscademy.www.TheFreeDictionary;
 import com.kidscademy.www.Wikipedia;
 import com.kidscademy.www.WikipediaPageSummary;
 
@@ -45,16 +47,22 @@ public class AtlasServiceImpl implements AtlasService {
     private final ImageProcessor image;
     private final Wikipedia wikipedia;
     private final SoftSchools softSchools;
+    private final TheFreeDictionary freeDictionary;
+    private final CambridgeDictionary cambridgeDictionary;
 
     public AtlasServiceImpl(AppContext context, AtlasDao dao, AudioProcessor audio, ImageProcessor image,
-	    Wikipedia wikipedia, SoftSchools softSchools) {
-	log.trace("AtlasServiceImpl(AppContext, AtlasDao, AudioProcessor, ImageProcessor, Wikipedia, SoftSchools)");
+	    Wikipedia wikipedia, SoftSchools softSchools, TheFreeDictionary freeDictionary,
+	    CambridgeDictionary cambridgeDictionary) {
+	log.trace(
+		"AtlasServiceImpl(AppContext,AtlasDao,AudioProcessor,ImageProcessor,Wikipedia,SoftSchools,TheFreeDictionary,CambridgeDictionary)");
 	this.context = context;
 	this.dao = dao;
 	this.audio = audio;
 	this.image = image;
 	this.wikipedia = wikipedia;
 	this.softSchools = softSchools;
+	this.freeDictionary = freeDictionary;
+	this.cambridgeDictionary = cambridgeDictionary;
     }
 
     @Override
@@ -119,8 +127,22 @@ public class AtlasServiceImpl implements AtlasService {
     }
 
     @Override
-    public Link createLink(URL url) {
-	return Link.create(url);
+    public Link createLink(Link link) {
+	return Link.create(link);
+    }
+
+    @Override
+    public String importObjectDefinition(Link link) {
+	switch (link.getDomain()) {
+	case "thefreedictionary.com":
+	    return freeDictionary.getDefinition(link.getFileName());
+
+	case "cambridge.org":
+	    return cambridgeDictionary.getDefinition(link.getFileName());
+
+	default:
+	    return null;
+	}
     }
 
     @Override
@@ -172,19 +194,17 @@ public class AtlasServiceImpl implements AtlasService {
     private Picture upload(Form form, File file) throws IOException, BusinessException {
 	int objectId = Integer.parseInt(form.getValue("object-id"));
 	String pictureName = form.getValue("name");
-	String pictureKind = form.getValue("kind");
 
 	Params.notZero(objectId, "Object ID");
 	Params.notNullOrEmpty(pictureName, "Picture name");
-	Params.notNullOrEmpty(pictureKind, "Picture kind");
 
 	BusinessRules.uniquePictureName(objectId, pictureName);
-	BusinessRules.transparentFeaturedPicture(pictureKind, file);
+	BusinessRules.transparentFeaturedPicture(pictureName, file);
 
 	ImageInfo imageInfo = image.getImageInfo(file);
 
 	UIObject object = new UIObject(form.getValue("object-dtype"), form.getValue("object-name"));
-	File targetFile = Files.mediaFile(object, pictureKind, imageInfo.getType().extension());
+	File targetFile = Files.mediaFile(object, pictureName, imageInfo.getType().extension());
 	targetFile.getParentFile().mkdirs();
 	targetFile.delete();
 
@@ -194,7 +214,6 @@ public class AtlasServiceImpl implements AtlasService {
 
 	Picture picture = new Picture();
 	picture.setName(pictureName);
-	picture.setKind(pictureKind);
 	picture.setUploadDate(new Date());
 	picture.setSource(form.getValue("source"));
 	picture.setFileName(targetFile.getName());
@@ -211,7 +230,7 @@ public class AtlasServiceImpl implements AtlasService {
 
     @Override
     public Picture duplicatePicture(UIObject object, Picture picture) throws IOException {
-	File targetFile = Files.mediaFile(object, picture.getKind(), Files.getExtension(picture.getFileName()));
+	File targetFile = Files.mediaFile(object, picture.getName(), Files.getExtension(picture.getFileName()));
 	targetFile.getParentFile().mkdirs();
 	targetFile.delete();
 

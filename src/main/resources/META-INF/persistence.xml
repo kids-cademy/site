@@ -45,6 +45,7 @@
 		<shared-cache-mode>ALL</shared-cache-mode>
 
 		<class>com.kidscademy.dao.UrlConverter</class>
+		<class>com.kidscademy.dao.AtlasObjectStateConverter</class>
 
 		<class>com.kidscademy.model.App</class>
 		<class>com.kidscademy.model.Model</class>
@@ -59,6 +60,7 @@
 		<class>com.kidscademy.atlas.UIObject</class>
 		<class>com.kidscademy.atlas.AtlasObject</class>
 		<class>com.kidscademy.atlas.Instrument</class>
+		<class>com.kidscademy.atlas.Picture</class>
 		<class>com.kidscademy.atlas.Bird</class>
 		<class>com.kidscademy.atlas.MediaFile</class>
 		<class>com.kidscademy.atlas.Region</class>

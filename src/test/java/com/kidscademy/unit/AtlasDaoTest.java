@@ -287,9 +287,9 @@ public class AtlasDaoTest {
 	instrument.setSpreading(spreading);
 
 	List<Link> links = new ArrayList<>();
-	links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx",
+	links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", "Wikipedia article",
 		new MediaSRC("/media/link/wikipedia.png")));
-	links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www",
+	links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", "Wikipedia article",
 		new MediaSRC("/media/link/wikipedia.png")));
 	instrument.setLinks(links);
 
@@ -403,7 +403,6 @@ public class AtlasDaoTest {
 	Picture picture = dao.getPictureByName(1, "icon");
 	assertThat(picture, notNullValue());
 	assertThat(picture.getName(), equalTo("icon"));
-	assertThat(picture.getKind(), equalTo("icon"));
 	assertThat(picture.getSource(),
 		equalTo("https://upload.wikimedia.org/wikipedia/commons/f/f5/Paris_-_Accordion_Player_-_0956.jpg"));
 	assertThat(picture.getFileName(), equalTo("icon.jpg"));

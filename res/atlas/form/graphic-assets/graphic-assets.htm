@@ -38,27 +38,25 @@
 				<span class="separator"></span>
 				<img name="done" src="@image/action/done" title="@tip/graphic-done" />
 				<img name="undo" src="@image/action/undo" title="@tip/graphic-undo" />
-				<img name="close" src="@image/action/close" title="@tip/graphic-close" />
 				<img name="remove" src="@image/action/remove" title="@tip/graphic-remove" />
+				<img name="close" src="@image/action/close" title="@tip/graphic-close" class="rfloat" />
 			</div>
 
 			<div class="meta exclude hidden" data-class="com.kidscademy.FormData">
 				<div>
-					<label>kind</label> <select name="kind">
+					<label>name</label> <select name="name">
 						<option></option>
 						<option>icon</option>
+						<option>cover</option>
 						<option>featured</option>
 						<option>contextual</option>
 					</select>
 				</div>
 				<div>
-					<label>name</label> <input name="name" />
-				</div>
-				<div class="exclude hidden">
-					<label>description</label> <input name="description" class="optional" />
+					<label>source</label> <input name="source" class="large optional" />
 				</div>
 				<div>
-					<label>source</label> <input name="source" class="large optional" />
+					<label>caption</label> <input name="caption" class="large optional" />
 				</div>
 				<div class="exclude hidden">
 					<label>license</label> <select name="license" class="optional">
@@ -117,7 +115,7 @@
 				</div>
 			</div>
 			
-			<div w:widget="atlas/form/graphic-assets/image-search"></div>
+			<!--<div class="exclude" w:widget="atlas/form/graphic-assets/image-search"></div>-->
 		</div>
 	</div>
 </fieldset>

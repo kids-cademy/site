@@ -23,11 +23,14 @@ public class AtlasObject implements MediaWrapper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
+    
     /**
      * Discriminator type identify object class. Its value is derived from simple
      * class name to lower case.
      */
     protected String dtype;
+    
+    protected transient int repositoryIndex;
 
     @ManyToOne
     protected User user;
@@ -50,6 +53,8 @@ public class AtlasObject implements MediaWrapper {
      * internationalization.
      */
     protected String display;
+
+    protected String definition;
 
     /**
      * Object description is rich text, that is, it can contains images, links and
@@ -126,6 +131,14 @@ public class AtlasObject implements MediaWrapper {
 	return dtype;
     }
 
+    public int getRepositoryIndex() {
+        return repositoryIndex;
+    }
+
+    public void setRepositoryIndex(int repositoryIndex) {
+        this.repositoryIndex = repositoryIndex;
+    }
+
     public State getState() {
 	return state;
     }
@@ -190,6 +203,14 @@ public class AtlasObject implements MediaWrapper {
 	this.display = display;
     }
 
+    public String getDefinition() {
+	return definition;
+    }
+
+    public void setDefinition(String definition) {
+	this.definition = definition;
+    }
+
     public String getDescription() {
 	return description;
     }
@@ -228,6 +249,10 @@ public class AtlasObject implements MediaWrapper {
 
     public void setRelated(List<Related> related) {
 	this.related = related;
+    }
+
+    public boolean isPublished() {
+	return state == State.PUBLISHED;
     }
 
     @Override

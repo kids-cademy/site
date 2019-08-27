@@ -2,7 +2,7 @@
 <app-descriptor>
 	<managed-classes>
 		<constants class="com.kidscademy.CT" />
-		
+
 		<service-controller interface="com.kidscademy.ServiceController" class="com.kidscademy.impl.ServiceControllerImpl" />
 		<site-controller interface="com.kidscademy.SiteController" class="com.kidscademy.impl.SiteControllerImpl" />
 		<admin-service interface="com.kidscademy.AdminService" class="com.kidscademy.impl.AdminServiceImpl" />
@@ -20,9 +20,11 @@
 		<convert-process class="com.kidscademy.tool.ConvertProcess" />
 
 		<email-sender interface="js.email.EmailSender" type="SERVICE" />
-		
+
 		<wikipedia interface="com.kidscademy.www.Wikipedia" type="REMOTE" url="https:rest://en.wikipedia.org/api/rest_v1/" />
-		<softschools interface="com.kidscademy.www.SoftSchools" type="REMOTE" url="http:xpath://www.softschools.com/" />
+		<soft-schools interface="com.kidscademy.www.SoftSchools" type="REMOTE" url="http:xpath://www.softschools.com/" />
+		<the-free-dictionary interface="com.kidscademy.www.TheFreeDictionary" type="REMOTE" url="https:xpath://www.thefreedictionary.com/" />
+		<cambridge-dictionary interface="com.kidscademy.www.CambridgeDictionary" type="REMOTE" url="https:xpath://dictionary.cambridge.org/" />
 	</managed-classes>
 	<observer period="60000" />
 	<views>

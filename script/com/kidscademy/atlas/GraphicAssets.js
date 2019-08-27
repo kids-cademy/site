@@ -18,7 +18,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		this._picturesControl.on("picture-selected", this._onPictureSelected, this);
 
 		/**
-		 * Form data that holds meta about image, like kind, name and source.
+		 * Form data that holds meta about image, like name, source and caption.
 		 * @type {com.kidscademy.FormData}
 		 */
 		this._metaFormData = this.getByCssClass("meta");
@@ -72,8 +72,8 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 		 * Images search and its result list view.
 		 * @type {js.dom.Element}
 		 */
-		this._imageSearch = this.getByClass(com.kidscademy.atlas.ImageSearch);
-		this._imageSearch.on("selected", this._onSearchSelected, this);
+		//this._imageSearch = this.getByClass(com.kidscademy.atlas.ImageSearch);
+		//this._imageSearch.on("selected", this._onSearchSelected, this);
 
 		this._actions = this.getByClass(com.kidscademy.Actions).bind(this);
 		this._actions.showOnly("add");
@@ -93,10 +93,11 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 	// ACTION HANDLERS
 
 	_onAdd() {
-		this._actions.show("upload", "search", "link");
+		// this._actions.show("upload", "search", "link", "close");
+		this._actions.show("upload", "link", "close");
 		this._imageEditor.hide();
 		this._metaFormData.open();
-		this._metaFormData.enable("kind");
+		this._metaFormData.enable("name");
 	}
 
 	_onUpload(ev) {
@@ -148,7 +149,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 	}
 
 	_onLink() {
-		if (!this._metaFormData.isValid(true)) {
+		if (!this._metaFormData.isValid()) {
 			return;
 		}
 		const formData = this._metaFormData.getFormData();
@@ -166,7 +167,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 	}
 
 	_onDuplicate() {
-		this._metaFormData.enable("kind");
+		this._metaFormData.enable("name");
 		this._metaFormData.show();
 	}
 
@@ -176,13 +177,13 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 
 	_onCrop() {
 		var aspectRatio = 0;
-		switch (this._currentPicture.kind) {
+		switch (this._currentPicture.name) {
 			case "icon":
 				aspectRatio = 1;
 				break;
 
 			case "contextual":
-				aspectRatio = 16 / 9;
+				aspectRatio = 1.6428;
 				break;
 		}
 
@@ -313,7 +314,7 @@ com.kidscademy.atlas.GraphicAssets = class extends js.dom.Element {
 
 	_onPictureSelected(picture) {
 		this._actions.show("remove");
-		this._metaFormData.disable("kind");
+		this._metaFormData.disable("name");
 		this._currentPicture = picture;
 		this._previewImage.setSrc(picture.src);
 	}

@@ -19,6 +19,11 @@ import js.core.Factory;
 @Entity
 @Cacheable
 public class Picture {
+    public static final String TYPE_ICON = "icon";
+    public static final String TYPE_COVER = "cover";
+    public static final String TYPE_FEATURED = "featured";
+    public static final String TYPE_CONTEXTUAL = "contextual";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,11 +31,11 @@ public class Picture {
     /** Picture name, unique per atlas object. */
     private String name;
 
-    private String kind;
-
     private Date uploadDate;
 
     private String source = "";
+
+    private String caption;
 
     /**
      * Picture file name.
@@ -63,7 +68,6 @@ public class Picture {
      */
     public Picture(MediaSRC src) {
 	this.src = src;
-	this.kind = Files.basename(src.fileName());
 	this.name = Files.basename(src.fileName());
 	this.uploadDate = new Date();
     }
@@ -74,14 +78,6 @@ public class Picture {
 
     public void setName(String name) {
 	this.name = name;
-    }
-
-    public String getKind() {
-	return kind;
-    }
-
-    public void setKind(String kind) {
-	this.kind = kind;
     }
 
     public Date getUploadDate() {
@@ -98,6 +94,14 @@ public class Picture {
 
     public void setSource(String source) {
 	this.source = source;
+    }
+
+    public String getCaption() {
+	return caption;
+    }
+
+    public void setCaption(String caption) {
+	this.caption = caption;
     }
 
     public String getFileName() {
@@ -149,7 +153,7 @@ public class Picture {
     }
 
     public void updateIcon(UIObject object) throws IOException {
-	if (kind.equals("icon")) {
+	if (TYPE_ICON.equals(name)) {
 	    File pictureFile = Files.mediaFile(object, fileName);
 	    File iconFile = icon(object, fileName);
 	    ImageProcessor image = Factory.getInstance(ImageProcessor.class);
@@ -158,7 +162,7 @@ public class Picture {
     }
 
     public void removeIcon(UIObject object) throws IOException {
-	if (kind.equals("icon")) {
+	if (TYPE_ICON.equals(name)) {
 	    File icon = icon(object, fileName);
 	    if (icon.exists() && !icon.delete()) {
 		throw new IOException(String.format("Unable to remove icon file |%s|.", icon.getName()));

@@ -22,6 +22,7 @@
 	<published-object>Published Object</published-object>
 
 	<object-identity>Identity</object-identity>
+	<object-definition>Definition</object-definition>
 	<object-description>Description</object-description>
 	<graphic-assets>Graphic Assets</graphic-assets>
 	<audio-assets>Audio Assets</audio-assets>

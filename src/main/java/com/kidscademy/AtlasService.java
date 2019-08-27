@@ -1,7 +1,6 @@
 package com.kidscademy;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +36,9 @@ public interface AtlasService {
 
     List<UIObject> getAvailableInstruments(Instrument.Category category, List<UIObject> related);
 
-    Link createLink(URL url);
+    Link createLink(Link link);
+
+    String importObjectDefinition(Link link);
 
     String importObjectDescription(Link link);
 

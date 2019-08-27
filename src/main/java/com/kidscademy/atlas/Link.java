@@ -37,6 +37,10 @@ public class Link {
      */
     private String display;
     /**
+     * Short description about linked resource content.
+     */
+    private String description;
+    /**
      * Icon file name as stored into database. This value is used to set
      * {@link #iconSrc} when load link from database.
      */
@@ -69,13 +73,16 @@ public class Link {
      *            URL for external source document.
      * @param display
      *            link name displayed on user interface,
+     * @param description
+     *            short description about linked resource content,
      * @param iconName
      *            icon file name.
      */
-    public Link(URL url, String display, MediaSRC iconSrc) {
+    public Link(URL url, String display, String description, MediaSRC iconSrc) {
 	this.url = url;
 	this.domain = domain(url);
 	this.display = display;
+	this.description = description;
 	this.iconSrc = iconSrc;
 	this.features = "description";
     }
@@ -98,6 +105,10 @@ public class Link {
 
     public String getDisplay() {
 	return display;
+    }
+
+    public String getDescription() {
+	return description;
     }
 
     public String getIconName() {
@@ -185,20 +196,23 @@ public class Link {
 	DOMAINS.put("softschools.com", new String[] { "Soft Schools", "description,facts" });
 	DOMAINS.put("kiddle.co", new String[] { "Kiddle", "description" });
 	DOMAINS.put("kids-cademy.com", new String[] { "kids (a)cademy", "description,facts" });
+	DOMAINS.put("wikihow.com", new String[] { "wikiHow", "howto" });
+	DOMAINS.put("thefreedictionary.com", new String[] { "The Free Dictionary", "definition" });
+	DOMAINS.put("cambridge.org", new String[] { "Cambridge Dictionary", "definition" });
     }
 
     /**
      * Factory method for link.
      * 
-     * @param url
-     *            URL of external source document.
+     * @param template
+     *            link template from user interface.
      * @return newly created link.
      */
-    public static Link create(URL url) {
-	String domain = domain(url);
+    public static Link create(Link template) {
+	String domain = domain(template.url);
 
 	Link link = new Link();
-	link.url = url;
+	link.url = template.url;
 	link.domain = domain;
 
 	link.display = DOMAINS.get(domain)[0];
@@ -206,8 +220,9 @@ public class Link {
 	    log.warn("Not registered display name for base doamin |%s|.", domain);
 	    link.display = domain;
 	}
+	link.description = template.description;
 
-	link.iconName = Strings.concat(basedomain(url), ".png");
+	link.iconName = Strings.concat(basedomain(template.url), ".png");
 	link.iconSrc = Files.linkSrc(link.iconName);
 	link.features = DOMAINS.get(domain)[1];
 	return link;

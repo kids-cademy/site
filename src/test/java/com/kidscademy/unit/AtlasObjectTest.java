@@ -18,54 +18,53 @@ import com.kidscademy.atlas.Region;
 import js.json.Json;
 import js.util.Classes;
 
-public class AtlasObjectTest
-{
-  @Test
-  public void serializeJSON() throws MalformedURLException
-  {
-    Instrument instrument = new Instrument();
-    instrument.setId(1);
-    instrument.setRank(9999);
-    instrument.setCategory(Instrument.Category.STRINGS);
-    instrument.setName("banjo");
-    instrument.setDisplay("Banjo");
-    instrument.setDescription("Banjo description.");
-    instrument.setSampleTitle("Banjo solo");
-    instrument.setSampleName("sample.mp3");
-    instrument.setDate(new HDate(1821, HDate.Format.YEAR, HDate.Period.MIDDLE));
+public class AtlasObjectTest {
+    @Test
+    public void serializeJSON() throws MalformedURLException {
+	Instrument instrument = new Instrument();
+	instrument.setId(1);
+	instrument.setRank(9999);
+	instrument.setCategory(Instrument.Category.STRINGS);
+	instrument.setName("banjo");
+	instrument.setDisplay("Banjo");
+	instrument.setDescription("Banjo description.");
+	instrument.setSampleTitle("Banjo solo");
+	instrument.setSampleName("sample.mp3");
+	instrument.setDate(new HDate(1821, HDate.Format.YEAR, HDate.Period.MIDDLE));
 
-    // TODO: add pictures
-    
-    List<String> aliases = new ArrayList<String>();
-    aliases.add("Banjo Alias #1");
-    aliases.add("Banjo Alias #2");
-    instrument.setAliases(aliases);
+	// TODO: add pictures
 
-    List<Region> spreading = new ArrayList<Region>();
-    spreading.add(new Region("Europe", Region.Area.SOUTH));
-    spreading.add(new Region("Africa", Region.Area.NORTH));
-    instrument.setSpreading(spreading);
+	List<String> aliases = new ArrayList<String>();
+	aliases.add("Banjo Alias #1");
+	aliases.add("Banjo Alias #2");
+	instrument.setAliases(aliases);
 
-    List<Link> links = new ArrayList<>();
-    links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", new MediaSRC("/media/link/wikipedia.png")));
-    links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", new MediaSRC("/media/link/wikipedia.png")));
-    instrument.setLinks(links);
+	List<Region> spreading = new ArrayList<Region>();
+	spreading.add(new Region("Europe", Region.Area.SOUTH));
+	spreading.add(new Region("Africa", Region.Area.NORTH));
+	instrument.setSpreading(spreading);
 
-    Map<String, String> facts = new HashMap<>();
-    facts.put("Banjo Fact #1", "Banjo fact #1 description.");
-    facts.put("Banjo Fact #2", "Banjo fact #2 description.");
-    instrument.setFacts(facts);
+	List<Link> links = new ArrayList<>();
+	links.add(new Link(new URL("https://en.wikipedia.org/wiki/AccordionXXX"), "Wikipedia-xxx", "Wikipedia article",
+		new MediaSRC("/media/link/wikipedia.png")));
+	links.add(new Link(new URL("http://en.wikipedia.org:443/wiki/Accordion"), "Wikipedia-www", "Wikipedia article",
+		new MediaSRC("/media/link/wikipedia.png")));
+	instrument.setLinks(links);
 
-    Json json = Classes.loadService(Json.class);
-    String value = json.stringify(instrument);
-    System.out.println(value);
-  }
+	Map<String, String> facts = new HashMap<>();
+	facts.put("Banjo Fact #1", "Banjo fact #1 description.");
+	facts.put("Banjo Fact #2", "Banjo fact #2 description.");
+	instrument.setFacts(facts);
 
-  @Test
-  public void deserializeJSON() throws Exception
-  {
-    Json json = Classes.loadService(Json.class);
-    Instrument instrument = json.parse(Classes.getResourceAsReader("instrument.json"), Instrument.class);
-    System.out.println(instrument);
-  }
+	Json json = Classes.loadService(Json.class);
+	String value = json.stringify(instrument);
+	System.out.println(value);
+    }
+
+    @Test
+    public void deserializeJSON() throws Exception {
+	Json json = Classes.loadService(Json.class);
+	Instrument instrument = json.parse(Classes.getResourceAsReader("instrument.json"), Instrument.class);
+	System.out.println(instrument);
+    }
 }

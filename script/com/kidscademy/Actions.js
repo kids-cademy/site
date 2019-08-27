@@ -16,8 +16,6 @@ com.kidscademy.Actions = class extends js.dom.Element {
 	constructor(ownerDoc, node) {
 		super(ownerDoc, node);
 
-		this._keymap = {};
-
 		/**
 		 * Name of the action executed previous to current one, possible null if no operation was invoked yet. This value is updated
 		 * after every action handler invocation.
@@ -28,7 +26,7 @@ com.kidscademy.Actions = class extends js.dom.Element {
 		this._previousAction = null;
 	}
 
-	bind(container, input) {
+	bind(container) {
 		function handlerName(name) {
 			return "_on" + name.replace(/(?:^|\-)(\w)/g, (match, capture) => capture.toUpperCase());
 		}
@@ -54,16 +52,7 @@ com.kidscademy.Actions = class extends js.dom.Element {
 			}.bind(container);
 
 			child.on("click", actionHandler, container);
-
-			const key = child.getAttr("data-key");
-			if (key !== null) {
-				this._keymap[js.event.Key[key]] = actionHandler;
-			}
 		});
-
-		if (input) {
-			input.on("keypress", this._onKey, this);
-		}
 		return this;
 	}
 
@@ -114,14 +103,6 @@ com.kidscademy.Actions = class extends js.dom.Element {
 
 	getPreviousAction() {
 		return this._previousAction;
-	}
-
-	_onKey(ev) {
-		const handler = this._keymap[ev.key];
-		if (handler) {
-			ev.halt();
-			handler();
-		}
 	}
 
 	_isAction(child) {

@@ -110,7 +110,19 @@ com.kidscademy.atlas.ImageSearch = class extends js.dom.Control {
 	}
 
 	_search(context) {
-		const request = `https://www.googleapis.com/customsearch/v1?key=${this._KEY}&cx=${this._CX}&num=${this._RESULT_SIZE}&start=${context.start}&q=${context.query}&searchType=image&rights=cc_publicdomain&imgSize=xxlarge`;
+		//const request = `https://www.googleapis.com/customsearch/v1?key=${this._KEY}&cx=${this._CX}&num=${this._RESULT_SIZE}&start=${context.start}&q=${context.query}&searchType=image&rights=cc_publicdomain&imgSize=xxlarge`;
+
+		const request = js.net.URL("https://www.googleapis.com/customsearch/v1", {
+			key: this._KEY,
+			cx: this._CX,
+			num: this._RESULT_SIZE,
+			start: context.start,
+			q: context.query,
+			searchType: "image",
+			rights: "cc_publicdomain",
+			imgSize: "xxlarge"
+		});
+
 		const xhr = new js.net.XHR();
 
 		xhr.on('load', result => {

@@ -1,6 +1,5 @@
 package com.kidscademy.atlas;
 
-import java.net.URL;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -23,11 +22,6 @@ public class MediaFile {
 
     /** Media type, also known as MIME type, as classified by IANA. */
     private String mediaType;
-    /**
-     * Optional media kind. It can be used to classify media files - perhaps
-     * functionally but not limited to, for example 'icon'.
-     */
-    private String kind;
 
     private String fileName;
 
@@ -36,11 +30,11 @@ public class MediaFile {
     private Date uploadDate;
 
     private String license;
-    
+
     private String description;
 
     private String source;
-    
+
     @Transient
     private MediaSRC src;
 
@@ -64,93 +58,84 @@ public class MediaFile {
 	    this.mediaType = "image/png";
 	    break;
 	}
-	kind = Files.basename(this.fileName);
 	this.src = src;
 	this.uploadDate = new Date();
     }
 
     public User getUser() {
-        return user;
+	return user;
     }
 
     public void setUser(User user) {
-        this.user = user;
+	this.user = user;
     }
 
     public String getMediaType() {
-        return mediaType;
+	return mediaType;
     }
 
     public void setMediaType(String mediaType) {
-        this.mediaType = mediaType;
-    }
-
-    public String getKind() {
-        return kind;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind;
+	this.mediaType = mediaType;
     }
 
     public String getFileName() {
-        return fileName;
+	return fileName;
     }
 
     public void setFileName(String fileName) {
-        this.fileName = fileName;
+	this.fileName = fileName;
     }
 
     public long getFileSize() {
-        return fileSize;
+	return fileSize;
     }
 
     public void setFileSize(long fileSize) {
-        this.fileSize = fileSize;
+	this.fileSize = fileSize;
     }
 
     public Date getUploadDate() {
-        return uploadDate;
+	return uploadDate;
     }
 
     public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
+	this.uploadDate = uploadDate;
     }
 
     public String getLicense() {
-        return license;
+	return license;
     }
 
     public void setLicense(String license) {
-        this.license = license;
+	this.license = license;
     }
 
     public String getDescription() {
-        return description;
+	return description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+	this.description = description;
     }
 
     public String getSource() {
-        return source;
+	return source;
     }
 
     public void setSource(String source) {
-        this.source = source;
+	this.source = source;
     }
 
     public MediaSRC getSrc() {
-        return src;
+	return src;
     }
 
     public void setSrc(MediaSRC src) {
-        this.src = src;
+	this.src = src;
     }
 
     public int getId() {
-        return id;
+	return id;
     }
 
     public void postLoad(AtlasObject object) {

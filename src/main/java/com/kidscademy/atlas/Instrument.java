@@ -20,6 +20,8 @@ import com.kidscademy.tool.AudioSampleInfo;
 import com.kidscademy.util.Classes;
 import com.kidscademy.util.Files;
 
+import js.util.Strings;
+
 /**
  * Musical instrument atlas object.
  * 
@@ -208,7 +210,7 @@ public class Instrument extends AtlasObject implements Serializable {
     @Override
     public String toString() {
 	// toString is used by Audit to print instrument; leave it as it is
-	return name;
+	return Strings.toString(id, name);
     }
 
     public enum Category {

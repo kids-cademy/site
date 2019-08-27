@@ -155,3 +155,8 @@ ul.side-menu li:nth-child(8) {
 	border-right-color: @color/cyan-300;
 	background-color: @color/cyan-50;
 }
+
+ul.side-menu li:nth-child(9) {
+	border-right-color: @color/teal-300;
+	background-color: @color/teal-50;
+}

@@ -11,6 +11,7 @@ import com.kidscademy.atlas.Instrument;
 import com.kidscademy.atlas.Link;
 import com.kidscademy.atlas.Picture;
 import com.kidscademy.atlas.UIObject;
+import com.kidscademy.atlas.AtlasObject.State;
 import com.kidscademy.util.Classes;
 
 import js.transaction.Immutable;
@@ -63,6 +64,12 @@ public class AtlasDaoImpl implements AtlasDao {
     public <T extends AtlasObject> List<T> findObjectByType(Class<T> type) {
 	return em.createQuery("select o from AtlasObject o where o.dtype=:dtype", type)
 		.setParameter("dtype", Classes.dtype(type)).getResultList();
+    }
+
+    @Override
+    public <T extends AtlasObject> List<T> findPublishedObjects(Class<T> type) {
+	return em.createQuery("select o from AtlasObject o where o.dtype=:dtype and o.state=:state", type)
+		.setParameter("dtype", Classes.dtype(type)).setParameter("state", State.PUBLISHED).getResultList();
     }
 
     @Override

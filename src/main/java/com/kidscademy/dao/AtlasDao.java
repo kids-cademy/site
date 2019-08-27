@@ -43,6 +43,8 @@ public interface AtlasDao {
 
     <T extends AtlasObject> List<T> findObjectByType(Class<T> type);
 
+    <T extends AtlasObject> List<T> findPublishedObjects(Class<T> type);
+
     Bird getBird(int birdId);
 
     List<UIObject> getInstruments();

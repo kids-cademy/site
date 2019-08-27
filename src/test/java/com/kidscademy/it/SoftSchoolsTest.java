@@ -14,24 +14,24 @@ import org.junit.Test;
 import com.kidscademy.www.SoftSchools;
 import com.kidscademy.www.SoftSchoolsFacts;
 
-import js.core.Factory;
+import js.core.AppContext;
 import js.unit.TestContext;
 
 public class SoftSchoolsTest {
     private static final String DESCRIPTOR = "" + //
 	    "<app-descriptor>" + //
-	    "	<managed-classes>" + //
-	    "		<softschools interface='com.kidscademy.www.SoftSchools' type='REMOTE' url='http:xpath://www.softschools.com/' />"
+	    " <managed-classes>" + //
+	    "  <soft-schools interface='com.kidscademy.www.SoftSchools' type='REMOTE' url='http:xpath://www.softschools.com/' />"
 	    + //
-	    "	</managed-classes>" + //
+	    " </managed-classes>" + //
 	    "</app-descriptor>";
 
     private SoftSchools softSchools;
 
     @Before
     public void beforeTest() throws Exception {
-	TestContext.start(DESCRIPTOR);
-	softSchools = Factory.getInstance(SoftSchools.class);
+	AppContext context = TestContext.start(DESCRIPTOR);
+	softSchools = context.getInstance(SoftSchools.class);
     }
 
     @Test
