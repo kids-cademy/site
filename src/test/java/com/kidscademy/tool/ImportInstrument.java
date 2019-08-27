@@ -73,7 +73,8 @@ public class ImportInstrument {
 
 	    List<Link> links = new ArrayList<>();
 	    for (ExternalSource source : object.sources) {
-		links.add(new Link(source.url, source.name, new MediaSRC("/media/link/" + source.icon.getName())));
+		// TODO: add description
+		links.add(new Link(source.url, source.name, "", new MediaSRC("/media/link/" + source.icon.getName())));
 	    }
 	    instrument.setLinks(links);
 
