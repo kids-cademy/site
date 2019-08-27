@@ -1,127 +1,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.kids-cademy</groupId>
-	<artifactId>site</artifactId>
+	<groupId>com.kidscademy</groupId>
+	<artifactId>test</artifactId>
 	<version>0.0.1</version>
-	<packaging>war</packaging>
-	<name>kids (a)cademy Site</name>
-	<description>Site for kids (a)cademy platform.</description>
+	<packaging>pom</packaging>
+
+	<name>Kids (a)cademy Portal</name>
+	<description>Site and Atlas Studio for kids (a)cademy platform.</description>
+
+	<modules>
+		<module>site</module>
+		<module>war</module>
+	</modules>
 
 	<properties>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
-	<build>
-		<finalName>site</finalName>
-		<scriptSourceDirectory>script</scriptSourceDirectory>
-		<plugins>
-			<plugin>
-				<groupId>com.js-lib</groupId>
-				<artifactId>wood-maven-plugin</artifactId>
-				<version>1.0.0-alpha</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>clean</goal>
-							<goal>build</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M1</version>
-				<configuration>
-					<includes>
-						<include>**/unit/*</include>
-					</includes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<url>http://localhost/manager/text</url>
-					<server>tomcat</server>
-					<path>/site</path>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>redeploy</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.1</version>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>javadoc</goal>
-						</goals>
-						<configuration>
-							<show>private</show>
-							<additionalOptions>
-								<additionalOption>-Xdoclint:none</additionalOption>
-							</additionalOptions>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-
-	<profiles>
-		<profile>
-			<id>preview</id>
-			<properties>
-				<!-- do not compile tests and tests resources and do not execute tests on preview profile -->
-				<maven.test.skip>true</maven.test.skip>
-			</properties>
-			<build>
-				<defaultGoal>verify</defaultGoal>
-				<plugins>
-					<plugin>
-						<artifactId>maven-war-plugin</artifactId>
-						<version>2.2</version>
-						<configuration>
-							<webXml>config/preview/web.xml</webXml>
-						</configuration>
-					</plugin>
-					<plugin>
-						<!-- do not process wood resources on preview profile -->
-						<groupId>com.js-lib</groupId>
-						<artifactId>wood-maven-plugin</artifactId>
-						<version>1.0.0-alpha</version>
-						<executions>
-							<execution>
-								<phase>none</phase>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.tomcat.maven</groupId>
-						<artifactId>tomcat7-maven-plugin</artifactId>
-						<version>2.2</version>
-						<configuration>
-							<path>/site-preview</path>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
+	<!-- it seems m2eclipse does not consider dependencies from modules, for class path -->
+	<!-- workaround is to include dependencies in project POM instead of war module -->
 	<dependencies>
 		<dependency>
 			<groupId>com.js-lib</groupId>

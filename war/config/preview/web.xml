@@ -5,7 +5,7 @@
 	<description>Educational platform targeted at children of all ages.</description>
 	<context-param>
 		<param-name>PROJECT_DIR</param-name>
-		<param-value>D:/docs/workspaces/kids-cademy/www/site</param-value>
+		<param-value>D:/docs/workspaces/kids-cademy/www/site/site</param-value>
 	</context-param>
 	<context-param>
 		<param-name>PREVIEW_CALLBACK</param-name>
