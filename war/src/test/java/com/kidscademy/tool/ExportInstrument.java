@@ -29,7 +29,6 @@ import js.lang.ConfigException;
 import js.transaction.TransactionFactory;
 import js.transaction.eclipselink.TransactionFactoryImpl;
 import js.util.Classes;
-import js.util.Files;
 import js.util.Strings;
 
 public class ExportInstrument {
@@ -109,7 +108,7 @@ public class ExportInstrument {
 	zip.write(json.stringify(task.createSearchIndex()).getBytes("UTF-8"));
 	zip.closeEntry();
 
-	objectNames.sort(null);
+	Collections.sort(objectNames);
 	entry = new ZipEntry("atlas/objects-list.json");
 	zip.putNextEntry(entry);
 	zip.write(json.stringify(objectNames).getBytes("UTF-8"));
