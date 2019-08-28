@@ -1,17 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.kidscademy</groupId>
-	<artifactId>test-site</artifactId>
-	<version>0.0.1</version>
-	<packaging>wood</packaging>
-
-	<name>User Interface</name>
-
 	<parent>
 		<groupId>com.kidscademy</groupId>
 		<artifactId>test</artifactId>
 		<version>0.0.1</version>
 	</parent>
+	<artifactId>test-site</artifactId>
+	<packaging>wood</packaging>
+
+	<name>User Interface</name>
 
 	<build>
 		<plugins>

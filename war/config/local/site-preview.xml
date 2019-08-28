@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context reloadable="true">
+<Context reloadable="true" cachingAllowed="false" antiResourceLocking="false" cacheTTL="0">
         <Resource
                 name="jdbc/kids-cademy"
                 type="com.mchange.v2.c3p0.ComboPooledDataSource"
@@ -12,7 +12,6 @@
         />
 
 	<Parameter name="captcha.repository.path" value="${catalina.base}/webapps/media/captcha" />
-	<!--<Parameter name="objects.repository.path" value="${catalina.base}/webapps/media/atlas/" />-->
 	<Parameter name="image.magick.convert" value="C://Program Files/ImageMagick-6.9.9-Q16-HDRI/convert.exe" />
 	<Parameter name="image.magick.identify" value="C://Program Files/ImageMagick-6.9.9-Q16-HDRI/identify.exe" />
 	<Parameter name="google.api.key" value="AIzaSyDXsSQ09TUEbXgwnz-cHiKzilkSMIc3Pt4" />
