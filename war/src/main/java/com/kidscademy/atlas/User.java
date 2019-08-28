@@ -55,7 +55,6 @@ public class User implements Principal
     return emailAddress;
   }
 
-  @Override
   public boolean implies(Subject subject)
   {
     return false;
