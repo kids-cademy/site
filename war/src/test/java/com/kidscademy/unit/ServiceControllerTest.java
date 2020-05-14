@@ -15,7 +15,7 @@ import com.kidscademy.impl.ServiceControllerImpl;
 import com.kidscademy.model.Device;
 import com.kidscademy.model.Model;
 
-import js.core.AppContext;
+import js.tiny.container.core.AppContext;
 import js.util.Classes;
 
 /**

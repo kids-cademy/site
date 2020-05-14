@@ -269,7 +269,7 @@ com.kidscademy.AtlasService = {
 	/**
 	 * Upload picture.
 	 *
-	 * @param js.http.form.Form form,
+	 * @param js.tiny.container.http.form.Form form,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
 	 * @return com.kidscademy.atlas.Picture
@@ -297,7 +297,7 @@ com.kidscademy.AtlasService = {
 	/**
 	 * Upload picture by source.
 	 *
-	 * @param js.http.form.Form form,
+	 * @param js.tiny.container.http.form.Form form,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
 	 * @return com.kidscademy.atlas.Picture
@@ -600,7 +600,7 @@ com.kidscademy.AtlasService = {
 	/**
 	 * Upload audio sample.
 	 *
-	 * @param js.http.form.Form form,
+	 * @param js.tiny.container.http.form.Form form,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
 	 * @return com.kidscademy.tool.AudioSampleInfo

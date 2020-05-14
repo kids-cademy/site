@@ -5,18 +5,18 @@ import java.util.List;
 import com.kidscademy.ServiceController;
 import com.kidscademy.dao.Dao;
 import com.kidscademy.model.Audit;
-import com.kidscademy.model.LikeCounter;
 import com.kidscademy.model.Counters;
 import com.kidscademy.model.CrashReport;
 import com.kidscademy.model.Device;
 import com.kidscademy.model.DislikeReason;
 import com.kidscademy.model.Feedback;
+import com.kidscademy.model.LikeCounter;
 import com.kidscademy.model.NoAdsSurvey;
 import com.kidscademy.model.Suggestion;
 
-import js.core.AppContext;
-import js.core.Factory;
-import js.servlet.RequestContext;
+import js.tiny.container.core.AppContext;
+import js.tiny.container.core.Factory;
+import js.tiny.container.servlet.RequestContext;
 import js.util.Params;
 
 public class ServiceControllerImpl implements ServiceController

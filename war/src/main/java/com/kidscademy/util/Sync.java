@@ -10,15 +10,15 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import js.core.Factory;
+import com.kidscademy.model.DirtyFiles;
+import com.kidscademy.model.Excludes;
+
 import js.io.FilesIterator;
 import js.json.Json;
 import js.log.Log;
 import js.log.LogFactory;
+import js.tiny.container.core.Factory;
 import js.util.Files;
-
-import com.kidscademy.model.DirtyFiles;
-import com.kidscademy.model.Excludes;
 
 public class Sync
 {

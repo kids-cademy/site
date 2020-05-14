@@ -20,6 +20,18 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<!-- configure annotation processor tool to generate stub scripts for remote services -->
+				<configuration>
+					<annotationProcessors>
+						<annotationProcessor>js.tools.apt.GenerateRmiScript</annotationProcessor>
+					</annotationProcessors>
+					<generatedSourcesDirectory>../site/gen</generatedSourcesDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.2.3</version>
 				<configuration>
@@ -49,7 +61,7 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<url>http://localhost/manager/text</url>
+					<url>http://localhost:8080/manager/text</url>
 					<server>tomcat</server>
 					<path>/site</path>
 				</configuration>
@@ -143,4 +155,13 @@
 			</build>
 		</profile>
 	</profiles>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.js-lib</groupId>
+			<artifactId>tools-apt</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 </project>

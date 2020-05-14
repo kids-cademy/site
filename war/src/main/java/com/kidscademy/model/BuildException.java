@@ -2,8 +2,8 @@ package com.kidscademy.model;
 
 import java.io.IOException;
 
-import js.core.Factory;
-import js.servlet.RequestContext;
+import js.tiny.container.core.Factory;
+import js.tiny.container.servlet.RequestContext;
 import js.util.Strings;
 
 public class BuildException extends IOException

@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.SortedMap;
 
-import js.annotation.Public;
-import js.annotation.Remote;
-import js.io.FilesInputStream;
-
 import com.kidscademy.model.DirtyFiles;
 import com.kidscademy.model.Excludes;
+
+import js.io.FilesInputStream;
+import js.tiny.container.annotation.Public;
+import js.tiny.container.annotation.Remote;
 
 @Remote
 @Public

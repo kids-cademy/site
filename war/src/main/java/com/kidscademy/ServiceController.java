@@ -2,13 +2,13 @@ package com.kidscademy;
 
 import java.util.List;
 
-import js.annotation.Public;
-import js.annotation.Service;
-
 import com.kidscademy.model.Counters;
 import com.kidscademy.model.Device;
 import com.kidscademy.model.DislikeReason;
 import com.kidscademy.model.Feedback;
+
+import js.tiny.container.annotation.Public;
+import js.tiny.container.annotation.Service;
 
 @Service
 @Public

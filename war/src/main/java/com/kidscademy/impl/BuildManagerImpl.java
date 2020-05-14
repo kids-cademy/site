@@ -5,21 +5,21 @@ import java.io.IOException;
 import java.util.List;
 import java.util.SortedMap;
 
-import js.annotation.Inject;
-import js.core.AppContext;
-import js.core.Factory;
-import js.io.FilesInputStream;
-import js.io.FilesOutputStream;
-import js.io.StreamHandler;
-import js.log.Log;
-import js.log.LogFactory;
-import js.util.Files;
-
 import com.kidscademy.BuildManager;
 import com.kidscademy.model.BuildException;
 import com.kidscademy.model.DirtyFiles;
 import com.kidscademy.model.Excludes;
 import com.kidscademy.util.Sync;
+
+import js.io.FilesInputStream;
+import js.io.FilesOutputStream;
+import js.io.StreamHandler;
+import js.log.Log;
+import js.log.LogFactory;
+import js.tiny.container.annotation.Inject;
+import js.tiny.container.core.AppContext;
+import js.tiny.container.core.Factory;
+import js.util.Files;
 
 class BuildManagerImpl implements BuildManager
 {
