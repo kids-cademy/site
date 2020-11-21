@@ -65,20 +65,18 @@ textarea {
 }
 
 input, textarea, select {
-	xborder: solid 1px @color/control-border;
-	xbackground: @color/control-background;
 	margin-right: 6px;
 }
 
 input:hover, textarea:hover, select:hover {
-	border-color: @color/control-hover-border;
+	border-color: var(--control-hover-border-color);
 }
 
 input.invalid, textarea.invalid, select.invalid, img.invalid {
-	border-color: @color/control-invalid-border;
+	border-color: var(--control-invalid-border-color);
 }
 
 input:focus, textarea:focus, select:focus {
 	background: none;
-	border-color: @color/control-focus-border;
+	border-color: var(--control-focus-border-color);
 }

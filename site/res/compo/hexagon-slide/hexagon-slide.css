@@ -1,6 +1,6 @@
 .compo.hexagon-slide {
-	width: @dimen/hexagon-view-width;
-	height: @eval(mul @dimen/hexagon-view-width 1.13392);
+	width: var(--hexagon-view-width);
+	height: var(--hexagon-view-height;
 	box-sizing: border-box;
 	overflow: hidden;
 	-webkit-transform:rotate(120deg);
@@ -17,7 +17,7 @@
 
 .compo.hexagon-slide .slide {
 	width: @eval(mul @dimen/hexagon-view-width 8);
-	height: @eval(mul @dimen/hexagon-view-width 1.13392);
+	height: var(--hexagon-view-height);
 	background-image: url(@image/sample-slide);
 	background-size: cover;
 	animation: hexagon-slide 20s linear infinite alternate;

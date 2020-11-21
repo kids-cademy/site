@@ -39,13 +39,13 @@
 
 .app .caption h1 {
 	xmargin: 0 0 0 220px;
-	color: @color/primary-header;
+	color: var(--primary-header-color);
 }
 
 .app .caption p {
 	max-width: 80%;
 	xmargin: 20px 0 30px 220px;
-	color: @color/primary-text;
+	color: var(--primary-text-color);
 }
 
 /* play-store */
@@ -63,7 +63,7 @@
 
 .app .play-store h2 {
 	float: left;
-	color: @color/secondary-header;
+	color: var(--secondary-header-color);
 }
 
 .app .play-store h2 a {
@@ -118,13 +118,13 @@
 .app .description p {
 	max-width: 60%;
 	margin: 20px 0 20px 300px;
-	color: @color/secondary-header;
+	color: var(--secondary-header-color);
 }
 
 /* support */
 
 .app .support {
-	padding-top: @dimen/section-margin;	
+	padding-top: var(--section-margin);	
 }
 
 .app .support p {

@@ -46,7 +46,7 @@ body>header .top-menu li:hover {
 body>header .top-menu a {
 	line-height: 48px;
 	text-align: inherit;
-	color: @color/page-header-link-hover;
+	color: var(--page-header-link-hover-color);
 }
 
 body>header .top-menu .fables-action {

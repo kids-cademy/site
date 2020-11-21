@@ -7,7 +7,7 @@ a[href='feedback.htm'] {
 }
 
 .feedback .message h2 {
-	color: @color/secondary-header;
+	color: var(--secondary-header-color);
 }
 
 .feedback .message p {
@@ -71,7 +71,7 @@ a[href='feedback.htm'] {
 }
 
 .feedback form>.checkbox span {
-	color: @color/primary-header;
+	color: var(--primary-header-color);
 }
 
 .feedback .counters .label {
@@ -170,7 +170,7 @@ a[href='feedback.htm'] {
 	width: 100%;
 	top: 58px;
 	font-size: 18px;
-	color: @color/primary-header;
+	color: var(--primary-header-color);
 }
 
 .feedback .percent-graph .labels span {
@@ -180,9 +180,9 @@ a[href='feedback.htm'] {
 	margin-left: -10%;
 	white-space: nowrap;
 	text-align: center;
-	@
-	style
-	/ellipsis
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
 }
 
 .feedback .percent-graph .labels span:nth-child(1) {
@@ -219,7 +219,7 @@ a[href='feedback.htm'] {
 }
 
 .feedback .improve {
-	margin-top: @dimen/section-margin;	
+	margin-top: var(--section-margin);	
 }
 
 .feedback .suggestion {
@@ -243,5 +243,5 @@ a[href='feedback.htm'] {
 }
 
 .feedback .suggestions-list p {
-	color: @color/secondary-header;
+	color: var(--secondary-header-color);
 }

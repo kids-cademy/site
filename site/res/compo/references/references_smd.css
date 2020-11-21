@@ -4,7 +4,7 @@
 .references dl {
 	display: block;
 	float: none;
-	margin-top: @dimen/column-margin;
+	margin-top: var(--column-margin);
 	margin-left: 0;
 }
 

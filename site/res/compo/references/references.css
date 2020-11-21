@@ -1,12 +1,12 @@
 .references {
 	box-sizing: border-box;
-	padding: @dimen/section-padding 0;
+	padding: var(--section-padding) 0;
 }
 
 .references dl {
 	display: inline-block;
 	float: left;
-	margin: 0 0 0 @dimen/column-margin;
+	margin: 0 0 0 var(--column-margin);
 }
 
 .references dl:first-child {

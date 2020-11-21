@@ -7,37 +7,37 @@ html {
 
 h1 {
 	font-size: 3.6rem;
-	color: @color/h1-text;
+	color: var(--h1-text);
 	margin: 1.0rem 0 1.8rem;
 }
 
 h2 {
 	font-size: 3.0rem;
-	color: @color/h2-text;
+	color: var(--h2-text);
 	margin: 1.0rem 0 1.5rem;
 }
 
 h3 {
 	font-size: 2.4rem;
-	color: @color/h3-text;
+	color: var(--h3-text);
 	margin: 1.0rem 0 1.2rem;
 }
 
 h4 {
 	font-size: 1.8rem;
-	color: @color/h4-text;
+	color: var(--h4-text);
 	margin: 1.0rem 0 0.9rem;
 }
 
 h5 {
 	font-size: 1.4rem;
-	color: @color/h5-text;
+	color: var(--h5-text);
 	margin: 1.0rem 0 0.7rem;
 }
 
 h6 {
 	font-size: 1.2rem;
-	color: @color/h6-text;
+	color: var(--h6-text);
 	margin: 1.0rem 0 0.6rem;
 }
 

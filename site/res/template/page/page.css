@@ -9,58 +9,58 @@ body {
 
 .page h1 {
 	margin: 0;
-	color: @color/primary-header;
+	color: var(--primary-header-color);
 }
 
 .page h2 {
 	margin: 0;
-	color: @color/primary-header;
+	color: var(--primary-header-color);
 }
 
 .page h3 {
 	margin: 0;
-	color: @color/primary-header;
+	color: var(--primary-header-color);
 }
 
 .page h4 {
 	margin: 0;
-	color: @color/primary-header;
+	color: var(--primary-header-color);
 }
 
 .page h5 {
 	margin: 0;
-	color: @color/primary-header;
+	color: var(--primary-header-color);
 }
 
 .page h6 {
 	margin: 0;
-	color: @color/primary-header;
+	color: var(--primary-header-color);
 }
 
 .page p {
 }
 
 .page .primary {
-	color: @color/primary-text;
+	color: var(--primary-text-color);
 }
 
 .page .secondary {
-	color: @color/secondary-text;
+	color: var(--secondary-text-color);
 }	
 
 .page .accent {
-	color: @color/accent-text;
+	color: var(--accent-text-color);
 }
 
 .sys-message {
-	margin-top: @dimen/page-header-height;
+	margin-top: var(--page-header-height);
 }
 
 .page-section {
 	box-sizing: border-box;
 	width: 100%;
-	padding:  @dimen/section-padding 0 @dimen/section-padding 0;
-	margin: @dimen/section-margin 0 0 0;
+	padding: var(--section-padding) 0 var(--section-padding) 0;
+	margin: var(--section-margin) 0 0 0;
 }
 
 .body-container>.page-section:first-child {
@@ -75,9 +75,9 @@ body {
 /* header */
 body>header {
 	position: fixed;
-	z-index: @dimen/max-z-index;
+	z-index: var(--max-z-index);
 	width: 100%;
-	height: @dimen/page-header-height;
+	height: var(--page-header-height);
 	background: rgba(0, 0, 0, 0);
 	border-bottom: solid 1px white;
 }
@@ -137,13 +137,13 @@ body>header .top-menu a {
 	display: inline-block;
 	xwidth: 100%;
 	font-size: 22px;
-	line-height: @dimen/page-header-height;
+	line-height: var(--page-header-height);
 	margin: 0 20px;
 	padding: 0;
 	text-align: center;
 	text-decoration: none;
 	text-transform: uppercase;
-	color: @color/page-header-link;
+	color: var(--page-header-link-color);
 }
 
 body>header .top-menu .apps-action a {
@@ -179,7 +179,7 @@ body>header .top-menu .community-action a {
 }
 
 body>header .top-menu a:hover {
-	color: @color/page-header-link-hover;
+	color: var(--page-header-link-hover-color);
 }
 
 body>header .top-menu .no-ads-action {
@@ -202,8 +202,8 @@ body>footer .references {
 
 body>header .logo-type, body>footer .logo-type {
 	font-size: 2.8em;
-	height: @dimen/page-header-height;
-	line-height: @dimen/page-header-height;
+	height: var(--page-header-height);
+	line-height: var(--page-header-height);
 	margin: 0 80px 0 0;
 	padding: 0;
 	text-transform: lowercase;

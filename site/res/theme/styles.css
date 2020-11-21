@@ -1,6 +1,6 @@
 .container {
 	box-sizing: border-box;
-	max-width: @dimen/container-width;
+	max-width: var(--container-width);
 	padding: 0 10px;
 	margin: 0 auto;
 }

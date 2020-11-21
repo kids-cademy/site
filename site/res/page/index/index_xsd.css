@@ -34,7 +34,7 @@
 }
 
 .index .apps-vision {
-	margin-top: @dimen/section-margin;	
+	margin-top: var(--section-margin);	
 }
 
 .index .apps-vision h2 {

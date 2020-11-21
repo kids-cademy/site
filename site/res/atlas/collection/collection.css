@@ -30,7 +30,7 @@
 }
 
 .collection.side-menu .actions li.invalid .state {
-	background-color: @color/danger;
+	background-color: var(--danger-color);
 }
 
 .collection.side-menu .actions li:hover {
@@ -38,41 +38,41 @@
 }
 
 .collection.side-menu .actions li:nth-child(1) {
-	border-left-color: @color/red-300;
-	background-color: @color/red-50;
+	border-left-color: var(--red-300);
+	background-color: var(--red-50);
 }
 
 .collection.side-menu .actions li:nth-child(2) {
-	border-left-color: @color/pink-300;
-	background-color: @color/pink-50;
+	border-left-color: var(--pink-300);
+	background-color: var(--pink-50);
 }
 
 .collection.side-menu .actions li:nth-child(3) {
-	border-left-color: @color/purple-300;
-	background-color: @color/purple-50;
+	border-left-color: var(--purple-300);
+	background-color: var(--purple-50);
 }
 
 .collection.side-menu .actions li:nth-child(4) {
-	border-left-color: @color/deep-purple-300;
-	background-color: @color/deep-purple-50;
+	border-left-color: var(--deep-purple-300);
+	background-color: var(--deep-purple-50);
 }
 
 .collection.side-menu .actions li:nth-child(5) {
-	border-left-color: @color/indigo-300;
-	background-color: @color/indigo-50;
+	border-left-color: var(--indigo-300);
+	background-color: var(--indigo-50);
 }
 
 .collection.side-menu .actions li:nth-child(6) {
-	border-left-color: @color/blue-300;
-	background-color: @color/blue-50;
+	border-left-color: var(--blue-300);
+	background-color: var(--blue-50);
 }
 
 .collection.side-menu .actions li:nth-child(7) {
-	border-left-color: @color/light-blue-300;
-	background-color: @color/light-blue-50;
+	border-left-color: var(--light-blue-300);
+	background-color: var(--light-blue-50);
 }
 
 .collection.side-menu .actions li:nth-child(8) {
-	border-left-color: @color/cyan-300;
-	background-color: @color/cyan-50;
+	border-left-color: var(--cyan-300);
+	background-color: var(--cyan-50);
 }

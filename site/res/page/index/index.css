@@ -10,17 +10,17 @@
 .index .vision h1 {
 	max-width: 900px;
 	margin: 0;
-	color: @color/primary-header;
+	color: var(--primary-header-color);
 }
 
 .index .vision p {
-	color: @color/primary-text;
+	color: var(--primary-text-color);
 }
 
 .index .vision p.accent {
 	margin-top: 40px;
 	font-size: 28px;
-	color: @color/secondary-header;
+	color: var(--secondary-header-color);
 }
 
 .index .slogan {
@@ -65,7 +65,7 @@
 .index .slogan h3 {
 	padding-top: 40px;
 	padding-left: 40px;
-	color: @color/secondary-header;
+	color: var(--secondary-header-color);
 }
 
 .index .slogan .birds .slide {
@@ -122,7 +122,7 @@
 }
 
 .index .play-store {
-	margin-top: @dimen/section-margin;
+	margin-top: var(--section-margin);
 	height: 110px;
 	background-color: #c9f1c6;
 	background: radial-gradient(circle at 30% 50%, #FFFFFF, #2d9a27);
@@ -139,7 +139,7 @@
 	float: left;
 	margin: 0;
 	vertical-align: middle;
-	color: @color/secondary-header;
+	color: var(--secondary-header-color);
 }
 
 .index .play-store h2 a {
@@ -163,7 +163,7 @@
 }
 
 .index .apps-vision {
-	margin-top: @dimen/section-padding;
+	margin-top: var(--section-padding);
 	margin-bottom: 10px;
 }
 
@@ -174,7 +174,7 @@
 .index .apps-vision p {
 	max-width: 700px;
 	margin-left: 300px;
-	xcolor: @color/secondary-text;
+	xcolor: var(--secondary-text-color);
 }
 
 .index .message {
@@ -202,13 +202,13 @@
 
 .index .no-ads h4 {
 	margin: 0 0 0.2em 300px;
-	color: @color/secondary-header;
+	color: var(--secondary-header-color);
 }
 
 .index .apps {
 	xborder: dotted 1px #E8E8E8;
 	xmax-height: 190px;
-	margin-top: @dimen/section-margin;
+	margin-top: var(--section-margin);
 	margin-bottom: 100px;
 	xwhite-space: nowrap;
 	xmargin-left: 300px;
@@ -266,7 +266,7 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	xcolor: @color/black;
+	xcolor: black;
 	color: green;
 	xfont-weight: bold;
 	margin: 0;
@@ -286,7 +286,7 @@
 }
 
 .index .fables-online .page-section {
-	margin: @dimen/section-margin 0 0 0;
+	margin: var(--section-margin) 0 0 0;
 	padding-bottom: 90px;
 	background-image: url(@image/fables-section-bg);
 	background-attachment: fixed;
@@ -307,14 +307,14 @@
 .index .fables-online h2 {
 	margin: 0;
 	padding: 0;
-	color: @color/accent-header;
+	color: var(--accent-header-color);
 }
 
 .index .fables-online p {
 	max-width: 400px;
 	margin: 20px 0 0 0;
 	padding: 0;
-	color: @color/accent-text;
+	color: var(--accent-text-color);
 	font-size: 1.4rem;
 }
 
@@ -335,7 +335,6 @@
 	width: 100%;
 	height: 100%;
 	xborder: solid 1px;
-	xborder-color: @color/border @color/border-muted @color/border-muted @color/border;
 	overflow: hidden;
 }
 
@@ -351,11 +350,11 @@
 
 .index .fables-online .container section h3 {
 	margin: 0 0 10px 0;
-	color: @color/secondary-header;
+	color: var(--secondary-header-color);
 }
 
 .index .fables-online .container section p {
-	color: @color/secondary-text;
+	color: var(--secondary-text-color);
 }
 
 .index .fables-online .container section .logo {

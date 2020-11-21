@@ -13,7 +13,7 @@ a[href='apps.htm'] {
 }
 
 .apps .caption h1 {
-	color: @color/secondary-header;
+	color: var(--secondary-header-color);
 }
 
 .apps h1.atlas {

@@ -5,5 +5,5 @@ body>header {
 }
 
 .body-container>.page-section:first-child {
-	padding-top: @dimen/section-padding;
+	padding-top: var(--section-padding);
 }

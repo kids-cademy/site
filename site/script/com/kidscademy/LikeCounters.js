@@ -163,7 +163,6 @@ com.kidscademy.LikeCounters = class extends js.dom.Element {
 	_onDislike(ev) {
 		this.findByCss(".checkbox").call("uncheck");
 		this._reasonsViewGroup.show();
-		// WinMain.scrollTo(this._reasonsViewGroup, parseInt("@dimen/page-header-height"));
 		var messageView = this.getByCss(".feedback .message");
 		if (messageView !== null) {
 			WinMain.scrollTo(this._reasonsViewGroup, messageView.style.getPageTop());

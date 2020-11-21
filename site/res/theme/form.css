@@ -82,22 +82,22 @@ form textarea.mini {
 }
 
 ::-webkit-input-placeholder {
-  color: @color/placeholder;
+  color: var(--control-placeholder-color);
 }
 
 ::-moz-placeholder {
-  color: @color/placeholder;
+  color: var(--control-placeholder-color);
 }
 
 :-ms-input-placeholder {
-  color: @color/placeholder;
+  color: var(--control-placeholder-color);
 }
 
 ::-ms-input-placeholder {
-  color: @color/placeholder;
+  color: var(--control-placeholder-color);
 }
 
 /* put standard placeholder syntax after proprietary */
 :placeholder-shown { 
-  color: @color/placeholder;
+  color: var(--control-placeholder-color);
 }

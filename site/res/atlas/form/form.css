@@ -9,7 +9,7 @@
 }
 
 .object-form.side-bar .header {
-	xbackground-color: @color/teal-50;
+	xbackground-color: var(--teal-50);
 	padding: 20px 10px;
 	margin-bottom: 10px;
 }
@@ -19,13 +19,13 @@
 	width: 64px;
 	margin-right: 10px;
 	padding: 1px;
-	border: solid 1px @color/border-muted;
+	border: solid 1px var(--border-muted-color);
 	xborder-radius: 32px;
 }
 
 .object-form.side-bar .side-name {
 	margin: 0;
-	border-bottom: solid 1px @color/border-muted;
+	border-bottom: solid 1px var(--border-muted-color);
 	font-size: 2.0rem;
 	color: black;
 	text-transform: uppercase;
@@ -35,7 +35,7 @@
 .object-form.side-bar .last-updated {
 	margin: 8px 0;
 	font-size: 1.3rem;
-	xcolor: @color/black;
+	xcolor: black;
 }
 
 .object-form.side-bar .published-object {
@@ -51,7 +51,7 @@
 
 .object-form.side-bar .developers {
 	padding: 10px;
-	border-bottom: solid 1px @color/border-muted;
+	border-bottom: solid 1px var(--border-muted-color);
 }
 
 .object-form.side-bar .developers img {

@@ -2,10 +2,10 @@
 	position: fixed;
 	display: block;
 	width: 100%;
-	z-index: @dimen/max-z-index;
-	height: @dimen/sys-message-height;
-	background-color: @color/sys-message-bg;
-	border-bottom: solid 1px @color/sys-message-border;
+	z-index: var(--max-z-index);
+	height: var(--sys-message-height);
+	background-color: var(--sys-message-bg-color);
+	border-bottom: solid 1px var(--sys-message-border-color);
 	overflow: hidden;
 	max-height: 0;
 	opacity: 0;
@@ -13,23 +13,23 @@
 }
 
 .sys-message.success {
-	background-color: @color/success-bg;
+	background-color: var(--success-bg-color);
 }
 
 .sys-message.info {
-	background-color: @color/info-bg;
+	background-color: var(--info-bg-color);
 }
 
 .sys-message.warning {
-	background-color: @color/warning-bg;
+	background-color: var(--warning-bg-color);
 }
 
 .sys-message.danger {
-	background-color: @color/danger-bg;
+	background-color: var(--danger-bg-color);
 }
 
 .sys-message.visible {
-	max-height: @dimen/sys-message-height;
+	max-height: var(--sys-message-height);
 	opacity: 0.9;
 }
 
@@ -41,9 +41,9 @@
 .sys-message .close {
 	display: inline-block;
 	box-sizing: border-box;
-	width: @dimen/sys-message-height;
-	height: @dimen/sys-message-height;
-	line-height: @dimen/sys-message-height;
+	width: var(--sys-message-height);
+	height: var(--sys-message-height);
+	line-height: var(--sys-message-height);
 	text-align: center;
 	font-size: 4.6em;
 	margin: 0 20px 0 0;
@@ -53,16 +53,16 @@
 }
 
 .sys-message.active {
-	max-height: @dimen/sys-message-height;
+	max-height: var(--sys-message-height);
 	opacity: 0.9;
 }
 
 .sys-message .message {
 	display: inline-block;
-	height: @dimen/sys-message-height;
-	line-height: @dimen/sys-message-height;
+	height: var(--sys-message-height);
+	line-height: var(--sys-message-height);
 	font-size: 2.2em;
-	color: @color/sys-message-text;
+	color: var(--sys-message-text-color);
 	vertical-align: top;
 	color: #000;
 	width: 90%;

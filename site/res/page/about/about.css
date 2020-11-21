@@ -55,8 +55,8 @@ a[href='about.htm'] {
 }
 
 .about .learn-by-playing h2.secundary {
-	margin-top: @dimen/section-padding;
-	color: @color/secondary-header;
+	margin-top: var(--section-padding);
+	color: var(--secondary-header-color);
 }
 
 #three-no {

@@ -79,8 +79,8 @@ ul.side-menu {
 }
 
 ul.side-menu li {
-	height: @dimen/side-menu-item-height;
-	line-height: @dimen/side-menu-item-height;
+	height: var(--side-menu-item-height);
+	line-height: var(--side-menu-item-height);
 	padding-left: 10px;
 	margin-left: 1px;
 	margin-top: 1px;
@@ -91,8 +91,8 @@ ul.side-menu li {
 
 ul.side-menu li img {
 	display: inline-block;
-	width: @dimen/side-menu-icon-size;
-	height: @dimen/side-menu-icon-size;
+	width: var(--side-menu-icon-size);
+	height: var(--side-menu-icon-size);
 	vertical-align: middle;
 	margin-right: 20px;
 }
@@ -101,15 +101,15 @@ ul.side-menu li .state {
 	display: inline-block;
 	vertical-align: middle;
 	float: right;
-	width: @dimen/side-menu-bullet-size;
-	height: @dimen/side-menu-bullet-size;
+	width: var(--side-menu-bullet-size);
+	height: var(--side-menu-bullet-size);
 	margin-top: 12px;
 	margin-right: 10px;
 	border-radius: 10px;
 }
 
 ul.side-menu li.invalid .state {
-	background-color: @color/danger;
+	background-color: var(--danger-color);
 }
 
 ul.side-menu li:hover {
@@ -117,46 +117,46 @@ ul.side-menu li:hover {
 }
 
 ul.side-menu li:nth-child(1) {
-	border-right-color: @color/red-300;
-	background-color: @color/red-50;
+	border-right-color: var(--red-300);
+	background-color: var(--red-50);
 }
 
 ul.side-menu li:nth-child(2) {
-	border-right-color: @color/pink-300;
-	background-color: @color/pink-50;
+	border-right-color: var(--pink-300);
+	background-color: var(--pink-50);
 }
 
 ul.side-menu li:nth-child(3) {
-	border-right-color: @color/purple-300;
-	background-color: @color/purple-50;
+	border-right-color: var(--purple-300);
+	background-color: var(--purple-50);
 }
 
 ul.side-menu li:nth-child(4) {
-	border-right-color: @color/deep-purple-300;
-	background-color: @color/deep-purple-50;
+	border-right-color: var(--deep-purple-300);
+	background-color: var(--deep-purple-50);
 }
 
 ul.side-menu li:nth-child(5) {
-	border-right-color: @color/indigo-300;
-	background-color: @color/indigo-50;
+	border-right-color: var(--indigo-300);
+	background-color: var(--indigo-50);
 }
 
 ul.side-menu li:nth-child(6) {
-	border-right-color: @color/blue-300;
-	background-color: @color/blue-50;
+	border-right-color: var(--blue-300);
+	background-color: var(--blue-50);
 }
 
 ul.side-menu li:nth-child(7) {
-	border-right-color: @color/light-blue-300;
-	background-color: @color/light-blue-50;
+	border-right-color: var(--light-blue-300);
+	background-color: var(--light-blue-50);
 }
 
 ul.side-menu li:nth-child(8) {
-	border-right-color: @color/cyan-300;
-	background-color: @color/cyan-50;
+	border-right-color: var(--cyan-300);
+	background-color: var(--cyan-50);
 }
 
 ul.side-menu li:nth-child(9) {
-	border-right-color: @color/teal-300;
-	background-color: @color/teal-50;
+	border-right-color: var(--teal-300);
+	background-color: var(--teal-50);
 }

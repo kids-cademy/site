@@ -113,19 +113,19 @@
 }
 
 .section-icon img {
-	width: @dimen/section-icon-size;
-	height: @dimen/section-icon-size;
-	background-color: @color/teal-100;
-	border-radius: @eval(mul @dimen/section-icon-size 0.5);
+	width: var(--section-icon-size);
+	height: var(--section-icon-size);
+	background-color: var(--teal-100);
+	border-radius: 50%;
 	box-shadow: 0 0 15px #408080;
 	box-sizing: border-box;
 	opacity: 0.8;
 }
 
 .section-icon.big img {
-	width: @dimen/section-icon-big-size;
-	height: @dimen/section-icon-big-size;
-	border-radius: @eval(mul @dimen/section-icon-big-size 0.5);
+	width: var(--section-icon-big-size);
+	height: var(--section-icon-big-size);
+	border-radius: 50%;
 }
 
 .section-icon.padding {

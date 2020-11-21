@@ -15,7 +15,7 @@ a[href='community.htm'] {
 .login-section {
 	box-sizing: border-box;
 	width: 100%;
-	padding:  @dimen/section-padding 0 @dimen/section-padding 0;
+	padding: var(--section-padding) 0 var(--section-padding) 0;
 }
 
 .community .collapsible {

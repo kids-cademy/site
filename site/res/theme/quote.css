@@ -10,11 +10,11 @@ blockquote {
 	font-size: 3.2em;
 	line-height: 1.45;
 	text-shadow: 4px 4px 3px rgba(0, 0, 0, 0.1);
-	color: @color/quote-text;
+	color: var(--quote-text-color);
 }
 
 q {
-	color: @color/quote-text;
+	color: var(--quote-text-color);
 }
 
 blockquote:before {
@@ -25,11 +25,11 @@ blockquote:before {
 	position: absolute;
 	left: -10px;
 	top: -30px;
-	color: @color/quote-before;
+	color: var(--quote-before-color);
 }
 
 blockquote cite {
-	color: @color/quote-cite;
+	color: var(--quote-cite--color);
 	font-size: 20px;
 	display: block;
 	margin-top: 5px;

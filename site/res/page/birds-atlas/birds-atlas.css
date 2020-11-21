@@ -7,14 +7,14 @@ a[href='apps.htm'] {
 }
 
 .apps .caption {
-	padding-top: @eval(add @ dimen/ page-header-height @ dimen/ section-padding);
+	padding-top: @eval(add @ dimen/page-header-height @ dimen/section-padding);
 	border-bottom: solid 1px #D0D0D0;
 	background-color: #c9f1c6;
 	background: radial-gradient(circle at 30% 50%, #FFFFFF, #2d9a27);
 }
 
 .apps .caption h1 {
-	color: @color/secondary-header;
+	color: var(--secondary-header-color);
 }
 
 .apps h1.atlas {

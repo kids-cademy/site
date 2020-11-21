@@ -10,8 +10,8 @@ dt,dd {
 /** display definition below term */
 
 dl:not(.inline) dt {
-	margin-top: @dimen/p-space;
-	margin-bottom: @dimen/dt-head-space;	
+	margin-top: var(--p-space);
+	margin-bottom: var(--dt-head-space);	
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;	

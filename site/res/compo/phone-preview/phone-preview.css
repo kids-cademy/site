@@ -1,9 +1,9 @@
 .compo.phone-preview {
 	display: block;
-	width: @dimen/phone-width;
-	height: @dimen/phone-height;
+	width: var(--phone-width);
+	height: var(--phone-height);
 	box-sizing: border-box;
-	padding: @dimen/phone-padding-top @dimen/phone-padding-right @dimen/phone-padding-bottom @dimen/phone-padding-left;
+	padding: var(--phone-padding-top) var(--phone-padding-right) var(--phone-padding-bottom) var(--phone-padding-left);
 	background-image: url(@image/phone-wire-frame);
 }
 
@@ -11,7 +11,7 @@
 	width: 100%;
 	height: 100%;
 	border: solid 1px;
-	border-color: @color/border @color/border-muted @color/border-muted @color/border;
+	border-color: var(--border-color) var(--border-muted-color) var(--border-muted-color) var(--border-color);
 	overflow: hidden;
 }
 

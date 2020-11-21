@@ -9,9 +9,9 @@
 	position:absolute;
 	display: block;
 	box-sizing: border-box;
-	width: @dimen/section-icon-big-size;
-	height: @dimen/section-icon-big-size;
-	border-radius: @eval(mul @dimen/section-icon-big-size 0.5);
+	width: var(--section-icon-big-size);
+	height: var(--section-icon-big-size);
+	border-radius: 50%;
 	background-color: red;
 	padding-top: 20px;
 	text-align: center;
@@ -33,8 +33,8 @@
 
 .compo.no-ads>.ripples {
     position: absolute;  
-    width: @dimen/section-icon-size;
-    height: @dimen/section-icon-size;
+    width: var(--section-icon-size);
+    height: var(--section-icon-size);
     animation: ripples 4s linear infinite;
     border-radius: 999px;
     box-shadow: inset 0px 0px 15px 10px red;

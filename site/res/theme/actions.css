@@ -6,10 +6,10 @@
 
 .actions img {
 	display: inline-block;
-	width: @dimen/action-icon-size;
-	height: @dimen/action-icon-size;
-	margin-right: @dimen/action-margin;
-	border: solid 1px @color/border;
+	width: var(--action-icon-size);
+	height: var(--action-icon-size);
+	margin-right: var(--action-margin);
+	border: solid 1px var(--border-color);
 	background-color: white;
 	opacity: 0.2;
 	cursor: pointer;
@@ -29,9 +29,9 @@
 
 .actions .separator {
 	display: inline-block;
-	width: @dimen/action-icon-size;
-	height: @dimen/action-icon-size;
-	margin-right: @dimen/action-margin;
+	width: var(--action-icon-size);
+	height: var(--action-icon-size);
+	margin-right: var(--action-margin);
 }
 
 .actions input {
