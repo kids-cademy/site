@@ -9,8 +9,6 @@
 	width: var(--action-icon-size);
 	height: var(--action-icon-size);
 	margin-right: var(--action-margin);
-	border: solid 1px var(--border-color);
-	background-color: white;
 	opacity: 0.2;
 	cursor: pointer;
 }

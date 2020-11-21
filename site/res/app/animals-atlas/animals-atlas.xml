@@ -3,4 +3,15 @@
 	<version>1</version>
 	<title>Animals Atlas</title>
 	<description>Descriptor for animals atlas.</description>
+	<scripts>
+		<script>lib/js-lib/js-lib.js</script>
+		<script>lib/captcha/captcha.js</script>
+		<script>gen/com/kidscademy/ServiceController.js</script>
+		<script>script/com/kidscademy/TextArea.js</script>
+		<script>script/com/kidscademy/Checkbox.js</script>
+		<script>script/com/kidscademy/CheckboxCaptcha.js</script>
+		<script>script/com/kidscademy/AppFeedback.js</script>
+		<script>script/com/kidscademy/page/Page.js</script>
+		<script>script/com/kidscademy/page/AppDescriptionPage.js</script>
+	</scripts>
 </page>

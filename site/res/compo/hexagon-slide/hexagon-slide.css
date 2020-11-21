@@ -1,6 +1,6 @@
 .compo.hexagon-slide {
 	width: var(--hexagon-view-width);
-	height: var(--hexagon-view-height;
+	height: var(--hexagon-view-height);
 	box-sizing: border-box;
 	overflow: hidden;
 	-webkit-transform:rotate(120deg);
