@@ -18,6 +18,7 @@ a[href='about.htm'] {
 
 .about .summary>div {
 	box-sizing: border-box;
+	width: 33.3%;
 	padding: 0 40px;
 }
 

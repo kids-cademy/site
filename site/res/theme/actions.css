@@ -15,26 +15,6 @@
 	cursor: pointer;
 }
 
-.actions img.hidden {
-	display: none;
-}
-
-.actions img.last {
-	float: right;
-}
-
 .actions img:hover {
 	opacity: 0.6;
-}
-
-.actions .separator {
-	display: inline-block;
-	width: var(--action-icon-size);
-	height: var(--action-icon-size);
-	margin-right: var(--action-margin);
-}
-
-.actions input {
-	vertical-align: bottom;
-	margin-top: 0;
 }

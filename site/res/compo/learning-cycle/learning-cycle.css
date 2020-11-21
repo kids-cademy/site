@@ -124,6 +124,9 @@
 	width: 500px;
 	margin: 0;
 	font-size: 12px;
+	color: #408080;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
 }
 
 @keyframes rotate-graph { 
