@@ -1,10 +1,8 @@
-.about {
-	
-}
-
 a[href='about.htm'] {
 	border-color: green;
 }
+
+.about {}
 
 .about .caption {
 	background-color: #cdf3f6;
@@ -17,8 +15,10 @@ a[href='about.htm'] {
 }
 
 .about .summary>div {
+	display: inline-block;
 	box-sizing: border-box;
-	width: 33.3%;
+	vertical-align: top;
+	width: 33%;
 	padding: 0 40px;
 }
 
@@ -40,7 +40,7 @@ a[href='about.htm'] {
 }
 
 .about .summary div p:first-child, .about .summary ul {
-	margin-top: 10px;	
+	margin-top: 10px;
 }
 
 .about .summary li {
@@ -62,7 +62,7 @@ a[href='about.htm'] {
 
 #three-no {
 	display: block;
-	margin-bottom: 90px;	
+	margin-bottom: 90px;
 }
 
 .about section.three-no {
@@ -70,8 +70,7 @@ a[href='about.htm'] {
 	background: radial-gradient(circle at 30% 50%, #FFFFFF, #a9b8f7);
 }
 
-.about .compo.three-no {
-}
+.about .compo.three-no {}
 
 .about section.three-no h2 {
 	margin: 0 0 20px 0;

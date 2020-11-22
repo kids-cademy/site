@@ -7,7 +7,7 @@ com.kidscademy.AdminService = {
 	/**
 	 * Login.
 	 *
-	 * @param com.kidscademy.atlas.Login login,
+	 * @param com.kidscademy.model.Login login,
 	 * @param Function callback function to invoke on RMI completion,
 	 * @param Object scope optional callback run-time scope, default to global scope.
 	 * @return boolean

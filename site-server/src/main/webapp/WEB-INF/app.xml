@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <app-descriptor>
 	<managed-classes>
-		<constants class="com.kidscademy.CT" />
 		<service-controller interface="com.kidscademy.ServiceController" class="com.kidscademy.impl.ServiceControllerImpl" />
+		<admin-controller class="com.kidscademy.AdminService" />
 		<build-manager interface="com.kidscademy.BuildManager" class="com.kidscademy.impl.BuildManagerImpl" />
-
 		<entity-manager interface="javax.persistence.EntityManager" class="js.transaction.eclipselink.EntityManagerImpl" />
 		<dao interface="com.kidscademy.dao.Dao" class="com.kidscademy.dao.DaoImpl" type="PROXY" />
 	</managed-classes>
 	<observer period="60000" />
-	<views>
-		<repository path="${catalina.base}/webapps/kids-cademy/" files-pattern="*.htm" />
-	</views>
 	<captcha>
 		<property name="captcha.repository.path" value="${captcha.repository.path}" />
 		<property name="captcha.set.size" value="6" />
