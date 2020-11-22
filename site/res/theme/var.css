@@ -1,6 +1,6 @@
 /** dimmensions */
 
-body {
+:root {
     --container-width: 1200px;
     --action-icon-size: 48px;
     --action-margin: 20px;
@@ -29,7 +29,7 @@ body {
 
 /** colors */
 
-body {
+:root {
 	--danger-color: #d94d48;
 	--success-bg-color: #5CB85C;
 	--info-bg-color: #5BC0DE;
@@ -71,7 +71,7 @@ body {
 
 /** material colors */
 
-body {
+:root {
     /** red */
     --red-50: #FFEBEE;
     --red-100: #FFCDD2;

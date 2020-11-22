@@ -18,18 +18,8 @@
 	padding: 20px 0;
 }
 
-.compo.captcha .riddle h3 {
+.compo.captcha .riddle p {
 	margin: 0 0 20px 0;
-}
-
-.compo.captcha .riddle .challenge {
-	color: red;
-}
-
-.compo.captcha li {
-	display: inline-block;
-	float: left;
-	margin-right: 10px;
 }
 
 .compo.captcha .images img {
@@ -75,11 +65,6 @@
 
 .compo.captcha .images img:nth-child(8n+7) {
 	animation-duration: 2.0s;
-}
-
-.compo.captcha .images img.selected {
-	xpadding: 1px;
-	xbox-shadow: 0 0 15px #408080;
 }
 
 .compo.captcha .actions {
