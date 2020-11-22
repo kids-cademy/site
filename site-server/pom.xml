@@ -2,10 +2,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.kidscademy</groupId>
-		<artifactId>test</artifactId>
+		<artifactId>site</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>test-war</artifactId>
+	<artifactId>site-server</artifactId>
 	<packaging>war</packaging>
 
 	<name>Back-end Services</name>
@@ -27,7 +27,7 @@
 					<annotationProcessors>
 						<annotationProcessor>js.tools.apt.GenerateRmiScript</annotationProcessor>
 					</annotationProcessors>
-					<generatedSourcesDirectory>../site/gen</generatedSourcesDirectory>
+					<generatedSourcesDirectory>../site-client/gen</generatedSourcesDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -38,7 +38,7 @@
 					<webResources>
 						<resource>
 							<!-- this is relative to the pom.xml directory -->
-							<directory>../site/target/site</directory>
+							<directory>../site-client/target/site</directory>
 							<includes>
 								<include>**/*</include>
 							</includes>

@@ -2,10 +2,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.kidscademy</groupId>
-		<artifactId>test</artifactId>
+		<artifactId>site</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>test-site</artifactId>
+	<artifactId>site-client</artifactId>
 	<packaging>wood</packaging>
 
 	<name>User Interface</name>
