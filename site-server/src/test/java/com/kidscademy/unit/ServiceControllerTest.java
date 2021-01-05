@@ -48,6 +48,7 @@ public class ServiceControllerTest
     controller.recordAuditEvent("test", getDevice(), "APP_LOAD", "12345");
   }
 
+  @SuppressWarnings("null")
   @Test
   public void dumpStackTrace()
   {
