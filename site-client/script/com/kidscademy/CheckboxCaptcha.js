@@ -8,24 +8,19 @@ $package("com.kidscademy");
 com.kidscademy.CheckboxCaptcha = class extends js.widget.Captcha {
 	/**
 	 * Construct an instance of CAPTCHA class.
-	 * 
-	 * @param js.dom.Document ownerDoc element owner document,
-	 * @param Node node native {@link Node} instance.
-	 * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
 	 */
-	constructor(ownerDoc, node) {
-		super(ownerDoc, node);
+	constructor() {
+		super();
 
-		this._checkbox = this.getByClass(com.kidscademy.Checkbox);
-		this._checkbox.on("click", this._onCheckboxClick, this);
+		this._checkbox = this.getElementsByTagName("ka-checkbox")[0];
+		this._checkbox.addEventListener("change", this._onCheckboxChange.bind(this));
 
-		this._bodyView = this.getByCssClass("body");
-
-		this.getByCssClass("help").on("click", this._onHelp, this);
+		this._bodyView = this.getElementsByClassName("body")[0];
+		this.getElementsByClassName("help")[0].addEventListener("click", this._onHelp.bind(this));
 	}
 
 	isValid() {
-		if (!this._checkbox.checked()) {
+		if (!this._checkbox.checked) {
 			js.ua.System.alert("Please check you are a humman.");
 			return false;
 		}
@@ -34,22 +29,22 @@ com.kidscademy.CheckboxCaptcha = class extends js.widget.Captcha {
 
 	reset() {
 		super.reset();
-		this._checkbox.reset();
-		this._bodyView.hide();
+		this._checkbox.checked = false;
+		this._bodyView.classList.add("hidden");
 	}
 
-	_onCheckboxClick(ev) {
-		ev.halt();
+	_onCheckboxChange(ev) {
+		//ev.halt();
 		this._loadChallenge();
-		this._checkbox.uncheck();
-		this._bodyView.show();
+		this._checkbox.checked = false;
+		this._bodyView.classList.remove("hidden");
 	}
 
 	_onResponseVerified(challenge) {
 		super._onResponseVerified(challenge);
 		if (this._valid) {
-			this._checkbox.check();
-			this._bodyView.hide();
+			this._checkbox.checked = true;
+			this._bodyView.classList.add("hidden");
 		}
 	}
 
@@ -67,4 +62,4 @@ com.kidscademy.CheckboxCaptcha = class extends js.widget.Captcha {
 	}
 };
 
-$preload(com.kidscademy.CheckboxCaptcha);
+customElements.define("ka-checkbox-captcha", com.kidscademy.CheckboxCaptcha);

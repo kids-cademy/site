@@ -29,178 +29,171 @@ $package("js.widget");
  * and send the form bypassing form validation.
  * 
  * @author Iulian Rotaru
- * @constructor Construct CAPTCHA instance.
- * 
- * @param js.dom.Document ownerDoc owner document,
- * @param Node node wrapped native node.
  */
-js.widget.Captcha = function(ownerDoc, node) {
-	$assert(this instanceof js.widget.Captcha, "js.widget.Captcha#Captcha", "Invoked as function.");
-	this.$super(ownerDoc, node);
+js.widget.Captcha = class extends HTMLElement {
+	/**
+	 * CAPTCHA instance index seed.
+	 * @type {Number}
+	 */
+	static _INDEX_SEED = 0;
 
 	/**
-	 * CAPTCHA instance index.
-	 * 
-	 * @type Number
+	 * Relative URL for CAPTCHA challenge load.
+	 * @type {String}
 	 */
-	this._index = js.widget.Captcha.INDEX_SEED++;
+	//static _SERVER_LOAD_CHALLENGE = "captcha/challenge";
+	static _SERVER_LOAD_CHALLENGE = "js/tiny/container/http/captcha/Captcha/getChallenge.rmi";
 
 	/**
-	 * Callback for asynchronous {@link #isCorrect}.
-	 * 
-	 * @type Function
+	 * Relative URL for CAPTCHA response verification.
+	 * @type {String}
 	 */
-	this._callback = null;
-
-	/**
-	 * Callback run-time execution scope. Optional, default to global scope.
-	 * 
-	 * @type Object
-	 */
-	this._scope = null;
-
-	/**
-	 * Challenge value container. It is an element with CSS class <em>value</em> used by this class to display
-	 * challenge text value.
-	 * 
-	 * @type js.dom.Element
-	 */
-	this._value = this.getByCssClass("value");
-
-	/**
-	 * Challenge images container. It is an element with CSS class <em>images</em> used by this class to display
-	 * challenge images.
-	 * 
-	 * @type js.dom.Element
-	 */
-	this._images = this.getByCssClass("images");
-	this._images.removeChildren();
-
-	/**
-	 * Validity state of this CAPTCHA instance, updated every time user select a challenge image. This value is then
-	 * returned by {@link #isValid()}.
-	 * 
-	 * @type Boolean
-	 */
-	this._valid = false;
-
-	this.getByCssClass("load-challenge").on("click", this._loadChallenge, this);
-	this._loadChallenge();
-};
-
-/**
- * CAPTCHA instance index seed.
- * 
- * @type Number
- */
-js.widget.Captcha.INDEX_SEED = 0;
-
-js.widget.Captcha.prototype = {
-	/**
-	 * Server side CAPTCHA class.
-	 * 
-	 * @type String
-	 */
-	_SERVER_CAPTCHA_CLASS : "js.tiny.container.http.captcha.Captcha",
+	//static _SERVER_LOAD_RESPONSE = "captcha/verify";
+	static _SERVER_VERIFY_RESPONSE = "js/tiny/container/http/captcha/Captcha/verifyResponse.rmi";
 
 	/**
 	 * Mark CSS class to identify invalid state.
-	 * 
-	 * @type String
+	 * @type {String}
 	 */
-	_CSS_INVALID : "invalid",
+	static _CSS_INVALID = "invalid";
 
 	/**
 	 * Mark CSS class to identify selected challenge element.
-	 * 
-	 * @type String
+	 * @type {String}
 	 */
-	_CSS_SELECTED : "selected",
+	static _CSS_SELECTED = "selected";
+
+	constructor() {
+		super();
+
+		/**
+		 * CAPTCHA instance index.
+		 * @type {Number}
+		 */
+		this._index = js.widget.Captcha._INDEX_SEED++;
+
+		/**
+		 * Callback for asynchronous {@link #isCorrect}.
+		 * @type {Function}
+		 */
+		this._callback = null;
+
+		/**
+		 * Callback run-time execution scope. Optional, default to global scope.
+		 * @type {Object}
+		 */
+		this._scope = null;
+
+		/**
+		 * Challenge value container. It is an element with CSS class <em>value</em> used by this class to display
+		 * challenge text value.
+		 * @type {HTMLElement}
+		 */
+		this._value = this.getElementsByClassName("value")[0];
+
+		/**
+		 * Challenge images container. It is an element with CSS class <em>images</em> used by this class to display
+		 * challenge images.
+		 * @type {HTMLElement}
+		 */
+		this._images = this.getElementsByClassName("images")[0];
+		while (this._images.firstChild) { this._images.removeChild(this._images.lastChild); }
+
+		/**
+		 * Validity state of this CAPTCHA instance, updated every time user select a challenge image. This value is then
+		 * returned by {@link #isValid()}.
+		 * @type {Boolean}
+		 */
+		this._valid = false;
+
+		this.getElementsByClassName("load-challenge")[0].addEventListener("click", this._loadChallenge.bind(this));
+		//this._loadChallenge();
+	}
 
 	/**
 	 * Override control implementation to return only <code>data-name</code> name.
-	 * 
-	 * @return String CAPTCHA control name.
+	 * @return {String} CAPTCHA control name.
 	 */
-	getName : function() {
-		return this.getAttr("data-name");
-	},
+	getName() {
+		return this.getAttribute("data-name");
+	}
 
 	/**
 	 * CAPTCHA setter does nothing.
-	 * 
-	 * @return js.widget.Captcha this object;
+	 * @return {js.widget.Captcha} this object;
 	 */
-	setValue : function() {
+	setValue() {
 		return this;
-	},
+	}
 
 	/**
 	 * CAPTCHA has no value to return.
-	 * 
-	 * @return Object always return null.
+	 * @return {Object} always return null.
 	 */
-	getValue : function() {
+	getValue() {
 		return null;
-	},
+	}
 
 	/**
 	 * Reset CAPTCHA control.
-	 * 
-	 * @return js.widget.Captcha this object.
+	 * @return {js.widget.Captcha} this object.
 	 */
-	reset : function() {
-		this.removeCssClass(this._CSS_INVALID);
-		this.findByTag("img").removeCssClass(this._CSS_SELECTED);
+	reset() {
+		this.classList.remove(js.widget.Captcha._CSS_INVALID);
+		this.getElementsByTagName("img").forEach(img => img.classList.remove(js.widget.Captcha._CSS_SELECTED));
 		this._valid = false;
 		return this;
-	},
+	}
 
 	/**
 	 * Return this CAPTCHA validity state and update CSS mark class. Validity state, see {@link #_valid} is updated
 	 * every time user select a challenge image. This method simply return cached value.
-	 * 
-	 * @return Boolean true if selected image is the correct one.
+	 * @return {Boolean} true if selected image is the correct one.
 	 * @see #_valid
 	 */
-	isValid : function() {
-		this.addCssClass(this._CSS_INVALID, !this._valid);
+	isValid() {
+		this.classList.toggle(js.widget.Captcha._CSS_INVALID, !this._valid);
 		return this._valid;
-	},
+	}
 
 	/**
 	 * On image click extract challenge token attached to image and test its correctness on server side logic. Challenge
 	 * response is verified by {@link #_onResponseVerified(Object)}.
 	 */
-	_onCaptchaImageClick : function(ev) {
-		this.removeCssClass(this._CSS_INVALID);
-		this.findByCss("img").removeCssClass(this._CSS_SELECTED);
-		var img = ev.target;
-		img.addCssClass(this._CSS_SELECTED);
+	_onCaptchaImageClick(ev) {
+		this.classList.remove(js.widget.Captcha._CSS_INVALID);
+
+		const images = this._images.getElementsByTagName("img");
+		for (let i = 0; i < images.length; ++i) {
+			images.item(i).classList.remove(js.widget.Captcha._CSS_SELECTED);
+		}
+
+		const img = ev.target;
+		img.classList.add(js.widget.Captcha._CSS_SELECTED);
 
 		// SRC is something like ...resource.xsp?token=983aa14ed173493b9f08b41dd4592e6e
 		// response is token that identify the image, i.e. last 32 chars
-		var src = img.getSrc();
-		var response = src.substr(src.length - 32);
+		const src = img.src;
+		const response = src.substr(src.length - 32);
 
-		var rmi = new js.net.RMI();
-		rmi.setMethod(this._SERVER_CAPTCHA_CLASS, "verifyResponse");
-		rmi.setParameters(this._index, response);
-		rmi.exec(this._onResponseVerified, this);
-	},
+		fetch(js.widget.Captcha._SERVER_VERIFY_RESPONSE, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify([this._index, response])
+		}).then(response => response.json()).then(challenge => this._onResponseVerified(challenge));
+	}
 
 	/**
 	 * Callback invoked by server side challenge response verify. This method gets challenge validity result from
 	 * server: if challenge response was correct server returns null. If challenge response was not correct server
 	 * returns another challenge to give user another try.
-	 * 
-	 * @param Object challenge new challenge if response was rejected and null if accepted.
+	 * @param {Object} challenge new challenge if response was rejected and null if accepted.
 	 */
-	_onResponseVerified : function(challenge) {
+	_onResponseVerified(challenge) {
 		// new challenge is sent back by server signal that response was wrong and need to reload challenge
 		// if challenge is null response was correct
 		// in both cases remove invalid CSS mark class
-		this.removeCssClass(this._CSS_INVALID);
+		this.classList.remove(js.widget.Captcha._CSS_INVALID);
 
 		if (challenge) {
 			this._valid = false;
@@ -209,44 +202,39 @@ js.widget.Captcha.prototype = {
 		else {
 			this._valid = true;
 		}
-	},
+	}
 
 	/**
 	 * Handler for user request to load another challenge. This method is executed asynchronously and the actual
 	 * challenge is loaded into user interface by {@link #_onChallengeLoaded}.
 	 */
-	_loadChallenge : function(ev) {
+	_loadChallenge(ev) {
 		if (typeof ev !== "undefined") {
-			ev.halt();
+			ev.preventDefault();
+			ev.stopPropagation();
 		}
-		var rmi = new js.net.RMI();
-		rmi.setMethod(this._SERVER_CAPTCHA_CLASS, "getChallenge");
-		rmi.setParameters(this._index);
-		rmi.exec(this._onChallengeLoaded, this);
-	},
+		fetch(js.widget.Captcha._SERVER_LOAD_CHALLENGE, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(this._index)
+		}).then(response => response.json()).then(challenge => this._onChallengeLoaded(challenge));
+	}
 
 	/**
 	 * Load another challenge on user interface. Challenge is provided by server side logic on user request to load new
 	 * challenge or when select an incorrect response.
 	 */
-	_onChallengeLoaded : function(challenge) {
-		this._value.setValue(challenge.value);
-		this._images.removeChildren();
-		for (var i = 0, images = challenge.images, img; i < images.length; i++) {
-			img = this._ownerDoc.createElement("img").setSrc(images[i]);
-			img.on("click", this._onCaptchaImageClick, this);
-			this._images.addChild(img);
-		}
-	},
+	_onChallengeLoaded(challenge) {
+		this._value.textContent = challenge.value;
+		while (this._images.firstChild) { this._images.removeChild(this._images.lastChild); }
 
-	/**
-	 * Returns a string representation of the object.
-	 * 
-	 * @return String object string representation.
-	 */
-	toString : function() {
-		return "js.widget.Captcha";
+		for (let i = 0, images = challenge.images; i < images.length; i++) {
+			const img = document.createElement("img");
+			img.src = images[i];
+			img.addEventListener("click", this._onCaptchaImageClick.bind(this));
+			this._images.appendChild(img);
+		}
 	}
 };
-$extends(js.widget.Captcha, js.dom.Control);
-$preload(js.widget.Captcha);
+
+customElements.define("js-captcha", js.widget.Captcha);

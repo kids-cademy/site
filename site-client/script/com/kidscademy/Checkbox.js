@@ -5,81 +5,38 @@ $package("com.kidscademy");
  * 
  * @author Iulian Rotaru
  */
-com.kidscademy.Checkbox = class extends js.dom.Element {
-    /**
+com.kidscademy.Checkbox = class extends HTMLElement {
+	/**
 	 * Construct an instance of Checkbox class.
-	 * 
-	 * @param js.dom.Document ownerDoc element owner document,
-	 * @param Node node native {@link Node} instance.
-	 * @assert assertions imposed by {@link js.dom.Element#Element(js.dom.Document, Node)}.
 	 */
-	constructor(ownerDoc, node) {
-		super(ownerDoc, node);
-		this._checkbox = this.getByCssClass("control").on("click", this._onClick, this);
+	constructor() {
+		super();
+		this._control = this.getElementsByClassName("control")[0];
+		this._control.addEventListener("click", this._onControlClick.bind(this));
 	}
 
-	setObject(state) {
-		this._checkbox.addCssClass("checked", state === "PUBLISHED");
-	}
-	
-	/**
-	 * Check this checkbox. After this method execution {@link #checked} returns true.
-	 * 
-	 * @return com.kidscademy.Checkbox this object.
-	 */
-	check() {
-		this._checkbox.addCssClass("checked");
-		return this;
+	set checked(checked) {
+		this._control.classList.toggle("checked", checked);
 	}
 
-	/**
-	 * Uncheck this checkbox. After this method execution {@link #checked} returns false.
-	 * 
-	 * @return com.kidscademy.Checkbox this object.
-	 */
-	uncheck() {
-		this._checkbox.removeCssClass("checked");
-		return this;
-	}
-
-	reset() {
-		return this.uncheck();
-	}
-
-	/**
-	 * Test if this checkbox is selected. Returns true if this checkbox is selected or false otherwise.
-	 * 
-	 * @return Boolean this checkbox state.
-	 */
-	checked() {
-		return this._checkbox.hasCssClass("checked");
-	}
-
-	getName() {
-		return this.getAttr("data-name");
-	}
-
-	getValue() {
-		return this.getAttr("data-value");
-	}
-
-
-	/**
-	 * Override control validation. Simply returns true since a checkbox is always valid.
-	 * 
-	 * @return Boolean always returns true.
-	 */
-	isValid() {
-		return true;
+	get checked() {
+		return this._control.classList.contains("checked");
 	}
 
 	/**
 	 * Click event handler takes care to toggle checked state.
 	 * 
-	 * @param js.event.Event ev mouse click event.
+	 * @param {Event} ev mouse click event.
 	 */
-	_onClick(ev) {
-		this._checkbox.toggleCssClass("checked");
+	_onControlClick(ev) {
+		this._control.classList.toggle("checked");
+		this._fireChange();
+	}
+
+	_fireChange() {
+		const event = document.createEvent("HTMLEvents");
+		event.initEvent("change", false, true);
+		this.dispatchEvent(event);
 	}
 
 	/**
@@ -92,4 +49,4 @@ com.kidscademy.Checkbox = class extends js.dom.Element {
 	}
 };
 
-$preload(com.kidscademy.Checkbox);
+customElements.define("ka-checkbox", com.kidscademy.Checkbox);

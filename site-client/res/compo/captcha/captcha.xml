@@ -5,8 +5,8 @@
 	<description>Custom CAPTCHA with revealed with checkbox.</description>
 	<scripts>
 		<script>lib/js-lib/js-lib.js</script>
-		<script>lib/captcha/captcha.js</script>
-		<script>script/com/kidscademy/Checkbox.js</script>
-		<script>script/com/kidscademy/CheckboxCaptcha.js</script>
+		<script defer="true">lib/captcha/captcha.js</script>
+		<script defer="true">script/com/kidscademy/Checkbox.js</script>
+		<script defer="true">script/com/kidscademy/CheckboxCaptcha.js</script>
 	</scripts>
 </page>
