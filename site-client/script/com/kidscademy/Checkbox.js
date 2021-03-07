@@ -6,13 +6,32 @@ $package("com.kidscademy");
  * @author Iulian Rotaru
  */
 com.kidscademy.Checkbox = class extends HTMLElement {
-	/**
-	 * Construct an instance of Checkbox class.
-	 */
 	constructor() {
 		super();
+		this.classList.add("checkbox");
+		this.innerHTML = '<span class="control"></span><span class="label"></span>';
+
 		this._control = this.getElementsByClassName("control")[0];
 		this._control.addEventListener("click", this._onControlClick.bind(this));
+
+		this._label = this.getElementsByClassName("label")[0];
+		this._label.textContent = this.getAttribute("label");
+	}
+
+	set name(name) {
+		this.setAttribute("name", name);
+	}
+
+	get name() {
+		return this.getAttribute("name");
+	}
+
+	set label(label) {
+		this._label.textContent = label;
+	}
+
+	get label() {
+		return this._label.textContent;
 	}
 
 	set checked(checked) {
@@ -37,15 +56,6 @@ com.kidscademy.Checkbox = class extends HTMLElement {
 		const event = document.createEvent("HTMLEvents");
 		event.initEvent("change", false, true);
 		this.dispatchEvent(event);
-	}
-
-	/**
-	 * Class string representation.
-	 * 
-	 * @return this class string representation.
-	 */
-	toString() {
-		return "com.kidscademy.Checkbox";
 	}
 };
 

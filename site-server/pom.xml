@@ -69,7 +69,7 @@
 					<execution>
 						<phase>pre-integration-test</phase>
 						<goals>
-							<goal>redeploy</goal>
+							<goal>redeploy-only</goal>
 						</goals>
 					</execution>
 				</executions>

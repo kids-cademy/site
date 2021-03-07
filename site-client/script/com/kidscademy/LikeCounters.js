@@ -96,7 +96,7 @@ com.kidscademy.LikeCounters = class extends js.dom.Element {
 		 * 
 		 * @type com.kidscademy.CheckboxCaptcha
 		 */
-		this._captcha = this.getByClass(com.kidscademy.CheckboxCaptcha);
+		this._captcha = this.getByTag("ka-checkbox-captcha")._node;
 
 		this.getByCss(".icon.plus").on("click", this._onLike, this);
 		this.getByCss(".icon.minus").on("click", this._onDislike, this);
@@ -178,7 +178,7 @@ com.kidscademy.LikeCounters = class extends js.dom.Element {
 		const reasons = [];
 		this.findByCss("form>.checkbox").forEach((checkbox) => {
 			if (checkbox.checked()) {
-				reasons.push(checkbox.getValue());
+				reasons.push(checkbox.getUserData("reason"));
 			}
 		});
 
@@ -196,9 +196,10 @@ com.kidscademy.LikeCounters = class extends js.dom.Element {
 	}
 
 	/**
-	 * Get color of the percent bar graph at given position. This color is used to animate percent label. This method
-	 * tries to indirectly deduce color value based on linear gradient color stops. If gradient style is changed this
-	 * method logic should be updated.
+	 * Get color of the percent bar graph at given position. This color is used to animate percent label.
+	 * <p>
+	 * This method tries to indirectly deduce color value based on linear gradient color stops. If gradient style 
+	 * is changed this method logic should be updated.
 	 * <p>
 	 * Current logic is valid for <code>linear-gradient(to right, #FF0000, #FFFF00, #008000)</code>. There are three
 	 * color stops at 0%, 50% and 100% bar graph width for red, yellow and green colors. Red decreases from maximum to 0
@@ -206,8 +207,8 @@ com.kidscademy.LikeCounters = class extends js.dom.Element {
 	 * 100% interval. Green is 0 for first interval then increases to maximum in the second. This method logic assume
 	 * gradient easing function is linear.
 	 * <p>
-	 * This method computed R, G and B color components for given position and return CSS color. Computation is based on
-	 * RGB evolution described below ASCII diagram. Note that channel B is always 0.
+	 * This method computed R, G and B color components for given position and return CSS color, formated as <code>rgb(red, green, blue)</code>.
+	 * Computation is based on RGB evolution described below ASCII diagram. Note that channel B is always 0.
 	 * 
 	 * <pre>
 	 * R channel                    G channel                     B channel
@@ -221,7 +222,7 @@ com.kidscademy.LikeCounters = class extends js.dom.Element {
 	 * </pre>
 	 * 
 	 * @param Number position, value between 0 and bar graph width.
-	 * @return String color string in CSS format.
+	 * @return String color string in rgb CSS format.
 	 */
 	_getColorByPosition(position) {
 		const halfWidth = this._percentGraphWidth / 2;
@@ -237,7 +238,7 @@ com.kidscademy.LikeCounters = class extends js.dom.Element {
 			G = 128 + 128 * (halfWidth - offset) / halfWidth;
 		}
 
-		return $format("#%02X%02X%02X", R, G, B);
+		return `rgb(${R}, ${G}, ${B})`;
 	}
 
 	/**

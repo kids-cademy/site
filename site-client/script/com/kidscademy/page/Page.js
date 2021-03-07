@@ -20,6 +20,8 @@ com.kidscademy.page.Page = class extends js.ua.Page {
         window.onscroll = () => {
             WinMain.doc.getByTag("body").addCssClass("scroll", window.pageYOffset > 40);
         }
+
+        WinMain.doc.register("ka-checkbox", js.dom.Checkbox);
     }
 
     onServerFail(er) {

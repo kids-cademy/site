@@ -51,15 +51,6 @@ com.kidscademy.CheckboxCaptcha = class extends js.widget.Captcha {
 	_onHelp(ev) {
 		js.ua.System.alert("Help not yet implemented.");
 	}
-
-	/**
-	 * Class string representation.
-	 * 
-	 * @return this class string representation.
-	 */
-	toString() {
-		return "com.kidscademy.CheckboxCaptcha";
-	}
 };
 
 customElements.define("ka-checkbox-captcha", com.kidscademy.CheckboxCaptcha);

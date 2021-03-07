@@ -4,14 +4,14 @@
 	<title>Animals Atlas</title>
 	<description>Descriptor for animals atlas.</description>
 	<scripts>
-		<script>lib/js-lib/js-lib.js</script>
-		<script>lib/captcha/captcha.js</script>
-		<script>gen/com/kidscademy/ServiceController.js</script>
-		<script>script/com/kidscademy/TextArea.js</script>
-		<script>script/com/kidscademy/Checkbox.js</script>
-		<script>script/com/kidscademy/CheckboxCaptcha.js</script>
-		<script>script/com/kidscademy/AppFeedback.js</script>
-		<script>script/com/kidscademy/page/Page.js</script>
-		<script>script/com/kidscademy/page/AppDescriptionPage.js</script>
+		<script src="lib/js-lib/js-lib.js"></script>
+		<script src="lib/captcha/captcha.js"></script>
+		<script src="gen/com/kidscademy/ServiceController.js"></script>
+		<script src="script/com/kidscademy/TextArea.js"></script>
+		<script src="script/com/kidscademy/Checkbox.js"></script>
+		<script src="script/com/kidscademy/CheckboxCaptcha.js"></script>
+		<script src="script/com/kidscademy/AppFeedback.js"></script>
+		<script src="script/com/kidscademy/page/Page.js"></script>
+		<script src="script/com/kidscademy/page/AppDescriptionPage.js"></script>
 	</scripts>
 </page>

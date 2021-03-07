@@ -140,7 +140,7 @@ js.widget.Captcha = class extends HTMLElement {
 	 */
 	reset() {
 		this.classList.remove(js.widget.Captcha._CSS_INVALID);
-		this.getElementsByTagName("img").forEach(img => img.classList.remove(js.widget.Captcha._CSS_SELECTED));
+		[...this.getElementsByTagName("img")].forEach(img => img.classList.remove(js.widget.Captcha._CSS_SELECTED));
 		this._valid = false;
 		return this;
 	}

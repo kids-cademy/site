@@ -4,7 +4,7 @@
 	<title>Apps List</title>
 	<description>Display a list of all applications.</description>
 	<scripts>
-		<script>lib/js-lib/js-lib.js</script>
-		<script>script/com/kidscademy/page/Page.js</script>
+		<script src="lib/js-lib/js-lib.js"></script>
+		<script src="script/com/kidscademy/page/Page.js"></script>
 	</scripts>
 </page>

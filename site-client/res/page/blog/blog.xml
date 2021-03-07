@@ -4,8 +4,8 @@
 	<title>Blog</title>
 	<description>kids (a)cademy blog.</description>
 	<scripts>
-		<script>lib/js-lib/js-lib.js</script>
-		<script>script/com/kidscademy/page/Page.js</script>
-		<script>script/com/kidscademy/page/BlogPage.js</script>
+		<script src="lib/js-lib/js-lib.js"></script>
+		<script src="script/com/kidscademy/page/Page.js"></script>
+		<script src="script/com/kidscademy/page/BlogPage.js"></script>
 	</scripts>
 </page>

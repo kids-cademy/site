@@ -1,19 +1,23 @@
-<div class="feedback" w:template="template/page#body" w:script="com.kidscademy.page.FeedbackPage" xmlns:w="js-lib.com/wood">
+<div class="feedback" w:template="res/template/page#body" w:script="com.kidscademy.page.FeedbackPage"
+	xmlns:w="js-lib.com/wood">
 	<div class="page-section counters-container" data-class="com.kidscademy.LikeCounters" data-object="counters">
 		<div class="container counters" data-object=".">
 			<div class="not-like">
-				<span class="label">@string/not-like</span><span class="value" data-text="dislikeCount" data-format="com.kidscademy.CounterFormat"></span><span class="icon minus"></span>
+				<span class="label">@string/not-like</span><span class="value" data-text="dislikeCount"
+					data-format="com.kidscademy.CounterFormat"></span><span class="icon minus"></span>
 			</div>
 			<div class="percent">
 				<span class="label"></span><span class="integer-part">00</span>.<span class="fractional-part">00</span>%
 			</div>
 			<div class="like">
-				<span class="label">@string/like</span><span class="value" data-text="likeCount" data-format="com.kidscademy.CounterFormat"></span><span class="icon plus"></span>
+				<span class="label">@string/like</span><span class="value" data-text="likeCount"
+					data-format="com.kidscademy.CounterFormat"></span><span class="icon plus"></span>
 			</div>
 			<br clear="all" />
 			<div class="percent-graph">
 				<div class="pointer">
-					<img class="top" src="@image/pointer-top-icon" /><img class="bottom" src="@image/pointer-bottom-icon" />
+					<img class="top" src="@image/pointer-top-icon" /><img class="bottom"
+						src="@image/pointer-bottom-icon" />
 				</div>
 				<div class="labels">
 					<span>@string/level1</span><span>@string/level2</span><span>@string/level3</span><span>@string/level4</span><span>@string/level5</span>
@@ -23,22 +27,12 @@
 		<div class="reasons hidden">
 			<div class="container">
 				<form>
-					<h3 class="checkbox" data-class="com.kidscademy.Checkbox" data-value="NOT_INTUITIVE">
-						<span class="control"></span><span>@string/reason1</span>
-					</h3>
-					<h3 class="checkbox" data-class="com.kidscademy.Checkbox" data-value="BAD_DESIGN">
-						<span class="control"></span><span>@string/reason2</span>
-					</h3>
-					<h3 class="checkbox" data-class="com.kidscademy.Checkbox" data-value="BAD_CONTENT">
-						<span class="control"></span><span>@string/reason3</span>
-					</h3>
-					<h3 class="checkbox" data-class="com.kidscademy.Checkbox" data-value="SLOW_LOADING">
-						<span class="control"></span><span>@string/reason4</span>
-					</h3>
-					<h3 class="checkbox" data-class="com.kidscademy.Checkbox" data-value="OTHER">
-						<span class="control"></span><span>@string/other-reason</span>
-					</h3>
-					<div w:compo="compo/captcha"></div>
+					<ka-checkbox label="@string/reason1" data-reason="NOT_INTUITIVE" />
+					<ka-checkbox label="@string/reason2" data-reason="BAD_DESIGN" />
+					<ka-checkbox label="@string/reason3" data-reason="BAD_CONTENT" />
+					<ka-checkbox label="@string/reason4" data-reason="SLOW_LOADING" />
+					<ka-checkbox label="@string/other-reason" data-reason="OTHER" />
+					<ka-checkbox-captcha w:compo="res/compo/captcha" />
 				</form>
 				<div class="buttons-bar">
 					<button class="submit">@string/submit</button>
@@ -60,9 +54,10 @@
 		</div>
 		<div class="container">
 			<form>
-				<textarea name="text" class="auto-size" placeholder="@string/suggestion" rows="10" data-class="com.kidscademy.TextArea"></textarea>
+				<textarea name="text" class="auto-size" placeholder="@string/suggestion" rows="10"
+					data-class="com.kidscademy.TextArea"></textarea>
 				<input name="senderEmail" type="email" placeholder="@string/email" class="optional" />
-				<ka-checkbox-captcha w:compo="compo/captcha"></ka-checkbox-captcha>
+				<ka-checkbox-captcha w:compo="res/compo/captcha" />
 			</form>
 			<div class="buttons-bar">
 				<button class="submit">@string/submit</button>
