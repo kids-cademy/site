@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <compo>
-	<name>captcha</name>
+	<groupId>com.js-lib</groupId>
+	<artifactId>captcha</artifactId>
 	<version>1.0.0</version>
-	<deps>js-lib</deps>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.js-lib</groupId>
+			<artifactId>js-lib</artifactId>
+			<version>1.3.7</version>
+		</dependency>
+	</dependencies>
 </compo>

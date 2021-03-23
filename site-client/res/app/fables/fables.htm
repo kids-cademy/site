@@ -1,34 +1,36 @@
-<div w:template="res/template/app#caption" xmlns:w="js-lib.com/wood">
-	<div class="image">
-		<img src="@image/fables" />
-	</div>
-	<div class="text">
-		<h1>@string/app-fables</h1>
-		<p class="lead">100 English fables, usually attributed to Aesop, with pictures and audio.</p>
-	</div>
-</div>
-
-<div w:template="res/template/app#play-store" xmlns:w="js-lib.com/wood">
-	<h2>
-		<a href="https://play.google.com/store/apps/details?id=com.kidscademy.fables&amp;hl=en">free audio fables on google play</a>
-	</h2>
-	<a class="link" href="https://play.google.com/store/apps/details?id=com.kidscademy.fables&amp;hl=en"><img class="action" src="@image/android-play" /></a> <img class="action qr" src="@image/android-play-qr" />
-</div>
-
-<dl w:template="res/template/app#info" xmlns:w="js-lib.com/wood">
-	<dt>Requires Android</dt>
-	<dd>4.1 and up</dd>
-	<dt>Current Version</dt>
-	<dd>1.0.31</dd>
-	<dt>Last Updated</dt>
-	<dd>January 23, 2017</dd>
-	<dt>Target Device</dt>
-	<dd>mobile only</dd>
-	<dt>Language</dt>
-	<dd>English</dd>
-</dl>
-
-<div w:template="res/template/app#description" xmlns:w="js-lib.com/wood">
-	<p>100 English fables, usually attributed to Aesop, with pictures and audio. Collection is loaded on user device so that Fables can be used off-line. Features fables list and catalog for quick browsing and search by predefined criteria.</p>
-	<p>Fables are part of human culture for 2000+ years and images are from Milo Winter book published in 1919, considered to be in the public domain.</p>
-</div>
+<code w:template="res/template/app" xmlns:w="js-lib.com/wood">
+    <div w:content="caption">
+        <div class="image">
+            <img src="@image/fables"/>
+        </div>
+        <div class="text">
+            <h1>@string/app-fables</h1>
+            <p class="lead">100 English fables, usually attributed to Aesop, with pictures and audio.</p>
+        </div>
+    </div>
+    <div w:content="play-store">
+        <h2>
+            <a href="https://play.google.com/store/apps/details?id=com.kidscademy.fables&amp;hl=en">free audio fables on google play</a>
+        </h2>
+        <a class="link" href="https://play.google.com/store/apps/details?id=com.kidscademy.fables&amp;hl=en">
+            <img class="action" src="@image/android-play"/>
+        </a>
+        <img class="action qr" src="@image/android-play-qr"/>
+    </div>
+    <dl w:content="info">
+        <dt>Requires Android</dt>
+        <dd>4.1 and up</dd>
+        <dt>Current Version</dt>
+        <dd>1.0.31</dd>
+        <dt>Last Updated</dt>
+        <dd>January 23, 2017</dd>
+        <dt>Target Device</dt>
+        <dd>mobile only</dd>
+        <dt>Language</dt>
+        <dd>English</dd>
+    </dl>
+    <div w:content="description">
+        <p>100 English fables, usually attributed to Aesop, with pictures and audio. Collection is loaded on user device so that Fables can be used off-line. Features fables list and catalog for quick browsing and search by predefined criteria.</p>
+        <p>Fables are part of human culture for 2000+ years and images are from Milo Winter book published in 1919, considered to be in the public domain.</p>
+    </div>
+</code>

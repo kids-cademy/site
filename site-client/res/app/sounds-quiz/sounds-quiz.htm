@@ -1,33 +1,35 @@
-<div w:template="res/template/app#caption" xmlns:w="js-lib.com/wood">
-	<div class="image">
-		<img src="@image/sounds-quiz" />
-	</div>
-	<div class="text">
-		<h1>@string/app-sounds</h1>
-		<p class="lead">Explore Sounds Quiz and learn by playing. Sounds Quiz uses images and relevant sound samples to help associate sounds with images and names.</p>
-	</div>
-</div>
-
-<div w:template="res/template/app#play-store" xmlns:w="js-lib.com/wood">
-	<h2>
-		<a href="https://play.google.com/store/apps/details?id=com.kidscademy.sounds&amp;hl=en">free sounds quiz on google play</a>
-	</h2>
-	<a class="link" href="https://play.google.com/store/apps/details?id=com.kidscademy.sounds&amp;hl=en"><img class="action" src="@image/android-play" /></a> <img class="action qr" src="@image/android-play-qr" />
-</div>
-
-<dl w:template="res/template/app#info" xmlns:w="js-lib.com/wood">
-	<dt>Requires Android</dt>
-	<dd>4.1 and up</dd>
-	<dt>Current Version</dt>
-	<dd>1.1.4</dd>
-	<dt>Last Updated</dt>
-	<dd>December 22, 2016</dd>
-	<dt>Target Device</dt>
-	<dd>mobile only</dd>
-	<dt>Language</dt>
-	<dd>English</dd>
-</dl>
-
-<div w:template="res/template/app#description" xmlns:w="js-lib.com/wood">
-	<p>Explore sounds in our world, from wild or domesticated animals to transportation vehicles. Explorer is organized on categories of related sounds. For example FARM contains sounds of domesticated animals. Use explorer to learn about not known sounds. Uses what to learned to score higher on game.</p>
-</div>
+<code w:template="res/template/app" xmlns:w="js-lib.com/wood">
+    <div w:content="caption">
+        <div class="image">
+            <img src="@image/sounds-quiz"/>
+        </div>
+        <div class="text">
+            <h1>@string/app-sounds</h1>
+            <p class="lead">Explore Sounds Quiz and learn by playing. Sounds Quiz uses images and relevant sound samples to help associate sounds with images and names.</p>
+        </div>
+    </div>
+    <div w:content="play-store">
+        <h2>
+            <a href="https://play.google.com/store/apps/details?id=com.kidscademy.sounds&amp;hl=en">free sounds quiz on google play</a>
+        </h2>
+        <a class="link" href="https://play.google.com/store/apps/details?id=com.kidscademy.sounds&amp;hl=en">
+            <img class="action" src="@image/android-play"/>
+        </a>
+        <img class="action qr" src="@image/android-play-qr"/>
+    </div>
+    <dl w:content="info">
+        <dt>Requires Android</dt>
+        <dd>4.1 and up</dd>
+        <dt>Current Version</dt>
+        <dd>1.1.4</dd>
+        <dt>Last Updated</dt>
+        <dd>December 22, 2016</dd>
+        <dt>Target Device</dt>
+        <dd>mobile only</dd>
+        <dt>Language</dt>
+        <dd>English</dd>
+    </dl>
+    <div w:content="description">
+        <p>Explore sounds in our world, from wild or domesticated animals to transportation vehicles. Explorer is organized on categories of related sounds. For example FARM contains sounds of domesticated animals. Use explorer to learn about not known sounds. Uses what to learned to score higher on game.</p>
+    </div>
+</code>
