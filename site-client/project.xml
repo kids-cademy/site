@@ -22,8 +22,9 @@
 	</media-queries>
 
 	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE"></meta>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"></meta>
+		<meta charset="UTF-8"></meta>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 
 		<meta property="og:title" content="kids (a)cademy"></meta>
 		<meta property="og:description" content="kids (a)cademy is an educational ecosystem targeted at children of all ages."></meta>
