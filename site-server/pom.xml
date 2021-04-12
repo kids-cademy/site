@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.kidscademy</groupId>
 		<artifactId>site</artifactId>
-		<version>0.0.1</version>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>site-server</artifactId>
 	<packaging>war</packaging>
@@ -14,6 +14,15 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.js-lib</groupId>
+			<artifactId>tools-apt</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<finalName>site</finalName>
@@ -120,13 +129,4 @@
 			</build>
 		</profile>
 	</profiles>
-	
-	<dependencies>
-		<dependency>
-			<groupId>com.js-lib</groupId>
-			<artifactId>tools-apt</artifactId>
-			<version>1.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
 </project>

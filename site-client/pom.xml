@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.kidscademy</groupId>
 		<artifactId>site</artifactId>
-		<version>0.0.1</version>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>site-client</artifactId>
 	<packaging>wood</packaging>
@@ -15,7 +15,7 @@
 			<plugin>
 				<groupId>com.js-lib</groupId>
 				<artifactId>wood-maven-plugin</artifactId>
-				<version>1.1.8</version>
+				<version>1.1.6-SNAPSHOT</version>
 				<extensions>true</extensions>
 			</plugin>
 		</plugins>
